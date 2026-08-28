@@ -1,9 +1,10 @@
-/* US Money HQ — Embeddable Calculator Widget Loader v1
+/* US Money HQ — Embeddable Calculator Widget Loader v2
  * Usage:
  *   <div data-umhq-widget="mortgage-calculator"></div>
  *   <script async src="https://usmoneyhq.com/widget-loader.js"></script>
  * Fetches the widget bundle from /api/widget/[tool] and injects it,
- * including a "Powered by US Money HQ" backlink. Handles multiple widgets.
+ * including a "Powered by US Money HQ" backlink. Handles multiple widgets,
+ * late-appearing hosts (SPAs), and re-scans via MutationObserver.
  */
 (function () {
   var API = "https://usmoneyhq.com/api/widget";
@@ -12,9 +13,20 @@
   function boot() {
     if (mounted) return;
     mounted = true;
+    scan();
+    if (window.MutationObserver) {
+      var mo = new MutationObserver(function () { scan(); });
+      mo.observe(document.documentElement, { childList: true, subtree: true });
+    }
+  }
+
+  function scan() {
     var nodes = document.querySelectorAll("[data-umhq-widget]");
     for (var i = 0; i < nodes.length; i++) {
-      loadWidget(nodes[i]);
+      var host = nodes[i];
+      if (host.getAttribute("data-umhq-mounted")) continue;
+      host.setAttribute("data-umhq-mounted", "1");
+      loadWidget(host);
     }
   }
 
