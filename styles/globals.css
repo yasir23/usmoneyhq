@@ -435,6 +435,57 @@ thead th {
   letter-spacing: 0.05em;
 }
 
+/* ---------- State links grid ---------- */
+.state-links {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.state-links a {
+  display: block;
+  padding: 8px 10px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-size: 0.9rem;
+  color: var(--primary);
+  text-align: center;
+}
+
+.state-links a:hover {
+  border-color: var(--primary);
+  text-decoration: none;
+}
+
+/* ---------- State facts (programmatic state variants) ---------- */
+.state-facts {
+  margin-bottom: 18px;
+}
+
+.state-facts h2 {
+  margin: 0 0 10px;
+  font-size: 1.05rem;
+}
+
+.state-facts .row {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 8px 0;
+  border-bottom: 1px dashed var(--border);
+  font-size: 0.95rem;
+}
+
+.state-facts .row span {
+  color: var(--muted);
+}
+
+.state-facts .row b {
+  text-align: right;
+}
+
 /* ---------- Accessibility ---------- */
 :focus-visible {
   outline: 3px solid rgba(31, 95, 219, 0.45);

@@ -4,10 +4,15 @@ import { useMemo, useState } from "react";
 import Link from "next/link";
 import type { ToolDef } from "../lib/tools";
 
-export default function ToolClient({ tool }: { tool: ToolDef }) {
+export default function ToolClient({ tool, initialValues }: { tool: ToolDef; initialValues?: Record<string, number | string> }) {
   const [values, setValues] = useState<Record<string, number | string>>(() => {
     const init: Record<string, number | string> = {};
     for (const f of tool.fields) init[f.key] = f.default;
+    if (initialValues) {
+      for (const [k, v] of Object.entries(initialValues)) {
+        if (k in init) init[k] = v;
+      }
+    }
     return init;
   });
 

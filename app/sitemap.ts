@@ -1,7 +1,8 @@
 import type { MetadataRoute } from "next";
 import { SITE_URL, TOOLS } from "@/lib/tools";
+import { STATES, STATE_AWARE_TOOLS } from "@/lib/states";
 
-/** Dynamic sitemap — auto-includes every tool in the registry. */
+/** Dynamic sitemap — every tool + every state variant for state-aware tools. */
 export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date();
   const pages: MetadataRoute.Sitemap = [
@@ -18,6 +19,17 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "monthly",
       priority: 0.9,
     });
+  }
+  // state variants: 5 state-aware tools x 50 states
+  for (const slug of STATE_AWARE_TOOLS) {
+    for (const s of STATES) {
+      pages.push({
+        url: `${SITE_URL}/${slug}/${s.slug}`,
+        lastModified: now,
+        changeFrequency: "monthly",
+        priority: 0.7,
+      });
+    }
   }
   return pages;
 }
