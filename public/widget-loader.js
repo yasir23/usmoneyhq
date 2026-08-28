@@ -16,7 +16,12 @@
     scan();
     if (window.MutationObserver) {
       var mo = new MutationObserver(function () { scan(); });
-      mo.observe(document.documentElement, { childList: true, subtree: true });
+      mo.observe(document.documentElement, {
+        childList: true,
+        subtree: true,
+        attributes: true,
+        attributeFilter: ["data-umhq-widget"],
+      });
     }
   }
 
@@ -24,8 +29,12 @@
     var nodes = document.querySelectorAll("[data-umhq-widget]");
     for (var i = 0; i < nodes.length; i++) {
       var host = nodes[i];
-      if (host.getAttribute("data-umhq-mounted")) continue;
-      host.setAttribute("data-umhq-mounted", "1");
+      var slug = host.getAttribute("data-umhq-widget");
+      if (!slug) continue;
+      var mountedSlug = host.getAttribute("data-umhq-mounted");
+      if (mountedSlug === slug) continue; // already mounted with this tool
+      host.innerHTML = ""; // wipe old widget if the tool changed
+      host.setAttribute("data-umhq-mounted", slug);
       loadWidget(host);
     }
   }
