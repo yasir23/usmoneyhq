@@ -19,7 +19,8 @@ export default function SiteFooter() {
             ))}
           </div>
           <div>
-            <h3>Company</h3>
+            <h3>For Webmasters</h3>
+            <Link href="/widgets">Free Embeddable Calculators</Link>
             <Link href="/about">About</Link>
             <Link href="/contact">Contact</Link>
             <Link href="/privacy-policy">Privacy Policy</Link>
