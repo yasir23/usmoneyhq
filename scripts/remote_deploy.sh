@@ -5,12 +5,16 @@ set -euo pipefail
 cd /opt/usmoneyhq
 tar xzf usmoneyhq.tar.gz && rm -f usmoneyhq.tar.gz
 
+apt-get update -qq >/dev/null 2>&1 || true
 if ! command -v node >/dev/null 2>&1; then
   curl -fsSL https://deb.nodesource.com/setup_20.x | bash - >/dev/null 2>&1
   apt-get install -y -qq nodejs >/dev/null 2>&1
 fi
 if ! command -v pm2 >/dev/null 2>&1; then
   npm install -g pm2 >/dev/null 2>&1
+fi
+if ! command -v nginx >/dev/null 2>&1; then
+  apt-get install -y -qq nginx >/dev/null 2>&1
 fi
 
 export NODE_ENV=production
