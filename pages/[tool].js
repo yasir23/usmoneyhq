@@ -1,14 +1,19 @@
-import { useRouter } from "next/router";
 import ToolPageShell from "../components/ToolPageShell";
+import { getTool } from "../lib/tools";
 
 /**
- * Dynamic route for future tools — pages router static routes take precedence,
- * so the 8 explicit pages win; this catches any new registry slug automatically.
- * Scalable programmatic SEO: add a lib/tools.ts entry, page exists.
+ * Dynamic tool route — SSR via getServerSideProps so params populate
+ * in initial HTML (SEO) and unknown tools return a real 404.
  */
-export default function DynamicTool() {
-  const router = useRouter();
-  const { tool } = router.query;
-  if (!tool) return null;
-  return <ToolPageShell slug={String(tool)} />;
+export async function getServerSideProps({ params }) {
+  const slug = String(params.tool || "");
+  const tool = getTool(slug);
+  if (!tool) {
+    return { notFound: true };
+  }
+  return { props: { slug } };
+}
+
+export default function DynamicTool({ slug }) {
+  return <ToolPageShell slug={slug} />;
 }
