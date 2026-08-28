@@ -5,6 +5,11 @@ const TOOLS = [
   { href: "/mortgage-calculator", title: "Mortgage Calculator", desc: "Monthly payment + full amortization schedule" },
   { href: "/auto-loan-calculator", title: "Auto Loan Calculator", desc: "Car payment, total interest, total cost" },
   { href: "/salary-after-tax-calculator", title: "Salary After Tax Calculator", desc: "Take-home pay by state (all 50 states)" },
+  { href: "/paycheck-calculator", title: "Paycheck Calculator", desc: "Net pay per paycheck — weekly to monthly" },
+  { href: "/debt-payoff-calculator", title: "Debt Payoff Calculator", desc: "Time to payoff + interest saved with extra payments" },
+  { href: "/dti-calculator", title: "Debt-to-Income Ratio Calculator", desc: "Front-end & back-end DTI for mortgage qualification" },
+  { href: "/pmi-calculator", title: "PMI Calculator", desc: "Private mortgage insurance cost & cancellation" },
+  { href: "/heloc-calculator", title: "HELOC Calculator", desc: "Home equity line of credit payments" },
 ];
 
 export default function Home() {
