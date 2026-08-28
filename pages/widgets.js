@@ -1,4 +1,5 @@
 import Head from "next/head";
+import Script from "next/script";
 import { useState } from "react";
 import { TOOLS, SITE_URL, SITE_NAME } from "../lib/tools";
 
@@ -60,7 +61,7 @@ export default function WidgetsPage() {
         </div>
       </main>
 
-      <script src="/widget-loader.js" async />
+      <Script src="/widget-loader.js" strategy="afterInteractive" />
     </>
   );
 }
