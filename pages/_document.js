@@ -8,7 +8,7 @@ export default class SiteDocument extends Document {
           {/* SEO */}
           <meta name="robots" content="index, follow" />
           <link rel="canonical" href={`https://usmoneyhq.com${this.props.__NEXT_DATA__?.page || ""}`} />
-          <meta property="og:site_name" content="US Calc Tools" />
+          <meta property="og:site_name" content="US Money HQ" />
           {/* Google AdSense — replace CA-xxx with your publisher ID after approval */}
           <script
             async
