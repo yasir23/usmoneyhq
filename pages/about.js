@@ -20,7 +20,7 @@ export default function About() {
           <p>Financial decisions deserve clear numbers. Most calculators hide behind sign-ups, clutter, or outdated formulas. We built a clean, fast alternative covering the questions Americans actually search for — from "how much house can I afford" to "how much water should I drink."</p>
 
           <h2>Our Standards</h2>
-          <p>Formulas use standard, publicly documented methods: standard amortization for loans, 2025 federal tax brackets, Mifflin-St Jeor for TDEE, the US Navy body fat formula, and Naegele's rule for due dates. Every calculator is labeled with what it includes and what it doesn't.</p>
+          <p>Formulas use standard, publicly documented methods: standard amortization for loans, current federal tax brackets, Mifflin-St Jeor for TDEE, the US Navy body fat formula, and Naegele's rule for due dates. Every calculator is labeled with what it includes and what it doesn't. See the full <a href="/methodology">methodology and data sources</a> page.</p>
 
           <h2>Monetization</h2>
           <p>The site is free and supported by advertising. We do not sell data, and we do not require accounts.</p>
