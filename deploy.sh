@@ -15,10 +15,10 @@ if [[ -n "${VERCEL_TOKEN:-}" ]]; then
 fi
 
 if [[ -n "${DEPLOY_SSH_PASSWORD:-}" ]]; then
-  echo "→ Deploying to Hostinger VPS (password present)"
+  echo "→ Deploying to Hostinger VPS — ISOLATED: /opt/usmoneyhq, port 3001. AgentTrac + SealOfAudit NOT touched."
   REMOTE_HOST="${REMOTE_HOST:-187.124.116.227}"
   REMOTE_USER="${REMOTE_USER:-root}"
-  APP_DIR="/opt/uscalctools"
+  APP_DIR="/opt/usmoneyhq"
   if ! command -v sshpass >/dev/null 2>&1; then
     echo "ERROR: sshpass not installed. brew install sshpass"
     exit 1
@@ -37,18 +37,18 @@ set -euo pipefail
 cd ${APP_DIR}
 export NODE_ENV=production
 if [ ! -d node_modules ]; then npm install --omit=dev --no-audit --no-fund >/dev/null 2>&1 || true; fi
-pm2 delete uscalctools 2>/dev/null || true
-PORT=3001 pm2 start server.js --name uscalctools
+pm2 delete usmoneyhq 2>/dev/null || true
+PORT=3001 pm2 start server.js --name usmoneyhq
 pm2 save
 REMOTE
-  echo "→ nginx site"
+  echo "→ nginx site (000-usmoneyhq loads FIRST — wins any server_name tie, other vhosts untouched)"
   SSHPASS="$DEPLOY_SSH_PASSWORD" sshpass -e ssh -o StrictHostKeyChecking=accept-new "${REMOTE_USER}@${REMOTE_HOST}" bash -s << REMOTE
 set -euo pipefail
-cat > /etc/nginx/sites-available/uscalctools << 'NGINX'
+cat > /etc/nginx/sites-available/000-usmoneyhq << 'NGINX'
 server {
     listen 80;
     listen [::]:80;
-    server_name tools.nayaflow.com uscalctools.com www.uscalctools.com;
+    server_name usmoneyhq.com www.usmoneyhq.com;
     client_max_body_size 10m;
     location / {
         proxy_pass http://127.0.0.1:3001;
@@ -65,10 +65,10 @@ server {
     gzip_types text/css application/javascript application/json image/svg+xml text/plain;
 }
 NGINX
-ln -sf /etc/nginx/sites-available/uscalctools /etc/nginx/sites-enabled/uscalctools
+ln -sf /etc/nginx/sites-available/000-usmoneyhq /etc/nginx/sites-enabled/000-usmoneyhq
 nginx -t && (systemctl reload nginx 2>/dev/null || service nginx reload)
 REMOTE
-  echo "✅ VPS deploy done. DNS: point tools.nayaflow.com A record -> ${REMOTE_HOST}"
+  echo "✅ VPS deploy done. usmoneyhq.com → Cloudflare → VPS:3001"
   exit 0
 fi
 

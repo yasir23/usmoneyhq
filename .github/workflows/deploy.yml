@@ -1,0 +1,43 @@
+name: Deploy
+
+on:
+  push:
+    branches: [master]
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install & build
+        run: |
+          npm ci --no-audit --no-fund
+          npm run build
+
+      - name: Prepare standalone bundle
+        run: |
+          mkdir -p /tmp/app
+          cp -R .next/standalone/* /tmp/app/
+          mkdir -p /tmp/app/.next
+          cp -R .next/static /tmp/app/.next/static
+          [ -d public ] && cp -R public /tmp/app/public || true
+          cd /tmp/app && tar czf /tmp/usmoneyhq.tar.gz .
+
+      - name: Deploy to VPS
+        env:
+          VPS_HOST: ${{ secrets.VPS_HOST }}
+          VPS_USER: ${{ secrets.VPS_USER }}
+          VPS_PASSWORD: ${{ secrets.VPS_PASSWORD }}
+        run: |
+          sudo apt-get update -qq >/dev/null 2>&1
+          sudo apt-get install -y -qq sshpass >/dev/null 2>&1
+          SSHPASS="$VPS_PASSWORD" sshpass -e ssh -o StrictHostKeyChecking=accept-new -o ConnectTimeout=20 "$VPS_USER@$VPS_HOST" "mkdir -p /opt/usmoneyhq"
+          SSHPASS="$VPS_PASSWORD" sshpass -e scp -o StrictHostKeyChecking=accept-new /tmp/usmoneyhq.tar.gz "$VPS_USER@$VPS_HOST:/opt/usmoneyhq/"
+          SSHPASS="$VPS_PASSWORD" sshpass -e ssh -o StrictHostKeyChecking=accept-new "$VPS_USER@$VPS_HOST" "bash -s" < scripts/remote_deploy.sh
