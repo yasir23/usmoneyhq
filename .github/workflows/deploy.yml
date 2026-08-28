@@ -52,4 +52,4 @@ jobs:
           VPS_USER: ${{ secrets.VPS_USER }}
           VPS_PASSWORD: ${{ secrets.VPS_PASSWORD }}
         run: |
-          SSHPASS="$VPS_PASSWORD" sshpass -e ssh -o StrictHostKeyChecking=accept-new "$VPS_USER@$VPS_HOST" "echo '--- ls /opt/usmoneyhq ---'; ls /opt/usmoneyhq | head; echo '--- .next ---'; ls /opt/usmoneyhq/.next 2>/dev/null | head; echo '--- local curl ---'; curl -s -m 5 http://127.0.0.1:3001/ | head -c 200; echo; echo '--- pm2 ---'; pm2 ls | grep usmoneyhq; echo '--- logs ---'; pm2 logs usmoneyhq --lines 15 --nostream 2>/dev/null | tail -15"
+          SSHPASS="$VPS_PASSWORD" sshpass -e ssh -o StrictHostKeyChecking=accept-new "$VPS_USER@$VPS_HOST" "echo '=== server/pages ==='; ls /opt/usmoneyhq/.next/server/pages 2>/dev/null | head -20; echo '=== app 3001 curl ==='; curl -s -m 5 http://127.0.0.1:3001/ | head -c 200; echo; echo '=== nginx 80 curl ==='; curl -s -m 5 -H 'Host: usmoneyhq.com' http://127.0.0.1/ | head -c 200; echo; echo '=== listeners ==='; ss -tlnp 2>/dev/null | grep -E ':80 |:3001 '; echo '=== pm2 describe ==='; pm2 describe usmoneyhq 2>/dev/null | grep -E 'exec cwd|script path|status|restarts|unstable' | head -8"
