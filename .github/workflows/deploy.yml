@@ -29,7 +29,7 @@ jobs:
           cp -R .next/static /tmp/app/.next/static
           cp Dockerfile docker-compose.yml /tmp/app/
           echo "--- bundle .next contents ---"
-          ls /tmp/app/.next | head -20
+          ls /tmp/app/.next >/dev/null || exit 1
           test -f /tmp/app/.next/BUILD_ID && echo "BUILD_ID OK" || { echo "BUILD_ID MISSING"; exit 1; }
           cd /tmp/app && tar czf /tmp/usmoneyhq.tar.gz .
           echo "--- bundle size ---"
@@ -53,4 +53,4 @@ jobs:
           VPS_USER: ${{ secrets.VPS_USER }}
           VPS_PASSWORD: ${{ secrets.VPS_PASSWORD }}
         run: |
-          SSHPASS="$VPS_PASSWORD" sshpass -e ssh -o StrictHostKeyChecking=accept-new "$VPS_USER@$VPS_HOST" "echo '=== traefik proc ==='; ps aux | grep -i traefik | grep -v grep | head -3; echo '=== docker ==='; docker ps --format '{{.Names}} {{.Ports}}' 2>/dev/null | head -10; echo '=== traefik configs ==='; ls -la /etc/traefik 2>/dev/null; cat /etc/traefik/traefik.yml 2>/dev/null | head -40; find /etc/traefik -name '*.yml' 2>/dev/null | head; echo '=== agenttrac router ==='; grep -rl 'agenttrac' /etc/traefik 2>/dev/null | head -5"
+          SSHPASS="$VPS_PASSWORD" sshpass -e ssh -o StrictHostKeyChecking=accept-new "$VPS_USER@$VPS_HOST" "echo '=== traefik net ==='; docker network ls --format '{{.Name}}' | grep -i traefik; echo '=== containers ==='; docker ps --format '{{.Names}} {{.Ports}}' | head -8; echo '=== local curl ==='; curl -s -m 5 http://127.0.0.1:3000/ | head -c 120; echo"

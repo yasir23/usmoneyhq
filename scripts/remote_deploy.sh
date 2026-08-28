@@ -7,7 +7,7 @@ cd /opt/usmoneyhq
 tar xzf usmoneyhq.tar.gz && rm -f usmoneyhq.tar.gz
 
 echo "--- extracted .next ---"
-ls .next | head -20
+ls .next >/dev/null || exit 1
 test -f .next/BUILD_ID || { echo "BUILD_ID MISSING AFTER EXTRACT"; exit 1; }
 
 # Docker present? (Traefik runs in Docker on this server)
