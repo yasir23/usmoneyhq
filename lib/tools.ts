@@ -17,6 +17,12 @@ import {
   creditCardMinPayment,
   childSupportEstimate,
   concreteNeeds,
+  tdee,
+  waterIntake,
+  sleepCycles,
+  bodyFat,
+  paintNeeds,
+  mulchNeeds,
   NO_INCOME_TAX_STATES,
   US_STATES,
 } from "./calc.ts";
@@ -678,10 +684,245 @@ export const TOOLS: ToolDef[] = [
     ],
     related: ["mortgage-calculator", "heloc-calculator", "dti-calculator"],
   },
+  {
+    slug: "tdee-calculator",
+    title: "TDEE Calculator 2026 — Maintenance, Cut & Bulk Calories | US Calc Tools",
+    shortTitle: "TDEE Calculator",
+    description: "Free TDEE calculator: estimate your total daily energy expenditure, BMR, and calories for cutting, maintaining, or bulking. Mifflin-St Jeor formula.",
+    h1: "TDEE Calculator",
+    sub: "Find your maintenance calories and the right intake for cutting or bulking.",
+    fields: [
+      { key: "age", label: "Age", type: "number", default: 30, min: 15, max: 90, step: 1, inputMode: "numeric" },
+      {
+        key: "gender",
+        label: "Gender",
+        type: "select",
+        default: "male",
+        options: [
+          { value: "male", label: "Male" },
+          { value: "female", label: "Female" },
+        ],
+      },
+      { key: "heightFt", label: "Height (feet)", type: "number", default: 5, min: 3, max: 7, step: 0.1, inputMode: "decimal" },
+      { key: "heightIn", label: "Height (inches)", type: "number", default: 10, min: 0, max: 11, step: 1, inputMode: "numeric" },
+      { key: "weightLb", label: "Weight (lbs)", type: "number", default: 180, min: 80, max: 600, step: 1, inputMode: "numeric" },
+      {
+        key: "activity",
+        label: "Activity level",
+        type: "select",
+        default: 1.375,
+        options: [
+          { value: 1.2, label: "Sedentary (little exercise)" },
+          { value: 1.375, label: "Light (1-3 days/week)" },
+          { value: 1.55, label: "Moderate (3-5 days/week)" },
+          { value: 1.725, label: "Very active (6-7 days/week)" },
+          { value: 1.9, label: "Extra active (physical job + training)" },
+        ],
+      },
+    ],
+    compute: (v) => {
+      const age = Number(v.age) || 30;
+      const gender = v.gender === "female" ? "female" : "male";
+      const heightCm = (Number(v.heightFt) || 0) * 30.48 + (Number(v.heightIn) || 0) * 2.54;
+      const weightKg = (Number(v.weightLb) || 0) * 0.4536;
+      const activity = Number(v.activity) || 1.375;
+      const r = tdee(age, gender, heightCm, weightKg, activity);
+      return [
+        { label: "Maintenance (TDEE)", value: `${Math.round(r.tdee)} cal`, highlight: true },
+        { label: "BMR", value: `${Math.round(r.bmr)} cal` },
+        { label: "Cut (-500)", value: `${Math.round(r.cut)} cal` },
+        { label: "Bulk (+300)", value: `${Math.round(r.bulk)} cal` },
+      ];
+    },
+    note: "Estimate only — individual metabolism varies ±10-15%.",
+    faq: [
+      { q: "What is TDEE?", a: "Total Daily Energy Expenditure: the calories you burn in a day including activity. Eat below it to lose weight, above it to gain." },
+      { q: "Which formula is used?", a: "The Mifflin-St Jeor equation, considered the most accurate BMR formula for most adults, multiplied by a standard activity factor." },
+    ],
+    related: ["body-fat-calculator", "water-intake-calculator", "sleep-calculator"],
+  },
+  {
+    slug: "water-intake-calculator",
+    title: "Water Intake Calculator 2026 — How Much Water to Drink | US Calc Tools",
+    shortTitle: "Water Intake Calculator",
+    description: "Free water intake calculator: how much water you should drink daily based on weight and exercise. Ounces, liters, and cups.",
+    h1: "Water Intake Calculator",
+    sub: "Daily hydration target based on your body weight and activity.",
+    fields: [
+      { key: "weightLb", label: "Weight (lbs)", type: "number", default: 180, min: 60, max: 600, step: 1, inputMode: "numeric" },
+      { key: "exercise", label: "Exercise per day (minutes)", type: "number", default: 30, min: 0, max: 300, step: 10, inputMode: "numeric" },
+    ],
+    compute: (v) => {
+      const weightKg = (Number(v.weightLb) || 0) * 0.4536;
+      const exercise = Number(v.exercise) || 0;
+      const r = waterIntake(weightKg, exercise);
+      return [
+        { label: "Daily target", value: `${Math.round(r.ounces)} oz`, highlight: true },
+        { label: "In liters", value: `${r.liters.toFixed(1)} L` },
+        { label: "In cups (8 oz)", value: `${Math.round(r.cups)} cups` },
+      ];
+    },
+    note: "Estimate only. Climate, sweat rate, and health conditions change the need.",
+    faq: [
+      { q: "Is the 8 glasses a day rule accurate?", a: "Not really — needs scale with body weight and activity. A 180 lb active person needs roughly 100+ oz, while a smaller sedentary person needs less." },
+      { q: "Does coffee count?", a: "Mostly yes. Caffeinated drinks count toward hydration, though water is still the best choice for most of your intake." },
+    ],
+    related: ["tdee-calculator", "body-fat-calculator", "sleep-calculator"],
+  },
+  {
+    slug: "sleep-calculator",
+    title: "Sleep Calculator 2026 — Best Bedtime by Sleep Cycles | US Calc Tools",
+    shortTitle: "Sleep Calculator",
+    description: "Free sleep calculator: the best bedtimes to wake up refreshed, based on 90-minute sleep cycles.",
+    h1: "Sleep Calculator",
+    sub: "Find the ideal bedtime to complete full sleep cycles before your wake time.",
+    fields: [
+      { key: "wakeHour", label: "Wake hour", type: "number", default: 6, min: 1, max: 12, step: 1, inputMode: "numeric" },
+      { key: "wakeMin", label: "Wake minute", type: "number", default: 30, min: 0, max: 59, step: 5, inputMode: "numeric" },
+      {
+        key: "amPm",
+        label: "AM / PM",
+        type: "select",
+        default: "am",
+        options: [
+          { value: "am", label: "AM" },
+          { value: "pm", label: "PM" },
+        ],
+      },
+    ],
+    compute: (v) => {
+      let hour = Number(v.wakeHour) || 6;
+      const min = Number(v.wakeMin) || 0;
+      const amPm = String(v.amPm);
+      if (amPm === "pm" && hour !== 12) hour += 12;
+      if (amPm === "am" && hour === 12) hour = 0;
+      const cycles = sleepCycles(hour, min);
+      return [
+        { label: "6 cycles (9h sleep)", value: cycles[0].bedtime, highlight: true },
+        { label: "5 cycles (7.5h sleep)", value: cycles[1].bedtime },
+        { label: "4 cycles (6h sleep)", value: cycles[2].bedtime },
+      ];
+    },
+    note: "Waking at the end of a 90-min cycle reduces grogginess.",
+    faq: [
+      { q: "What are sleep cycles?", a: "Sleep runs in ~90-minute cycles through light, deep, and REM stages. Waking mid-cycle causes sleep inertia; waking at cycle end feels natural." },
+      { q: "How many cycles do I need?", a: "Most adults need 5-6 full cycles (7.5-9 hours). Four cycles works for some, but most people feel best at 7.5+ hours." },
+    ],
+    related: ["tdee-calculator", "water-intake-calculator", "body-fat-calculator"],
+  },
+  {
+    slug: "body-fat-calculator",
+    title: "Body Fat Calculator 2026 — US Navy Method | US Calc Tools",
+    shortTitle: "Body Fat Calculator",
+    description: "Free body fat percentage calculator using the US Navy tape method. Height, waist, neck (and hip for women) measurements.",
+    h1: "Body Fat Calculator",
+    sub: "Estimate your body fat percentage with simple tape measurements.",
+    fields: [
+      {
+        key: "gender",
+        label: "Gender",
+        type: "select",
+        default: "male",
+        options: [
+          { value: "male", label: "Male" },
+          { value: "female", label: "Female" },
+        ],
+      },
+      { key: "heightIn", label: "Height (inches)", type: "number", default: 70, min: 48, max: 90, step: 0.5, inputMode: "decimal" },
+      { key: "waistIn", label: "Waist (inches)", type: "number", default: 34, min: 20, max: 80, step: 0.5, inputMode: "decimal" },
+      { key: "neckIn", label: "Neck (inches)", type: "number", default: 15, min: 10, max: 30, step: 0.5, inputMode: "decimal" },
+      { key: "hipIn", label: "Hip (inches, women only)", type: "number", default: 38, min: 20, max: 80, step: 0.5, inputMode: "decimal" },
+    ],
+    compute: (v) => {
+      const gender = v.gender === "female" ? "female" : "male";
+      const toCm = (i: number) => i * 2.54;
+      const heightCm = toCm(Number(v.heightIn) || 0);
+      const waistCm = toCm(Number(v.waistIn) || 0);
+      const neckCm = toCm(Number(v.neckIn) || 0);
+      const hipCm = toCm(Number(v.hipIn) || 0);
+      const r = bodyFat(gender, heightCm, waistCm, neckCm, hipCm);
+      return [
+        { label: "Body fat", value: `${r.pct}%`, highlight: true },
+        { label: "Category", value: r.category },
+      ];
+    },
+    note: "US Navy method — accurate to ±3-4% for most people.",
+    faq: [
+      { q: "How accurate is the tape method?", a: "The US Navy formula is within about ±3-4% of hydrostatic weighing for most people when measurements are taken correctly." },
+      { q: "What is a healthy body fat range?", a: "Athletes: 14-24% (women) / 6-17% (men). Acceptable: 25-31% (women) / 18-24% (men). Above that is classified as obese." },
+    ],
+    related: ["tdee-calculator", "water-intake-calculator", "sleep-calculator"],
+  },
+  {
+    slug: "paint-calculator",
+    title: "Paint Calculator 2026 — Gallons Needed & Cost | US Calc Tools",
+    shortTitle: "Paint Calculator",
+    description: "Free paint calculator: gallons of paint needed for a room and estimated cost. Accounts for doors, windows, and coats.",
+    h1: "Paint Calculator",
+    sub: "Estimate how much paint your room needs and what it costs.",
+    fields: [
+      { key: "length", label: "Room length (ft)", type: "number", default: 14, min: 1, step: 0.5, inputMode: "decimal" },
+      { key: "width", label: "Room width (ft)", type: "number", default: 12, min: 1, step: 0.5, inputMode: "decimal" },
+      { key: "height", label: "Wall height (ft)", type: "number", default: 8, min: 1, step: 0.5, inputMode: "decimal" },
+      { key: "coats", label: "Coats", type: "number", default: 2, min: 1, max: 5, step: 1, inputMode: "numeric" },
+      { key: "doors", label: "Doors", type: "number", default: 1, min: 0, max: 10, step: 1, inputMode: "numeric" },
+      { key: "windows", label: "Windows", type: "number", default: 2, min: 0, max: 20, step: 1, inputMode: "numeric" },
+    ],
+    compute: (v) => {
+      const len = Number(v.length) || 0;
+      const wid = Number(v.width) || 0;
+      const h = Number(v.height) || 0;
+      const coats = Number(v.coats) || 1;
+      const doors = Number(v.doors) || 0;
+      const windows = Number(v.windows) || 0;
+      const r = paintNeeds(len, wid, h, coats, doors, windows, 40);
+      return [
+        { label: "Paint needed", value: `${r.gallons} gallon${r.gallons === 1 ? "" : "s"}`, highlight: true },
+        { label: "Wall area", value: `${Math.round(r.wallArea)} sq ft` },
+        { label: "Estimated cost", value: `$${r.cost.toLocaleString("en-US")}` },
+      ];
+    },
+    note: "Assumes ~350 sq ft coverage per gallon. Textured walls use more.",
+    faq: [
+      { q: "How much area does a gallon cover?", a: "A gallon of interior paint covers roughly 350-400 sq ft per coat on smooth, primed walls." },
+      { q: "Why two coats?", a: "Two coats give even color and better durability. Dark colors and dramatic color changes often need three." },
+    ],
+    related: ["concrete-calculator", "mulch-calculator", "mortgage-calculator"],
+  },
+  {
+    slug: "mulch-calculator",
+    title: "Mulch Calculator 2026 — Cubic Yards & Bags | US Calc Tools",
+    shortTitle: "Mulch Calculator",
+    description: "Free mulch calculator: cubic yards of mulch for your beds, bag counts, and estimated cost.",
+    h1: "Mulch Calculator",
+    sub: "Estimate how much mulch you need and what it costs.",
+    fields: [
+      { key: "length", label: "Area length (ft)", type: "number", default: 20, min: 1, step: 0.5, inputMode: "decimal" },
+      { key: "width", label: "Area width (ft)", type: "number", default: 10, min: 1, step: 0.5, inputMode: "decimal" },
+      { key: "depth", label: "Depth (inches)", type: "number", default: 3, min: 1, max: 12, step: 0.5, inputMode: "decimal" },
+    ],
+    compute: (v) => {
+      const len = Number(v.length) || 0;
+      const wid = Number(v.width) || 0;
+      const depth = Number(v.depth) || 0;
+      const r = mulchNeeds(len, wid, depth, 35);
+      return [
+        { label: "Cubic yards", value: `${r.cubicYards} yd³`, highlight: true },
+        { label: "2 cu ft bags", value: String(r.bags) },
+        { label: "Estimated cost", value: `$${r.cost.toLocaleString("en-US")}` },
+      ];
+    },
+    note: "Aim for 2-3 inches of mulch. Prices vary by type (wood, rubber, stone).",
+    faq: [
+      { q: "How deep should mulch be?", a: "2-3 inches is ideal: enough to suppress weeds and retain moisture without suffocating plant roots." },
+      { q: "Bulk vs bagged mulch?", a: "For large areas bulk (by the yard) is cheaper; bags (2 cu ft each) are easier for small beds and DIY transport." },
+    ],
+    related: ["concrete-calculator", "paint-calculator", "mortgage-calculator"],
+  },
 ];
 
 // Planned tools — render automatically via pages/[tool].js once added to TOOLS.
-export const FUTURE_TOOLS = ["tdEE-calculator", "water-intake-calculator", "sleep-calculator", "body-fat-calculator", "paint-calculator", "mulch-calculator"];
+export const FUTURE_TOOLS = ["salary-percentile-calculator", "home-affordability-calculator", "gpa-calculator", "due-date-calculator", "grade-calculator"];
 
 export function getTool(slug: string): ToolDef | undefined {
   return TOOLS.find((t) => t.slug === slug);

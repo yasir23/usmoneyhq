@@ -18,6 +18,12 @@ import {
   creditCardMinPayment,
   childSupportEstimate,
   concreteNeeds,
+  tdee,
+  waterIntake,
+  sleepCycles,
+  bodyFat,
+  paintNeeds,
+  mulchNeeds,
 } from "./calc.ts";
 
 // $300k @ 6.5% / 30yr (360 mo) -> ~$1,896.20/mo (known value)
@@ -103,5 +109,34 @@ const cc2 = concreteNeeds(20, 10, 4, 150);
 assert.ok(Math.abs(cc2.cubicYards - 2.47) < 0.1, `yds ${cc2.cubicYards}`);
 assert.ok(cc2.bags60 > 130 && cc2.bags60 < 170, `bags60 ${cc2.bags60}`);
 assert.ok(Math.abs(cc2.cost - 370) < 20, `cost ${cc2.cost}`);
+
+// tdee: 30y male, 5'10" (177.8cm), 180lb (81.6kg), moderate -> tdee ~2700-2900
+const td = tdee(30, "male", 177.8, 81.6, 1.55);
+assert.ok(td.bmr > 1700 && td.bmr < 1900, `bmr ${td.bmr}`);
+assert.ok(td.tdee > 2600 && td.tdee < 3000, `tdee ${td.tdee}`);
+assert.ok(td.cut === td.tdee - 500 && td.bulk === td.tdee + 300);
+
+// water: 180lb (81.6kg), 30 min -> ~104 oz
+const w = waterIntake(81.6, 30);
+assert.ok(w.ounces > 90 && w.ounces < 120, `oz ${w.ounces}`);
+
+// sleep: wake 6:30 AM -> 5 cycles (7.5h) = 11:00 PM bedtime
+const sl = sleepCycles(6, 30);
+assert.ok(sl.length === 3);
+assert.ok(sl[1].cycles === 5 && sl[1].bedtime.includes("11:00"), `bed ${sl[1].bedtime}`);
+
+// body fat (male): 70in, 34in waist, 15in neck -> ~15-25%
+const bf = bodyFat("male", 177.8, 86.36, 38.1, 0);
+assert.ok(bf.pct > 10 && bf.pct < 30, `bf ${bf.pct}`);
+assert.ok(typeof bf.category === "string");
+
+// paint: 14x12x8, 2 coats, 1 door, 2 windows -> ~2 gallons
+const pt = paintNeeds(14, 12, 8, 2, 1, 2, 40);
+assert.ok(pt.gallons >= 1 && pt.gallons <= 3, `gal ${pt.gallons}`);
+
+// mulch: 20x10x3in -> 1.85 yd³, ~25 bags
+const ml = mulchNeeds(20, 10, 3, 35);
+assert.ok(Math.abs(ml.cubicYards - 1.85) < 0.1, `yds ${ml.cubicYards}`);
+assert.ok(ml.bags > 20 && ml.bags < 30, `bags ${ml.bags}`);
 
 console.log("ALL CALC TESTS PASS");

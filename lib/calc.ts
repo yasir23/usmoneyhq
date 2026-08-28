@@ -278,3 +278,66 @@ export function concreteNeeds(lengthFt: number, widthFt: number, thicknessIn: nu
     cost: round2(cubicYards * pricePerYard),
   };
 }
+
+/** TDEE via Mifflin-St Jeor BMR + activity multiplier. heightCm, weightKg. */
+export function tdee(age: number, gender: "male" | "female", heightCm: number, weightKg: number, activity: number) {
+  const bmr = gender === "male" ? 10 * weightKg + 6.25 * heightCm - 5 * age + 5 : 10 * weightKg + 6.25 * heightCm - 5 * age - 161;
+  const maintenance = bmr * activity;
+  return {
+    bmr: round2(bmr),
+    tdee: round2(maintenance),
+    cut: round2(maintenance - 500),
+    bulk: round2(maintenance + 300),
+  };
+}
+
+/** Water intake: 35ml/kg base + 12oz per 30 min exercise. */
+export function waterIntake(weightKg: number, exerciseMin: number) {
+  const baseMl = weightKg * 35;
+  const extraOz = Math.floor(exerciseMin / 30) * 12;
+  const totalOz = baseMl * 0.033814 + extraOz;
+  return { ounces: round2(totalOz), liters: round2(totalOz * 0.0295735), cups: round2(totalOz / 8) };
+}
+
+/** Sleep cycles: best bedtimes for a wake time (90-min cycles). */
+export function sleepCycles(wakeHour: number, wakeMin: number) {
+  const wakeTotal = (wakeHour * 60 + wakeMin) % 1440;
+  const cycles = [6, 5, 4].map((c) => {
+    let bed = wakeTotal - c * 90;
+    if (bed < 0) bed += 1440;
+    const h = Math.floor(bed / 60) % 24;
+    const m = bed % 60;
+    const period = h >= 12 ? "PM" : "AM";
+    const h12 = h % 12 === 0 ? 12 : h % 12;
+    return { cycles: c, bedtime: `${h12}:${String(m).padStart(2, "0")} ${period}` };
+  });
+  return cycles;
+}
+
+/** US Navy body fat formula. All measurements in cm. */
+export function bodyFat(gender: "male" | "female", heightCm: number, waistCm: number, neckCm: number, hipCm: number) {
+  let pct: number;
+  if (gender === "male") {
+    pct = 495 / (1.0324 - 0.19077 * Math.log10(waistCm - neckCm) + 0.15456 * Math.log10(heightCm)) - 450;
+  } else {
+    pct = 495 / (1.29579 - 0.35004 * Math.log10(waistCm + hipCm - neckCm) + 0.221 * Math.log10(heightCm)) - 450;
+  }
+  pct = Math.max(2, Math.min(60, pct));
+  const category = pct < 6 ? "Essential fat" : pct < 14 ? "Athletic" : pct < 18 ? "Fitness" : pct < 25 ? "Acceptable" : "Obese";
+  return { pct: round2(pct), category };
+}
+
+/** Paint: wall area -> gallons (350 sq ft/gal), doors 20 / windows 15 sq ft deduction. */
+export function paintNeeds(lengthFt: number, widthFt: number, heightFt: number, coats: number, doors: number, windows: number, pricePerGallon = 40) {
+  const wallArea = Math.max(0, 2 * (lengthFt + widthFt) * heightFt - doors * 20 - windows * 15);
+  const gallons = Math.ceil((wallArea * coats) / 350);
+  return { wallArea: round2(wallArea), gallons, cost: round2(gallons * pricePerGallon) };
+}
+
+/** Mulch: area x depth -> cubic yards + 2 cu ft bags + cost. */
+export function mulchNeeds(lengthFt: number, widthFt: number, depthIn: number, pricePerYard = 35) {
+  const cubicFeet = lengthFt * widthFt * (depthIn / 12);
+  const cubicYards = cubicFeet / 27;
+  const bags = Math.ceil(cubicFeet / 2);
+  return { cubicFeet: round2(cubicFeet), cubicYards: round2(cubicYards), bags, cost: round2(cubicYards * pricePerYard) };
+}
