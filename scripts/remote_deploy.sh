@@ -15,16 +15,8 @@ echo "BUILD_ID OK"
 echo "--- docker check ---"
 command -v docker || { echo "FATAL: docker not found"; exit 1; }
 
-# Discover the Traefik docker network (no pipefail traps — || true everywhere)
-NET=$(docker network ls --format '{{.Name}}' | grep -i traefik | head -1 || true)
-if [ -z "$NET" ]; then
-  NET=$(docker network ls --format '{{.Name}}' | grep -v -E '^(bridge|host|none)$' | head -1 || true)
-fi
-echo "NETWORK=[$NET]"
-if [ -z "$NET" ]; then
-  echo "FATAL: no usable docker network"; docker network ls; exit 1
-fi
-sed -i.bak "s/NETWORK_NAME_PLACEHOLDER/$NET/g" docker-compose.yml
+# Traefik runs on host networking — our container uses the default bridge,
+# which Traefik can route to via the docker gateway. No network join needed.
 
 # Superseded pm2 process (if any) — clean up
 pm2 delete usmoneyhq 2>/dev/null || true

@@ -9,9 +9,3 @@ services:
       - "traefik.http.routers.usmoneyhq.tls=true"
       - "traefik.http.routers.usmoneyhq.tls.certresolver=letsencrypt"
       - "traefik.http.services.usmoneyhq.loadbalancer.server.port=3000"
-    networks:
-      - traefik
-networks:
-  traefik:
-    external: true
-    name: NETWORK_NAME_PLACEHOLDER
