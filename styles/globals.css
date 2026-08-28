@@ -1,183 +1,467 @@
+/* ============================================================
+   US Calc Tools — design system
+   Tokens -> base -> layout -> components -> responsive -> a11y
+   ============================================================ */
+
+/* ---------- Tokens ---------- */
+:root {
+  --bg: #f6f7f9;
+  --surface: #ffffff;
+  --surface-alt: #eef0f4;
+  --text: #16182a;
+  --muted: #5c5e74;
+  --border: #e2e4ec;
+  --border-strong: #c9ccd9;
+  --primary: #1f5fdb;
+  --primary-strong: #1749a8;
+  --accent: #0d6b2f;
+  --accent-bg: #e7f6ec;
+  --warn: #8a4b00;
+  --danger: #b3261e;
+  --radius: 14px;
+  --radius-sm: 9px;
+  --shadow: 0 2px 10px rgba(18, 26, 54, 0.06);
+  --shadow-lift: 0 10px 28px rgba(18, 26, 54, 0.1);
+  --space: 16px;
+  --font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --mono: ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+
+/* ---------- Base ---------- */
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
 
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
 body {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-  background: #f6f7f9;
-  color: #1a1a2e;
+  font-family: var(--font);
+  background: var(--bg);
+  color: var(--text);
   line-height: 1.55;
+  font-size: 16px;
+}
+
+a {
+  color: var(--primary);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
 }
 
 .container {
-  max-width: 960px;
+  max-width: 1024px;
   margin: 0 auto;
-  padding: 24px 16px 64px;
+  padding: 24px 16px 72px;
 }
 
 h1 {
-  font-size: 2rem;
-  margin-bottom: 6px;
+  font-size: clamp(1.7rem, 4vw, 2.35rem);
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  margin-bottom: 8px;
 }
 
 h2 {
-  font-size: 1.35rem;
-  margin: 28px 0 10px;
+  font-size: 1.3rem;
+  margin: 32px 0 10px;
+  letter-spacing: -0.01em;
 }
 
 h3 {
-  font-size: 1.05rem;
-  margin: 18px 0 6px;
+  font-size: 1.02rem;
+  margin: 20px 0 6px;
 }
 
 .sub {
-  color: #5a5a72;
+  color: var(--muted);
+  margin-bottom: 20px;
+  font-size: 1.02rem;
+}
+
+/* ---------- Header / Footer ---------- */
+.site-header {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  z-index: 50;
+}
+
+.site-header .container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 14px;
+  padding-bottom: 14px;
+}
+
+.brand {
+  font-weight: 800;
+  font-size: 1.15rem;
+  color: var(--text);
+  letter-spacing: -0.01em;
+}
+
+.brand:hover {
+  text-decoration: none;
+}
+
+.brand .brand-mark {
+  color: var(--primary);
+}
+
+.nav-links {
+  display: flex;
+  gap: 18px;
+  font-size: 0.92rem;
+  color: var(--muted);
+}
+
+.site-footer {
+  background: var(--surface);
+  border-top: 1px solid var(--border);
+  color: var(--muted);
+  font-size: 0.88rem;
+}
+
+.site-footer .container {
+  padding-top: 28px;
+  padding-bottom: 28px;
+}
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
   margin-bottom: 20px;
 }
 
+.footer-grid h3 {
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text);
+  margin: 0 0 8px;
+}
+
+.footer-grid a {
+  display: block;
+  padding: 3px 0;
+  color: var(--muted);
+}
+
+.footer-grid a:hover {
+  color: var(--primary);
+}
+
+.footer-legal {
+  border-top: 1px solid var(--border);
+  padding-top: 14px;
+  font-size: 0.8rem;
+}
+
+/* ---------- Breadcrumbs ---------- */
+.breadcrumbs {
+  font-size: 0.85rem;
+  color: var(--muted);
+  margin-bottom: 14px;
+}
+
+.breadcrumbs a {
+  color: var(--muted);
+}
+
+.breadcrumbs a:hover {
+  color: var(--primary);
+}
+
+.breadcrumbs span {
+  margin: 0 6px;
+}
+
+/* ---------- Calculator layout ---------- */
 .grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 16px;
+  gap: 18px;
+  align-items: start;
 }
 
-@media (max-width: 700px) {
-  .grid { grid-template-columns: 1fr; }
+@media (max-width: 720px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
 }
 
 .card {
-  background: #fff;
-  border: 1px solid #e3e4ea;
-  border-radius: 12px;
-  padding: 20px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 22px;
+  box-shadow: var(--shadow);
 }
 
-.card label {
+.results {
+  position: sticky;
+  top: 76px;
+}
+
+@media (max-width: 720px) {
+  .results {
+    position: static;
+  }
+}
+
+.field {
+  margin-bottom: 16px;
+}
+
+.field label {
   display: block;
-  font-size: 0.85rem;
-  font-weight: 600;
-  color: #44445c;
-  margin: 12px 0 4px;
+  font-size: 0.84rem;
+  font-weight: 650;
+  color: var(--muted);
+  margin-bottom: 5px;
 }
 
-.card input,
-.card select {
+.field input,
+.field select {
   width: 100%;
-  padding: 10px 12px;
+  padding: 12px 14px;
   font-size: 1rem;
-  border: 1px solid #cfd2dc;
-  border-radius: 8px;
-  background: #fff;
+  font-family: var(--mono);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+  color: var(--text);
+  transition: border-color 0.15s, box-shadow 0.15s;
 }
 
-.card input:focus,
-.card select:focus {
-  outline: 2px solid #2f6fed;
-  border-color: transparent;
+.field input:hover,
+.field select:hover {
+  border-color: #aab0c2;
+}
+
+.field input:focus,
+.field select:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(31, 95, 219, 0.18);
+}
+
+/* remove number spinners on Firefox for cleaner look */
+.field input[type="number"] {
+  appearance: textfield;
+}
+
+.field input[type="number"]::-webkit-outer-spin-button,
+.field input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.results h2 {
+  margin: 0 0 12px;
+  font-size: 1.05rem;
 }
 
 .results .row {
   display: flex;
   justify-content: space-between;
-  padding: 8px 0;
-  border-bottom: 1px dashed #e8e9ef;
+  gap: 12px;
+  padding: 10px 0;
+  border-bottom: 1px dashed var(--border);
+  font-size: 0.95rem;
+}
+
+.results .row span {
+  color: var(--muted);
+}
+
+.results .row b {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
 }
 
 .results .row.highlight {
-  font-size: 1.25rem;
-  font-weight: 700;
-  color: #0d6b2f;
+  font-size: 1.3rem;
+  font-weight: 800;
+  color: var(--accent);
   border-bottom: none;
+  padding: 12px 0 4px;
+}
+
+.results .row.highlight span {
+  color: var(--accent);
 }
 
 .note {
   font-size: 0.8rem;
-  color: #7a7a92;
+  color: var(--muted);
   margin-top: 12px;
+  line-height: 1.4;
 }
 
+/* ---------- Ad slots (CLS-safe) ---------- */
+.ad-slot {
+  min-height: 110px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--surface);
+  border: 1px dashed var(--border-strong);
+  border-radius: var(--radius-sm);
+  margin: 20px 0;
+}
+
+.ad-label {
+  font-size: 0.68rem;
+  color: #a3a6b8;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+}
+
+/* ---------- Tool grid (home + related) ---------- */
+.tool-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 16px;
+  margin: 22px 0;
+}
+
+.tool-card {
+  display: block;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px;
+  color: var(--text);
+  box-shadow: var(--shadow);
+  transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+}
+
+.tool-card:hover {
+  text-decoration: none;
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-lift);
+  border-color: var(--primary);
+}
+
+.tool-card h2,
+.tool-card h3 {
+  margin: 0 0 6px;
+  color: var(--text);
+}
+
+.tool-card p {
+  color: var(--muted);
+  font-size: 0.9rem;
+  margin-bottom: 12px;
+}
+
+.tool-card .cta {
+  color: var(--primary);
+  font-weight: 650;
+  font-size: 0.88rem;
+}
+
+/* ---------- FAQ ---------- */
+.faq {
+  margin-bottom: 14px;
+}
+
+.faq h3 {
+  margin: 0 0 4px;
+}
+
+.faq p {
+  color: var(--muted);
+}
+
+/* ---------- SEO content block ---------- */
+.seo {
+  margin-top: 36px;
+  padding-top: 24px;
+  border-top: 1px solid var(--border);
+}
+
+.seo p {
+  color: var(--muted);
+  margin-bottom: 10px;
+  max-width: 72ch;
+}
+
+/* ---------- Tables (amortization etc.) ---------- */
 .table-wrap {
   overflow-x: auto;
-  background: #fff;
-  border: 1px solid #e3e4ea;
-  border-radius: 12px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
   padding: 8px;
+  margin-top: 12px;
 }
 
 table {
   width: 100%;
   border-collapse: collapse;
   font-size: 0.9rem;
+  font-variant-numeric: tabular-nums;
 }
 
-th, td {
-  padding: 7px 10px;
+th,
+td {
+  padding: 8px 12px;
   text-align: right;
-  border-bottom: 1px solid #f0f1f4;
+  border-bottom: 1px solid var(--border);
+  white-space: nowrap;
 }
 
-th:first-child, td:first-child { text-align: left; }
-
-.ad-slot {
-  min-height: 90px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: #fff;
-  border: 1px dashed #d6d8e0;
-  border-radius: 10px;
-  margin: 18px 0;
+th:first-child,
+td:first-child {
+  text-align: left;
 }
 
-.ad-label {
-  font-size: 0.7rem;
-  color: #9a9cb0;
-  letter-spacing: 1px;
+thead th {
+  color: var(--muted);
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 
-.seo {
-  margin-top: 32px;
-  padding-top: 20px;
-  border-top: 1px solid #e3e4ea;
+/* ---------- Accessibility ---------- */
+:focus-visible {
+  outline: 3px solid rgba(31, 95, 219, 0.45);
+  outline-offset: 2px;
+  border-radius: 4px;
 }
 
-.seo p {
-  color: #3c3c52;
-  margin-bottom: 10px;
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation: none !important;
+    transition: none !important;
+  }
 }
 
-.tool-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 16px;
-  margin: 24px 0;
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
 }
 
-.tool-card {
-  display: block;
-  background: #fff;
-  border: 1px solid #e3e4ea;
-  border-radius: 12px;
-  padding: 20px;
-  text-decoration: none;
-  color: inherit;
-  transition: box-shadow 0.15s, transform 0.15s;
-}
-
-.tool-card:hover {
-  box-shadow: 0 6px 18px rgba(20, 30, 60, 0.08);
-  transform: translateY(-2px);
-}
-
-.tool-card h2 { margin: 0 0 6px; }
-.tool-card p { color: #5a5a72; font-size: 0.9rem; }
-
-.cta {
-  display: inline-block;
-  margin-top: 12px;
-  color: #2f6fed;
-  font-weight: 600;
-  font-size: 0.9rem;
+/* ---------- Misc ---------- */
+.mono {
+  font-family: var(--mono);
 }

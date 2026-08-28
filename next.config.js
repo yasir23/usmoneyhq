@@ -1,8 +1,7 @@
 /** @type {import('next').NextConfig} */
+// Server mode: API routes + ISR need a runtime (Vercel free / Node host).
 const nextConfig = {
   reactStrictMode: true,
-  // static export -> free hosting (GitHub Pages / Netlify / Vercel static)
-  output: "export",
   images: { unoptimized: true },
 };
 
