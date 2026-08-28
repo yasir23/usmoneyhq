@@ -81,8 +81,10 @@ export async function GET(_req: NextRequest, { params }: { params: { tool: strin
   var root=document.currentScript&&document.currentScript.parentElement;
   if(!root)return;
   var form=root.querySelector('.umhq-form'),res=root.querySelector('.umhq-results'),err=root.querySelector('.umhq-err');
+  var defaults={};
+  root.querySelectorAll('[data-key]').forEach(function(el){defaults[el.getAttribute('data-key')]=el.value;});
   function read(){var v={};root.querySelectorAll('[data-key]').forEach(function(el){v[el.getAttribute('data-key')]=el.value});return v;}
-  function reset(){root.querySelectorAll('[data-key]').forEach(function(el){el.value=el.getAttribute('data-key')==='${"''"}'? '':el.dataset.def||el.value;});res.classList.remove('show');err.style.display='none';}
+  function reset(){root.querySelectorAll('[data-key]').forEach(function(el){el.value=defaults[el.getAttribute('data-key')];});res.classList.remove('show');err.style.display='none';}
   form.addEventListener('submit',function(e){e.preventDefault();
     err.style.display='none';
     fetch('${SITE_URL}/api/calc/${esc(slug)}',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(read())})
@@ -92,6 +94,13 @@ export async function GET(_req: NextRequest, { params }: { params: { tool: strin
   });
   root.querySelector('.umhq-btn-clear').addEventListener('click',reset);
 })();`;
+
+  // Runtime guard: never ship a widget whose JS can't parse (template-literal escaping bugs).
+  try {
+    new Function(js);
+  } catch (e) {
+    return NextResponse.json({ error: `widget js invalid: ${(e as Error).message}` }, { status: 500 });
+  }
 
   const res = NextResponse.json({ html, js, slug, title: tool.title });
   res.headers.set("Access-Control-Allow-Origin", "*");
