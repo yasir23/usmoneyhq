@@ -41,3 +41,11 @@ jobs:
           SSHPASS="$VPS_PASSWORD" sshpass -e ssh -o StrictHostKeyChecking=accept-new -o ConnectTimeout=20 "$VPS_USER@$VPS_HOST" "mkdir -p /opt/usmoneyhq"
           SSHPASS="$VPS_PASSWORD" sshpass -e scp -o StrictHostKeyChecking=accept-new /tmp/usmoneyhq.tar.gz "$VPS_USER@$VPS_HOST:/opt/usmoneyhq/"
           SSHPASS="$VPS_PASSWORD" sshpass -e ssh -o StrictHostKeyChecking=accept-new "$VPS_USER@$VPS_HOST" "bash -s" < scripts/remote_deploy.sh
+
+      - name: Diagnose
+        env:
+          VPS_HOST: ${{ secrets.VPS_HOST }}
+          VPS_USER: ${{ secrets.VPS_USER }}
+          VPS_PASSWORD: ${{ secrets.VPS_PASSWORD }}
+        run: |
+          SSHPASS="$VPS_PASSWORD" sshpass -e ssh -o StrictHostKeyChecking=accept-new "$VPS_USER@$VPS_HOST" "echo '--- ls /opt/usmoneyhq ---'; ls /opt/usmoneyhq | head; echo '--- .next ---'; ls /opt/usmoneyhq/.next 2>/dev/null | head; echo '--- local curl ---'; curl -s -m 5 http://127.0.0.1:3001/ | head -c 200; echo; echo '--- pm2 ---'; pm2 ls | grep usmoneyhq; echo '--- logs ---'; pm2 logs usmoneyhq --lines 15 --nostream 2>/dev/null | tail -15"
