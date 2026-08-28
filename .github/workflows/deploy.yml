@@ -27,6 +27,7 @@ jobs:
           mkdir -p /tmp/app
           cp -R .next/standalone/. /tmp/app/
           cp -R .next/static /tmp/app/.next/static
+          cp -R public /tmp/app/public
           cp Dockerfile docker-compose.yml /tmp/app/
           echo "--- bundle .next contents ---"
           ls /tmp/app/.next >/dev/null || exit 1
