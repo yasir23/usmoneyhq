@@ -24,6 +24,12 @@ import {
   bodyFat,
   paintNeeds,
   mulchNeeds,
+  salaryPercentile,
+  homeAffordability,
+  GRADE_POINTS,
+  gpaCalculate,
+  dueDate,
+  examScoreNeeded,
 } from "./calc.ts";
 
 // $300k @ 6.5% / 30yr (360 mo) -> ~$1,896.20/mo (known value)
@@ -138,5 +144,30 @@ assert.ok(pt.gallons >= 1 && pt.gallons <= 3, `gal ${pt.gallons}`);
 const ml = mulchNeeds(20, 10, 3, 35);
 assert.ok(Math.abs(ml.cubicYards - 1.85) < 0.1, `yds ${ml.cubicYards}`);
 assert.ok(ml.bags > 20 && ml.bags < 30, `bags ${ml.bags}`);
+
+// salary percentile: $50k -> ~50th; $150k -> ~95th
+assert.ok(salaryPercentile(50000).percentile >= 45 && salaryPercentile(50000).percentile <= 55);
+assert.ok(salaryPercentile(150000).percentile >= 93 && salaryPercentile(150000).percentile <= 97);
+
+// home affordability: $120k income, $500 debt, $40k down, 6.5%, 30yr -> price > $400k
+const ha = homeAffordability(120000, 500, 40000, 6.5, 30);
+assert.ok(ha.maxPrice > 350000 && ha.maxPrice < 550000, `price ${ha.maxPrice}`);
+assert.ok(ha.housingBudget > 2000 && ha.housingBudget < 3200, `budget ${ha.housingBudget}`);
+
+// gpa: 3 credits A + 3 credits B -> 3.5
+const gpa = gpaCalculate([{ credits: 3, points: GRADE_POINTS.A }, { credits: 3, points: GRADE_POINTS.B }]);
+assert.ok(Math.abs(gpa.gpa - 3.5) < 0.01, `gpa ${gpa.gpa}`);
+
+// due date: LMP Jan 15 2026, 28-day cycle -> due ~Oct 22 2026
+const dd = dueDate(1, 15, 2026, 28);
+assert.ok(dd.dueDate.includes("October"), `due ${dd.dueDate}`);
+assert.ok(dd.trimester === "First" || dd.trimester === "Second" || dd.trimester === "Third");
+
+// final grade: 82 current, 90 target, 30% weight -> need ~108.7 (impossible)
+const eg = examScoreNeeded(82, 90, 30);
+assert.ok(eg.needed > 100 && eg.possible === false, `needed ${eg.needed}`);
+// 82 current, 90 target, 50% weight -> need 98
+const eg2 = examScoreNeeded(82, 90, 50);
+assert.ok(Math.abs(eg2.needed - 98) < 0.1 && eg2.possible === true, `needed2 ${eg2.needed}`);
 
 console.log("ALL CALC TESTS PASS");

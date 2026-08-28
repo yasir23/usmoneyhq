@@ -23,6 +23,12 @@ import {
   bodyFat,
   paintNeeds,
   mulchNeeds,
+  salaryPercentile,
+  homeAffordability,
+  GRADE_POINTS,
+  gpaCalculate,
+  dueDate,
+  examScoreNeeded,
   NO_INCOME_TAX_STATES,
   US_STATES,
 } from "./calc.ts";
@@ -919,10 +925,185 @@ export const TOOLS: ToolDef[] = [
     ],
     related: ["concrete-calculator", "paint-calculator", "mortgage-calculator"],
   },
+  {
+    slug: "salary-percentile-calculator",
+    title: "Salary Percentile Calculator 2026 — Where Do You Rank? | US Calc Tools",
+    shortTitle: "Salary Percentile Calculator",
+    description: "Free US salary percentile calculator: see what percentile your income ranks among full-time US earners.",
+    h1: "Salary Percentile Calculator",
+    sub: "See where your income ranks among full-time US earners.",
+    fields: [
+      { key: "income", label: "Annual income (USD)", type: "number", default: 75000, min: 0, step: 1000, inputMode: "numeric" },
+    ],
+    compute: (v) => {
+      const income = Number(v.income) || 0;
+      const r = salaryPercentile(income);
+      return [
+        { label: "Income percentile", value: `${r.percentile}th`, highlight: true },
+        { label: "Note", value: r.note },
+      ];
+    },
+    note: "Estimate for individual full-time earners — household income percentiles differ.",
+    faq: [
+      { q: "What is the median US salary?", a: "The median individual full-time income is roughly $50-55K. Half of full-time earners make less, half make more." },
+      { q: "Individual vs household percentile?", a: "This uses individual earners. Household income percentiles are higher because they combine multiple earners." },
+    ],
+    related: ["salary-after-tax-calculator", "paycheck-calculator", "retirement-calculator"],
+  },
+  {
+    slug: "home-affordability-calculator",
+    title: "Home Affordability Calculator 2026 — How Much House | US Calc Tools",
+    shortTitle: "Home Affordability Calculator",
+    description: "Free home affordability calculator: how much house you can afford based on income, debt, down payment, and the 28/36 rule.",
+    h1: "Home Affordability Calculator",
+    sub: "How much house can you afford? Uses the lender 28/36 rule.",
+    fields: [
+      { key: "income", label: "Annual income (USD)", type: "number", default: 120000, min: 0, step: 1000, inputMode: "numeric" },
+      { key: "debt", label: "Monthly debt payments (USD)", type: "number", default: 500, min: 0, step: 50, inputMode: "numeric" },
+      { key: "down", label: "Down payment (USD)", type: "number", default: 40000, min: 0, step: 1000, inputMode: "numeric" },
+      { key: "rate", label: "Interest rate (annual %)", type: "number", default: 6.5, min: 0, step: 0.01, inputMode: "decimal" },
+      {
+        key: "years",
+        label: "Loan term (years)",
+        type: "select",
+        default: 30,
+        options: [
+          { value: 15, label: "15 years" },
+          { value: 30, label: "30 years" },
+        ],
+      },
+    ],
+    compute: (v) => {
+      const income = Number(v.income) || 0;
+      const debt = Number(v.debt) || 0;
+      const down = Number(v.down) || 0;
+      const rate = Number(v.rate) || 0;
+      const years = Number(v.years) || 30;
+      const r = homeAffordability(income, debt, down, rate, years);
+      return [
+        moneyRow("Max home price", Math.max(0, r.maxPrice), true),
+        moneyRow("Max loan amount", Math.max(0, r.maxLoan)),
+        moneyRow("Est. monthly payment (PITI)", r.monthlyPayment),
+        moneyRow("Housing budget (28/36)", r.housingBudget),
+      ];
+    },
+    note: "Assumes 1% property tax + 0.5% insurance. FHA/VA may allow higher ratios.",
+    faq: [
+      { q: "What is the 28/36 rule?", a: "Lenders typically cap housing costs at 28% of gross income and total debt at 36%. FHA allows up to 31/43 in many cases." },
+      { q: "Should I use the max price?", a: "Just because you qualify doesn't mean you should buy at the max. Leave room for maintenance, repairs, and lifestyle costs." },
+    ],
+    related: ["mortgage-calculator", "dti-calculator", "pmi-calculator"],
+  },
+  {
+    slug: "gpa-calculator",
+    title: "GPA Calculator 2026 — 4.0 Scale | US Calc Tools",
+    shortTitle: "GPA Calculator",
+    description: "Free GPA calculator: compute your grade point average on the 4.0 scale from course credits and letter grades.",
+    h1: "GPA Calculator",
+    sub: "Calculate your GPA on the 4.0 scale from credits and letter grades.",
+    fields: [
+      ...Array.from({ length: 6 }, (_, i) => [
+        { key: `c${i + 1}`, label: `Course ${i + 1} credits`, type: "number" as const, default: 3, min: 1, max: 6, step: 1, inputMode: "numeric" as const },
+        {
+          key: `g${i + 1}`,
+          label: `Course ${i + 1} grade`,
+          type: "select" as const,
+          default: "B",
+          options: ["A", "A-", "B+", "B", "B-", "C+", "C", "C-", "D+", "D", "F"].map((g) => ({ value: g, label: g })),
+        },
+      ]).flat() as ToolField[],
+    ],
+    compute: (v) => {
+      const entries: { credits: number; points: number }[] = [];
+      for (let i = 1; i <= 6; i++) {
+        const credits = Number(v[`c${i}`]) || 0;
+        const grade = String(v[`g${i}`] || "F");
+        if (credits > 0) entries.push({ credits, points: GRADE_POINTS[grade] ?? 0 });
+      }
+      const r = gpaCalculate(entries);
+      return [
+        { label: "GPA", value: r.gpa.toFixed(2), highlight: true },
+        { label: "Total credits", value: String(r.totalCredits) },
+      ];
+    },
+    note: "Standard 4.0 scale with +/- grades. Honors/AP weighting not included.",
+    faq: [
+      { q: "How is GPA calculated?", a: "Multiply each course's credits by its grade points (A=4, B=3, etc.), sum them, and divide by total credits." },
+      { q: "Do plus/minus grades count?", a: "Yes — on this scale A- is 3.7, B+ is 3.3, and so on. Some schools don't use +/-; check your institution." },
+    ],
+    related: ["grade-calculator", "due-date-calculator", "gpa-calculator"],
+  },
+  {
+    slug: "due-date-calculator",
+    title: "Due Date Calculator 2026 — Pregnancy Due Date | US Calc Tools",
+    shortTitle: "Due Date Calculator",
+    description: "Free pregnancy due date calculator: estimated due date from your last period using Naegele's rule, plus current gestational age and trimester.",
+    h1: "Due Date Calculator",
+    sub: "Estimated due date, gestational age, and trimester from your last period.",
+    fields: [
+      { key: "lmpMonth", label: "Last period — month", type: "number", default: 1, min: 1, max: 12, step: 1, inputMode: "numeric" },
+      { key: "lmpDay", label: "Last period — day", type: "number", default: 15, min: 1, max: 31, step: 1, inputMode: "numeric" },
+      { key: "lmpYear", label: "Last period — year", type: "number", default: 2026, min: 2020, max: 2030, step: 1, inputMode: "numeric" },
+      {
+        key: "cycle",
+        label: "Cycle length (days)",
+        type: "select",
+        default: 28,
+        options: [21, 24, 26, 28, 30, 32, 35].map((d) => ({ value: d, label: `${d} days` })),
+      },
+    ],
+    compute: (v) => {
+      const m = Number(v.lmpMonth) || 1;
+      const d = Number(v.lmpDay) || 1;
+      const y = Number(v.lmpYear) || 2026;
+      const cycle = Number(v.cycle) || 28;
+      const r = dueDate(m, d, y, cycle);
+      return [
+        { label: "Estimated due date", value: r.dueDate, highlight: true },
+        { label: "Gestational age", value: `${r.gestationalWeeks} weeks ${r.gestationalDays} days` },
+        { label: "Trimester", value: `${r.trimester} trimester` },
+      ];
+    },
+    note: "Naegele's rule assumes a 28-day cycle. Ultrasound dating is more accurate.",
+    faq: [
+      { q: "How accurate is a due date from LMP?", a: "Within about a week, assuming regular 28-day cycles. A first-trimester ultrasound is the most accurate dating method." },
+      { q: "Why adjust for cycle length?", a: "Ovulation shifts with cycle length. Longer cycles push the due date later; this calculator adjusts proportionally." },
+    ],
+    related: ["grade-calculator", "gpa-calculator", "sleep-calculator"],
+  },
+  {
+    slug: "grade-calculator",
+    title: "Final Grade Calculator 2026 — What You Need on the Exam | US Calc Tools",
+    shortTitle: "Final Grade Calculator",
+    description: "Free final grade calculator: the exam score you need to reach your target course grade, based on your current grade and exam weight.",
+    h1: "Final Grade Calculator",
+    sub: "What score do you need on the final to hit your target grade?",
+    fields: [
+      { key: "current", label: "Current grade (%)", type: "number", default: 82, min: 0, max: 100, step: 0.5, inputMode: "decimal" },
+      { key: "desired", label: "Target grade (%)", type: "number", default: 90, min: 0, max: 100, step: 0.5, inputMode: "decimal" },
+      { key: "weight", label: "Final exam weight (%)", type: "number", default: 30, min: 1, max: 100, step: 1, inputMode: "numeric" },
+    ],
+    compute: (v) => {
+      const current = Number(v.current) || 0;
+      const desired = Number(v.desired) || 0;
+      const weight = Number(v.weight) || 0;
+      const r = examScoreNeeded(current, desired, weight);
+      return [
+        { label: "Score needed on final", value: `${r.needed.toFixed(1)}%`, highlight: true },
+        { label: "Achievable?", value: r.possible ? "Yes — within range" : "No — even 100% isn't enough" },
+      ];
+    },
+    note: "Assumes your current grade is your average before the final.",
+    faq: [
+      { q: "How is the needed score calculated?", a: "Desired = current×(1−weight) + exam×weight. Solving for exam gives the score you need." },
+      { q: "What if I can't reach my target?", a: "If the needed score is over 100, your target is mathematically out of reach — recalculate with a lower target." },
+    ],
+    related: ["gpa-calculator", "due-date-calculator", "salary-percentile-calculator"],
+  },
 ];
 
 // Planned tools — render automatically via pages/[tool].js once added to TOOLS.
-export const FUTURE_TOOLS = ["salary-percentile-calculator", "home-affordability-calculator", "gpa-calculator", "due-date-calculator", "grade-calculator"];
+export const FUTURE_TOOLS = ["cd-calculator", "compound-interest-calculator", "overtime-calculator", "tip-calculator", "percentage-calculator"];
 
 export function getTool(slug: string): ToolDef | undefined {
   return TOOLS.find((t) => t.slug === slug);

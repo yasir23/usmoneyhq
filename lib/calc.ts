@@ -341,3 +341,85 @@ export function mulchNeeds(lengthFt: number, widthFt: number, depthIn: number, p
   const bags = Math.ceil(cubicFeet / 2);
   return { cubicFeet: round2(cubicFeet), cubicYards: round2(cubicYards), bags, cost: round2(cubicYards * pricePerYard) };
 }
+
+/** US individual income percentile estimate (full-time earners, interpolated). */
+export function salaryPercentile(annualIncome: number) {
+  const points: [number, number][] = [
+    [20000, 5], [30000, 20], [40000, 35], [50000, 50], [60000, 62],
+    [75000, 72], [90000, 80], [110000, 88], [150000, 95], [200000, 97.5],
+  ];
+  if (annualIncome <= points[0][0]) return { percentile: 1, note: "Below ~5th percentile of full-time earners" };
+  if (annualIncome >= points[points.length - 1][0]) return { percentile: 99, note: "Above ~97.5th percentile of full-time earners" };
+  for (let i = 0; i < points.length - 1; i++) {
+    const [x0, y0] = points[i];
+    const [x1, y1] = points[i + 1];
+    if (annualIncome >= x0 && annualIncome <= x1) {
+      const pct = y0 + ((annualIncome - x0) / (x1 - x0)) * (y1 - y0);
+      return { percentile: Math.round(pct), note: "Estimate for individual full-time earners, all ages" };
+    }
+  }
+  return { percentile: 50, note: "Estimate" };
+}
+
+/** Home affordability: max price via 28/36 rule with taxes+insurance (1.5%/yr of price). */
+export function homeAffordability(income: number, monthlyDebt: number, downPayment: number, rate: number, years: number) {
+  const monthlyIncome = income / 12;
+  const housingBudget = Math.min(0.28 * monthlyIncome, 0.36 * monthlyIncome - monthlyDebt);
+  const r = rate / 100 / 12;
+  const n = years * 12;
+  let price = housingBudget * years * 12;
+  for (let i = 0; i < 20; i++) {
+    const taxIns = price * 0.015 / 12;
+    const pmiBudget = Math.max(0, housingBudget - taxIns);
+    if (r === 0) {
+      price = pmiBudget * n + downPayment;
+    } else {
+      const loan = (pmiBudget * (1 - Math.pow(1 + r, -n))) / r;
+      price = loan + downPayment;
+    }
+  }
+  const maxLoan = Math.max(0, price - downPayment);
+  const payment = monthlyPayment(maxLoan, rate, n);
+  return {
+    maxPrice: round2(price),
+    maxLoan: round2(maxLoan),
+    monthlyPayment: round2(payment + price * 0.015 / 12),
+    housingBudget: round2(housingBudget),
+  };
+}
+
+/** GPA (4.0 scale). gradePoints map; entries = [{credits, gradePoints}]. */
+export const GRADE_POINTS: Record<string, number> = {
+  A: 4, "A-": 3.7, "B+": 3.3, B: 3, "B-": 2.7, "C+": 2.3, C: 2, "C-": 1.7, "D+": 1.3, D: 1, F: 0,
+};
+
+export function gpaCalculate(entries: { credits: number; points: number }[]) {
+  let totalCredits = 0;
+  let totalPoints = 0;
+  for (const e of entries) {
+    totalCredits += e.credits;
+    totalPoints += e.credits * e.points;
+  }
+  return { gpa: totalCredits > 0 ? round2(totalPoints / totalCredits) : 0, totalCredits: round2(totalCredits) };
+}
+
+/** Due date via Naegele's rule: LMP + 280 days, adjusted for cycle length. */
+export function dueDate(lmpMonth: number, lmpDay: number, lmpYear: number, cycleDays: number) {
+  const lmp = new Date(lmpYear, lmpMonth - 1, lmpDay);
+  const adjustment = Math.max(0, cycleDays - 28);
+  const due = new Date(lmp.getTime() + (280 + adjustment) * 86400000);
+  const now = new Date();
+  const daysPregnant = Math.max(0, Math.floor((now.getTime() - lmp.getTime()) / 86400000));
+  const weeks = Math.floor(daysPregnant / 7);
+  const days = daysPregnant % 7;
+  const trimester = weeks < 14 ? "First" : weeks < 28 ? "Second" : "Third";
+  const fmt = (d: Date) => d.toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" });
+  return { dueDate: fmt(due), gestationalWeeks: weeks, gestationalDays: days, trimester };
+}
+
+/** Final exam score needed: (desired - current*(1-w)) / w. */
+export function examScoreNeeded(current: number, desired: number, weightPct: number) {
+  const w = weightPct / 100;
+  const needed = (desired - current * (1 - w)) / w;
+  return { needed: round2(needed), possible: needed <= 100, percent: weightPct };
+}
