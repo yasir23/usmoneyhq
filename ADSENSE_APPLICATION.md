@@ -1,5 +1,7 @@
 # AdSense Application Package — US Money HQ
-Prepared: Aug 2026. Site: usmoneyhq.com — 30 calculators + 250 state pages + 4 policy pages + widgets. Ready for approval.
+Prepared: Aug 2026. Site: usmoneyhq.com — 30 calculators + 250 state pages + 4 policy pages + widgets.
+Publisher ID: pub-2473684818960461 (wired in lib/ads.ts as ca-pub-2473684818960461, ads.txt live).
+Status: account OPEN, site "Requires review" — waiting on Google review + GSC ownership verification.
 
 ## 1. Pre-application checklist (all DONE in code)
 - [x] 30 tool pages + 250 state-variant pages, each with unique <title>, meta description, canonical, JSON-LD (WebApplication + FAQPage + BreadcrumbList)
