@@ -180,9 +180,9 @@ assert.ok(Math.abs(percentageCalc("of", 15, 200).value - 30) < 0.01);
 assert.ok(Math.abs(percentageCalc("iswhat", 30, 200).value - 15) < 0.01);
 assert.ok(Math.abs(percentageCalc("change", 100, 150).value - 50) < 0.01);
 
-// compound interest: $10k @ 7% / 20y monthly compounding, $200/mo -> > $150k
+// compound interest: $10k @ 7% / 20y monthly compounding, $200/mo -> ~$144.5k
 const ci = compoundInterest(10000, 7, 20, 12, 200);
-assert.ok(ci.futureValue > 150000 && ci.futureValue < 200000, `ci ${ci.futureValue}`);
+assert.ok(ci.futureValue > 130000 && ci.futureValue < 160000, `ci ${ci.futureValue}`);
 assert.ok(ci.interestEarned > 0);
 
 // cd: $25k @ 4.5% 12mo -> ~$25,1k
