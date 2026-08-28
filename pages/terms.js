@@ -4,9 +4,9 @@ export default function Terms() {
   return (
     <>
       <Head>
-        <title>Terms of Use | US Calc Tools</title>
-        <meta name="description" content="Terms of use for US Calc Tools free financial calculators." />
-        <link rel="canonical" href="https://uscalctools.com/terms" />
+        <title>Terms of Use | US Money HQ</title>
+        <meta name="description" content="Terms of use for US Money HQ free financial calculators." />
+        <link rel="canonical" href="https://usmoneyhq.com/terms" />
       </Head>
       <main className="container">
         <nav className="breadcrumbs"><span>Home</span> <span aria-hidden="true">›</span> <span>Terms of Use</span></nav>
@@ -15,7 +15,7 @@ export default function Terms() {
 
         <div className="seo">
           <h2>Acceptance of Terms</h2>
-          <p>By using uscalctools.com you agree to these terms. If you do not agree, please do not use the site.</p>
+          <p>By using usmoneyhq.com you agree to these terms. If you do not agree, please do not use the site.</p>
 
           <h2>Informational Purposes Only</h2>
           <p>All calculators and content are provided for general informational purposes only. They are estimates and are not financial, legal, tax, medical, or professional advice. You should consult a qualified professional before making decisions based on calculator results.</p>

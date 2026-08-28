@@ -4,17 +4,17 @@ export default function About() {
   return (
     <>
       <Head>
-        <title>About Us | US Calc Tools</title>
-        <meta name="description" content="About US Calc Tools — free, fast, accurate US financial and everyday calculators with no sign-up and no data collection." />
-        <link rel="canonical" href="https://uscalctools.com/about" />
+        <title>About Us | US Money HQ</title>
+        <meta name="description" content="About US Money HQ — free, fast, accurate US financial and everyday calculators with no sign-up and no data collection." />
+        <link rel="canonical" href="https://usmoneyhq.com/about" />
       </Head>
       <main className="container">
         <nav className="breadcrumbs"><span>Home</span> <span aria-hidden="true">›</span> <span>About</span></nav>
-        <h1>About US Calc Tools</h1>
+        <h1>About US Money HQ</h1>
 
         <div className="seo">
           <h2>What We Do</h2>
-          <p>US Calc Tools provides free, fast, accurate online calculators for mortgages, auto loans, salaries, taxes, debt payoff, health, home improvement, and more. Every tool runs instantly in your browser — no sign-up, no account, no personal data stored.</p>
+          <p>US Money HQ provides free, fast, accurate online calculators and money tools for mortgages, auto loans, salaries, taxes, debt payoff, health, home improvement, and more. Every tool runs instantly in your browser — no sign-up, no account, no personal data stored.</p>
 
           <h2>Why We Built This</h2>
           <p>Financial decisions deserve clear numbers. Most calculators hide behind sign-ups, clutter, or outdated formulas. We built a clean, fast alternative covering the questions Americans actually search for — from "how much house can I afford" to "how much water should I drink."</p>

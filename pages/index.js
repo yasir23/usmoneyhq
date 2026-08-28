@@ -20,11 +20,11 @@ export default function Home() {
   return (
     <>
       <Head>
-        <title>{SITE_NAME} — Free Financial Calculators (2026)</title>
+        <title>US Money HQ — Free Financial Calculators & Money Tools (2026)</title>
         <meta name="description" content={SITE_DESC} />
         <link rel="canonical" href={SITE_URL} />
         <meta property="og:type" content="website" />
-        <meta property="og:title" content={`${SITE_NAME} — Free Financial Calculators`} />
+        <meta property="og:title" content="US Money HQ — Free Financial Calculators & Money Tools" />
         <meta property="og:description" content={SITE_DESC} />
         <meta property="og:url" content={SITE_URL} />
         <meta property="og:site_name" content={SITE_NAME} />

@@ -1,10 +1,10 @@
-# AdSense Application Package — US Calc Tools
-Prepared: Aug 2026. Site has 25 calculators + 4 policy pages. Ready for approval once deployed.
+# AdSense Application Package — US Money HQ
+Prepared: Aug 2026. Site: usmoneyhq.com — 25 calculators + 4 policy pages. Ready for approval once deployed.
 
 ## 1. Pre-application checklist (all DONE in code)
 - [x] 25 unique tool pages, each with: unique <title>, meta description, canonical, JSON-LD (WebApplication + FAQPage + BreadcrumbList)
 - [x] About page (who we are, what we do, standards) — /about
-- [x] Contact page with working email — /contact (email: hello@uscalctools.com)
+- [x] Contact page with working email — /contact (email: hello@usmoneyhq.com — set up Namecheap email forwarding to your inbox)
 - [x] Privacy Policy with cookies + Google Ads disclosure — /privacy-policy
 - [x] Terms of Use with financial-advice disclaimer — /terms
 - [x] Sitewide footer linking all policy pages (internal links)
@@ -15,8 +15,8 @@ Prepared: Aug 2026. Site has 25 calculators + 4 policy pages. Ready for approval
 
 ## 2. Steps after deployment
 1. DEPLOY the site (deploy.sh). Do NOT apply before the site is publicly reachable.
-2. Verify live: https://tools.nayaflow.com (or uscalctools.com) loads all pages, no 404s, no broken links.
-3. Set the REAL domain in lib/tools.ts (SITE_URL) — currently https://uscalctools.com placeholder.
+2. Verify live: https://usmoneyhq.com loads all pages, no 404s, no broken links.
+3. Domain already set: lib/tools.ts SITE_URL = https://usmoneyhq.com.
 4. Swap the AdSense publisher ID: replace `ca-pub-XXXXXXXXXXXXXXXX` in:
    - pages/_document.js (adsbygoogle script)
    - components/AdSlot.tsx (data-ad-client comment)

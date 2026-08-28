@@ -27,7 +27,7 @@ export default function SiteFooter() {
           </div>
         </div>
         <div className="footer-legal">
-          <p>© {new Date().getFullYear()} US Calc Tools. Calculators are estimates for informational purposes only — not financial, legal, or medical advice.</p>
+          <p>© {new Date().getFullYear()} US Money HQ. Calculators are estimates for informational purposes only — not financial, legal, or medical advice.</p>
           <p>Supported by advertising. No account required. No personal data stored.</p>
         </div>
       </div>

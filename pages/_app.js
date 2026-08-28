@@ -8,7 +8,7 @@ export default function App({ Component, pageProps }) {
       <header className="site-header">
         <div className="container">
           <Link href="/" className="brand">
-            <span className="brand-mark">US</span> Calc Tools
+            <span className="brand-mark">US</span> Money HQ
           </Link>
           <nav className="nav-links" aria-label="Main">
             <Link href="/about">About</Link>

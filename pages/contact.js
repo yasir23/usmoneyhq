@@ -4,9 +4,9 @@ export default function Contact() {
   return (
     <>
       <Head>
-        <title>Contact Us | US Calc Tools</title>
-        <meta name="description" content="Contact US Calc Tools — questions, corrections, or partnership inquiries." />
-        <link rel="canonical" href="https://uscalctools.com/contact" />
+        <title>Contact Us | US Money HQ</title>
+        <meta name="description" content="Contact US Money HQ — questions, corrections, or partnership inquiries." />
+        <link rel="canonical" href="https://usmoneyhq.com/contact" />
       </Head>
       <main className="container">
         <nav className="breadcrumbs"><span>Home</span> <span aria-hidden="true">›</span> <span>Contact</span></nav>
@@ -15,7 +15,7 @@ export default function Contact() {
 
         <div className="card">
           <h2>Email</h2>
-          <p><a href="mailto:hello@uscalctools.com">hello@uscalctools.com</a></p>
+          <p><a href="mailto:hello@usmoneyhq.com">hello@usmoneyhq.com</a></p>
 
           <h2>Found a calculation error?</h2>
           <p>Include the calculator name, the numbers you entered, and what you expected. We verify every report against the source formula.</p>

@@ -33,9 +33,9 @@ import {
   US_STATES,
 } from "./calc.ts";
 
-export const SITE_URL = "https://uscalctools.com"; // TODO: swap to real domain
-export const SITE_NAME = "US Calc Tools";
-export const SITE_DESC = "Free, fast US financial calculators: mortgage, auto loan, salary after tax, PMI, HELOC, debt payoff and more. No sign-up.";
+export const SITE_URL = "https://usmoneyhq.com";
+export const SITE_NAME = "US Money HQ";
+export const SITE_DESC = "Free, fast US financial calculators, money tools, and cost-of-living data. Mortgage, auto loan, salary, tax, TDEE and more. No sign-up.";
 
 export type ResultRow = { label: string; value: string; highlight?: boolean };
 
@@ -82,7 +82,7 @@ const moneyRow = (label: string, n: number, highlight = false): ResultRow => ({
 export const TOOLS: ToolDef[] = [
   {
     slug: "mortgage-calculator",
-    title: "Mortgage Calculator 2026 — Monthly Payment & Amortization | US Calc Tools",
+    title: "Mortgage Calculator 2026 — Monthly Payment & Amortization | US Money HQ",
     shortTitle: "Mortgage Calculator",
     description:
       "Free US mortgage calculator: estimate your monthly payment, total interest, and full amortization schedule. Updated for 2026 rates.",
@@ -130,7 +130,7 @@ export const TOOLS: ToolDef[] = [
   },
   {
     slug: "auto-loan-calculator",
-    title: "Auto Loan Calculator 2026 — Car Payment Estimator | US Calc Tools",
+    title: "Auto Loan Calculator 2026 — Car Payment Estimator | US Money HQ",
     shortTitle: "Auto Loan Calculator",
     description: "Free US auto loan calculator: estimate your monthly car payment, total interest, and total cost. Updated for 2026.",
     h1: "Auto Loan Calculator",
@@ -179,7 +179,7 @@ export const TOOLS: ToolDef[] = [
   },
   {
     slug: "salary-after-tax-calculator",
-    title: "Salary After Tax Calculator 2026 — Take-Home Pay by State | US Calc Tools",
+    title: "Salary After Tax Calculator 2026 — Take-Home Pay by State | US Money HQ",
     shortTitle: "Salary After Tax Calculator",
     description: "Free US salary calculator: estimate federal, FICA, and state taxes and your monthly take-home pay. 2026 tax year, all 50 states.",
     h1: "Salary After Tax Calculator",
@@ -232,7 +232,7 @@ export const TOOLS: ToolDef[] = [
   },
   {
     slug: "paycheck-calculator",
-    title: "Paycheck Calculator 2026 — Take-Home Pay per Paycheck | US Calc Tools",
+    title: "Paycheck Calculator 2026 — Take-Home Pay per Paycheck | US Money HQ",
     shortTitle: "Paycheck Calculator",
     description: "Free US paycheck calculator: estimate your federal, FICA, and state deductions and net pay per paycheck. Weekly, biweekly, semimonthly, monthly.",
     h1: "Paycheck Calculator",
@@ -291,7 +291,7 @@ export const TOOLS: ToolDef[] = [
   },
   {
     slug: "debt-payoff-calculator",
-    title: "Debt Payoff Calculator 2026 — How Long to Pay Off Debt | US Calc Tools",
+    title: "Debt Payoff Calculator 2026 — How Long to Pay Off Debt | US Money HQ",
     shortTitle: "Debt Payoff Calculator",
     description: "Free US debt payoff calculator: see how long it takes to pay off credit card debt, total interest, and how extra payments speed things up.",
     h1: "Debt Payoff Calculator",
@@ -327,7 +327,7 @@ export const TOOLS: ToolDef[] = [
   },
   {
     slug: "dti-calculator",
-    title: "Debt-to-Income Ratio Calculator 2026 | US Calc Tools",
+    title: "Debt-to-Income Ratio Calculator 2026 | US Money HQ",
     shortTitle: "DTI Ratio Calculator",
     description: "Free US debt-to-income (DTI) calculator: see your front-end and back-end ratios and whether you qualify for a mortgage. 28/36 rule explained.",
     h1: "Debt-to-Income Ratio Calculator",
@@ -358,7 +358,7 @@ export const TOOLS: ToolDef[] = [
   },
   {
     slug: "pmi-calculator",
-    title: "PMI Calculator 2026 — Private Mortgage Insurance Cost | US Calc Tools",
+    title: "PMI Calculator 2026 — Private Mortgage Insurance Cost | US Money HQ",
     shortTitle: "PMI Calculator",
     description: "Free US PMI calculator: estimate your private mortgage insurance cost, when it cancels, and total PMI paid on a home loan.",
     h1: "PMI Calculator",
@@ -405,7 +405,7 @@ export const TOOLS: ToolDef[] = [
   },
   {
     slug: "heloc-calculator",
-    title: "HELOC Calculator 2026 — Home Equity Line of Credit Payments | US Calc Tools",
+    title: "HELOC Calculator 2026 — Home Equity Line of Credit Payments | US Money HQ",
     shortTitle: "HELOC Calculator",
     description: "Free US HELOC calculator: estimate your monthly home equity line of credit payment, interest-only vs amortized, and available equity.",
     h1: "HELOC Calculator",
@@ -450,7 +450,7 @@ export const TOOLS: ToolDef[] = [
   },
   {
     slug: "refinance-calculator",
-    title: "Refinance Calculator 2026 — Should You Refinance? | US Calc Tools",
+    title: "Refinance Calculator 2026 — Should You Refinance? | US Money HQ",
     shortTitle: "Refinance Calculator",
     description: "Free US refinance calculator: compare your current vs new mortgage payment, monthly savings, break-even point, and total interest saved.",
     h1: "Refinance Calculator",
@@ -498,7 +498,7 @@ export const TOOLS: ToolDef[] = [
   },
   {
     slug: "retirement-calculator",
-    title: "Retirement Calculator 2026 — Project Your Nest Egg | US Calc Tools",
+    title: "Retirement Calculator 2026 — Project Your Nest Egg | US Money HQ",
     shortTitle: "Retirement Calculator",
     description: "Free US retirement calculator: project your 401(k)/IRA balance at retirement and the monthly income it can produce. Uses the 4% rule.",
     h1: "Retirement Calculator",
@@ -533,7 +533,7 @@ export const TOOLS: ToolDef[] = [
   },
   {
     slug: "tax-calculator",
-    title: "Tax Calculator 2026 — Estimate Your Income Tax | US Calc Tools",
+    title: "Tax Calculator 2026 — Estimate Your Income Tax | US Money HQ",
     shortTitle: "Tax Calculator",
     description: "Free US income tax calculator: estimate federal, FICA, and state taxes plus your effective tax rate. 2025 brackets, all 50 states.",
     h1: "Tax Calculator",
@@ -584,7 +584,7 @@ export const TOOLS: ToolDef[] = [
   },
   {
     slug: "credit-card-payoff-calculator",
-    title: "Credit Card Payoff Calculator 2026 — Minimum vs Fixed Payment | US Calc Tools",
+    title: "Credit Card Payoff Calculator 2026 — Minimum vs Fixed Payment | US Money HQ",
     shortTitle: "Credit Card Payoff Calculator",
     description: "Free US credit card payoff calculator: see how long minimum payments take vs a fixed payment, and the total interest each path costs.",
     h1: "Credit Card Payoff Calculator",
@@ -617,7 +617,7 @@ export const TOOLS: ToolDef[] = [
   },
   {
     slug: "child-support-calculator",
-    title: "Child Support Calculator 2026 — Estimate Monthly Support | US Calc Tools",
+    title: "Child Support Calculator 2026 — Estimate Monthly Support | US Money HQ",
     shortTitle: "Child Support Calculator",
     description: "Free US child support estimator: rough monthly support range based on income and number of children. Check your state's official guideline.",
     h1: "Child Support Calculator",
@@ -658,7 +658,7 @@ export const TOOLS: ToolDef[] = [
   },
   {
     slug: "concrete-calculator",
-    title: "Concrete Calculator 2026 — Slab Yardage & Bags | US Calc Tools",
+    title: "Concrete Calculator 2026 — Slab Yardage & Bags | US Money HQ",
     shortTitle: "Concrete Calculator",
     description: "Free concrete calculator: cubic yards for a slab, 60lb/80lb bag counts, and material cost estimate for your project.",
     h1: "Concrete Calculator",
@@ -692,7 +692,7 @@ export const TOOLS: ToolDef[] = [
   },
   {
     slug: "tdee-calculator",
-    title: "TDEE Calculator 2026 — Maintenance, Cut & Bulk Calories | US Calc Tools",
+    title: "TDEE Calculator 2026 — Maintenance, Cut & Bulk Calories | US Money HQ",
     shortTitle: "TDEE Calculator",
     description: "Free TDEE calculator: estimate your total daily energy expenditure, BMR, and calories for cutting, maintaining, or bulking. Mifflin-St Jeor formula.",
     h1: "TDEE Calculator",
@@ -749,7 +749,7 @@ export const TOOLS: ToolDef[] = [
   },
   {
     slug: "water-intake-calculator",
-    title: "Water Intake Calculator 2026 — How Much Water to Drink | US Calc Tools",
+    title: "Water Intake Calculator 2026 — How Much Water to Drink | US Money HQ",
     shortTitle: "Water Intake Calculator",
     description: "Free water intake calculator: how much water you should drink daily based on weight and exercise. Ounces, liters, and cups.",
     h1: "Water Intake Calculator",
@@ -777,7 +777,7 @@ export const TOOLS: ToolDef[] = [
   },
   {
     slug: "sleep-calculator",
-    title: "Sleep Calculator 2026 — Best Bedtime by Sleep Cycles | US Calc Tools",
+    title: "Sleep Calculator 2026 — Best Bedtime by Sleep Cycles | US Money HQ",
     shortTitle: "Sleep Calculator",
     description: "Free sleep calculator: the best bedtimes to wake up refreshed, based on 90-minute sleep cycles.",
     h1: "Sleep Calculator",
@@ -818,7 +818,7 @@ export const TOOLS: ToolDef[] = [
   },
   {
     slug: "body-fat-calculator",
-    title: "Body Fat Calculator 2026 — US Navy Method | US Calc Tools",
+    title: "Body Fat Calculator 2026 — US Navy Method | US Money HQ",
     shortTitle: "Body Fat Calculator",
     description: "Free body fat percentage calculator using the US Navy tape method. Height, waist, neck (and hip for women) measurements.",
     h1: "Body Fat Calculator",
@@ -861,7 +861,7 @@ export const TOOLS: ToolDef[] = [
   },
   {
     slug: "paint-calculator",
-    title: "Paint Calculator 2026 — Gallons Needed & Cost | US Calc Tools",
+    title: "Paint Calculator 2026 — Gallons Needed & Cost | US Money HQ",
     shortTitle: "Paint Calculator",
     description: "Free paint calculator: gallons of paint needed for a room and estimated cost. Accounts for doors, windows, and coats.",
     h1: "Paint Calculator",
@@ -897,7 +897,7 @@ export const TOOLS: ToolDef[] = [
   },
   {
     slug: "mulch-calculator",
-    title: "Mulch Calculator 2026 — Cubic Yards & Bags | US Calc Tools",
+    title: "Mulch Calculator 2026 — Cubic Yards & Bags | US Money HQ",
     shortTitle: "Mulch Calculator",
     description: "Free mulch calculator: cubic yards of mulch for your beds, bag counts, and estimated cost.",
     h1: "Mulch Calculator",
@@ -927,7 +927,7 @@ export const TOOLS: ToolDef[] = [
   },
   {
     slug: "salary-percentile-calculator",
-    title: "Salary Percentile Calculator 2026 — Where Do You Rank? | US Calc Tools",
+    title: "Salary Percentile Calculator 2026 — Where Do You Rank? | US Money HQ",
     shortTitle: "Salary Percentile Calculator",
     description: "Free US salary percentile calculator: see what percentile your income ranks among full-time US earners.",
     h1: "Salary Percentile Calculator",
@@ -952,7 +952,7 @@ export const TOOLS: ToolDef[] = [
   },
   {
     slug: "home-affordability-calculator",
-    title: "Home Affordability Calculator 2026 — How Much House | US Calc Tools",
+    title: "Home Affordability Calculator 2026 — How Much House | US Money HQ",
     shortTitle: "Home Affordability Calculator",
     description: "Free home affordability calculator: how much house you can afford based on income, debt, down payment, and the 28/36 rule.",
     h1: "Home Affordability Calculator",
@@ -996,7 +996,7 @@ export const TOOLS: ToolDef[] = [
   },
   {
     slug: "gpa-calculator",
-    title: "GPA Calculator 2026 — 4.0 Scale | US Calc Tools",
+    title: "GPA Calculator 2026 — 4.0 Scale | US Money HQ",
     shortTitle: "GPA Calculator",
     description: "Free GPA calculator: compute your grade point average on the 4.0 scale from course credits and letter grades.",
     h1: "GPA Calculator",
@@ -1035,7 +1035,7 @@ export const TOOLS: ToolDef[] = [
   },
   {
     slug: "due-date-calculator",
-    title: "Due Date Calculator 2026 — Pregnancy Due Date | US Calc Tools",
+    title: "Due Date Calculator 2026 — Pregnancy Due Date | US Money HQ",
     shortTitle: "Due Date Calculator",
     description: "Free pregnancy due date calculator: estimated due date from your last period using Naegele's rule, plus current gestational age and trimester.",
     h1: "Due Date Calculator",
@@ -1073,7 +1073,7 @@ export const TOOLS: ToolDef[] = [
   },
   {
     slug: "grade-calculator",
-    title: "Final Grade Calculator 2026 — What You Need on the Exam | US Calc Tools",
+    title: "Final Grade Calculator 2026 — What You Need on the Exam | US Money HQ",
     shortTitle: "Final Grade Calculator",
     description: "Free final grade calculator: the exam score you need to reach your target course grade, based on your current grade and exam weight.",
     h1: "Final Grade Calculator",

@@ -4,9 +4,9 @@ export default function PrivacyPolicy() {
   return (
     <>
       <Head>
-        <title>Privacy Policy | US Calc Tools</title>
-        <meta name="description" content="Privacy policy for US Calc Tools — what data we collect, cookies, and third-party advertising." />
-        <link rel="canonical" href="https://uscalctools.com/privacy-policy" />
+        <title>Privacy Policy | US Money HQ</title>
+        <meta name="description" content="Privacy policy for US Money HQ — what data we collect, cookies, and third-party advertising." />
+        <link rel="canonical" href="https://usmoneyhq.com/privacy-policy" />
       </Head>
       <main className="container">
         <nav className="breadcrumbs"><span>Home</span> <span aria-hidden="true">›</span> <span>Privacy Policy</span></nav>
@@ -15,7 +15,7 @@ export default function PrivacyPolicy() {
 
         <div className="seo">
           <h2>Overview</h2>
-          <p>US Calc Tools ("we", "our") provides free online calculators. This policy explains what information is collected and how it is used when you visit uscalctools.com.</p>
+          <p>US Money HQ ("we", "our") provides free online calculators. This policy explains what information is collected and how it is used when you visit usmoneyhq.com.</p>
 
           <h2>Information We Collect</h2>
           <p><strong>Calculator inputs:</strong> All calculations run in your browser. Numbers you enter are processed locally on your device and are not stored on our servers.</p>
