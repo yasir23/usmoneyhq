@@ -185,9 +185,9 @@ const ci = compoundInterest(10000, 7, 20, 12, 200);
 assert.ok(ci.futureValue > 130000 && ci.futureValue < 160000, `ci ${ci.futureValue}`);
 assert.ok(ci.interestEarned > 0);
 
-// cd: $25k @ 4.5% 12mo -> ~$25,1k
+// cd: $25k @ 4.5% 12mo -> ~$26,148
 const cd = cdMaturity(25000, 4.5, 12, 12);
-assert.ok(cd.maturity > 25100 && cd.maturity < 25500, `cd ${cd.maturity}`);
+assert.ok(cd.maturity > 25500 && cd.maturity < 27000, `cd ${cd.maturity}`);
 
 // overtime: $25/hr, 40 reg + 5 at 1.5x -> regular 1000, ot 187.5, total 1187.5
 const ot = overtimePay(25, 40, 5, 0);
