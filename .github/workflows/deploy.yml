@@ -23,12 +23,16 @@ jobs:
 
       - name: Prepare standalone bundle
         run: |
+          rm -rf /tmp/app
           mkdir -p /tmp/app
-          cp -R .next/standalone/* /tmp/app/
-          mkdir -p /tmp/app/.next
+          cp -R .next/standalone/. /tmp/app/
           cp -R .next/static /tmp/app/.next/static
-          [ -d public ] && cp -R public /tmp/app/public || true
+          echo "--- bundle .next contents ---"
+          ls /tmp/app/.next | head -20
+          test -f /tmp/app/.next/BUILD_ID && echo "BUILD_ID OK" || { echo "BUILD_ID MISSING"; exit 1; }
           cd /tmp/app && tar czf /tmp/usmoneyhq.tar.gz .
+          echo "--- bundle size ---"
+          ls -la /tmp/usmoneyhq.tar.gz
 
       - name: Deploy to VPS
         env:

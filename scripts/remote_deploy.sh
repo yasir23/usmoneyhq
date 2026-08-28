@@ -5,6 +5,10 @@ set -euo pipefail
 cd /opt/usmoneyhq
 tar xzf usmoneyhq.tar.gz && rm -f usmoneyhq.tar.gz
 
+echo "--- extracted .next ---"
+ls .next | head -20
+test -f .next/BUILD_ID || { echo "BUILD_ID MISSING AFTER EXTRACT"; exit 1; }
+
 apt-get update -qq >/dev/null 2>&1 || true
 if ! command -v node >/dev/null 2>&1; then
   curl -fsSL https://deb.nodesource.com/setup_20.x | bash - >/dev/null 2>&1
