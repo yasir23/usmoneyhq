@@ -198,3 +198,83 @@ export function helocPayment(drawn: number, rate: number, termMonths = 120, inte
   const totalInterest = monthly * termMonths - drawn;
   return { monthly: round2(monthly), totalInterest: round2(totalInterest), mode: "amortized" };
 }
+
+/** Refinance analysis. closingCosts = lender fees in USD. Returns payment + savings + break-even. */
+export function refinanceAnalysis(balance: number, currentRate: number, newRate: number, remainingMonths: number, closingCosts: number) {
+  const curPayment = monthlyPayment(balance, currentRate, remainingMonths);
+  const newPayment = monthlyPayment(balance, newRate, remainingMonths);
+  const monthlySavings = Math.max(0, curPayment - newPayment);
+  const curInterest = curPayment * remainingMonths - balance;
+  const newInterest = newPayment * remainingMonths - balance;
+  const interestSaved = Math.max(0, curInterest - newInterest);
+  const breakEvenMonths = monthlySavings > 0 ? Math.ceil(closingCosts / monthlySavings) : Infinity;
+  return {
+    currentPayment: round2(curPayment),
+    newPayment: round2(newPayment),
+    monthlySavings: round2(monthlySavings),
+    breakEvenMonths,
+    totalInterestCurrent: round2(curInterest),
+    totalInterestNew: round2(newInterest),
+    interestSaved: round2(interestSaved),
+  };
+}
+
+/** Retirement projection: future value of savings + contributions; 4% rule monthly income. */
+export function retirementProjection(currentAge: number, retireAge: number, savings: number, monthlyContribution: number, annualReturnPct: number) {
+  const years = Math.max(0, retireAge - currentAge);
+  const months = years * 12;
+  const r = annualReturnPct / 100 / 12;
+  let balance = savings;
+  let totalContributions = savings;
+  for (let m = 0; m < months; m++) {
+    balance = balance * (1 + r) + monthlyContribution;
+    totalContributions += monthlyContribution;
+  }
+  return {
+    years,
+    balanceAtRetirement: round2(balance),
+    totalContributions: round2(totalContributions),
+    investmentGrowth: round2(balance - totalContributions),
+    monthlyIncome4pct: round2(balance * 0.04 / 12),
+  };
+}
+
+/** Credit card minimum payment path: min = max(minPct * balance, minFlat). */
+export function creditCardMinPayment(balance: number, apr: number, minPct = 0.02, minFlat = 25) {
+  const r = apr / 100 / 12;
+  let b = balance;
+  let interestTotal = 0;
+  let months = 0;
+  let totalPaid = 0;
+  while (b > 0 && months < 600) {
+    months++;
+    const interest = b * r;
+    let payment = Math.max(b * minPct, minFlat);
+    if (payment > b + interest) payment = b + interest;
+    b = Math.max(0, b + interest - payment);
+    interestTotal += interest;
+    totalPaid += payment;
+  }
+  return { months, totalInterest: round2(interestTotal), totalPaid: round2(totalPaid) };
+}
+
+/** Child support rough estimate (income-share style % of non-custodial income). State-specific. */
+export function childSupportEstimate(ncpIncome: number, _custodialIncome: number, numKids: number) {
+  const pct = numKids <= 0 ? 0 : numKids === 1 ? 0.2 : numKids === 2 ? 0.25 : 0.3;
+  return { monthly: round2(ncpIncome * pct), pct: Math.round(pct * 100), note: "Rough guideline — check your state's official calculator" };
+}
+
+/** Concrete slab: cubic yards + 60/80lb bag counts + material cost estimate ($/yd). */
+export function concreteNeeds(lengthFt: number, widthFt: number, thicknessIn: number, pricePerYard = 150) {
+  const cubicFeet = lengthFt * widthFt * (thicknessIn / 12);
+  const cubicYards = cubicFeet / 27;
+  const bags60 = Math.ceil(cubicFeet / 0.45); // ~0.45 cu ft per 60lb bag
+  const bags80 = Math.ceil(cubicFeet / 0.6); // ~0.6 cu ft per 80lb bag
+  return {
+    cubicFeet: round2(cubicFeet),
+    cubicYards: round2(cubicYards),
+    bags60,
+    bags80,
+    cost: round2(cubicYards * pricePerYard),
+  };
+}

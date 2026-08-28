@@ -12,6 +12,11 @@ import {
   dti,
   pmiCalculator,
   helocPayment,
+  refinanceAnalysis,
+  retirementProjection,
+  creditCardMinPayment,
+  childSupportEstimate,
+  concreteNeeds,
   NO_INCOME_TAX_STATES,
   US_STATES,
 } from "./calc.ts";
@@ -431,10 +436,252 @@ export const TOOLS: ToolDef[] = [
     ],
     related: ["mortgage-calculator", "pmi-calculator", "dti-calculator"],
   },
+  {
+    slug: "refinance-calculator",
+    title: "Refinance Calculator 2026 — Should You Refinance? | US Calc Tools",
+    shortTitle: "Refinance Calculator",
+    description: "Free US refinance calculator: compare your current vs new mortgage payment, monthly savings, break-even point, and total interest saved.",
+    h1: "Refinance Calculator",
+    sub: "See if refinancing your mortgage is worth it — payment savings, break-even, and interest saved.",
+    fields: [
+      { key: "balance", label: "Current loan balance (USD)", type: "number", default: 300000, min: 10000, step: 1000, inputMode: "numeric" },
+      { key: "currentRate", label: "Current rate (annual %)", type: "number", default: 7.0, min: 0, step: 0.01, inputMode: "decimal" },
+      { key: "newRate", label: "New rate (annual %)", type: "number", default: 5.5, min: 0, step: 0.01, inputMode: "decimal" },
+      {
+        key: "remainingYears",
+        label: "Years remaining on loan",
+        type: "select",
+        default: 25,
+        options: [
+          { value: 10, label: "10 years" },
+          { value: 15, label: "15 years" },
+          { value: 20, label: "20 years" },
+          { value: 25, label: "25 years" },
+          { value: 30, label: "30 years" },
+        ],
+      },
+      { key: "closingCosts", label: "Closing costs (USD)", type: "number", default: 6000, min: 0, step: 500, inputMode: "numeric" },
+    ],
+    compute: (v) => {
+      const balance = Number(v.balance) || 0;
+      const cur = Number(v.currentRate) || 0;
+      const next = Number(v.newRate) || 0;
+      const years = Number(v.remainingYears) || 25;
+      const costs = Number(v.closingCosts) || 0;
+      const r = refinanceAnalysis(balance, cur, next, years * 12, costs);
+      return [
+        moneyRow("Current payment", r.currentPayment),
+        moneyRow("New payment", r.newPayment, true),
+        moneyRow("Monthly savings", r.monthlySavings),
+        { label: "Break-even", value: r.breakEvenMonths === Infinity ? "Never" : `${r.breakEvenMonths} months` },
+        moneyRow("Total interest saved", r.interestSaved),
+      ];
+    },
+    note: "Estimate only. Assumes same remaining term and ignores taxes/insurance.",
+    faq: [
+      { q: "When does refinancing make sense?", a: "Typically when you can lower your rate enough to recover closing costs within the time you plan to keep the home — usually a 0.5-1% rate drop or better." },
+      { q: "What are typical closing costs?", a: "Lender fees, appraisal, title, and recording fees usually total 2-6% of the loan amount. Include them in your break-even math." },
+    ],
+    related: ["mortgage-calculator", "pmi-calculator", "heloc-calculator"],
+  },
+  {
+    slug: "retirement-calculator",
+    title: "Retirement Calculator 2026 — Project Your Nest Egg | US Calc Tools",
+    shortTitle: "Retirement Calculator",
+    description: "Free US retirement calculator: project your 401(k)/IRA balance at retirement and the monthly income it can produce. Uses the 4% rule.",
+    h1: "Retirement Calculator",
+    sub: "Project your savings at retirement and the monthly income your nest egg can support.",
+    fields: [
+      { key: "currentAge", label: "Current age", type: "number", default: 30, min: 18, max: 80, step: 1, inputMode: "numeric" },
+      { key: "retireAge", label: "Retirement age", type: "number", default: 65, min: 40, max: 90, step: 1, inputMode: "numeric" },
+      { key: "savings", label: "Current savings (USD)", type: "number", default: 25000, min: 0, step: 1000, inputMode: "numeric" },
+      { key: "contribution", label: "Monthly contribution (USD)", type: "number", default: 500, min: 0, step: 50, inputMode: "numeric" },
+      { key: "returnPct", label: "Annual return (%)", type: "number", default: 7, min: 0, step: 0.5, inputMode: "decimal" },
+    ],
+    compute: (v) => {
+      const age = Number(v.currentAge) || 30;
+      const retire = Number(v.retireAge) || 65;
+      const savings = Number(v.savings) || 0;
+      const contrib = Number(v.contribution) || 0;
+      const ret = Number(v.returnPct) || 0;
+      const r = retirementProjection(age, retire, savings, contrib, ret);
+      return [
+        moneyRow("Balance at retirement", r.balanceAtRetirement, true),
+        moneyRow("Monthly income (4% rule)", r.monthlyIncome4pct),
+        moneyRow("Total contributions", r.totalContributions),
+        moneyRow("Investment growth", r.investmentGrowth),
+      ];
+    },
+    note: "Assumes a constant annual return. Real returns vary year to year.",
+    faq: [
+      { q: "What is the 4% rule?", a: "A common guideline: withdraw 4% of your nest egg in year one of retirement, adjusting for inflation after. It was designed to make savings last 30 years." },
+      { q: "What return should I assume?", a: "Historical US stock market returns average ~7% after inflation, but expect wide swings. Using 5-7% for planning is prudent." },
+    ],
+    related: ["salary-after-tax-calculator", "paycheck-calculator", "debt-payoff-calculator"],
+  },
+  {
+    slug: "tax-calculator",
+    title: "Tax Calculator 2026 — Estimate Your Income Tax | US Calc Tools",
+    shortTitle: "Tax Calculator",
+    description: "Free US income tax calculator: estimate federal, FICA, and state taxes plus your effective tax rate. 2025 brackets, all 50 states.",
+    h1: "Tax Calculator",
+    sub: "Estimate your total income tax and effective rate for the current tax year.",
+    fields: [
+      { key: "income", label: "Annual income (USD)", type: "number", default: 80000, min: 0, step: 1000, inputMode: "numeric" },
+      {
+        key: "state",
+        label: "State",
+        type: "select",
+        default: "CA",
+        options: US_STATES.map((s) => ({ value: s, label: s })),
+      },
+      {
+        key: "filing",
+        label: "Filing status",
+        type: "select",
+        default: "single",
+        options: [
+          { value: "single", label: "Single" },
+          { value: "married", label: "Married filing jointly" },
+        ],
+      },
+    ],
+    compute: (v) => {
+      const income = Number(v.income) || 0;
+      const state = String(v.state);
+      const filing = v.filing === "married" ? "married" : "single";
+      const fed = federalTax(income, filing);
+      const f = fica(income, filing);
+      const st = stateTax(income, state, filing);
+      const total = fed.tax + f.total + st.tax;
+      const effective = income > 0 ? (total / income) * 100 : 0;
+      return [
+        moneyRow("Total tax", total, true),
+        moneyRow("Federal income tax", fed.tax),
+        moneyRow("Social Security + Medicare", f.total),
+        { label: `State tax (${state})`, value: money(st.tax) },
+        { label: "Effective tax rate", value: `${effective.toFixed(1)}%` },
+      ];
+    },
+    note: "Estimate only — does not include credits, deductions beyond the standard deduction, or self-employment tax.",
+    faq: [
+      { q: "What is my effective tax rate?", a: "Your effective rate is total tax divided by gross income. Because of brackets and deductions, it is always lower than your marginal (top-bracket) rate." },
+      { q: "Does this include self-employment tax?", a: "No. Self-employed filers pay an extra 15.3% on net earnings (deductible half), which this W-2-style estimate does not include." },
+    ],
+    related: ["salary-after-tax-calculator", "paycheck-calculator", "retirement-calculator"],
+  },
+  {
+    slug: "credit-card-payoff-calculator",
+    title: "Credit Card Payoff Calculator 2026 — Minimum vs Fixed Payment | US Calc Tools",
+    shortTitle: "Credit Card Payoff Calculator",
+    description: "Free US credit card payoff calculator: see how long minimum payments take vs a fixed payment, and the total interest each path costs.",
+    h1: "Credit Card Payoff Calculator",
+    sub: "See the true cost of minimum payments versus a fixed monthly payment.",
+    fields: [
+      { key: "balance", label: "Credit card balance (USD)", type: "number", default: 8000, min: 0, step: 100, inputMode: "numeric" },
+      { key: "apr", label: "APR (%)", type: "number", default: 22, min: 0, step: 0.01, inputMode: "decimal" },
+      { key: "fixedPayment", label: "Your fixed monthly payment (USD)", type: "number", default: 250, min: 1, step: 10, inputMode: "numeric" },
+    ],
+    compute: (v) => {
+      const balance = Number(v.balance) || 0;
+      const apr = Number(v.apr) || 0;
+      const fixed = Number(v.fixedPayment) || 0;
+      const min = creditCardMinPayment(balance, apr);
+      const fix = debtPayoff(balance, apr, fixed, 0);
+      return [
+        { label: "Payoff time (minimum)", value: `${min.months} months`, highlight: true },
+        moneyRow("Interest (minimum path)", min.totalInterest),
+        { label: "Payoff time (your payment)", value: `${fix.months} months` },
+        moneyRow("Interest (your payment)", fix.totalInterest),
+        moneyRow("Interest saved", Math.max(0, min.totalInterest - fix.totalInterest)),
+      ];
+    },
+    note: "Assumes a 2% minimum (min $25). Rates and payments can change.",
+    faq: [
+      { q: "Why do minimum payments take so long?", a: "The minimum mostly covers interest, so the balance shrinks slowly. At 22% APR, a $8,000 balance takes decades at the minimum and costs thousands in interest." },
+      { q: "What is the best payoff strategy?", a: "Pay the highest-APR card first (avalanche) to minimize interest, or the smallest balance first (snowball) for motivation. Either beats the minimum." },
+    ],
+    related: ["debt-payoff-calculator", "auto-loan-calculator", "dti-calculator"],
+  },
+  {
+    slug: "child-support-calculator",
+    title: "Child Support Calculator 2026 — Estimate Monthly Support | US Calc Tools",
+    shortTitle: "Child Support Calculator",
+    description: "Free US child support estimator: rough monthly support range based on income and number of children. Check your state's official guideline.",
+    h1: "Child Support Calculator",
+    sub: "Rough monthly support estimate based on income and number of children.",
+    fields: [
+      { key: "ncpIncome", label: "Non-custodial monthly income (USD)", type: "number", default: 5000, min: 0, step: 100, inputMode: "numeric" },
+      { key: "custodialIncome", label: "Custodial monthly income (USD)", type: "number", default: 3000, min: 0, step: 100, inputMode: "numeric" },
+      {
+        key: "kids",
+        label: "Number of children",
+        type: "select",
+        default: 2,
+        options: [
+          { value: 1, label: "1 child" },
+          { value: 2, label: "2 children" },
+          { value: 3, label: "3 children" },
+          { value: 4, label: "4+ children" },
+        ],
+      },
+    ],
+    compute: (v) => {
+      const ncp = Number(v.ncpIncome) || 0;
+      const cust = Number(v.custodialIncome) || 0;
+      const kids = Number(v.kids) || 1;
+      const r = childSupportEstimate(ncp, cust, kids);
+      return [
+        moneyRow("Estimated monthly support", r.monthly, true),
+        { label: "Share of income", value: `${r.pct}%` },
+        { label: "Note", value: r.note },
+      ];
+    },
+    note: "Each state uses its own guideline formula — this is a planning estimate only.",
+    faq: [
+      { q: "How is child support calculated?", a: "Most states use income-shares or percentage-of-income models considering both parents' income, number of children, and custody time. Official state calculators give exact numbers." },
+      { q: "Can support be modified?", a: "Yes — a significant income change or custody change can justify a modification, typically filed through your state's child support agency or court." },
+    ],
+    related: ["paycheck-calculator", "salary-after-tax-calculator", "dti-calculator"],
+  },
+  {
+    slug: "concrete-calculator",
+    title: "Concrete Calculator 2026 — Slab Yardage & Bags | US Calc Tools",
+    shortTitle: "Concrete Calculator",
+    description: "Free concrete calculator: cubic yards for a slab, 60lb/80lb bag counts, and material cost estimate for your project.",
+    h1: "Concrete Calculator",
+    sub: "Estimate concrete yardage, bag counts, and material cost for a slab.",
+    fields: [
+      { key: "length", label: "Length (ft)", type: "number", default: 20, min: 1, step: 0.5, inputMode: "decimal" },
+      { key: "width", label: "Width (ft)", type: "number", default: 10, min: 1, step: 0.5, inputMode: "decimal" },
+      { key: "thickness", label: "Thickness (inches)", type: "number", default: 4, min: 1, max: 24, step: 0.5, inputMode: "decimal" },
+      { key: "pricePerYard", label: "Concrete price per cubic yard (USD)", type: "number", default: 150, min: 0, step: 5, inputMode: "numeric" },
+    ],
+    compute: (v) => {
+      const len = Number(v.length) || 0;
+      const wid = Number(v.width) || 0;
+      const thick = Number(v.thickness) || 0;
+      const price = Number(v.pricePerYard) || 0;
+      const r = concreteNeeds(len, wid, thick, price);
+      return [
+        { label: "Cubic yards", value: `${r.cubicYards} yd³`, highlight: true },
+        { label: "Cubic feet", value: `${r.cubicFeet} ft³` },
+        { label: "60 lb bags", value: String(r.bags60) },
+        { label: "80 lb bags", value: String(r.bags80) },
+        moneyRow("Material cost (est.)", r.cost),
+      ];
+    },
+    note: "Add 5-10% for waste. Price varies by region and mix.",
+    faq: [
+      { q: "How many bags of concrete do I need?", a: "A 60 lb bag covers about 0.45 cubic feet; an 80 lb bag about 0.6 cubic feet. Divide your total cubic feet by those numbers and round up." },
+      { q: "How thick should a slab be?", a: "Patios and walkways: 4 inches. Driveways: 4-6 inches. Heavy structures: 6+ inches with rebar or wire mesh." },
+    ],
+    related: ["mortgage-calculator", "heloc-calculator", "dti-calculator"],
+  },
 ];
 
-// Placeholder slugs that will render via pages/[tool].js once registered (scalable pipeline demo).
-export const FUTURE_TOOLS = ["refinance-calculator", "retirement-calculator", "tax-calculator", "credit-card-payoff-calculator", "child-support-calculator", "concrete-calculator", "tdEE-calculator"];
+// Planned tools — render automatically via pages/[tool].js once added to TOOLS.
+export const FUTURE_TOOLS = ["tdEE-calculator", "water-intake-calculator", "sleep-calculator", "body-fat-calculator", "paint-calculator", "mulch-calculator"];
 
 export function getTool(slug: string): ToolDef | undefined {
   return TOOLS.find((t) => t.slug === slug);

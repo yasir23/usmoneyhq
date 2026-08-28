@@ -13,6 +13,11 @@ import {
   dti,
   pmiCalculator,
   helocPayment,
+  refinanceAnalysis,
+  retirementProjection,
+  creditCardMinPayment,
+  childSupportEstimate,
+  concreteNeeds,
 } from "./calc.ts";
 
 // $300k @ 6.5% / 30yr (360 mo) -> ~$1,896.20/mo (known value)
@@ -70,5 +75,33 @@ const hl = helocPayment(50000, 7, 120, true);
 assert.ok(Math.abs(hl.monthly - 291.67) < 0.5, `heloc ${hl.monthly}`);
 const hla = helocPayment(50000, 7, 120, false);
 assert.ok(hla.monthly > hl.monthly, `amortized ${hla.monthly}`);
+
+// refinance: $300k, 7% -> 5.5%, 25yr, $6k closing -> savings > 0, break-even finite
+const rf = refinanceAnalysis(300000, 7.0, 5.5, 300, 6000);
+assert.ok(rf.currentPayment > rf.newPayment, `cur ${rf.currentPayment} vs new ${rf.newPayment}`);
+assert.ok(rf.monthlySavings > 150 && rf.monthlySavings < 400, `savings ${rf.monthlySavings}`);
+assert.ok(rf.breakEvenMonths > 10 && rf.breakEvenMonths < 40, `be ${rf.breakEvenMonths}`);
+assert.ok(rf.interestSaved > 0);
+
+// retirement: 30 -> 65, $25k now, $500/mo, 7% -> balance well above contributions
+const rr = retirementProjection(30, 65, 25000, 500, 7);
+assert.ok(rr.years === 35);
+assert.ok(rr.balanceAtRetirement > rr.totalContributions, `bal ${rr.balanceAtRetirement} vs contrib ${rr.totalContributions}`);
+assert.ok(rr.monthlyIncome4pct > 1000, `income ${rr.monthlyIncome4pct}`);
+
+// credit card minimum: $8k @ 22% -> decades at minimum
+const cc = creditCardMinPayment(8000, 22);
+assert.ok(cc.months > 200, `min months ${cc.months}`);
+assert.ok(cc.totalInterest > 10000, `min interest ${cc.totalInterest}`);
+
+// child support: $5k/mo NCP, 2 kids -> 25% = $1,250
+const cs = childSupportEstimate(5000, 3000, 2);
+assert.ok(Math.abs(cs.monthly - 1250) < 1, `cs ${cs.monthly}`);
+
+// concrete: 20x10x4in -> 66.7 ft³ = 2.47 yd³, ~148 60lb bags, ~$370 cost
+const cc2 = concreteNeeds(20, 10, 4, 150);
+assert.ok(Math.abs(cc2.cubicYards - 2.47) < 0.1, `yds ${cc2.cubicYards}`);
+assert.ok(cc2.bags60 > 130 && cc2.bags60 < 170, `bags60 ${cc2.bags60}`);
+assert.ok(Math.abs(cc2.cost - 370) < 20, `cost ${cc2.cost}`);
 
 console.log("ALL CALC TESTS PASS");

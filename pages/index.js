@@ -1,24 +1,34 @@
 import Head from "next/head";
 import Link from "next/link";
+import { TOOLS, SITE_URL, SITE_NAME, SITE_DESC } from "../lib/tools";
 
-const TOOLS = [
-  { href: "/mortgage-calculator", title: "Mortgage Calculator", desc: "Monthly payment + full amortization schedule" },
-  { href: "/auto-loan-calculator", title: "Auto Loan Calculator", desc: "Car payment, total interest, total cost" },
-  { href: "/salary-after-tax-calculator", title: "Salary After Tax Calculator", desc: "Take-home pay by state (all 50 states)" },
-  { href: "/paycheck-calculator", title: "Paycheck Calculator", desc: "Net pay per paycheck — weekly to monthly" },
-  { href: "/debt-payoff-calculator", title: "Debt Payoff Calculator", desc: "Time to payoff + interest saved with extra payments" },
-  { href: "/dti-calculator", title: "Debt-to-Income Ratio Calculator", desc: "Front-end & back-end DTI for mortgage qualification" },
-  { href: "/pmi-calculator", title: "PMI Calculator", desc: "Private mortgage insurance cost & cancellation" },
-  { href: "/heloc-calculator", title: "HELOC Calculator", desc: "Home equity line of credit payments" },
-];
-
+/** Homepage — registry-driven tool grid. New tool in lib/tools.ts appears here automatically. */
 export default function Home() {
+  const schema = {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    name: SITE_NAME,
+    url: SITE_URL,
+    description: SITE_DESC,
+    potentialAction: {
+      "@type": "SearchAction",
+      target: `${SITE_URL}/?q={search_term_string}`,
+      "query-input": "required name=search_term_string",
+    },
+  };
+
   return (
     <>
       <Head>
-        <title>US Calc Tools — Free Financial Calculators (2026)</title>
-        <meta name="description" content="Free, fast US financial calculators: mortgage, auto loan, salary after tax. No sign-up, works on any device." />
-        <meta property="og:title" content="US Calc Tools — Free Financial Calculators" />
+        <title>{SITE_NAME} — Free Financial Calculators (2026)</title>
+        <meta name="description" content={SITE_DESC} />
+        <link rel="canonical" href={SITE_URL} />
+        <meta property="og:type" content="website" />
+        <meta property="og:title" content={`${SITE_NAME} — Free Financial Calculators`} />
+        <meta property="og:description" content={SITE_DESC} />
+        <meta property="og:url" content={SITE_URL} />
+        <meta property="og:site_name" content={SITE_NAME} />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }} />
       </Head>
 
       <main className="container">
@@ -27,9 +37,9 @@ export default function Home() {
 
         <div className="tool-grid">
           {TOOLS.map((t) => (
-            <Link key={t.href} href={t.href} className="tool-card">
-              <h2>{t.title}</h2>
-              <p>{t.desc}</p>
+            <Link key={t.slug} href={`/${t.slug}`} className="tool-card">
+              <h2>{t.shortTitle}</h2>
+              <p>{t.description.split(".")[0]}.</p>
               <span className="cta">Open calculator →</span>
             </Link>
           ))}
@@ -39,7 +49,7 @@ export default function Home() {
           <h2>Why use our calculators?</h2>
           <p>Every calculator runs instantly in your browser — no page reloads, no sign-up, no data collected. Formulas use standard US amortization and 2025 federal tax brackets.</p>
           <h2>More tools coming soon</h2>
-          <p>HELOC, refinance, retirement, and debt payoff calculators are in the pipeline.</p>
+          <p>TDEE, water intake, body fat, sleep, paint, and mulch calculators are in the pipeline.</p>
         </div>
       </main>
     </>
