@@ -29,6 +29,11 @@ import {
   gpaCalculate,
   dueDate,
   examScoreNeeded,
+  percentageCalc,
+  compoundInterest,
+  cdMaturity,
+  overtimePay,
+  tipCalc,
   NO_INCOME_TAX_STATES,
   US_STATES,
 } from "./calc.ts";
@@ -1100,10 +1105,185 @@ export const TOOLS: ToolDef[] = [
     ],
     related: ["gpa-calculator", "due-date-calculator", "salary-percentile-calculator"],
   },
+  {
+    slug: "percentage-calculator",
+    title: "Percentage Calculator 2026 — Free Online | US Money HQ",
+    shortTitle: "Percentage Calculator",
+    description: "Free percentage calculator: what is X% of Y, X is what percent of Y, and percentage change. Instant results, works on any device.",
+    h1: "Percentage Calculator",
+    sub: "Solve any percentage problem in seconds: X% of Y, X is what % of Y, and % change.",
+    fields: [
+      {
+        key: "mode",
+        label: "Calculation type",
+        type: "select",
+        default: "of",
+        options: [
+          { value: "of", label: "What is A% of B?" },
+          { value: "iswhat", label: "A is what % of B?" },
+          { value: "change", label: "% change from A to B" },
+        ],
+      },
+      { key: "a", label: "Value A", type: "number", default: 15, step: 0.01, inputMode: "decimal" },
+      { key: "b", label: "Value B", type: "number", default: 200, step: 0.01, inputMode: "decimal" },
+    ],
+    compute: (v) => {
+      const mode = String(v.mode) as "of" | "iswhat" | "change";
+      const a = Number(v.a) || 0;
+      const b = Number(v.b) || 0;
+      const r = percentageCalc(mode, a, b);
+      return [
+        { label: "Result", value: `${r.value}`, highlight: true },
+        { label: "Expression", value: r.label },
+      ];
+    },
+    note: "Simple percent math — no sign-up, no data stored.",
+    faq: [
+      { q: "How do I calculate X% of Y?", a: "Multiply X by Y and divide by 100. Example: 15% of 200 = (15 × 200) ÷ 100 = 30." },
+      { q: "How do I calculate percentage change?", a: "Subtract the old value from the new value, divide by the old value, and multiply by 100." },
+    ],
+    related: ["tip-calculator", "salary-percentile-calculator", "grade-calculator"],
+  },
+  {
+    slug: "compound-interest-calculator",
+    title: "Compound Interest Calculator 2026 — Growth Over Time | US Money HQ",
+    shortTitle: "Compound Interest Calculator",
+    description: "Free compound interest calculator: project your investment growth with monthly contributions. See interest earned vs contributions.",
+    h1: "Compound Interest Calculator",
+    sub: "See how your money grows with compound interest and regular contributions.",
+    fields: [
+      { key: "principal", label: "Initial amount (USD)", type: "number", default: 10000, min: 0, step: 500, inputMode: "numeric" },
+      { key: "rate", label: "Annual interest rate (%)", type: "number", default: 7, min: 0, step: 0.1, inputMode: "decimal" },
+      { key: "years", label: "Years", type: "number", default: 20, min: 1, max: 60, step: 1, inputMode: "numeric" },
+      { key: "compounds", label: "Compounding", type: "select", default: 12, options: [
+          { value: 1, label: "Annually" },
+          { value: 4, label: "Quarterly" },
+          { value: 12, label: "Monthly" },
+          { value: 365, label: "Daily" },
+        ] },
+      { key: "contribution", label: "Monthly contribution (USD)", type: "number", default: 200, min: 0, step: 50, inputMode: "numeric" },
+    ],
+    compute: (v) => {
+      const principal = Number(v.principal) || 0;
+      const rate = Number(v.rate) || 0;
+      const years = Number(v.years) || 0;
+      const compounds = Number(v.compounds) || 12;
+      const contrib = Number(v.contribution) || 0;
+      const r = compoundInterest(principal, rate, years, compounds, contrib);
+      return [
+        moneyRow("Future value", r.futureValue, true),
+        moneyRow("Total contributions", r.totalContributions),
+        moneyRow("Interest earned", r.interestEarned),
+      ];
+    },
+    note: "Estimate only — real returns vary year to year.",
+    faq: [
+      { q: "What is compound interest?", a: "Interest earned on both your original money and previously earned interest. Over decades it produces exponential growth." },
+      { q: "How often should interest compound?", a: "More frequent compounding (daily vs yearly) yields slightly more. Monthly is the common assumption for savings and investments." },
+    ],
+    related: ["retirement-calculator", "cd-calculator", "investment-calculator"],
+  },
+  {
+    slug: "cd-calculator",
+    title: "CD Calculator 2026 — Certificate of Deposit Maturity | US Money HQ",
+    shortTitle: "CD Calculator",
+    description: "Free CD calculator: estimate certificate of deposit maturity value and interest earned by term and APY.",
+    h1: "CD Calculator",
+    sub: "Estimate your certificate of deposit maturity value.",
+    fields: [
+      { key: "principal", label: "Deposit amount (USD)", type: "number", default: 25000, min: 0, step: 500, inputMode: "numeric" },
+      { key: "apy", label: "APY (%)", type: "number", default: 4.5, min: 0, step: 0.05, inputMode: "decimal" },
+      { key: "months", label: "Term (months)", type: "select", default: 12, options: [
+          { value: 3, label: "3 months" },
+          { value: 6, label: "6 months" },
+          { value: 12, label: "12 months" },
+          { value: 24, label: "24 months" },
+          { value: 60, label: "60 months" },
+        ] },
+    ],
+    compute: (v) => {
+      const principal = Number(v.principal) || 0;
+      const apy = Number(v.apy) || 0;
+      const months = Number(v.months) || 12;
+      const r = cdMaturity(principal, apy, months, 12);
+      return [
+        moneyRow("Maturity value", r.maturity, true),
+        moneyRow("Interest earned", r.interest),
+      ];
+    },
+    note: "Assumes interest compounds monthly and no early withdrawal penalty.",
+    faq: [
+      { q: "What is a CD?", a: "A certificate of deposit locks your money for a fixed term in exchange for a guaranteed interest rate, typically higher than a savings account." },
+      { q: "Are CD rates worth it?", a: "CDs offer a guaranteed return with FDIC insurance. Compare APYs across banks — online banks often pay 2-3x branch rates." },
+    ],
+    related: ["compound-interest-calculator", "retirement-calculator", "savings-goal-calculator"],
+  },
+  {
+    slug: "overtime-calculator",
+    title: "Overtime Calculator 2026 — Time and a Half Pay | US Money HQ",
+    shortTitle: "Overtime Calculator",
+    description: "Free overtime calculator: estimate your weekly pay with time-and-a-half (1.5x) and double-time (2x) overtime hours.",
+    h1: "Overtime Calculator",
+    sub: "Estimate your paycheck with overtime at 1.5x and 2x your regular rate.",
+    fields: [
+      { key: "rate", label: "Regular hourly rate (USD)", type: "number", default: 25, min: 0, step: 0.5, inputMode: "decimal" },
+      { key: "regularHours", label: "Regular hours", type: "number", default: 40, min: 0, step: 0.5, inputMode: "decimal" },
+      { key: "ot1x", label: "Overtime hours (1.5x)", type: "number", default: 5, min: 0, step: 0.5, inputMode: "decimal" },
+      { key: "ot2x", label: "Double-time hours (2x)", type: "number", default: 0, min: 0, step: 0.5, inputMode: "decimal" },
+    ],
+    compute: (v) => {
+      const rate = Number(v.rate) || 0;
+      const reg = Number(v.regularHours) || 0;
+      const ot1 = Number(v.ot1x) || 0;
+      const ot2 = Number(v.ot2x) || 0;
+      const r = overtimePay(rate, reg, ot1, ot2);
+      return [
+        moneyRow("Regular pay", r.regular),
+        moneyRow("Overtime pay", r.overtime),
+        moneyRow("Total pay", r.total, true),
+      ];
+    },
+    note: "FLSA requires 1.5x after 40 hours/week; double-time depends on state/employer.",
+    faq: [
+      { q: "When does overtime start?", a: "Under federal law (FLSA), nonexempt employees earn 1.5x for hours over 40 in a workweek. Some states have daily overtime rules." },
+      { q: "What is double time?", a: "Some states or contracts pay 2x for certain hours (e.g., over 12 in a day, or working a 7th consecutive day)." },
+    ],
+    related: ["paycheck-calculator", "salary-after-tax-calculator", "tax-calculator"],
+  },
+  {
+    slug: "tip-calculator",
+    title: "Tip Calculator 2026 — Split the Bill | US Money HQ",
+    shortTitle: "Tip Calculator",
+    description: "Free tip calculator: calculate tip, total, and per-person amount. Split bills between friends instantly.",
+    h1: "Tip Calculator",
+    sub: "Tip, total, and per-person share — instant.",
+    fields: [
+      { key: "bill", label: "Bill amount (USD)", type: "number", default: 85.5, min: 0, step: 0.5, inputMode: "decimal" },
+      { key: "tipPct", label: "Tip (%)", type: "number", default: 18, min: 0, max: 100, step: 1, inputMode: "numeric" },
+      { key: "split", label: "Split between (people)", type: "number", default: 2, min: 1, max: 20, step: 1, inputMode: "numeric" },
+    ],
+    compute: (v) => {
+      const bill = Number(v.bill) || 0;
+      const pct = Number(v.tipPct) || 0;
+      const split = Number(v.split) || 1;
+      const r = tipCalc(bill, pct, split);
+      return [
+        moneyRow("Tip", r.tip),
+        moneyRow("Total", r.total),
+        moneyRow("Per person", r.perPerson, true),
+      ];
+    },
+    note: "Standard US tipping is 15-20% for table service.",
+    faq: [
+      { q: "How much should I tip?", a: "15% for average service, 18-20% for good service in full-service restaurants. Many people tip 20% as the default." },
+      { q: "Do I tip on the pre-tax amount?", a: "Etiquette varies, but most people tip on the pre-tax total. Some prefer the after-tax amount — either is acceptable." },
+    ],
+    related: ["percentage-calculator", "paycheck-calculator", "salary-after-tax-calculator"],
+  },
 ];
 
 // Planned tools — render automatically via pages/[tool].js once added to TOOLS.
-export const FUTURE_TOOLS = ["cd-calculator", "compound-interest-calculator", "overtime-calculator", "tip-calculator", "percentage-calculator"];
+export const FUTURE_TOOLS = ["investment-calculator", "home-equity-calculator", "savings-goal-calculator", "tax-bracket-calculator"];
 
 export function getTool(slug: string): ToolDef | undefined {
   return TOOLS.find((t) => t.slug === slug);

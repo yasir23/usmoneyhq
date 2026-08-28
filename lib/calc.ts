@@ -423,3 +423,51 @@ export function examScoreNeeded(current: number, desired: number, weightPct: num
   const needed = (desired - current * (1 - w)) / w;
   return { needed: round2(needed), possible: needed <= 100, percent: weightPct };
 }
+
+/** Percentage: mode 'of' = a% of b; mode 'iswhat' = a is what % of b; mode 'change' = % change a->b. */
+export function percentageCalc(mode: "of" | "iswhat" | "change", a: number, b: number) {
+  if (mode === "of") return { value: round2((a / 100) * b), label: `${a}% of ${b}` };
+  if (mode === "iswhat") return { value: round2(b !== 0 ? (a / b) * 100 : 0), label: `${a} is what % of ${b}` };
+  return { value: round2(a !== 0 ? ((b - a) / a) * 100 : 0), label: `% change ${a} → ${b}` };
+}
+
+/** Compound interest with optional monthly contribution. */
+export function compoundInterest(principal: number, rate: number, years: number, compoundsPerYear: number, monthlyContribution = 0) {
+  const r = rate / 100 / compoundsPerYear;
+  const n = compoundsPerYear * years;
+  const base = principal * Math.pow(1 + r, n);
+  const contrib = monthlyContribution > 0
+    ? monthlyContribution * ((Math.pow(1 + r, n) - 1) / r)
+    : 0;
+  const future = base + contrib;
+  const totalContributions = principal + monthlyContribution * n;
+  return {
+    futureValue: round2(future),
+    totalContributions: round2(totalContributions),
+    interestEarned: round2(future - totalContributions),
+  };
+}
+
+/** CD maturity: principal, APY, months, compounding per year. */
+export function cdMaturity(principal: number, apy: number, months: number, compoundsPerYear = 12) {
+  const years = months / 12;
+  const r = apy / 100 / compoundsPerYear;
+  const n = compoundsPerYear * years;
+  const maturity = principal * Math.pow(1 + r, n);
+  return { maturity: round2(maturity), interest: round2(maturity - principal), apy, months };
+}
+
+/** Overtime pay: regular rate x hours; 1.5x and 2x overtime hours. */
+export function overtimePay(rate: number, regularHours: number, ot1xHours: number, ot2xHours: number) {
+  const regular = rate * regularHours;
+  const ot1x = rate * 1.5 * ot1xHours;
+  const ot2x = rate * 2 * ot2xHours;
+  return { regular: round2(regular), overtime: round2(ot1x + ot2x), total: round2(regular + ot1x + ot2x) };
+}
+
+/** Tip: bill, tip %, split between N people. */
+export function tipCalc(bill: number, tipPct: number, split: number) {
+  const tip = bill * (tipPct / 100);
+  const total = bill + tip;
+  return { tip: round2(tip), total: round2(total), perPerson: round2(total / Math.max(1, split)) };
+}

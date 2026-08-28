@@ -30,6 +30,11 @@ import {
   gpaCalculate,
   dueDate,
   examScoreNeeded,
+  percentageCalc,
+  compoundInterest,
+  cdMaturity,
+  overtimePay,
+  tipCalc,
 } from "./calc.ts";
 
 // $300k @ 6.5% / 30yr (360 mo) -> ~$1,896.20/mo (known value)
@@ -169,5 +174,28 @@ assert.ok(eg.needed > 100 && eg.possible === false, `needed ${eg.needed}`);
 // 82 current, 90 target, 50% weight -> need 98
 const eg2 = examScoreNeeded(82, 90, 50);
 assert.ok(Math.abs(eg2.needed - 98) < 0.1 && eg2.possible === true, `needed2 ${eg2.needed}`);
+
+// percentage: 15% of 200 = 30; 30 is 15% of 200; change 100->150 = +50%
+assert.ok(Math.abs(percentageCalc("of", 15, 200).value - 30) < 0.01);
+assert.ok(Math.abs(percentageCalc("iswhat", 30, 200).value - 15) < 0.01);
+assert.ok(Math.abs(percentageCalc("change", 100, 150).value - 50) < 0.01);
+
+// compound interest: $10k @ 7% / 20y monthly compounding, $200/mo -> > $150k
+const ci = compoundInterest(10000, 7, 20, 12, 200);
+assert.ok(ci.futureValue > 150000 && ci.futureValue < 200000, `ci ${ci.futureValue}`);
+assert.ok(ci.interestEarned > 0);
+
+// cd: $25k @ 4.5% 12mo -> ~$25,1k
+const cd = cdMaturity(25000, 4.5, 12, 12);
+assert.ok(cd.maturity > 25100 && cd.maturity < 25500, `cd ${cd.maturity}`);
+
+// overtime: $25/hr, 40 reg + 5 at 1.5x -> regular 1000, ot 187.5, total 1187.5
+const ot = overtimePay(25, 40, 5, 0);
+assert.ok(Math.abs(ot.regular - 1000) < 0.01 && Math.abs(ot.overtime - 187.5) < 0.01 && Math.abs(ot.total - 1187.5) < 0.01);
+
+// tip: $85.50 @ 18% split 2 -> tip 15.39, per person ~50.45
+const tp = tipCalc(85.5, 18, 2);
+assert.ok(Math.abs(tp.tip - 15.39) < 0.1, `tip ${tp.tip}`);
+assert.ok(Math.abs(tp.perPerson - 50.45) < 0.1, `pp ${tp.perPerson}`);
 
 console.log("ALL CALC TESTS PASS");
