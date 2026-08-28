@@ -27,6 +27,7 @@ jobs:
           mkdir -p /tmp/app
           cp -R .next/standalone/. /tmp/app/
           cp -R .next/static /tmp/app/.next/static
+          cp Dockerfile docker-compose.yml /tmp/app/
           echo "--- bundle .next contents ---"
           ls /tmp/app/.next | head -20
           test -f /tmp/app/.next/BUILD_ID && echo "BUILD_ID OK" || { echo "BUILD_ID MISSING"; exit 1; }
