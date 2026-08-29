@@ -1,5 +1,5 @@
 import ToolPageShell from "../components/ToolPageShell";
 
-export default function 401kCalculatorPage() {
+export default function Retirement401kCalculatorPage() {
   return <ToolPageShell slug="401k-calculator" />;
 }
