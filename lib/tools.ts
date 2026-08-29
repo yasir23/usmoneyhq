@@ -78,6 +78,12 @@ import {
   loanCompare,
   savingsRate,
   taxRefundEstimate,
+  stockProfit,
+  investmentProperty,
+  escrowEstimate,
+  commissionCalc,
+  rmdEstimate,
+  savingsBondValue,
   NO_INCOME_TAX_STATES,
   US_STATES,
 } from "./calc.ts";
@@ -2422,6 +2428,147 @@ export const TOOLS: ToolDef[] = [
       { q: "How do I check what was withheld?", a: "Look at box 2 of your W-2 or the 'Federal income tax withheld' line on your paystubs. This calculator compares that total to your actual tax." },
     ],
     related: ["tax-calculator", "salary-after-tax-calculator", "tax-bracket-calculator"],
+  },
+  {
+    slug: "stock-profit-calculator",
+    title: "Stock Profit Calculator 2026 — ROI & Gain | US Money HQ",
+    shortTitle: "Stock Profit Calculator",
+    description: "Free stock profit calculator: your gain, ROI, and commission when buying and selling shares.",
+    h1: "Stock Profit Calculator",
+    sub: "Buy price, sell price — what you actually keep.",
+    fields: [
+      { key: "shares", label: "Shares", type: "number", default: 100, min: 1, step: 1, inputMode: "numeric" },
+      { key: "buy", label: "Buy price per share (USD)", type: "number", default: 50, min: 0, step: 0.5, inputMode: "decimal" },
+      { key: "sell", label: "Sell price per share (USD)", type: "number", default: 65, min: 0, step: 0.5, inputMode: "decimal" },
+      { key: "commission", label: "Commission (%)", type: "number", default: 0.5, min: 0, max: 5, step: 0.1, inputMode: "decimal" },
+    ],
+    compute: (v) => {
+      const r = stockProfit(Number(v.shares) || 0, Number(v.buy) || 0, Number(v.sell) || 0, Number(v.commission) || 0);
+      return [moneyRow("Total profit", r.profit, true), { label: "ROI", value: r.roi.toFixed(2) + "%" }, moneyRow("Buy total", r.buyTotal), moneyRow("Sell total", r.sellTotal)];
+    },
+    note: "Does not include capital gains tax — run the result through the capital gains calculator for after-tax profit.",
+    faq: [
+      { q: "What is ROI on stocks?", a: "ROI = profit ÷ cost basis. $1,500 profit on a $5,000 position is 30%. Compare it against the market's return over the same period to judge performance." },
+      { q: "Are stock profits taxable?", a: "Yes — short-term gains (under 1 year) are taxed as ordinary income; long-term gains at 0/15/20%. Use the capital gains calculator for the tax side." },
+    ],
+    related: ["capital-gains-calculator", "dividend-calculator", "roi-calculator"],
+  },
+  {
+    slug: "investment-property-calculator",
+    title: "Investment Property Calculator 2026 — Rental ROI | US Money HQ",
+    shortTitle: "Investment Property Calculator",
+    description: "Free investment property calculator: monthly cash flow, cap rate, and cash-on-cash return for a rental.",
+    h1: "Investment Property Calculator",
+    sub: "Is that rental actually a good deal?",
+    fields: [
+      { key: "price", label: "Purchase price (USD)", type: "number", default: 250000, min: 10000, step: 5000, inputMode: "numeric" },
+      { key: "down", label: "Down payment (%)", type: "number", default: 20, min: 0, max: 100, step: 1, inputMode: "numeric" },
+      { key: "rent", label: "Monthly rent (USD)", type: "number", default: 1800, min: 0, step: 50, inputMode: "numeric" },
+      { key: "expenses", label: "Monthly expenses (USD)", type: "number", default: 400, min: 0, step: 25, inputMode: "numeric" },
+      { key: "rate", label: "Mortgage rate (%)", type: "number", default: 7, min: 0, step: 0.1, inputMode: "decimal" },
+      { key: "years", label: "Loan term (years)", type: "select", default: 30, options: [{ value: 15, label: "15 years" }, { value: 30, label: "30 years" }] },
+    ],
+    compute: (v) => {
+      const r = investmentProperty(Number(v.price) || 0, Number(v.down) || 0, Number(v.rent) || 0, Number(v.expenses) || 0, Number(v.rate) || 0, Number(v.years) || 30);
+      return [moneyRow("Monthly mortgage", r.monthlyPayment), moneyRow("Monthly cash flow", r.monthlyCashFlow, true), { label: "Cap rate", value: r.capRate.toFixed(2) + "%" }, { label: "Cash-on-cash return", value: r.cashOnCash.toFixed(2) + "%" }];
+    },
+    note: "Expenses should include property tax, insurance, maintenance (1% of value/year), vacancy, and management. Most markets target 1%+ rent-to-price ratio.",
+    faq: [
+      { q: "What is a good cap rate?", a: "5-8% is typical for single-family rentals; 8-12% for multi-family in secondary markets. Cap rate = net operating income ÷ price — higher means better cash yield." },
+      { q: "What is cash-on-cash return?", a: "Annual cash flow ÷ cash invested (down payment + closing costs). It measures return on YOUR money, not the property's value — 8-12% is a solid target." },
+    ],
+    related: ["mortgage-calculator", "home-affordability-calculator", "roi-calculator"],
+  },
+  {
+    slug: "escrow-calculator",
+    title: "Escrow Calculator 2026 — Monthly Tax & Insurance | US Money HQ",
+    shortTitle: "Escrow Calculator",
+    description: "Free mortgage escrow calculator: monthly property tax and insurance escrow included in your payment.",
+    h1: "Escrow Calculator",
+    sub: "What your lender holds for taxes and insurance.",
+    fields: [
+      { key: "price", label: "Home price (USD)", type: "number", default: 350000, min: 10000, step: 5000, inputMode: "numeric" },
+      { key: "down", label: "Down payment (%)", type: "number", default: 20, min: 0, max: 100, step: 1, inputMode: "numeric" },
+      { key: "taxRate", label: "Property tax rate (%)", type: "number", default: 1.1, min: 0, max: 5, step: 0.05, inputMode: "decimal" },
+      { key: "insurance", label: "Annual insurance (USD)", type: "number", default: 1500, min: 0, step: 50, inputMode: "numeric" },
+    ],
+    compute: (v) => {
+      const r = escrowEstimate(Number(v.price) || 0, Number(v.down) || 0, Number(v.taxRate) || 0, Number(v.insurance) || 0);
+      return [moneyRow("Monthly escrow", r.monthlyEscrow, true), moneyRow("Annual property tax", r.annualPropertyTax), moneyRow("Annual insurance", r.annualInsurance)];
+    },
+    note: "The national average property tax rate is about 1.1% of home value. Check your county's actual rate.",
+    faq: [
+      { q: "Is escrow required?", a: "Lenders require escrow for property tax and insurance when you put down less than 20%. With 20%+ down, you may opt out and pay them yourself." },
+      { q: "Why does my escrow payment change?", a: "Lenders do an annual escrow analysis. When tax or insurance premiums rise, your monthly escrow increases to cover the new total and any shortfall." },
+    ],
+    related: ["mortgage-calculator", "property-tax-calculator", "closing-costs-calculator"],
+  },
+  {
+    slug: "commission-calculator",
+    title: "Commission Calculator 2026 — Real Estate & Sales | US Money HQ",
+    shortTitle: "Commission Calculator",
+    description: "Free commission calculator: real estate agent commission and net to seller from any sale price and rate.",
+    h1: "Commission Calculator",
+    sub: "What the agent earns — and what you keep.",
+    fields: [
+      { key: "price", label: "Sale price (USD)", type: "number", default: 400000, min: 1000, step: 5000, inputMode: "numeric" },
+      { key: "rate", label: "Commission rate (%)", type: "number", default: 5, min: 0, max: 10, step: 0.25, inputMode: "decimal" },
+    ],
+    compute: (v) => {
+      const r = commissionCalc(Number(v.price) || 0, Number(v.rate) || 0);
+      return [moneyRow("Total commission", r.commission, true), moneyRow("Net to seller", r.netToSeller)];
+    },
+    note: "Typical US real estate commission is 5-6%, usually split between buyer's and seller's agents. The rate is negotiable.",
+    faq: [
+      { q: "Can I negotiate commission?", a: "Yes — commission has always been negotiable, and 2024 rule changes made it more explicit. Flat-fee and discount brokers offer 1-2% alternatives." },
+      { q: "Who pays the commission?", a: "Traditionally the seller pays, and it's split between both agents. Buyers may now negotiate their own agent's compensation directly under the new rules." },
+    ],
+    related: ["price-per-square-foot-calculator", "property-tax-calculator", "closing-costs-calculator"],
+  },
+  {
+    slug: "rmd-calculator",
+    title: "RMD Calculator 2026 — Required Minimum Distribution | US Money HQ",
+    shortTitle: "RMD Calculator",
+    description: "Free RMD calculator: your required minimum distribution from retirement accounts using IRS life expectancy factors.",
+    h1: "RMD Calculator",
+    sub: "What the IRS requires you to withdraw.",
+    fields: [
+      { key: "balance", label: "Account balance (USD)", type: "number", default: 500000, min: 0, step: 10000, inputMode: "numeric" },
+      { key: "age", label: "Your age this year", type: "number", default: 73, min: 72, max: 100, step: 1, inputMode: "numeric" },
+    ],
+    compute: (v) => {
+      const r = rmdEstimate(Number(v.balance) || 0, Number(v.age) || 73);
+      return [moneyRow("Required distribution", r.rmd, true), { label: "Life expectancy factor", value: String(r.factor) }];
+    },
+    note: "RMDs start at age 73 for anyone born after 1960 (age 75 for those born in 1960+). Missing an RMD carries a 25% penalty (10% if corrected quickly).",
+    faq: [
+      { q: "When do RMDs start?", a: "Age 73 if you were born between 1951-1959, age 75 if born in 1960 or later. Your first RMD can be delayed to April 1 of the year after you turn the RMD age." },
+      { q: "Which accounts have RMDs?", a: "Traditional IRAs, 401(k)s, and similar employer plans. Roth IRAs have no RMDs during your lifetime — a key reason savers convert." },
+    ],
+    related: ["retirement-calculator", "401k-calculator", "tax-bracket-calculator"],
+  },
+  {
+    slug: "savings-bonds-calculator",
+    title: "Savings Bonds Calculator 2026 — EE & I Bonds | US Money HQ",
+    shortTitle: "Savings Bonds Calculator",
+    description: "Free savings bond calculator: what your bond is worth with semi-annual compounding at a fixed rate.",
+    h1: "Savings Bonds Calculator",
+    sub: "Your bond's value, grown semi-annually.",
+    fields: [
+      { key: "face", label: "Face value (USD)", type: "number", default: 1000, min: 25, step: 25, inputMode: "numeric" },
+      { key: "rate", label: "Annual rate (%)", type: "number", default: 2.5, min: 0, max: 10, step: 0.1, inputMode: "decimal" },
+      { key: "years", label: "Years held", type: "number", default: 10, min: 1, max: 30, step: 1, inputMode: "numeric" },
+    ],
+    compute: (v) => {
+      const r = savingsBondValue(Number(v.face) || 0, Number(v.rate) || 0, Number(v.years) || 10);
+      return [moneyRow("Current value", r.value, true), moneyRow("Gain", r.gain)];
+    },
+    note: "EE bonds earn a fixed rate and double after 20 years. I bonds adjust for inflation. Use the current rate from TreasuryDirect for accuracy.",
+    faq: [
+      { q: "EE vs I bonds — what's the difference?", a: "EE bonds pay a fixed rate set at purchase (and are guaranteed to double in 20 years). I bonds pay a variable rate tied to inflation, protecting purchasing power." },
+      { q: "Are savings bond gains taxable?", a: "Yes — interest is exempt from state tax but subject to federal tax, unless used for qualified education expenses (education exclusion)." },
+    ],
+    related: ["cd-calculator", "compound-interest-calculator", "investment-calculator"],
   },
 ];
 

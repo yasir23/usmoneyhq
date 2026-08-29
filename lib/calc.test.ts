@@ -79,6 +79,12 @@ import {
   loanCompare,
   savingsRate,
   taxRefundEstimate,
+  stockProfit,
+  investmentProperty,
+  escrowEstimate,
+  commissionCalc,
+  rmdEstimate,
+  savingsBondValue,
 } from "./calc.ts";
 
 // $300k @ 6.5% / 30yr (360 mo) -> ~$1,896.20/mo (known value)
@@ -576,3 +582,36 @@ console.log("ALL KEYWORD-IMPL TESTS PASS");
 }
 
 console.log("ALL PHASE 4 CALC TESTS PASS");
+
+// === Phase 5: stock profit, investment property, escrow, commission, RMD, savings bonds ===
+{
+  const r = stockProfit(100, 50, 65, 0.5);
+  assert.strictEqual(r.profit, 1442.5);
+  assert.ok(r.roi > 28 && r.roi < 29, "ROI ~28.85%");
+}
+{
+  const r = investmentProperty(250000, 20, 1800, 400, 7, 30);
+  assert.ok(r.monthlyPayment > 1320 && r.monthlyPayment < 1340, "mortgage ~$1,330");
+  assert.ok(r.capRate > 6.5 && r.capRate < 7.5, "cap rate ~7%");
+}
+{
+  const r = escrowEstimate(350000, 20, 1.1, 1500);
+  assert.ok(r.monthlyEscrow > 440 && r.monthlyEscrow < 460, "escrow ~$445/mo");
+  assert.strictEqual(r.annualPropertyTax, 3850);
+}
+{
+  const r = commissionCalc(400000, 5);
+  assert.strictEqual(r.commission, 20000);
+  assert.strictEqual(r.netToSeller, 380000);
+}
+{
+  const r = rmdEstimate(500000, 73);
+  assert.ok(r.rmd > 18000 && r.rmd < 19000, "RMD ~$18,868");
+  assert.strictEqual(r.factor, 26.5);
+}
+{
+  const r = savingsBondValue(1000, 2.5, 10);
+  assert.ok(r.value > 1280 && r.value < 1290, "2.5% semiannual 10y = $1,282.43");
+}
+
+console.log("ALL PHASE 5 CALC TESTS PASS");

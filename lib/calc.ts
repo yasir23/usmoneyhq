@@ -875,3 +875,53 @@ export function taxRefundEstimate(income: number, withheld: number, filing: "sin
   const diff = withheld - t.tax;
   return { refund: round2(Math.max(0, diff)), owed: round2(Math.max(0, -diff)), tax: t.tax };
 }
+
+/** Stock profit: buy vs sell price with commission %. */
+export function stockProfit(shares: number, buyPrice: number, sellPrice: number, commissionPct: number) {
+  const buy = shares * buyPrice;
+  const sell = shares * sellPrice;
+  const commission = (buy + sell) * (commissionPct / 100);
+  const profit = sell - buy - commission;
+  return { profit: round2(profit), roi: round2((profit / Math.max(1, buy)) * 100), buyTotal: round2(buy), sellTotal: round2(sell), commission: round2(commission) };
+}
+
+/** Investment property: monthly cash flow, cap rate, cash-on-cash return. */
+export function investmentProperty(price: number, downPct: number, monthlyRent: number, monthlyExpenses: number, ratePct: number, termYears: number) {
+  const down = price * (downPct / 100);
+  const principal = price - down;
+  const am = amortizedPayment(principal, ratePct, termYears * 12);
+  const annualIncome = monthlyRent * 12;
+  const annualExpenses = monthlyExpenses * 12;
+  const annualDebt = am.payment * 12;
+  const netOperating = annualIncome - annualExpenses;
+  const cashFlow = netOperating - annualDebt;
+  const capRate = (netOperating / Math.max(1, price)) * 100;
+  const cashOnCash = down > 0 ? (cashFlow / down) * 100 : 0;
+  return { monthlyPayment: am.payment, annualCashFlow: round2(cashFlow), monthlyCashFlow: round2(cashFlow / 12), capRate: round2(capRate), cashOnCash: round2(cashOnCash) };
+}
+
+/** Mortgage escrow: monthly property tax + insurance escrow. */
+export function escrowEstimate(homePrice: number, downPct: number, propTaxRatePct: number, annualInsurance: number) {
+  const loan = homePrice * (1 - downPct / 100);
+  const propTax = homePrice * (propTaxRatePct / 100);
+  return { monthlyEscrow: round2((propTax + annualInsurance) / 12), annualPropertyTax: round2(propTax), annualInsurance: round2(annualInsurance) };
+}
+
+/** Real estate commission. */
+export function commissionCalc(salePrice: number, ratePct: number) {
+  const commission = salePrice * (ratePct / 100);
+  return { commission: round2(commission), netToSeller: round2(salePrice - commission) };
+}
+
+/** RMD: required minimum distribution using IRS uniform lifetime table (approx factors). */
+export function rmdEstimate(balance: number, age: number) {
+  const factors: Record<number, number> = { 72: 27.4, 73: 26.5, 74: 25.5, 75: 24.6, 76: 23.7, 77: 22.9, 78: 22.0, 79: 21.1, 80: 20.2, 81: 19.4, 82: 18.5, 83: 17.7, 84: 16.8, 85: 16.0, 86: 15.2, 87: 14.4, 88: 13.7, 89: 12.9, 90: 12.2, 91: 11.5, 92: 10.8, 93: 10.1, 94: 9.5, 95: 8.9, 96: 8.4, 97: 7.8, 98: 7.3, 99: 6.8, 100: 6.4 };
+  const factor = factors[Math.min(100, Math.max(72, age))] ?? 27.4;
+  return { rmd: round2(balance / factor), factor };
+}
+
+/** Savings bond estimate: face value growth at fixed rate, compounded semi-annually. */
+export function savingsBondValue(faceValue: number, ratePct: number, years: number) {
+  const value = faceValue * Math.pow(1 + ratePct / 100 / 2, years * 2);
+  return { value: round2(value), gain: round2(value - faceValue) };
+}

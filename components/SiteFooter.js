@@ -19,6 +19,14 @@ export default function SiteFooter() {
             ))}
           </div>
           <div>
+            <h3>Guides</h3>
+            <Link href="/guides">All Guides</Link>
+            <Link href="/guides/how-much-house-can-i-afford">How Much House Can I Afford?</Link>
+            <Link href="/guides/mortgage-calculator-guide">Mortgage Basics</Link>
+            <Link href="/guides/salary-after-tax-guide">Salary After Tax</Link>
+            <Link href="/guides/debt-payoff-guide">Debt Payoff</Link>
+          </div>
+          <div>
             <h3>For Webmasters</h3>
             <Link href="/widgets">Free Embeddable Calculators</Link>
             <Link href="/premium">Premium (Whop)</Link>
