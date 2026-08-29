@@ -84,6 +84,14 @@ import {
   commissionCalc,
   rmdEstimate,
   savingsBondValue,
+  tileNeeds,
+  fenceNeeds,
+  gravelNeeds,
+  carpetNeeds,
+  wallpaperNeeds,
+  sodNeeds,
+  drywallNeeds,
+  heartRate,
   NO_INCOME_TAX_STATES,
   US_STATES,
 } from "./calc.ts";
@@ -2569,6 +2577,215 @@ export const TOOLS: ToolDef[] = [
       { q: "Are savings bond gains taxable?", a: "Yes — interest is exempt from state tax but subject to federal tax, unless used for qualified education expenses (education exclusion)." },
     ],
     related: ["cd-calculator", "compound-interest-calculator", "investment-calculator"],
+  },
+  {
+    slug: "tile-calculator",
+    title: "Tile Calculator 2026 — Tiles Needed & Cost | US Money HQ",
+    shortTitle: "Tile Calculator",
+    description: "Free tile calculator: how many tiles you need for any floor or wall, with waste, boxes, and coverage.",
+    h1: "Tile Calculator",
+    sub: "Tiles, boxes, and coverage — with waste built in.",
+    fields: [
+      { key: "area", label: "Area to cover (sq ft)", type: "number", default: 200, min: 1, step: 10, inputMode: "numeric" },
+      { key: "size", label: "Tile size (inches)", type: "select", default: 12, options: [{ value: 6, label: "6x6" }, { value: 12, label: "12x12" }, { value: 18, label: "18x18" }, { value: 24, label: "24x24" }] },
+      { key: "waste", label: "Waste allowance (%)", type: "number", default: 10, min: 0, max: 30, step: 1, inputMode: "numeric" },
+    ],
+    compute: (v) => {
+      const r = tileNeeds(Number(v.area) || 0, Number(v.size) || 12, Number(v.waste) || 10);
+      return [{ label: "Tiles needed", value: String(r.tiles), highlight: true }, { label: "Boxes (10-tile)", value: String(r.boxes) }, { label: "Coverage per tile", value: r.perTile.toFixed(2) + " sq ft" }];
+    },
+    note: "Add 10% waste for cuts and breakage — 15% for diagonal or large-format patterns.",
+    faq: [
+      { q: "How much extra tile should I buy?", a: "10% for straight layouts, 15% for diagonal or herringbone. Keep the extras — matching dye lots later is nearly impossible." },
+      { q: "What size tiles are easiest to install?", a: "12x12 and 12x24 are DIY-friendly. Large format (24x24+) needs perfectly flat floors and more skill." },
+    ],
+    related: ["square-footage-calculator", "carpet-calculator", "concrete-calculator"],
+  },
+  {
+    slug: "fence-calculator",
+    title: "Fence Calculator 2026 — Panels & Materials | US Money HQ",
+    shortTitle: "Fence Calculator",
+    description: "Free fence calculator: how many panels you need for any fence run, with total width.",
+    h1: "Fence Calculator",
+    sub: "Panel count for your fence line, instantly.",
+    fields: [
+      { key: "length", label: "Fence length (feet)", type: "number", default: 120, min: 1, step: 10, inputMode: "numeric" },
+      { key: "panel", label: "Panel width (feet)", type: "select", default: 8, options: [{ value: 6, label: "6 ft" }, { value: 8, label: "8 ft" }] },
+    ],
+    compute: (v) => {
+      const r = fenceNeeds(Number(v.length) || 0, Number(v.panel) || 8);
+      return [{ label: "Panels needed", value: String(r.panels), highlight: true }, { label: "Total panel width", value: r.totalWidth + " ft" }];
+    },
+    note: "Add one post per panel plus an end post. Gates replace one panel section.",
+    faq: [
+      { q: "How many posts do I need?", a: "One post at each end plus one per panel. A 120 ft run with 8-ft panels = 15 panels + 16 posts (concrete set)." },
+      { q: "Wood, vinyl, or chain link?", a: "Wood costs least but needs staining every 2-3 years. Vinyl lasts decades with zero maintenance. Chain link is cheapest per foot but lacks privacy." },
+    ],
+    related: ["gravel-calculator", "sod-calculator", "topsoil-calculator"],
+  },
+  {
+    slug: "gravel-calculator",
+    title: "Gravel Calculator 2026 — Cubic Yards & Cost | US Money HQ",
+    shortTitle: "Gravel Calculator",
+    description: "Free gravel calculator: cubic yards and tons of gravel for driveways, paths, and beds, with cost.",
+    h1: "Gravel Calculator",
+    sub: "Cubic yards, tons, and cost — in seconds.",
+    fields: [
+      { key: "length", label: "Length (feet)", type: "number", default: 30, min: 1, step: 5, inputMode: "numeric" },
+      { key: "width", label: "Width (feet)", type: "number", default: 12, min: 1, step: 1, inputMode: "numeric" },
+      { key: "depth", label: "Depth (inches)", type: "number", default: 4, min: 1, max: 24, step: 0.5, inputMode: "decimal" },
+      { key: "price", label: "Price per yard (USD)", type: "number", default: 45, min: 0, step: 5, inputMode: "numeric" },
+    ],
+    compute: (v) => {
+      const r = gravelNeeds(Number(v.length) || 0, Number(v.width) || 0, Number(v.depth) || 4, Number(v.price) || 0);
+      return [{ label: "Cubic yards", value: String(r.cubicYards), highlight: true }, { label: "Approx. tons", value: String(r.tons) }, moneyRow("Material cost", r.cost)];
+    },
+    note: "Crushed stone weighs ~1.4 tons per yard. Driveways typically need 4-6 inches of gravel.",
+    faq: [
+      { q: "How deep should gravel be?", a: "Walkways: 2 inches. Driveways: 4-6 inches in two layers (large base + small top). Drainage areas may need more." },
+      { q: "Should I buy by the yard or by the bag?", a: "Any project over half a yard — buy bulk. Delivery typically costs less than 40+ bags." },
+    ],
+    related: ["topsoil-calculator", "mulch-calculator", "concrete-calculator"],
+  },
+  {
+    slug: "topsoil-calculator",
+    title: "Topsoil Calculator 2026 — Yards Needed | US Money HQ",
+    shortTitle: "Topsoil Calculator",
+    description: "Free topsoil calculator: cubic yards of topsoil for lawns and gardens, with cost.",
+    h1: "Topsoil Calculator",
+    sub: "How much soil your yard needs.",
+    fields: [
+      { key: "length", label: "Length (feet)", type: "number", default: 20, min: 1, step: 5, inputMode: "numeric" },
+      { key: "width", label: "Width (feet)", type: "number", default: 10, min: 1, step: 1, inputMode: "numeric" },
+      { key: "depth", label: "Depth (inches)", type: "number", default: 3, min: 0.5, max: 24, step: 0.5, inputMode: "decimal" },
+      { key: "price", label: "Price per yard (USD)", type: "number", default: 25, min: 0, step: 5, inputMode: "numeric" },
+    ],
+    compute: (v) => {
+      const r = gravelNeeds(Number(v.length) || 0, Number(v.width) || 0, Number(v.depth) || 3, Number(v.price) || 0);
+      return [{ label: "Cubic yards", value: String(r.cubicYards), highlight: true }, moneyRow("Material cost", r.cost)];
+    },
+    note: "Topsoil runs $15-$40 per yard delivered. Use 3-4 inches for new lawns, 6+ for raised beds.",
+    faq: [
+      { q: "How much topsoil do I need for a new lawn?", a: "3-4 inches is the sweet spot. A 500 sq ft lawn at 3 inches needs about 4.6 cubic yards." },
+      { q: "Screened or unscreened topsoil?", a: "Screened is weed-free and consistent — worth it for lawns. Unscreened is fine for bulk fill and beds you'll till." },
+    ],
+    related: ["gravel-calculator", "mulch-calculator", "sod-calculator"],
+  },
+  {
+    slug: "carpet-calculator",
+    title: "Carpet Calculator 2026 — Sq Ft & Cost | US Money HQ",
+    shortTitle: "Carpet Calculator",
+    description: "Free carpet calculator: square feet, square yards, and cost for carpeting any room.",
+    h1: "Carpet Calculator",
+    sub: "Carpet area and cost, room by room.",
+    fields: [
+      { key: "length", label: "Room length (feet)", type: "number", default: 14, min: 1, step: 1, inputMode: "numeric" },
+      { key: "width", label: "Room width (feet)", type: "number", default: 12, min: 1, step: 1, inputMode: "numeric" },
+      { key: "price", label: "Price per sq ft (USD)", type: "number", default: 3.5, min: 0, step: 0.25, inputMode: "decimal" },
+    ],
+    compute: (v) => {
+      const r = carpetNeeds(Number(v.length) || 0, Number(v.width) || 0, Number(v.price) || 0);
+      return [{ label: "Square feet", value: String(r.sqft), highlight: true }, { label: "Square yards", value: String(r.sqYards) }, moneyRow("Carpet cost", r.cost)];
+    },
+    note: "Carpet is sold by the square yard but priced per sq ft — this calculator shows both. Installers add ~10% for seams and waste.",
+    faq: [
+      { q: "Carpet by square foot or yard?", a: "Retail shows per sq ft; installers quote per sq yd (9 sq ft). Always compare the same unit." },
+      { q: "What does carpet installation cost?", a: "$2-$4 per sq ft including padding and labor, on top of carpet. Move furniture and removal add fees." },
+    ],
+    related: ["square-footage-calculator", "tile-calculator", "wallpaper-calculator"],
+  },
+  {
+    slug: "wallpaper-calculator",
+    title: "Wallpaper Calculator 2026 — Rolls Needed | US Money HQ",
+    shortTitle: "Wallpaper Calculator",
+    description: "Free wallpaper calculator: rolls needed for any room, with wall area and 10% waste.",
+    h1: "Wallpaper Calculator",
+    sub: "Rolls for your room, no math required.",
+    fields: [
+      { key: "length", label: "Room length (feet)", type: "number", default: 12, min: 1, step: 1, inputMode: "numeric" },
+      { key: "width", label: "Room width (feet)", type: "number", default: 10, min: 1, step: 1, inputMode: "numeric" },
+      { key: "height", label: "Wall height (feet)", type: "number", default: 8, min: 1, step: 1, inputMode: "numeric" },
+      { key: "coverage", label: "Roll coverage (sq ft)", type: "number", default: 56, min: 10, step: 1, inputMode: "numeric" },
+    ],
+    compute: (v) => {
+      const r = wallpaperNeeds(Number(v.length) || 0, Number(v.width) || 0, Number(v.height) || 8, Number(v.coverage) || 56);
+      return [{ label: "Wall area", value: r.wallArea + " sq ft" }, { label: "Rolls needed", value: String(r.rolls), highlight: true }];
+    },
+    note: "Standard rolls cover ~56 sq ft. Subtract doors and windows from your area — this calculator is conservative with 10% waste.",
+    faq: [
+      { q: "How do I subtract windows and doors?", a: "A standard door is ~21 sq ft, a double window ~15 sq ft. Subtract them from the wall area before dividing by roll coverage." },
+      { q: "How much do wallpaper rolls cost?", a: "Budget rolls run $20-$40; designer runs $60-$150+. The calculator gives rolls — multiply by your price point." },
+    ],
+    related: ["paint-calculator", "carpet-calculator", "square-footage-calculator"],
+  },
+  {
+    slug: "sod-calculator",
+    title: "Sod Calculator 2026 — Pallets & Cost | US Money HQ",
+    shortTitle: "Sod Calculator",
+    description: "Free sod calculator: square feet, pallets, and cost to sod your lawn.",
+    h1: "Sod Calculator",
+    sub: "Instant lawn, correctly measured.",
+    fields: [
+      { key: "length", label: "Lawn length (feet)", type: "number", default: 40, min: 1, step: 5, inputMode: "numeric" },
+      { key: "width", label: "Lawn width (feet)", type: "number", default: 25, min: 1, step: 5, inputMode: "numeric" },
+      { key: "price", label: "Price per pallet (USD)", type: "number", default: 250, min: 0, step: 10, inputMode: "numeric" },
+    ],
+    compute: (v) => {
+      const r = sodNeeds(Number(v.length) || 0, Number(v.width) || 0, Number(v.price) || 0);
+      return [{ label: "Square feet", value: String(r.sqft), highlight: true }, { label: "Pallets (450 sq ft each)", value: String(r.pallets) }, moneyRow("Sod cost", r.cost)];
+    },
+    note: "One pallet covers ~450 sq ft. Add 5-10% for cutting around curves and beds.",
+    faq: [
+      { q: "Sod or seed?", a: "Sod gives an instant lawn but costs 5-10x more. Seed is cheaper but needs 6-8 weeks of careful watering." },
+      { q: "When should I lay sod?", a: "Early fall or spring — cool temperatures and rain help it root. Never lay sod on frozen or flooded ground." },
+    ],
+    related: ["topsoil-calculator", "gravel-calculator", "mulch-calculator"],
+  },
+  {
+    slug: "drywall-calculator",
+    title: "Drywall Calculator 2026 — Sheets Needed | US Money HQ",
+    shortTitle: "Drywall Calculator",
+    description: "Free drywall calculator: 4x8 sheets for walls and ceiling, with openings subtracted.",
+    h1: "Drywall Calculator",
+    sub: "Sheets for the whole room — walls and ceiling.",
+    fields: [
+      { key: "length", label: "Room length (feet)", type: "number", default: 12, min: 1, step: 1, inputMode: "numeric" },
+      { key: "width", label: "Room width (feet)", type: "number", default: 10, min: 1, step: 1, inputMode: "numeric" },
+      { key: "height", label: "Wall height (feet)", type: "number", default: 8, min: 1, step: 1, inputMode: "numeric" },
+      { key: "openings", label: "Doors + windows (sq ft)", type: "number", default: 60, min: 0, step: 5, inputMode: "numeric" },
+    ],
+    compute: (v) => {
+      const r = drywallNeeds(Number(v.length) || 0, Number(v.width) || 0, Number(v.height) || 8, Number(v.openings) || 0);
+      return [{ label: "Drywall area", value: r.area + " sq ft" }, { label: "4x8 sheets", value: String(r.sheets), highlight: true }];
+    },
+    note: "Standard 4x8 sheets cover 32 sq ft. Add 10% for cuts and mistakes.",
+    faq: [
+      { q: "4x8 or 4x12 sheets?", a: "4x12 sheets mean fewer seams on 8-foot walls, but they need two people to carry. DIYers should stick with 4x8." },
+      { q: "What thickness do I need?", a: "1/2-inch for walls and ceilings in homes; 5/8-inch for garages, fire-rated, or commercial. 1/4-inch is for curved surfaces." },
+    ],
+    related: ["paint-calculator", "concrete-calculator", "square-footage-calculator"],
+  },
+  {
+    slug: "heart-rate-calculator",
+    title: "Heart Rate Calculator 2026 — Target Zones | US Money HQ",
+    shortTitle: "Heart Rate Calculator",
+    description: "Free heart rate calculator: max heart rate and target training zones by age and resting rate.",
+    h1: "Heart Rate Calculator",
+    sub: "Train in the right zone, every workout.",
+    fields: [
+      { key: "age", label: "Your age", type: "number", default: 35, min: 15, max: 90, step: 1, inputMode: "numeric" },
+      { key: "rest", label: "Resting heart rate (bpm)", type: "number", default: 65, min: 30, max: 120, step: 1, inputMode: "numeric" },
+    ],
+    compute: (v) => {
+      const r = heartRate(Number(v.age) || 35, Number(v.rest) || 65);
+      return [{ label: "Max heart rate", value: String(r.max), highlight: true }, { label: "Moderate zone (50-70%)", value: r.zone50 + "-" + Math.round(r.max * 0.7) + " bpm" }, { label: "Vigorous zone (70-85%)", value: Math.round(r.max * 0.7) + "-" + r.zone85 + " bpm" }, { label: "Karvonen target (50-85%)", value: r.targetLow + "-" + r.targetHigh + " bpm" }];
+    },
+    note: "Uses the 220-age formula plus the Karvonen method with your resting rate — more accurate than age alone.",
+    faq: [
+      { q: "What is a good resting heart rate?", a: "60-100 bpm is normal; well-trained athletes often sit at 40-60. A lower resting rate usually means better cardiovascular fitness." },
+      { q: "What zone should I train in?", a: "Moderate (50-70%) for fat-burning and base fitness; vigorous (70-85%) for cardio improvement. Mix both across the week." },
+    ],
+    related: ["tdee-calculator", "bmi-calculator", "calorie-deficit-calculator"],
   },
 ];
 

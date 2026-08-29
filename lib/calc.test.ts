@@ -85,6 +85,14 @@ import {
   commissionCalc,
   rmdEstimate,
   savingsBondValue,
+  tileNeeds,
+  fenceNeeds,
+  gravelNeeds,
+  carpetNeeds,
+  wallpaperNeeds,
+  sodNeeds,
+  drywallNeeds,
+  heartRate,
 } from "./calc.ts";
 
 // $300k @ 6.5% / 30yr (360 mo) -> ~$1,896.20/mo (known value)
@@ -615,3 +623,48 @@ console.log("ALL PHASE 4 CALC TESTS PASS");
 }
 
 console.log("ALL PHASE 5 CALC TESTS PASS");
+
+// === Phase 6: tile, fence, gravel, topsoil, carpet, wallpaper, sod, drywall, heart rate ===
+{
+  const r = tileNeeds(200, 12, 10);
+  assert.strictEqual(r.tiles, 220);
+  assert.strictEqual(r.boxes, 22);
+}
+{
+  const r = fenceNeeds(120, 8);
+  assert.strictEqual(r.panels, 15);
+}
+{
+  const r = gravelNeeds(30, 12, 4, 45);
+  assert.ok(r.cubicYards > 4.4 && r.cubicYards < 4.5, "30x12x4in = 4.44 yd");
+  assert.ok(r.cost > 195 && r.cost < 205, "cost ~$200");
+}
+{
+  const r = carpetNeeds(14, 12, 3.5);
+  assert.strictEqual(r.sqft, 168);
+  assert.strictEqual(r.sqYards, 18.67);
+  assert.strictEqual(r.cost, 588);
+}
+{
+  const r = wallpaperNeeds(12, 10, 8, 56);
+  assert.strictEqual(r.wallArea, 352);
+  assert.ok(r.rolls > 6 && r.rolls < 8, "~7 rolls");
+}
+{
+  const r = sodNeeds(40, 25, 250);
+  assert.strictEqual(r.sqft, 1000);
+  assert.strictEqual(r.pallets, 3);
+  assert.strictEqual(r.cost, 750);
+}
+{
+  const r = drywallNeeds(12, 10, 8, 60);
+  assert.strictEqual(r.sheets, 13);
+}
+{
+  const r = heartRate(35, 65);
+  assert.strictEqual(r.max, 185);
+  assert.ok(r.targetLow > 120 && r.targetLow < 130, "Karvonen low ~125");
+  assert.ok(r.targetHigh > 160 && r.targetHigh < 170, "Karvonen high ~167");
+}
+
+console.log("ALL PHASE 6 CALC TESTS PASS");

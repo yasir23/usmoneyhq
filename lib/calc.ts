@@ -925,3 +925,61 @@ export function savingsBondValue(faceValue: number, ratePct: number, years: numb
   const value = faceValue * Math.pow(1 + ratePct / 100 / 2, years * 2);
   return { value: round2(value), gain: round2(value - faceValue) };
 }
+
+/** Tile: tiles needed for an area with waste %. */
+export function tileNeeds(areaSqft: number, tileSizeIn: number, wastePct: number) {
+  const perTile = Math.pow(tileSizeIn / 12, 2);
+  const raw = (areaSqft / perTile) * (1 + wastePct / 100);
+  const tiles = Math.ceil(Math.round(raw * 100) / 100); // avoid float-ceil (200*1.1 = 220.00000000000003)
+  return { tiles, boxes: Math.ceil(tiles / 10), perTile: round2(perTile) };
+}
+
+/** Fence: panels needed along a run. */
+export function fenceNeeds(lengthFt: number, panelWidthFt: number) {
+  const panels = Math.ceil(lengthFt / Math.max(1, panelWidthFt));
+  return { panels, totalWidth: round2(panels * panelWidthFt) };
+}
+
+/** Gravel/topsoil: cubic yards + cost. */
+export function gravelNeeds(lengthFt: number, widthFt: number, depthIn: number, pricePerYard: number) {
+  const cubicYards = (lengthFt * widthFt * depthIn / 12) / 27;
+  return { cubicYards: round2(cubicYards), cost: round2(cubicYards * pricePerYard), tons: round2(cubicYards * 1.4) };
+}
+
+/** Carpet: sqft + cost. */
+export function carpetNeeds(lengthFt: number, widthFt: number, pricePerSqft: number) {
+  const sqft = lengthFt * widthFt;
+  return { sqft: round2(sqft), sqYards: round2(sqft / 9), cost: round2(sqft * pricePerSqft) };
+}
+
+/** Wallpaper: rolls needed. */
+export function wallpaperNeeds(roomLengthFt: number, roomWidthFt: number, wallHeightFt: number, rollCoverageSqft: number) {
+  const perimeter = 2 * (roomLengthFt + roomWidthFt);
+  const wallArea = perimeter * wallHeightFt;
+  const rolls = Math.ceil(wallArea / Math.max(1, rollCoverageSqft) * 1.1);
+  return { wallArea: round2(wallArea), rolls };
+}
+
+/** Sod: sqft, pallets (450 sqft typical). */
+export function sodNeeds(lengthFt: number, widthFt: number, pricePerPallet: number) {
+  const sqft = lengthFt * widthFt;
+  const pallets = Math.ceil(sqft / 450);
+  return { sqft: round2(sqft), pallets, cost: round2(pallets * pricePerPallet) };
+}
+
+/** Drywall: 4x8 sheets for walls+ceiling. */
+export function drywallNeeds(lengthFt: number, widthFt: number, heightFt: number, openingsSqft: number) {
+  const walls = 2 * (lengthFt + widthFt) * heightFt;
+  const ceiling = lengthFt * widthFt;
+  const area = Math.max(0, walls + ceiling - openingsSqft);
+  const sheets = Math.ceil(area / 32);
+  return { area: round2(area), sheets };
+}
+
+/** Heart rate zones: max HR and target ranges. */
+export function heartRate(age: number, restingHr: number) {
+  const max = 220 - age;
+  const low = Math.round(restingHr + (max - restingHr) * 0.5);
+  const high = Math.round(restingHr + (max - restingHr) * 0.85);
+  return { max, zone50: Math.round(max * 0.5), zone85: Math.round(max * 0.85), targetLow: low, targetHigh: high };
+}
