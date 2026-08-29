@@ -37,7 +37,7 @@ export const CATEGORIES = [
   },
 ];
 
-export function categorize(slug) {
+export function categorize(slug: string) {
   for (const c of CATEGORIES) {
     if (c.match.some((k) => slug.includes(k))) return c;
   }
