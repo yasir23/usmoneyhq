@@ -1433,7 +1433,7 @@ export const TOOLS: ToolDef[] = [
     ],
     compute: (v) => {
       const r = gasCost(Number(v.miles) || 0, Number(v.mpg) || 1, Number(v.price) || 0);
-      return [moneyRow("Gallons needed", r.gallons), moneyRow("Fuel cost", r.cost, true)];
+      return [{ label: "Gallons needed", value: r.gallons.toFixed(2) }, moneyRow("Fuel cost", r.cost, true)];
     },
     note: "MPG = highway/city blend as rated or measured. Real-world MPG is often 10-15% lower.",
     faq: [
@@ -1455,7 +1455,7 @@ export const TOOLS: ToolDef[] = [
     ],
     compute: (v) => {
       const r = squareFootage(Number(v.length) || 0, Number(v.width) || 0);
-      return [moneyRow("Square feet", r.squareFeet, true), moneyRow("Square yards", r.squareYards)];
+      return [{ label: "Square feet", value: r.squareFeet.toFixed(2), highlight: true }, { label: "Square yards", value: r.squareYards.toFixed(2) }];
     },
     note: "For non-rectangular rooms, split into rectangles and add the results.",
     faq: [
@@ -1479,7 +1479,7 @@ export const TOOLS: ToolDef[] = [
     ],
     compute: (v) => {
       const r = electricityCost(Number(v.watts) || 0, Number(v.hours) || 0, Number(v.days) || 30, Number(v.rate) || 0);
-      return [moneyRow("kWh per day", r.dailyKwh), moneyRow("kWh this month", r.kwh), moneyRow("Monthly cost", r.cost, true)];
+      return [{ label: "kWh per day", value: r.dailyKwh.toFixed(2) }, { label: "kWh this month", value: r.kwh.toFixed(2) }, moneyRow("Monthly cost", r.cost, true)];
     },
     note: "The average US residential rate is about $0.17/kWh (2026). Check your bill for your exact rate.",
     faq: [
@@ -1503,7 +1503,7 @@ export const TOOLS: ToolDef[] = [
     compute: (v) => {
       const totalIn = (Number(v.heightFt) || 5) * 12 + (Number(v.heightIn) || 0);
       const r = bmiCalc(Number(v.weight) || 0, totalIn);
-      return [moneyRow("BMI", r.bmi, true), { label: "Category", value: r.category }];
+      return [{ label: "BMI", value: r.bmi.toFixed(2), highlight: true }, { label: "Category", value: r.category }];
     },
     note: "BMI = 703 x weight(lb) / height(in)^2. A screening tool, not a diagnosis.",
     faq: [
