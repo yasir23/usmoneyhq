@@ -6,7 +6,7 @@ import { WHOP_SHOP_URL, WHOP_PRO_URL, WHOP_DATA_PACK_URL, WHOP_BUNDLE_URL } from
 export default function PremiumPage() {
   const shopReady = !!WHOP_SHOP_URL;
 
-  const btn = (href: string, label: string) =>
+  const btn = (href, label) =>
     href ? (
       <a className="btn btn-buy" href={href} target="_blank" rel="noopener sponsored">{label}</a>
     ) : (
