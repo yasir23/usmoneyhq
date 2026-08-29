@@ -1,6 +1,6 @@
 import Head from "next/head";
 import Link from "next/link";
-import { SITE_URL } from "../lib/tools";
+import { SITE_URL } from "../../lib/tools";
 
 /** /guides — guides hub: cornerstone content pages with embedded calculators. */
 export default function GuidesHub() {
