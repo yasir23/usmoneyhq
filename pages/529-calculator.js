@@ -1,5 +1,5 @@
 import ToolPageShell from "../components/ToolPageShell";
 
-export default function 529CalculatorPage() {
+export default function College529CalculatorPage() {
   return <ToolPageShell slug="529-calculator" />;
 }
