@@ -55,7 +55,7 @@ export default function WidgetsPage() {
 
         <div className="seo">
           <h2>Why embed our calculators?</h2>
-          <p>Every widget is powered by the same formulas as the full tools on this site: standard US amortization, 2025 federal tax brackets, FICA, and state-aware estimates. Updates roll out automatically — you never maintain the math.</p>
+          <p>Every widget is powered by the same formulas as the full tools on this site: standard US amortization, current federal tax brackets, FICA, and state-aware estimates. Updates roll out automatically — you never maintain the math.</p>
           <h2>Custom widgets</h2>
           <p>Need a branded version, different fields, or a bulk embed for a network of sites? Email hello@usmoneyhq.com.</p>
         </div>
