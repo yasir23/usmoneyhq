@@ -165,6 +165,7 @@ export const TOOLS: ToolDef[] = [
       { q: "What is a good mortgage rate in 2026?", a: "Rates vary with the economy and your credit profile. Compare offers from at least three lenders and consider whether a 15-year or 30-year term fits your budget." },
       { q: "Does this include property tax and insurance?", a: "No. Your full monthly payment (PITI) also includes property taxes, homeowners insurance, and possibly PMI if your down payment is under 20%." },
       { q: "How does the amortization schedule work?", a: "Early payments go mostly to interest; later payments go mostly to principal. The schedule shows exactly how much of each payment reduces your balance." },
+      { q: "Can I use this for a VA loan?", a: "Yes — VA loans require zero down payment and no PMI, but include a one-time funding fee (2.15-3.3% for most buyers). Set down payment to 0% and ignore the PMI estimate; add the funding fee into the loan amount for a closer number." },
     ],
     related: ["pmi-calculator", "heloc-calculator", "dti-calculator", "refinance-calculator"],
   },
@@ -375,6 +376,7 @@ export const TOOLS: ToolDef[] = [
     faq: [
       { q: "Should I pay off debt or invest?", a: "As a rule of thumb, pay off debt above ~7-8% APR before investing, since guaranteed debt interest savings usually beat expected market returns after taxes." },
       { q: "How does extra payment help?", a: "Every extra dollar goes straight to principal, skipping interest. Even $50/month can shave years off a high-APR balance." },
+      { q: "Snowball or avalanche method?", a: "Avalanche (highest APR first) saves the most interest. Snowball (smallest balance first, the Dave Ramsey approach) builds momentum. Both beat minimum payments — pick the one you'll stick with." },
     ],
     related: ["mortgage-calculator", "auto-loan-calculator", "dti-calculator"],
   },
@@ -406,6 +408,7 @@ export const TOOLS: ToolDef[] = [
     faq: [
       { q: "What is a good DTI ratio?", a: "Conventional loans generally want a back-end DTI under 43%; FHA loans allow up to 50% in some cases. Lower DTI also means better interest rates." },
       { q: "How can I lower my DTI?", a: "Pay down credit card balances, extend loan terms to lower monthly payments, or increase income. Even a small balance payoff can push you under the threshold." },
+      { q: "Do credit card payments count in DTI?", a: "Yes — lenders include the minimum monthly payment on every open card, even at a $0 balance. Cards with large balances can push your DTI over the limit even with a solid income." },
     ],
     related: ["mortgage-calculator", "heloc-calculator", "debt-payoff-calculator"],
   },
@@ -740,6 +743,7 @@ export const TOOLS: ToolDef[] = [
     faq: [
       { q: "How many bags of concrete do I need?", a: "A 60 lb bag covers about 0.45 cubic feet; an 80 lb bag about 0.6 cubic feet. Divide your total cubic feet by those numbers and round up." },
       { q: "How thick should a slab be?", a: "Patios and walkways: 4 inches. Driveways: 4-6 inches. Heavy structures: 6+ inches with rebar or wire mesh." },
+      { q: "How much cement and ballast do I need?", a: "A common mix is 1 part cement to 4-5 parts ballast by volume. For 1 cubic yard of concrete, that's roughly 5-6 bags of 94 lb Portland cement plus 1 ton of ballast. Ready-mix is usually cheaper for pours over half a yard." },
     ],
     related: ["mortgage-calculator", "heloc-calculator", "dti-calculator"],
   },
@@ -797,6 +801,7 @@ export const TOOLS: ToolDef[] = [
     faq: [
       { q: "What is TDEE?", a: "Total Daily Energy Expenditure: the calories you burn in a day including activity. Eat below it to lose weight, above it to gain." },
       { q: "Which formula is used?", a: "The Mifflin-St Jeor equation, considered the most accurate BMR formula for most adults, multiplied by a standard activity factor." },
+      { q: "What's the difference between BMR and TDEE?", a: "BMR is the calories your body burns at complete rest — just keeping you alive. TDEE adds everything else: walking, workouts, digestion. Your BMR is roughly 60-70% of TDEE. This calculator shows both." },
     ],
     related: ["body-fat-calculator", "water-intake-calculator", "sleep-calculator"],
   },
@@ -909,6 +914,7 @@ export const TOOLS: ToolDef[] = [
     faq: [
       { q: "How accurate is the tape method?", a: "The US Navy formula is within about ±3-4% of hydrostatic weighing for most people when measurements are taken correctly." },
       { q: "What is a healthy body fat range?", a: "Athletes: 14-24% (women) / 6-17% (men). Acceptable: 25-31% (women) / 18-24% (men). Above that is classified as obese." },
+      { q: "Navy vs Army body fat method?", a: "The US Navy tape method (used here) measures neck, waist, and hips. The Army method uses height plus neck and waist circumference with age-adjusted tables. Results differ by a few percent — both are within ±3-4% of a DEXA scan." },
     ],
     related: ["tdee-calculator", "water-intake-calculator", "sleep-calculator"],
   },
@@ -1229,6 +1235,7 @@ export const TOOLS: ToolDef[] = [
     faq: [
       { q: "What is compound interest?", a: "Interest earned on both your original money and previously earned interest. Over decades it produces exponential growth." },
       { q: "How often should interest compound?", a: "More frequent compounding (daily vs yearly) yields slightly more. Monthly is the common assumption for savings and investments." },
+      { q: "Is compound interest taxable?", a: "Yes — interest from savings accounts, CDs, and bonds is taxed as ordinary income in the year it's earned, even if reinvested. Tax-advantaged accounts (401k, IRA, 529) defer or avoid that tax." },
     ],
     related: ["retirement-calculator", "cd-calculator", "investment-calculator"],
   },
@@ -1264,6 +1271,7 @@ export const TOOLS: ToolDef[] = [
     faq: [
       { q: "What is a CD?", a: "A certificate of deposit locks your money for a fixed term in exchange for a guaranteed interest rate, typically higher than a savings account." },
       { q: "Are CD rates worth it?", a: "CDs offer a guaranteed return with FDIC insurance. Compare APYs across banks — online banks often pay 2-3x branch rates." },
+      { q: "What are CD rates in 2026?", a: "Short-term CDs (6-12 months) are tracking the Fed's rate path, generally 3-4% APY in 2026. Longer terms (2-5 years) pay similar or slightly less when the market expects cuts. Always lock the best APY you can find — rates differ by 1%+ between banks." },
     ],
     related: ["compound-interest-calculator", "retirement-calculator", "savings-goal-calculator"],
   },
@@ -1594,6 +1602,7 @@ export const TOOLS: ToolDef[] = [
     faq: [
       { q: "What counts as needs vs wants?", a: "Needs are essentials: housing, food, utilities, transport, minimum debt payments. Wants are lifestyle: dining out, subscriptions, travel. Savings includes retirement, emergency fund, and extra debt payoff." },
       { q: "My rent is over 50% of take-home — now what?", a: "The rule is a target, not a law. If needs exceed 50%, reduce wants and savings temporarily — then work on income or housing costs to rebalance." },
+      { q: "How much rent can I afford?", a: "With the 50/30/20 rule, rent belongs in the 50% needs bucket along with utilities and groceries. Many landlords use 30% of gross income as the affordability cap — at $60k/year that's $1,500/month." },
     ],
     related: ["net-worth-calculator", "savings-goal-calculator", "debt-payoff-calculator"],
   },
