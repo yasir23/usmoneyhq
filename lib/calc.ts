@@ -590,7 +590,6 @@ export function rentVsBuy(rentMonthly: number, price: number, downPct: number, r
   }
   const buyTotal = buyMonthly * horizon + down;
   const homeValue = price * Math.pow(1 + appreciationPct / 100, years);
-  const equity = Math.max(0, homeValue - principal * Math.pow(1 + r, n) * 0); // simple: value minus remaining (approx via paid)
   return {
     buyMonthly: round2(buyMonthly),
     rentTotal: round2(rentTotal),

@@ -1814,7 +1814,7 @@ export const TOOLS: ToolDef[] = [
 ];
 
 // Planned tools — render automatically via pages/[tool].js once added to TOOLS.
-export const FUTURE_TOOLS = ["investment-calculator", "home-equity-calculator", "savings-goal-calculator", "tax-bracket-calculator"];
+export const FUTURE_TOOLS = ["investment-calculator", "home-equity-calculator", "tax-bracket-calculator"];
 
 export function getTool(slug: string): ToolDef | undefined {
   return TOOLS.find((t) => t.slug === slug);
