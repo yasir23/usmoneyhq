@@ -34,6 +34,16 @@ import {
   cdMaturity,
   overtimePay,
   tipCalc,
+  amortizedPayment,
+  savingsGoal,
+  netWorth,
+  hourlyToSalary,
+  gasCost,
+  squareFootage,
+  electricityCost,
+  bmiCalc,
+  simpleInterest,
+  budgetSplit,
   NO_INCOME_TAX_STATES,
   US_STATES,
 } from "./calc.ts";
@@ -1279,6 +1289,272 @@ export const TOOLS: ToolDef[] = [
       { q: "Do I tip on the pre-tax amount?", a: "Etiquette varies, but most people tip on the pre-tax total. Some prefer the after-tax amount — either is acceptable." },
     ],
     related: ["percentage-calculator", "paycheck-calculator", "salary-after-tax-calculator"],
+  },
+  {
+    slug: "student-loan-calculator",
+    title: "Student Loan Calculator 2026 — Monthly Payment & Interest | US Money HQ",
+    shortTitle: "Student Loan Calculator",
+    description: "Free student loan calculator: estimate your monthly payment, total interest, and payoff timeline for federal or private loans.",
+    h1: "Student Loan Calculator",
+    sub: "Monthly payment, total interest, and payoff for your student loans.",
+    fields: [
+      { key: "amount", label: "Loan balance (USD)", type: "number", default: 35000, min: 0, step: 500, inputMode: "numeric" },
+      { key: "rate", label: "Interest rate (annual %)", type: "number", default: 5.5, min: 0, step: 0.01, inputMode: "decimal" },
+      { key: "years", label: "Loan term (years)", type: "select", default: 10, options: [{ value: 5, label: "5 years" }, { value: 10, label: "10 years" }, { value: 15, label: "15 years" }, { value: 20, label: "20 years" }] },
+    ],
+    compute: (v) => {
+      const amount = Number(v.amount) || 0;
+      const rate = Number(v.rate) || 0;
+      const years = Number(v.years) || 10;
+      const r = amortizedPayment(amount, rate, years * 12);
+      return [moneyRow("Monthly payment", r.payment, true), moneyRow("Total interest", r.totalInterest), moneyRow("Total paid", r.totalPaid)];
+    },
+    note: "Federal student loans use simple daily interest; private loans may compound. This is an amortized estimate.",
+    faq: [
+      { q: "Should I refinance my student loans?", a: "Refinancing can lower your rate if your credit is strong, but you lose federal protections like income-driven repayment and forgiveness programs. Compare your options before switching." },
+      { q: "How is student loan interest calculated?", a: "Federal loans accrue simple interest daily based on your rate. This calculator estimates an amortized payment schedule, which is close for private loans and helpful for planning either way." },
+    ],
+    related: ["loan-calculator", "compound-interest-calculator", "savings-goal-calculator"],
+  },
+  {
+    slug: "loan-calculator",
+    title: "Loan Calculator 2026 — Payment & Total Cost | US Money HQ",
+    shortTitle: "Loan Calculator",
+    description: "Free general loan calculator: monthly payment, total interest, and total cost for any amortized loan.",
+    h1: "Loan Calculator",
+    sub: "Payment and total cost for any amortized loan.",
+    fields: [
+      { key: "amount", label: "Loan amount (USD)", type: "number", default: 20000, min: 0, step: 500, inputMode: "numeric" },
+      { key: "rate", label: "Interest rate (annual %)", type: "number", default: 7.5, min: 0, step: 0.01, inputMode: "decimal" },
+      { key: "months", label: "Loan term (months)", type: "number", default: 60, min: 1, max: 360, step: 1, inputMode: "numeric" },
+    ],
+    compute: (v) => {
+      const amount = Number(v.amount) || 0;
+      const rate = Number(v.rate) || 0;
+      const months = Number(v.months) || 60;
+      const r = amortizedPayment(amount, rate, months);
+      return [moneyRow("Monthly payment", r.payment, true), moneyRow("Total interest", r.totalInterest), moneyRow("Total paid", r.totalPaid)];
+    },
+    note: "Applies the standard amortization formula to any fixed-rate loan.",
+    faq: [
+      { q: "What is an amortized loan?", a: "An amortized loan is repaid in equal monthly installments that cover both principal and interest. Early payments are mostly interest; later payments are mostly principal." },
+      { q: "How does a longer term affect cost?", a: "A longer term lowers your monthly payment but increases total interest — sometimes dramatically. Run the same amount at 36, 60, and 84 months to see the trade-off." },
+    ],
+    related: ["mortgage-calculator", "auto-loan-calculator", "simple-interest-calculator"],
+  },
+  {
+    slug: "savings-goal-calculator",
+    title: "Savings Goal Calculator 2026 — Time to Reach Your Target | US Money HQ",
+    shortTitle: "Savings Goal Calculator",
+    description: "Free savings goal calculator: how many months to reach your savings target with monthly contributions and interest.",
+    h1: "Savings Goal Calculator",
+    sub: "Months to your target, with contributions and interest.",
+    fields: [
+      { key: "goal", label: "Savings goal (USD)", type: "number", default: 10000, min: 1, step: 100, inputMode: "numeric" },
+      { key: "current", label: "Current savings (USD)", type: "number", default: 1000, min: 0, step: 100, inputMode: "numeric" },
+      { key: "monthly", label: "Monthly contribution (USD)", type: "number", default: 300, min: 0, step: 10, inputMode: "numeric" },
+      { key: "rate", label: "Annual return (%)", type: "number", default: 4, min: 0, max: 25, step: 0.1, inputMode: "decimal" },
+    ],
+    compute: (v) => {
+      const goal = Number(v.goal) || 0;
+      const current = Number(v.current) || 0;
+      const monthly = Number(v.monthly) || 0;
+      const rate = Number(v.rate) || 0;
+      const r = savingsGoal(goal, current, monthly, rate);
+      return [
+        { label: "Time to goal", value: r.years > 0 ? r.years + " yrs " + r.remMonths + " mo" : r.months + " months", highlight: true },
+        moneyRow("Final balance", r.finalBalance),
+        moneyRow("You contribute", r.contributed),
+      ];
+    },
+    note: "Assumes monthly compounding at your annual return rate.",
+    faq: [
+      { q: "Where should I keep a savings goal?", a: "Short-term goals (under 5 years) belong in a high-yield savings account or CDs. Longer goals can tolerate index funds or target-date funds." },
+      { q: "What return rate should I use?", a: "High-yield savings accounts pay roughly 4% in 2026. Index funds historically return 7-10% annually before inflation. Use a conservative number for planning." },
+    ],
+    related: ["compound-interest-calculator", "cd-calculator", "retirement-calculator"],
+  },
+  {
+    slug: "net-worth-calculator",
+    title: "Net Worth Calculator 2026 — Assets Minus Liabilities | US Money HQ",
+    shortTitle: "Net Worth Calculator",
+    description: "Free net worth calculator: add your assets and liabilities to see your true net worth in seconds.",
+    h1: "Net Worth Calculator",
+    sub: "Assets minus liabilities — your real financial position.",
+    fields: [
+      { key: "assets", label: "Total assets (USD)", type: "number", default: 150000, min: 0, step: 1000, inputMode: "numeric" },
+      { key: "liabilities", label: "Total liabilities (USD)", type: "number", default: 60000, min: 0, step: 1000, inputMode: "numeric" },
+    ],
+    compute: (v) => {
+      const r = netWorth(Number(v.assets) || 0, Number(v.liabilities) || 0);
+      return [moneyRow("Assets", r.assets), moneyRow("Liabilities", r.liabilities), moneyRow("Net worth", r.netWorth, true)];
+    },
+    note: "Assets include cash, investments, property, and vehicles. Liabilities include mortgages, loans, and credit card balances.",
+    faq: [
+      { q: "What counts as an asset?", a: "Anything you own with monetary value: cash, bank accounts, investments, retirement accounts, real estate equity, vehicles, and collectibles." },
+      { q: "How often should I track net worth?", a: "Monthly is ideal for spotting trends. It should trend upward over time — if it isn't, your spending or debt is outpacing your savings." },
+    ],
+    related: ["budget-calculator", "savings-goal-calculator", "retirement-calculator"],
+  },
+  {
+    slug: "hourly-to-salary-calculator",
+    title: "Hourly to Salary Calculator 2026 — Annual Pay | US Money HQ",
+    shortTitle: "Hourly to Salary Calculator",
+    description: "Free hourly to salary calculator: convert your hourly wage to annual, monthly, and weekly pay.",
+    h1: "Hourly to Salary Calculator",
+    sub: "Your hourly rate, translated to annual pay.",
+    fields: [
+      { key: "hourly", label: "Hourly rate (USD)", type: "number", default: 22, min: 0, step: 0.25, inputMode: "decimal" },
+      { key: "hours", label: "Hours per week", type: "number", default: 40, min: 1, max: 100, step: 1, inputMode: "numeric" },
+      { key: "weeks", label: "Weeks worked per year", type: "number", default: 52, min: 1, max: 52, step: 1, inputMode: "numeric" },
+    ],
+    compute: (v) => {
+      const r = hourlyToSalary(Number(v.hourly) || 0, Number(v.hours) || 40, Number(v.weeks) || 52);
+      return [moneyRow("Annual salary", r.annual, true), moneyRow("Monthly (gross)", r.monthly), moneyRow("Weekly (gross)", r.weekly)];
+    },
+    note: "Gross pay before taxes. Use the salary calculator for take-home.",
+    faq: [
+      { q: "How do I calculate salary from hourly?", a: "Multiply your hourly rate by hours per week, then by weeks per year (usually 52, or 40 if you take 12 weeks unpaid)." },
+      { q: "Is overtime included?", a: "No — this assumes straight time. Add overtime separately using the overtime calculator." },
+    ],
+    related: ["salary-after-tax-calculator", "paycheck-calculator", "overtime-calculator"],
+  },
+  {
+    slug: "gas-cost-calculator",
+    title: "Gas Cost Calculator 2026 — Trip Fuel Cost | US Money HQ",
+    shortTitle: "Gas Cost Calculator",
+    description: "Free gas cost calculator: fuel cost for any trip based on miles, MPG, and gas price.",
+    h1: "Gas Cost Calculator",
+    sub: "How much your next drive will cost in fuel.",
+    fields: [
+      { key: "miles", label: "Trip distance (miles)", type: "number", default: 250, min: 0, step: 10, inputMode: "numeric" },
+      { key: "mpg", label: "Vehicle MPG", type: "number", default: 28, min: 1, step: 1, inputMode: "numeric" },
+      { key: "price", label: "Gas price (per gallon)", type: "number", default: 3.4, min: 0, step: 0.05, inputMode: "decimal" },
+    ],
+    compute: (v) => {
+      const r = gasCost(Number(v.miles) || 0, Number(v.mpg) || 1, Number(v.price) || 0);
+      return [moneyRow("Gallons needed", r.gallons), moneyRow("Fuel cost", r.cost, true)];
+    },
+    note: "MPG = highway/city blend as rated or measured. Real-world MPG is often 10-15% lower.",
+    faq: [
+      { q: "How do I find my real MPG?", a: "Divide miles driven between fill-ups by gallons pumped. Track 3-4 tanks for an accurate average." },
+      { q: "Does driving style affect cost?", a: "Yes — aggressive acceleration, speeding over 60 mph, and idling can reduce fuel economy by 10-30%." },
+    ],
+    related: ["auto-loan-calculator", "percentage-calculator", "electricity-cost-calculator"],
+  },
+  {
+    slug: "square-footage-calculator",
+    title: "Square Footage Calculator 2026 — Room Area | US Money HQ",
+    shortTitle: "Square Footage Calculator",
+    description: "Free square footage calculator: area of any room or space in square feet and square yards.",
+    h1: "Square Footage Calculator",
+    sub: "Area in square feet and yards — for flooring, paint, or listing.",
+    fields: [
+      { key: "length", label: "Length (feet)", type: "number", default: 15, min: 0, step: 0.5, inputMode: "decimal" },
+      { key: "width", label: "Width (feet)", type: "number", default: 12, min: 0, step: 0.5, inputMode: "decimal" },
+    ],
+    compute: (v) => {
+      const r = squareFootage(Number(v.length) || 0, Number(v.width) || 0);
+      return [moneyRow("Square feet", r.squareFeet, true), moneyRow("Square yards", r.squareYards)];
+    },
+    note: "For non-rectangular rooms, split into rectangles and add the results.",
+    faq: [
+      { q: "How do I measure an irregular room?", a: "Divide the room into rectangles, calculate each, and add them together. For L-shaped rooms, split at the corner." },
+      { q: "Square feet vs square yards?", a: "One square yard = 9 square feet. Flooring and carpet are often priced per square yard; most other materials per square foot." },
+    ],
+    related: ["paint-calculator", "concrete-calculator", "mulch-calculator"],
+  },
+  {
+    slug: "electricity-cost-calculator",
+    title: "Electricity Cost Calculator 2026 — Appliance Costs | US Money HQ",
+    shortTitle: "Electricity Cost Calculator",
+    description: "Free electricity cost calculator: what an appliance costs to run per day or month based on wattage and your rate.",
+    h1: "Electricity Cost Calculator",
+    sub: "Wattage x hours x your rate = appliance cost.",
+    fields: [
+      { key: "watts", label: "Appliance wattage", type: "number", default: 1500, min: 1, step: 10, inputMode: "numeric" },
+      { key: "hours", label: "Hours used per day", type: "number", default: 4, min: 0, step: 0.5, inputMode: "decimal" },
+      { key: "days", label: "Days per month", type: "number", default: 30, min: 1, max: 31, step: 1, inputMode: "numeric" },
+      { key: "rate", label: "Electric rate ($/kWh)", type: "number", default: 0.17, min: 0, step: 0.01, inputMode: "decimal" },
+    ],
+    compute: (v) => {
+      const r = electricityCost(Number(v.watts) || 0, Number(v.hours) || 0, Number(v.days) || 30, Number(v.rate) || 0);
+      return [moneyRow("kWh per day", r.dailyKwh), moneyRow("kWh this month", r.kwh), moneyRow("Monthly cost", r.cost, true)];
+    },
+    note: "The average US residential rate is about $0.17/kWh (2026). Check your bill for your exact rate.",
+    faq: [
+      { q: "How do I find an appliance's wattage?", a: "Check the label or manual — most appliances list watts (e.g., 1,500 for a space heater). If only amps are listed, multiply amps x 120 volts." },
+      { q: "Which appliances cost the most?", a: "Heating appliances top the list: space heaters, dryers, water heaters, and ovens. AC costs depend heavily on your climate and thermostat settings." },
+    ],
+    related: ["gas-cost-calculator", "percentage-calculator", "savings-goal-calculator"],
+  },
+  {
+    slug: "bmi-calculator",
+    title: "BMI Calculator 2026 — Body Mass Index | US Money HQ",
+    shortTitle: "BMI Calculator",
+    description: "Free BMI calculator: your body mass index and weight category from height and weight.",
+    h1: "BMI Calculator",
+    sub: "Your BMI and weight category, instantly.",
+    fields: [
+      { key: "weight", label: "Weight (lbs)", type: "number", default: 170, min: 50, step: 1, inputMode: "numeric" },
+      { key: "heightFt", label: "Height (feet)", type: "number", default: 5, min: 3, max: 7, step: 1, inputMode: "numeric" },
+      { key: "heightIn", label: "Height (inches)", type: "number", default: 9, min: 0, max: 11, step: 1, inputMode: "numeric" },
+    ],
+    compute: (v) => {
+      const totalIn = (Number(v.heightFt) || 5) * 12 + (Number(v.heightIn) || 0);
+      const r = bmiCalc(Number(v.weight) || 0, totalIn);
+      return [moneyRow("BMI", r.bmi, true), { label: "Category", value: r.category }];
+    },
+    note: "BMI = 703 x weight(lb) / height(in)^2. A screening tool, not a diagnosis.",
+    faq: [
+      { q: "Is BMI accurate for athletes?", a: "BMI doesn't distinguish muscle from fat, so very muscular people can show 'overweight' or 'obese' at healthy body-fat levels. Use it as one data point, not the whole picture." },
+      { q: "What is a healthy BMI?", a: "18.5-24.9 is the normal range. Below 18.5 is underweight; 25-29.9 overweight; 30+ obese." },
+    ],
+    related: ["body-fat-calculator", "tdee-calculator", "water-intake-calculator"],
+  },
+  {
+    slug: "simple-interest-calculator",
+    title: "Simple Interest Calculator 2026 | US Money HQ",
+    shortTitle: "Simple Interest Calculator",
+    description: "Free simple interest calculator: interest earned or owed with no compounding, for loans and short-term investments.",
+    h1: "Simple Interest Calculator",
+    sub: "Principal x rate x time — no compounding.",
+    fields: [
+      { key: "principal", label: "Principal (USD)", type: "number", default: 5000, min: 0, step: 100, inputMode: "numeric" },
+      { key: "rate", label: "Annual rate (%)", type: "number", default: 5, min: 0, step: 0.1, inputMode: "decimal" },
+      { key: "years", label: "Time (years)", type: "number", default: 3, min: 0, step: 0.5, inputMode: "decimal" },
+    ],
+    compute: (v) => {
+      const r = simpleInterest(Number(v.principal) || 0, Number(v.rate) || 0, Number(v.years) || 0);
+      return [moneyRow("Interest", r.interest), moneyRow("Total", r.total, true)];
+    },
+    note: "Simple interest is common on short-term loans and some bonds. Most savings accounts compound.",
+    faq: [
+      { q: "Simple vs compound interest?", a: "Simple interest is calculated only on the principal. Compound interest earns on both principal and accumulated interest — which grows faster over time. See the compound interest calculator for comparison." },
+      { q: "Where is simple interest used?", a: "Personal loans, auto loans with simple-interest terms, and many short-term bonds. Your loan documents state which method applies." },
+    ],
+    related: ["compound-interest-calculator", "loan-calculator", "cd-calculator"],
+  },
+  {
+    slug: "budget-calculator",
+    title: "Budget Calculator 2026 — 50/30/20 Rule | US Money HQ",
+    shortTitle: "Budget Calculator",
+    description: "Free budget calculator: split your monthly take-home pay into needs, wants, and savings with the 50/30/20 rule.",
+    h1: "Budget Calculator",
+    sub: "Your take-home pay, split the smart way.",
+    fields: [
+      { key: "income", label: "Monthly take-home pay (USD)", type: "number", default: 4200, min: 0, step: 50, inputMode: "numeric" },
+    ],
+    compute: (v) => {
+      const r = budgetSplit(Number(v.income) || 0);
+      return [moneyRow("Needs (50%)", r.needs, true), moneyRow("Wants (30%)", r.wants), moneyRow("Savings & debt (20%)", r.savings)];
+    },
+    note: "The 50/30/20 rule is a guideline from Senator Elizabeth Warren's budgeting framework.",
+    faq: [
+      { q: "What counts as needs vs wants?", a: "Needs are essentials: housing, food, utilities, transport, minimum debt payments. Wants are lifestyle: dining out, subscriptions, travel. Savings includes retirement, emergency fund, and extra debt payoff." },
+      { q: "My rent is over 50% of take-home — now what?", a: "The rule is a target, not a law. If needs exceed 50%, reduce wants and savings temporarily — then work on income or housing costs to rebalance." },
+    ],
+    related: ["net-worth-calculator", "savings-goal-calculator", "debt-payoff-calculator"],
   },
 ];
 

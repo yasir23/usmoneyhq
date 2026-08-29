@@ -471,3 +471,78 @@ export function tipCalc(bill: number, tipPct: number, split: number) {
   const total = bill + tip;
   return { tip: round2(tip), total: round2(total), perPerson: round2(total / Math.max(1, split)) };
 }
+
+/** Standard amortized loan payment: principal, annual rate %, term months. */
+export function amortizedPayment(principal: number, ratePct: number, termMonths: number) {
+  const r = ratePct / 100 / 12;
+  if (r === 0) return { payment: round2(principal / Math.max(1, termMonths)), totalInterest: 0, totalPaid: principal };
+  const n = Math.max(1, termMonths);
+  const payment = (principal * r * Math.pow(1 + r, n)) / (Math.pow(1 + r, n) - 1);
+  const totalPaid = payment * n;
+  return { payment: round2(payment), totalInterest: round2(totalPaid - principal), totalPaid: round2(totalPaid) };
+}
+
+/** Savings goal: months to reach goal with starting balance + monthly contributions + annual return. */
+export function savingsGoal(goal: number, current: number, monthly: number, ratePct: number) {
+  const r = ratePct / 100 / 12;
+  let bal = current;
+  let months = 0;
+  const maxMonths = 1200;
+  while (bal < goal && months < maxMonths) {
+    bal = bal * (1 + r) + monthly;
+    months++;
+  }
+  const years = Math.floor(months / 12);
+  const remMonths = months % 12;
+  return { months, years, remMonths, finalBalance: round2(bal), contributed: round2(current + monthly * months) };
+}
+
+/** Net worth: assets minus liabilities. */
+export function netWorth(assets: number, liabilities: number) {
+  return { netWorth: round2(assets - liabilities), assets: round2(assets), liabilities: round2(liabilities) };
+}
+
+/** Hourly rate to annual salary (and reverse). */
+export function hourlyToSalary(hourly: number, hoursPerWeek: number, weeksPerYear = 52) {
+  const annual = hourly * hoursPerWeek * weeksPerYear;
+  return { annual: round2(annual), monthly: round2(annual / 12), weekly: round2(hourly * hoursPerWeek) };
+}
+
+/** Fuel cost for a trip. */
+export function gasCost(miles: number, mpg: number, pricePerGallon: number) {
+  const gallons = miles / Math.max(1, mpg);
+  return { gallons: round2(gallons), cost: round2(gallons * pricePerGallon) };
+}
+
+/** Square footage of a rectangle. */
+export function squareFootage(lengthFt: number, widthFt: number) {
+  return { squareFeet: round2(lengthFt * widthFt), squareYards: round2((lengthFt * widthFt) / 9) };
+}
+
+/** Electricity cost: watts x hours/day x days x rate. */
+export function electricityCost(watts: number, hoursPerDay: number, days: number, ratePerKwh: number) {
+  const kwh = (watts * hoursPerDay * days) / 1000;
+  return { kwh: round2(kwh), cost: round2(kwh * ratePerKwh), dailyKwh: round2((watts * hoursPerDay) / 1000) };
+}
+
+/** BMI (imperial): 703 * lb / in^2. */
+export function bmiCalc(weightLb: number, heightIn: number) {
+  const bmi = (703 * weightLb) / (heightIn * heightIn);
+  let category = "Normal weight";
+  if (bmi < 18.5) category = "Underweight";
+  else if (bmi < 25) category = "Normal weight";
+  else if (bmi < 30) category = "Overweight";
+  else category = "Obese";
+  return { bmi: round2(bmi), category };
+}
+
+/** Simple interest: P*r*t (no compounding). */
+export function simpleInterest(principal: number, ratePct: number, years: number) {
+  const interest = principal * (ratePct / 100) * years;
+  return { interest: round2(interest), total: round2(principal + interest) };
+}
+
+/** 50/30/20 budget split from monthly take-home. */
+export function budgetSplit(netMonthly: number) {
+  return { needs: round2(netMonthly * 0.5), wants: round2(netMonthly * 0.3), savings: round2(netMonthly * 0.2) };
+}

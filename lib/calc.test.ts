@@ -35,6 +35,16 @@ import {
   cdMaturity,
   overtimePay,
   tipCalc,
+  amortizedPayment,
+  savingsGoal,
+  netWorth,
+  hourlyToSalary,
+  gasCost,
+  squareFootage,
+  electricityCost,
+  bmiCalc,
+  simpleInterest,
+  budgetSplit,
 } from "./calc.ts";
 
 // $300k @ 6.5% / 30yr (360 mo) -> ~$1,896.20/mo (known value)
@@ -199,3 +209,126 @@ assert.ok(Math.abs(tp.tip - 15.39) < 0.1, `tip ${tp.tip}`);
 assert.ok(Math.abs(tp.perPerson - 50.45) < 0.1, `pp ${tp.perPerson}`);
 
 console.log("ALL CALC TESTS PASS");
+
+// === New tool batch (Phase 2): student loan, loan, savings goal, net worth, hourly, gas, sqft, electric, bmi, simple interest, budget ===
+{
+  const r = amortizedPayment(20000, 7.5, 60);
+  assert.ok(r.payment > 380 && r.payment < 420, "loan 20k@7.5% 60mo payment ~$400");
+  assert.ok(r.totalInterest > 3600 && r.totalInterest < 4600, "loan total interest ~$4,010");
+  const z = amortizedPayment(10000, 0, 12);
+  assert.strictEqual(z.payment, 833.33, "0% loan splits principal evenly");
+}
+{
+  const r = savingsGoal(10000, 1000, 300, 4);
+  assert.ok(r.months > 24 && r.months < 36, "goal ~29 months");
+  assert.ok(r.finalBalance >= 10000, "final balance reaches goal");
+  const slow = savingsGoal(50000, 0, 100, 0);
+  assert.strictEqual(slow.months, 500, "zero-interest goal is pure math");
+}
+{
+  const r = netWorth(150000, 60000);
+  assert.strictEqual(r.netWorth, 90000);
+  const neg = netWorth(5000, 12000);
+  assert.strictEqual(neg.netWorth, -7000);
+}
+{
+  const r = hourlyToSalary(22, 40, 52);
+  assert.strictEqual(r.annual, 45760);
+  assert.strictEqual(r.weekly, 880);
+}
+{
+  const r = gasCost(250, 25, 4);
+  assert.strictEqual(r.gallons, 10);
+  assert.strictEqual(r.cost, 40);
+}
+{
+  const r = squareFootage(15, 12);
+  assert.strictEqual(r.squareFeet, 180);
+  assert.strictEqual(r.squareYards, 20);
+}
+{
+  const r = electricityCost(1500, 4, 30, 0.17);
+  assert.strictEqual(r.kwh, 180);
+  assert.strictEqual(r.cost, 30.6);
+}
+{
+  const r = bmiCalc(170, 69);
+  assert.ok(r.bmi > 24.9 && r.bmi < 25.2, "5'9 170lb BMI ~25.1");
+  assert.ok(r.category === "Overweight" || r.category === "Normal weight", "category sanity");
+  const under = bmiCalc(120, 70);
+  assert.ok(under.category === "Underweight", "low BMI category");
+}
+{
+  const r = simpleInterest(5000, 5, 3);
+  assert.strictEqual(r.interest, 750);
+  assert.strictEqual(r.total, 5750);
+}
+{
+  const r = budgetSplit(4200);
+  assert.strictEqual(r.needs, 2100);
+  assert.strictEqual(r.wants, 1260);
+  assert.strictEqual(r.savings, 840);
+}
+
+console.log("ALL PHASE 2 CALC TESTS PASS");
+
+// === New tool batch (Phase 2): student loan, loan, savings goal, net worth, hourly, gas, sqft, electric, bmi, simple interest, budget ===
+{
+  const r = amortizedPayment(20000, 7.5, 60);
+  assert.ok(r.payment > 380 && r.payment < 420, "loan 20k@7.5% 60mo payment ~$400");
+  assert.ok(r.totalInterest > 3600 && r.totalInterest < 4600, "loan total interest ~$4,010");
+  const z = amortizedPayment(10000, 0, 12);
+  assert.strictEqual(z.payment, 833.33, "0% loan splits principal evenly");
+}
+{
+  const r = savingsGoal(10000, 1000, 300, 4);
+  assert.ok(r.months > 24 && r.months < 36, "goal ~29 months");
+  assert.ok(r.finalBalance >= 10000, "final balance reaches goal");
+  const slow = savingsGoal(50000, 0, 100, 0);
+  assert.strictEqual(slow.months, 500, "zero-interest goal is pure math");
+}
+{
+  const r = netWorth(150000, 60000);
+  assert.strictEqual(r.netWorth, 90000);
+  const neg = netWorth(5000, 12000);
+  assert.strictEqual(neg.netWorth, -7000);
+}
+{
+  const r = hourlyToSalary(22, 40, 52);
+  assert.strictEqual(r.annual, 45760);
+  assert.strictEqual(r.weekly, 880);
+}
+{
+  const r = gasCost(250, 25, 4);
+  assert.strictEqual(r.gallons, 10);
+  assert.strictEqual(r.cost, 40);
+}
+{
+  const r = squareFootage(15, 12);
+  assert.strictEqual(r.squareFeet, 180);
+  assert.strictEqual(r.squareYards, 20);
+}
+{
+  const r = electricityCost(1500, 4, 30, 0.17);
+  assert.strictEqual(r.kwh, 180);
+  assert.strictEqual(r.cost, 30.6);
+}
+{
+  const r = bmiCalc(170, 69);
+  assert.ok(r.bmi > 24.9 && r.bmi < 25.2, "5'9 170lb BMI ~25.1");
+  const under = bmiCalc(120, 70);
+  assert.ok(under.category === "Underweight", "low BMI category");
+}
+{
+  const r = simpleInterest(5000, 5, 3);
+  assert.strictEqual(r.interest, 750);
+  assert.strictEqual(r.total, 5750);
+}
+{
+  const r = budgetSplit(4200);
+  assert.strictEqual(r.needs, 2100);
+  assert.strictEqual(r.wants, 1260);
+  assert.strictEqual(r.savings, 840);
+}
+
+console.log("ALL PHASE 2 CALC TESTS PASS");
