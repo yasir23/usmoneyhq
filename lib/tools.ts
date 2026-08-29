@@ -92,6 +92,11 @@ import {
   sodNeeds,
   drywallNeeds,
   heartRate,
+  percentChange,
+  moneyLasts,
+  movingCost,
+  lifeInsuranceNeeds,
+  remodelCost,
   NO_INCOME_TAX_STATES,
   US_STATES,
 } from "./calc.ts";
@@ -2786,6 +2791,123 @@ export const TOOLS: ToolDef[] = [
       { q: "What zone should I train in?", a: "Moderate (50-70%) for fat-burning and base fitness; vigorous (70-85%) for cardio improvement. Mix both across the week." },
     ],
     related: ["tdee-calculator", "bmi-calculator", "calorie-deficit-calculator"],
+  },
+  {
+    slug: "percentage-change-calculator",
+    title: "Percentage Change Calculator 2026 — % Increase/Decrease | US Money HQ",
+    shortTitle: "Percentage Change Calculator",
+    description: "Free percentage change calculator: percent increase or decrease between two numbers, with the absolute difference.",
+    h1: "Percentage Change Calculator",
+    sub: "From-to percent change, instantly.",
+    fields: [
+      { key: "from", label: "Original value", type: "number", default: 100, min: -99999999, step: 1, inputMode: "decimal" },
+      { key: "to", label: "New value", type: "number", default: 125, min: -99999999, step: 1, inputMode: "decimal" },
+    ],
+    compute: (v) => {
+      const r = percentChange(Number(v.from) || 0, Number(v.to) || 0);
+      return [{ label: "Percent change", value: (r.change >= 0 ? "+" : "") + r.change.toFixed(2) + "%", highlight: true }, { label: "Absolute difference", value: (r.absolute >= 0 ? "+" : "") + r.absolute.toLocaleString() }];
+    },
+    note: "Percent change = (new − old) ÷ |old| × 100. Use it for prices, salaries, stock moves, and revenue.",
+    faq: [
+      { q: "How do I calculate percentage change?", a: "Subtract the original from the new value, divide by the original (absolute value), multiply by 100. $50 to $60 = +20%." },
+      { q: "Why does a 50% loss need a 100% gain to recover?", a: "Percentages compound on different bases. $100 → $50 is −50%, but $50 → $100 is +100%. Always compare in dollars when the direction matters." },
+    ],
+    related: ["percentage-calculator", "discount-calculator", "inflation-calculator"],
+  },
+  {
+    slug: "how-long-will-my-money-last-calculator",
+    title: "How Long Will My Money Last Calculator 2026 | US Money HQ",
+    shortTitle: "How Long Will My Money Last Calculator",
+    description: "Free retirement withdrawal calculator: how long your savings last with monthly withdrawals and investment growth.",
+    h1: "How Long Will My Money Last Calculator",
+    sub: "Withdrawal longevity, honestly projected.",
+    fields: [
+      { key: "balance", label: "Savings balance (USD)", type: "number", default: 500000, min: 0, step: 10000, inputMode: "numeric" },
+      { key: "withdrawal", label: "Monthly withdrawal (USD)", type: "number", default: 2500, min: 0, step: 100, inputMode: "numeric" },
+      { key: "rate", label: "Annual return (%)", type: "number", default: 5, min: 0, max: 15, step: 0.5, inputMode: "decimal" },
+    ],
+    compute: (v) => {
+      const r = moneyLasts(Number(v.balance) || 0, Number(v.withdrawal) || 0, Number(v.rate) || 0);
+      return [{ label: "Money lasts", value: r.years > 0 ? r.years + " yrs " + r.remMonths + " mo" : r.months + " months", highlight: true }, moneyRow("Remaining at end", r.finalBalance)];
+    },
+    note: "The 4% rule: withdraw no more than 4% of your portfolio per year to make it last 30 years. This calculator lets you stress-test your actual numbers.",
+    faq: [
+      { q: "What is the 4% rule?", a: "Withdraw 4% of your starting balance in year one, adjusted for inflation. On $1M that's $40k/year. It survived most historical market scenarios over 30 years." },
+      { q: "What withdrawal rate is safe for me?", a: "3-4% is the standard range. Early retirees or longer horizons should use 3-3.5%. Higher returns or lower spending extends the runway." },
+    ],
+    related: ["retirement-calculator", "401k-calculator", "investment-calculator"],
+  },
+  {
+    slug: "moving-cost-calculator",
+    title: "Moving Cost Calculator 2026 — Estimate | US Money HQ",
+    shortTitle: "Moving Cost Calculator",
+    description: "Free moving cost calculator: estimate your move with distance fees, hourly movers, and truck costs.",
+    h1: "Moving Cost Calculator",
+    sub: "Local or long-distance — rough but real.",
+    fields: [
+      { key: "distance", label: "Distance (miles)", type: "number", default: 50, min: 0, step: 10, inputMode: "numeric" },
+      { key: "hours", label: "Movers' time (hours)", type: "number", default: 4, min: 1, step: 1, inputMode: "numeric" },
+      { key: "rate", label: "Hourly rate per mover (USD)", type: "number", default: 50, min: 0, step: 5, inputMode: "numeric" },
+      { key: "truck", label: "Truck fee (USD)", type: "number", default: 150, min: 0, step: 25, inputMode: "numeric" },
+    ],
+    compute: (v) => {
+      const r = movingCost(Number(v.distance) || 0, Number(v.hours) || 0, Number(v.rate) || 0, Number(v.truck) || 0);
+      return [moneyRow("Estimated total", r.total, true), moneyRow("Distance fee", r.distanceFee), moneyRow("Labor (2 movers)", r.labor)];
+    },
+    note: "Local moves: $300-$600 for a studio, $1,000-$2,500 for a 3-bed home. Long-distance: $2,000-$6,000+. Get 3 quotes before booking.",
+    faq: [
+      { q: "How much does a local move cost?", a: "Hourly rates of $40-$75 per mover plus a truck fee. A 4-hour 2-mover local move typically lands $400-$700." },
+      { q: "How much is a long-distance move?", a: "Cross-country moves run $2,000-$6,000+ depending on weight and distance. Compare binding quotes from at least 3 licensed movers." },
+    ],
+    related: ["gas-cost-calculator", "budget-calculator", "emergency-fund-calculator"],
+  },
+  {
+    slug: "life-insurance-needs-calculator",
+    title: "Life Insurance Needs Calculator 2026 | US Money HQ",
+    shortTitle: "Life Insurance Needs Calculator",
+    description: "Free life insurance needs calculator: how much coverage you need to replace income, cover debts, and final expenses.",
+    h1: "Life Insurance Needs Calculator",
+    sub: "Coverage that actually covers.",
+    fields: [
+      { key: "income", label: "Annual income (USD)", type: "number", default: 75000, min: 0, step: 5000, inputMode: "numeric" },
+      { key: "years", label: "Years to cover", type: "number", default: 20, min: 1, max: 40, step: 1, inputMode: "numeric" },
+      { key: "debts", label: "Mortgage + debts (USD)", type: "number", default: 250000, min: 0, step: 10000, inputMode: "numeric" },
+      { key: "final", label: "Final expenses (USD)", type: "number", default: 15000, min: 0, step: 5000, inputMode: "numeric" },
+      { key: "current", label: "Existing coverage (USD)", type: "number", default: 50000, min: 0, step: 10000, inputMode: "numeric" },
+    ],
+    compute: (v) => {
+      const r = lifeInsuranceNeeds(Number(v.income) || 0, Number(v.years) || 20, Number(v.debts) || 0, Number(v.final) || 0, Number(v.current) || 0);
+      return [moneyRow("Coverage needed", r.needs, true), moneyRow("Income replacement (70%)", r.incomeReplacement), moneyRow("Total needs before existing", r.totalNeeds)];
+    },
+    note: "Common rule: 10-12x annual income. This calculator is more precise: 70% income replacement + debts + final expenses − existing coverage.",
+    faq: [
+      { q: "How much life insurance do I need?", a: "10-12x annual income is the standard benchmark. The precise version: 70% of income × years to cover, plus debts and final expenses, minus what you already have." },
+      { q: "Term or whole life?", a: "Term insurance is cheap and covers the gap when kids are dependent — the right choice for 90% of families. Whole life costs 10x more and mostly benefits the agent." },
+    ],
+    related: ["net-worth-calculator", "budget-calculator", "emergency-fund-calculator"],
+  },
+  {
+    slug: "home-remodel-cost-calculator",
+    title: "Home Remodel Cost Calculator 2026 | US Money HQ",
+    shortTitle: "Home Remodel Cost Calculator",
+    description: "Free home remodel cost calculator: budget ranges for kitchen, bath, basement, and whole-home remodels by quality level.",
+    h1: "Home Remodel Cost Calculator",
+    sub: "Realistic remodel budgets, room by room.",
+    fields: [
+      { key: "room", label: "Project", type: "select", default: "kitchen", options: [{ value: "kitchen", label: "Kitchen" }, { value: "bath", label: "Bathroom" }, { value: "basement", label: "Basement finish" }, { value: "wholehome", label: "Whole home" }] },
+      { key: "sqft", label: "Project size (sq ft)", type: "number", default: 200, min: 10, step: 10, inputMode: "numeric" },
+      { key: "quality", label: "Quality", type: "select", default: "mid", options: [{ value: "budget", label: "Budget" }, { value: "mid", label: "Mid-range" }, { value: "luxury", label: "Luxury" }] },
+    ],
+    compute: (v) => {
+      const r = remodelCost(String(v.room) || "kitchen", Number(v.sqft) || 0, String(v.quality) || "mid");
+      return [moneyRow("Low estimate", r.low, true), moneyRow("High estimate", r.high), { label: "Per sq ft", value: "$" + r.perSqftLow + "-$" + r.perSqftHigh }];
+    },
+    note: "National averages, not local quotes. Labor is 40-60% of remodel cost in most markets.",
+    faq: [
+      { q: "How much does a kitchen remodel cost?", a: "Budget: $100-$150/sq ft, mid-range: $150-$250, luxury: $250+. A typical 200 sq ft mid-range kitchen runs $30k-$50k." },
+      { q: "What adds the most value?", a: "Kitchens and baths return 60-80% on resale. Focus on cabinet fronts, countertops, and lighting before splurging on appliances." },
+    ],
+    related: ["construction-cost-calculator", "concrete-calculator", "paint-calculator"],
   },
 ];
 

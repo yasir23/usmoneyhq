@@ -93,6 +93,11 @@ import {
   sodNeeds,
   drywallNeeds,
   heartRate,
+  percentChange,
+  moneyLasts,
+  movingCost,
+  lifeInsuranceNeeds,
+  remodelCost,
 } from "./calc.ts";
 
 // $300k @ 6.5% / 30yr (360 mo) -> ~$1,896.20/mo (known value)
@@ -668,3 +673,33 @@ console.log("ALL PHASE 5 CALC TESTS PASS");
 }
 
 console.log("ALL PHASE 6 CALC TESTS PASS");
+
+// === Phase 7: percent change, money lasts, moving cost, life insurance, remodel cost ===
+{
+  const r = percentChange(100, 125);
+  assert.strictEqual(r.change, 25);
+  const d = percentChange(50, 40);
+  assert.strictEqual(d.change, -20);
+}
+{
+  const r = moneyLasts(500000, 2500, 5);
+  assert.ok(r.years > 30 && r.years < 40, "lasts ~36 years at 5%");
+  const z = moneyLasts(100000, 10000, 0);
+  assert.strictEqual(z.months, 10);
+}
+{
+  const r = movingCost(50, 4, 50, 150);
+  assert.strictEqual(r.total, 625);
+}
+{
+  const r = lifeInsuranceNeeds(75000, 20, 250000, 15000, 50000);
+  assert.strictEqual(r.incomeReplacement, 1050000);
+  assert.strictEqual(r.needs, 1265000);
+}
+{
+  const r = remodelCost("kitchen", 200, "mid");
+  assert.strictEqual(r.low, 30000);
+  assert.strictEqual(r.high, 50000);
+}
+
+console.log("ALL PHASE 7 CALC TESTS PASS");

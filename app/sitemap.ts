@@ -19,6 +19,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${SITE_URL}/guides/mortgage-calculator-guide`, lastModified: now, changeFrequency: "monthly", priority: 0.7 },
     { url: `${SITE_URL}/guides/salary-after-tax-guide`, lastModified: now, changeFrequency: "monthly", priority: 0.7 },
     { url: `${SITE_URL}/guides/debt-payoff-guide`, lastModified: now, changeFrequency: "monthly", priority: 0.7 },
+  { url: `${SITE_URL}/calculators/money-loans`, lastModified: now, changeFrequency: "monthly", priority: 0.5 },
+  { url: `${SITE_URL}/calculators/tax-retirement`, lastModified: now, changeFrequency: "monthly", priority: 0.5 },
+  { url: `${SITE_URL}/calculators/home-improvement`, lastModified: now, changeFrequency: "monthly", priority: 0.5 },
+  { url: `${SITE_URL}/calculators/health-fitness`, lastModified: now, changeFrequency: "monthly", priority: 0.5 },
+  { url: `${SITE_URL}/calculators/everyday-business`, lastModified: now, changeFrequency: "monthly", priority: 0.5 },
   ];
   for (const t of TOOLS) {
     pages.push({

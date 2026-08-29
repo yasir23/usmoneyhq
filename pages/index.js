@@ -1,31 +1,9 @@
 import Head from "next/head";
 import Link from "next/link";
 import { TOOLS, SITE_URL, SITE_NAME, SITE_DESC } from "../lib/tools";
+import { CATEGORIES } from "../lib/categories";
 
 /** Homepage — registry-driven tool grid grouped into categories for crawl + UX. */
-
-const CATEGORIES = [
-  {
-    name: "Money & Loans",
-    match: ["mortgage", "auto-loan", "loan", "debt", "credit", "heloc", "refinance", "student-loan", "dti", "car-affordability", "lease-vs-buy", "simple-interest", "amortization", "mortgage-points", "escrow", "closing-costs", "home-equity", "pmi", "commission", "price-per-square-foot", "property-tax"],
-  },
-  {
-    name: "Tax & Retirement",
-    match: ["salary", "paycheck", "tax", "capital-gains", "overtime", "social-security", "rmd", "401k", "retirement", "investment", "dividend", "savings-bond", "cd-", "compound-interest", "investment-property", "savings-goal", "savings-rate", "rule-of-72", "roi", "inflation"],
-  },
-  {
-    name: "Home & Improvement",
-    match: ["concrete", "paint", "mulch", "square-footage", "tile", "fence", "gravel", "topsoil", "carpet", "wallpaper", "sod", "drywall", "construction-cost", "electricity", "gas-cost", "miles-per-gallon"],
-  },
-  {
-    name: "Health & Fitness",
-    match: ["tdee", "bmi", "body-fat", "water-intake", "sleep", "calorie-deficit", "heart-rate"],
-  },
-  {
-    name: "Everyday & Business",
-    match: ["percentage", "discount", "sales-tax", "tip", "budget", "net-worth", "emergency-fund", "due-date", "gpa", "grade", "markup", "margin", "tax-refund"],
-  },
-];
 
 export default function Home() {
   const schema = {

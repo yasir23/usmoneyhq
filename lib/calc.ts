@@ -983,3 +983,50 @@ export function heartRate(age: number, restingHr: number) {
   const high = Math.round(restingHr + (max - restingHr) * 0.85);
   return { max, zone50: Math.round(max * 0.5), zone85: Math.round(max * 0.85), targetLow: low, targetHigh: high };
 }
+
+/** Percent change between two values. */
+export function percentChange(from: number, to: number) {
+  const change = from !== 0 ? ((to - from) / Math.abs(from)) * 100 : 0;
+  return { change: round2(change), absolute: round2(to - from) };
+}
+
+/** How long money lasts: balance vs monthly withdrawal with growth. */
+export function moneyLasts(balance: number, monthlyWithdrawal: number, ratePct: number) {
+  const r = ratePct / 100 / 12;
+  let bal = balance;
+  let months = 0;
+  const maxMonths = 1200;
+  while (bal > 0 && months < maxMonths) {
+    bal = bal * (1 + r) - monthlyWithdrawal;
+    if (bal < 0) bal = 0;
+    months++;
+  }
+  return { months, years: Math.floor(months / 12), remMonths: months % 12, finalBalance: round2(bal) };
+}
+
+/** Moving cost estimate: distance + hourly movers. */
+export function movingCost(distanceMiles: number, hours: number, hourlyRate: number, truckFee: number) {
+  const base = Math.min(2000, distanceMiles * 1.5);
+  const labor = hours * hourlyRate * 2;
+  const total = base + labor + truckFee;
+  return { total: round2(total), distanceFee: round2(base), labor: round2(labor) };
+}
+
+/** Life insurance needs: income replacement + debts + final expenses - existing coverage. */
+export function lifeInsuranceNeeds(annualIncome: number, years: number, debts: number, finalExpenses: number, currentCoverage: number) {
+  const incomeNeed = annualIncome * years * 0.7; // 70% replacement
+  const needs = Math.max(0, incomeNeed + debts + finalExpenses - currentCoverage);
+  return { needs: round2(needs), incomeReplacement: round2(incomeNeed), totalNeeds: round2(incomeNeed + debts + finalExpenses) };
+}
+
+/** Home remodel cost estimate by room and quality. */
+export function remodelCost(room: string, sqft: number, quality: string) {
+  const rates: Record<string, Record<string, [number, number]>> = {
+    kitchen: { budget: [100, 150], mid: [150, 250], luxury: [250, 400] },
+    bath: { budget: [120, 180], mid: [180, 280], luxury: [280, 450] },
+    basement: { budget: [40, 60], mid: [60, 100], luxury: [100, 160] },
+    wholehome: { budget: [80, 120], mid: [120, 180], luxury: [180, 280] },
+  };
+  const r = rates[room]?.[quality] ?? [100, 150];
+  return { low: round2(sqft * r[0]), high: round2(sqft * r[1]), perSqftLow: r[0], perSqftHigh: r[1] };
+}
