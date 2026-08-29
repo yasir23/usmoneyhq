@@ -57,6 +57,16 @@ import {
   propertyTax,
   capitalGains,
   salaryToHourly,
+  amortizationSummary,
+  roiCalc,
+  markupCalc,
+  marginCalc,
+  college529,
+  homeEquity,
+  taxBracketCalc,
+  investmentReturn,
+  ruleOf72,
+  salaryRaise,
   NO_INCOME_TAX_STATES,
   US_STATES,
 } from "./calc.ts";
@@ -1885,6 +1895,232 @@ export const TOOLS: ToolDef[] = [
       { q: "Is salary or hourly better?", a: "Salary offers stability and benefits; hourly offers overtime pay. Compare total compensation — including benefits worth 20-30% of salary — not just the headline number." },
     ],
     related: ["hourly-to-salary-calculator", "salary-after-tax-calculator", "overtime-calculator"],
+  },
+  {
+    slug: "amortization-schedule-calculator",
+    title: "Amortization Schedule Calculator 2026 — Payment & Interest | US Money HQ",
+    shortTitle: "Amortization Schedule Calculator",
+    description: "Free amortization schedule calculator: monthly payment, total interest, and payoff summary for any loan.",
+    h1: "Amortization Schedule Calculator",
+    sub: "The full cost of your loan, in plain numbers.",
+    fields: [
+      { key: "amount", label: "Loan amount (USD)", type: "number", default: 250000, min: 0, step: 1000, inputMode: "numeric" },
+      { key: "rate", label: "Interest rate (annual %)", type: "number", default: 6.5, min: 0, step: 0.01, inputMode: "decimal" },
+      { key: "years", label: "Loan term (years)", type: "select", default: 30, options: [{ value: 10, label: "10 years" }, { value: 15, label: "15 years" }, { value: 20, label: "20 years" }, { value: 30, label: "30 years" }] },
+    ],
+    compute: (v) => {
+      const r = amortizationSummary(Number(v.amount) || 0, Number(v.rate) || 0, Number(v.years) || 30);
+      return [moneyRow("Monthly payment", r.payment, true), moneyRow("Total interest", r.totalInterest), moneyRow("Total paid", r.totalPaid), { label: "Payoff", value: r.years + " years (" + r.months + " months)" }];
+    },
+    note: "Standard amortization: equal payments, interest front-loaded.",
+    faq: [
+      { q: "What is an amortization schedule?", a: "It's the monthly breakdown of principal and interest over a loan's life. Early payments are mostly interest; later payments shift toward principal." },
+      { q: "How can I pay less interest?", a: "Shorter terms and extra principal payments slash total interest. Even one extra payment per year can shave years off a 30-year mortgage." },
+    ],
+    related: ["mortgage-calculator", "loan-calculator", "simple-interest-calculator"],
+  },
+  {
+    slug: "roi-calculator",
+    title: "ROI Calculator 2026 — Return on Investment | US Money HQ",
+    shortTitle: "ROI Calculator",
+    description: "Free ROI calculator: return on investment and annualized return for any business or investment.",
+    h1: "ROI Calculator",
+    sub: "ROI and annualized return — instantly.",
+    fields: [
+      { key: "investment", label: "Amount invested (USD)", type: "number", default: 10000, min: 0, step: 500, inputMode: "numeric" },
+      { key: "gain", label: "Total gain / profit (USD)", type: "number", default: 2500, min: 0, step: 100, inputMode: "numeric" },
+      { key: "years", label: "Holding period (years)", type: "number", default: 3, min: 1, max: 50, step: 1, inputMode: "numeric" },
+    ],
+    compute: (v) => {
+      const r = roiCalc(Number(v.investment) || 0, Number(v.gain) || 0, Number(v.years) || 1);
+      return [{ label: "ROI", value: r.roi.toFixed(2) + "%", highlight: true }, { label: "Annualized return", value: r.annualized.toFixed(2) + "%" }];
+    },
+    note: "Annualized ROI lets you compare investments held for different lengths of time.",
+    faq: [
+      { q: "ROI vs annualized ROI?", a: "ROI is total return over the whole period. Annualized ROI is the equivalent yearly return — essential when comparing a 1-year trade to a 5-year holding." },
+      { q: "What is a good ROI?", a: "For most investments, 7-10% annualized is a solid long-term target. Businesses often expect higher: 20%+ on marketing spend." },
+    ],
+    related: ["investment-calculator", "compound-interest-calculator", "dividend-calculator"],
+  },
+  {
+    slug: "markup-calculator",
+    title: "Markup Calculator 2026 — Price From Cost | US Money HQ",
+    shortTitle: "Markup Calculator",
+    description: "Free markup calculator: set your selling price from cost and markup percentage, and see your profit.",
+    h1: "Markup Calculator",
+    sub: "Cost + markup = price, and your profit.",
+    fields: [
+      { key: "cost", label: "Cost (USD)", type: "number", default: 50, min: 0, step: 1, inputMode: "decimal" },
+      { key: "markup", label: "Markup (%)", type: "number", default: 40, min: 0, max: 1000, step: 1, inputMode: "numeric" },
+    ],
+    compute: (v) => {
+      const r = markupCalc(Number(v.cost) || 0, Number(v.markup) || 0);
+      return [moneyRow("Profit", r.profit), moneyRow("Selling price", r.price, true)];
+    },
+    note: "Markup % is on cost. Margin % is on price — see the margin calculator for that view.",
+    faq: [
+      { q: "Markup vs margin — what's the difference?", a: "Markup is profit divided by cost. Margin is profit divided by price. A 50% markup equals a 33% margin — they sound similar but are very different numbers." },
+      { q: "What's a typical retail markup?", a: "Apparel often runs 50-100% markup, groceries 10-20%, electronics 10-30%. Service businesses commonly target 100%+ on labor." },
+    ],
+    related: ["margin-calculator", "percentage-calculator", "discount-calculator"],
+  },
+  {
+    slug: "margin-calculator",
+    title: "Margin Calculator 2026 — Price From Margin | US Money HQ",
+    shortTitle: "Margin Calculator",
+    description: "Free margin calculator: set your selling price from a target profit margin and see your profit per unit.",
+    h1: "Margin Calculator",
+    sub: "Price for your target margin — and the profit.",
+    fields: [
+      { key: "cost", label: "Cost (USD)", type: "number", default: 50, min: 0, step: 1, inputMode: "decimal" },
+      { key: "margin", label: "Target margin (%)", type: "number", default: 33, min: 0, max: 95, step: 1, inputMode: "numeric" },
+    ],
+    compute: (v) => {
+      const r = marginCalc(Number(v.cost) || 0, Number(v.margin) || 0);
+      return [moneyRow("Selling price", r.price, true), moneyRow("Profit", r.profit)];
+    },
+    note: "Margin % is profit as a share of price, not cost.",
+    faq: [
+      { q: "How do I price for a 33% margin?", a: "Divide cost by (1 - 0.33). A $50 item needs a $74.63 price for 33% margin. The profit ($24.63) is one-third of the price." },
+      { q: "What margin should a small business target?", a: "20-40% gross margin is common across industries; SaaS runs 70-90%. Know your overhead to find the margin that keeps you profitable." },
+    ],
+    related: ["markup-calculator", "percentage-calculator", "roi-calculator"],
+  },
+  {
+    slug: "529-calculator",
+    title: "529 College Savings Calculator 2026 | US Money HQ",
+    shortTitle: "529 Calculator",
+    description: "Free 529 calculator: project your college savings balance and see the shortfall vs target college costs.",
+    h1: "529 College Savings Calculator",
+    sub: "Your college fund, projected against the cost.",
+    fields: [
+      { key: "current", label: "Current 529 balance (USD)", type: "number", default: 10000, min: 0, step: 500, inputMode: "numeric" },
+      { key: "monthly", label: "Monthly contribution (USD)", type: "number", default: 250, min: 0, step: 10, inputMode: "numeric" },
+      { key: "rate", label: "Expected annual return (%)", type: "number", default: 6, min: 0, max: 25, step: 0.5, inputMode: "decimal" },
+      { key: "years", label: "Years until college", type: "number", default: 10, min: 1, max: 25, step: 1, inputMode: "numeric" },
+      { key: "cost", label: "Estimated college cost (USD)", type: "number", default: 120000, min: 0, step: 5000, inputMode: "numeric" },
+    ],
+    compute: (v) => {
+      const r = college529(Number(v.current) || 0, Number(v.monthly) || 0, Number(v.rate) || 0, Number(v.years) || 10, Number(v.cost) || 0);
+      return [moneyRow("Projected balance", r.balance, true), moneyRow("Estimated cost", r.cost), moneyRow("Shortfall (if any)", r.shortfall)];
+    },
+    note: "Average 4-year public college cost is roughly $110k-$130k today (tuition, room, board). Private schools run higher.",
+    faq: [
+      { q: "Is a 529 worth it?", a: "Earnings grow tax-free and withdrawals for qualified education expenses are tax-free — plus many states offer a tax deduction on contributions. It's the best college savings vehicle for most families." },
+      { q: "What return should I assume?", a: "Age-based 529 portfolios blend stocks and bonds. Expect 5-7% for long horizons, less as the child nears college." },
+    ],
+    related: ["savings-goal-calculator", "compound-interest-calculator", "net-worth-calculator"],
+  },
+  {
+    slug: "home-equity-calculator",
+    title: "Home Equity Calculator 2026 — Equity & LTV | US Money HQ",
+    shortTitle: "Home Equity Calculator",
+    description: "Free home equity calculator: your equity and loan-to-value ratio — the key numbers for HELOCs and refinancing.",
+    h1: "Home Equity Calculator",
+    sub: "Equity and LTV — the numbers lenders use.",
+    fields: [
+      { key: "value", label: "Home value (USD)", type: "number", default: 400000, min: 10000, step: 5000, inputMode: "numeric" },
+      { key: "balance", label: "Mortgage balance (USD)", type: "number", default: 280000, min: 0, step: 5000, inputMode: "numeric" },
+    ],
+    compute: (v) => {
+      const r = homeEquity(Number(v.value) || 0, Number(v.balance) || 0);
+      return [moneyRow("Home equity", r.equity, true), { label: "Loan-to-value (LTV)", value: r.ltv.toFixed(1) + "%" }];
+    },
+    note: "Lenders typically require LTV below 80% for HELOCs and cash-out refinances.",
+    faq: [
+      { q: "How much equity can I borrow against?", a: "Most lenders cap your combined loan-to-value at 80-85%, meaning you keep 15-20% equity in the home. On a $400k home with a $280k mortgage, you could borrow roughly $40k-$60k more." },
+      { q: "HELOC vs cash-out refinance?", a: "A HELOC is a revolving line with variable rates and no upfront cash. A cash-out refi replaces your mortgage at a new fixed rate. HELOCs win for flexibility; refis win if your current rate is high." },
+    ],
+    related: ["heloc-calculator", "mortgage-calculator", "refinance-calculator"],
+  },
+  {
+    slug: "tax-bracket-calculator",
+    title: "Tax Bracket Calculator 2026 — Marginal & Effective | US Money HQ",
+    shortTitle: "Tax Bracket Calculator",
+    description: "Free tax bracket calculator: your marginal bracket, effective tax rate, and total federal income tax.",
+    h1: "Tax Bracket Calculator",
+    sub: "Which bracket you're in — and your real effective rate.",
+    fields: [
+      { key: "income", label: "Taxable income (USD)", type: "number", default: 85000, min: 0, step: 1000, inputMode: "numeric" },
+      { key: "filing", label: "Filing status", type: "select", default: "single", options: [{ value: "single", label: "Single" }, { value: "married", label: "Married filing jointly" }] },
+    ],
+    compute: (v) => {
+      const r = taxBracketCalc(Number(v.income) || 0, String(v.filing) === "married" ? "married" : "single");
+      return [moneyRow("Total federal tax", r.tax, true), { label: "Marginal bracket", value: r.marginal + "%" }, { label: "Effective rate", value: r.effective.toFixed(2) + "%" }, moneyRow("Taxable after std. deduction", r.taxable)];
+    },
+    note: "2026 federal brackets, single and married, with standard deduction. Marginal ≠ effective — only income above each threshold is taxed at the higher rate.",
+    faq: [
+      { q: "What's the difference between marginal and effective rate?", a: "Marginal is the rate on your LAST dollar (e.g., 22%). Effective is total tax divided by total income — usually much lower, because lower brackets are taxed at lower rates." },
+      { q: "Will a raise push me into a higher bracket and cost me money?", a: "No — brackets are marginal. Only the portion above the threshold is taxed higher. A raise always increases take-home, never decreases it." },
+    ],
+    related: ["tax-calculator", "salary-after-tax-calculator", "capital-gains-calculator"],
+  },
+  {
+    slug: "investment-calculator",
+    title: "Investment Calculator 2026 — Growth Projection | US Money HQ",
+    shortTitle: "Investment Calculator",
+    description: "Free investment calculator: project your portfolio's future value with monthly contributions and compound growth.",
+    h1: "Investment Calculator",
+    sub: "What your investments could be worth — projected.",
+    fields: [
+      { key: "initial", label: "Initial investment (USD)", type: "number", default: 10000, min: 0, step: 500, inputMode: "numeric" },
+      { key: "monthly", label: "Monthly contribution (USD)", type: "number", default: 300, min: 0, step: 25, inputMode: "numeric" },
+      { key: "rate", label: "Expected annual return (%)", type: "number", default: 7, min: 0, max: 30, step: 0.5, inputMode: "decimal" },
+      { key: "years", label: "Years", type: "number", default: 20, min: 1, max: 50, step: 1, inputMode: "numeric" },
+    ],
+    compute: (v) => {
+      const r = investmentReturn(Number(v.initial) || 0, Number(v.monthly) || 0, Number(v.rate) || 0, Number(v.years) || 20);
+      return [moneyRow("Projected value", r.balance, true), moneyRow("You invested", r.invested), moneyRow("Growth", r.growth)];
+    },
+    note: "Assumes monthly compounding at a constant return. The S&P 500 has averaged about 10% historically (7% after inflation).",
+    faq: [
+      { q: "What return should I use?", a: "For a diversified stock portfolio, 7% is a common conservative real return (after inflation). Use 4-5% for bond-heavy portfolios and 10% for optimistic stock-only cases." },
+      { q: "Why does time matter so much?", a: "Compound growth is exponential. $300/month at 7% grows to ~$158k in 20 years but ~$365k in 30 — the last decade does more than all the earlier ones combined." },
+    ],
+    related: ["compound-interest-calculator", "retirement-calculator", "401k-calculator"],
+  },
+  {
+    slug: "rule-of-72-calculator",
+    title: "Rule of 72 Calculator 2026 — Years to Double | US Money HQ",
+    shortTitle: "Rule of 72 Calculator",
+    description: "Free Rule of 72 calculator: how many years it takes your money to double at any annual return rate.",
+    h1: "Rule of 72 Calculator",
+    sub: "Years to double your money — instantly.",
+    fields: [
+      { key: "rate", label: "Annual return (%)", type: "number", default: 7, min: 0.1, max: 30, step: 0.1, inputMode: "decimal" },
+    ],
+    compute: (v) => {
+      const r = ruleOf72(Number(v.rate) || 7);
+      return [{ label: "Years to double", value: r.years.toFixed(1), highlight: true }];
+    },
+    note: "72 ÷ rate = years to double. It's an approximation — accurate within a year for rates of 6-10%.",
+    faq: [
+      { q: "How does the Rule of 72 work?", a: "Divide 72 by your annual return. At 8%, your money doubles every 9 years (72/8). At 4%, every 18 years. It reveals how powerful higher returns are." },
+      { q: "Is it exact?", a: "It's a close approximation for typical rates. For 8%, the true doubling time is 9.01 years — the rule is within 1%." },
+    ],
+    related: ["compound-interest-calculator", "investment-calculator", "cd-calculator"],
+  },
+  {
+    slug: "salary-raise-calculator",
+    title: "Salary Raise Calculator 2026 — New Pay | US Money HQ",
+    shortTitle: "Salary Raise Calculator",
+    description: "Free salary raise calculator: your new salary after a raise, plus the monthly and weekly difference.",
+    h1: "Salary Raise Calculator",
+    sub: "What your raise means per paycheck.",
+    fields: [
+      { key: "salary", label: "Current salary (USD)", type: "number", default: 65000, min: 0, step: 1000, inputMode: "numeric" },
+      { key: "raise", label: "Raise (%)", type: "number", default: 5, min: 0, max: 100, step: 0.5, inputMode: "decimal" },
+    ],
+    compute: (v) => {
+      const r = salaryRaise(Number(v.salary) || 0, Number(v.raise) || 0);
+      return [moneyRow("New salary", r.newSalary, true), moneyRow("More per month", r.monthlyDelta), moneyRow("More per week", r.weeklyDelta)];
+    },
+    note: "Gross figures. A 5% raise on $65k adds $3,250 a year — about $125 per bi-weekly paycheck before taxes.",
+    faq: [
+      { q: "What is a typical raise?", a: "3-5% is the standard merit increase range. Job switchers often negotiate 10-20% more. If your raise is below inflation, your real pay is falling." },
+      { q: "Should I negotiate?", a: "Almost always. Research comparable salaries, cite specific contributions, and ask — employees who negotiate typically gain 5-10% more than the first offer." },
+    ],
+    related: ["salary-after-tax-calculator", "hourly-to-salary-calculator", "salary-percentile-calculator"],
   },
 ];
 

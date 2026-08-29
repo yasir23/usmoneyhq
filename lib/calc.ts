@@ -669,3 +669,83 @@ export function salaryToHourly(annual: number, hoursPerWeek: number, weeksPerYea
   const hourly = annual / Math.max(1, hoursPerWeek * weeksPerYear);
   return { hourly: round2(hourly), weekly: round2(annual / Math.max(1, weeksPerYear)), monthly: round2(annual / 12) };
 }
+
+/** Amortization SUMMARY: payment, interest, total, payoff time (full schedule lives in amortizationSchedule). */
+export function amortizationSummary(principal: number, ratePct: number, years: number) {
+  const n = Math.max(1, Math.round(years * 12));
+  const r = ratePct / 100 / 12;
+  if (r === 0) return { payment: round2(principal / n), totalInterest: 0, totalPaid: principal, months: n, years: Math.round(n / 12) };
+  const payment = (principal * r * Math.pow(1 + r, n)) / (Math.pow(1 + r, n) - 1);
+  const totalPaid = payment * n;
+  return { payment: round2(payment), totalInterest: round2(totalPaid - principal), totalPaid: round2(totalPaid), months: n, years: Math.round(n / 12) };
+}
+
+/** ROI: gain on investment, annualized. */
+export function roiCalc(investment: number, gain: number, years: number) {
+  const roi = (gain / Math.max(1, investment)) * 100;
+  const annualized = years > 0 ? (Math.pow(1 + roi / 100, 1 / years) - 1) * 100 : 0;
+  return { roi: round2(roi), annualized: round2(annualized) };
+}
+
+/** Markup: cost + % on top. */
+export function markupCalc(cost: number, markupPct: number) {
+  const profit = cost * (markupPct / 100);
+  return { profit: round2(profit), price: round2(cost + profit) };
+}
+
+/** Margin: price from cost at target margin % (margin = profit / price). */
+export function marginCalc(cost: number, marginPct: number) {
+  const price = cost / Math.max(0.001, 1 - marginPct / 100);
+  return { price: round2(price), profit: round2(price - cost) };
+}
+
+/** 529 college savings projection vs target cost. */
+export function college529(current: number, monthly: number, ratePct: number, years: number, collegeCost: number) {
+  const r = ratePct / 100 / 12;
+  let bal = current;
+  const n = Math.max(1, years * 12);
+  for (let i = 0; i < n; i++) bal = bal * (1 + r) + monthly;
+  return { balance: round2(bal), shortfall: round2(Math.max(0, collegeCost - bal)), cost: round2(collegeCost) };
+}
+
+/** Home equity + loan-to-value. */
+export function homeEquity(homeValue: number, loanBalance: number) {
+  const equity = homeValue - loanBalance;
+  const ltv = (loanBalance / Math.max(1, homeValue)) * 100;
+  return { equity: round2(equity), ltv: round2(ltv) };
+}
+
+/** Marginal bracket + effective rate from federal tax. */
+export function taxBracketCalc(income: number, filing: "single" | "married" = "single") {
+  const t = federalTax(income, filing);
+  const effective = income > 0 ? (t.tax / income) * 100 : 0;
+  let marginal = 0;
+  const brackets = filing === "married"
+    ? [[23200, 10], [94300, 12], [201050, 22], [383900, 24], [487450, 32], [731200, 35], [Infinity, 37]]
+    : [[11600, 10], [47150, 12], [100525, 22], [191950, 24], [243725, 32], [609350, 35], [Infinity, 37]];
+  const taxable = Math.max(0, income - t.stdDeduction);
+  for (const [cap, rate] of brackets) {
+    if (taxable <= cap) { marginal = rate; break; }
+  }
+  return { tax: t.tax, marginal: marginal, effective: round2(effective), taxable: round2(taxable) };
+}
+
+/** Investment projection: initial + monthly contributions. */
+export function investmentReturn(initial: number, monthly: number, ratePct: number, years: number) {
+  const r = ratePct / 100 / 12;
+  let bal = initial;
+  const n = Math.max(1, years * 12);
+  for (let i = 0; i < n; i++) bal = bal * (1 + r) + monthly;
+  return { balance: round2(bal), invested: round2(initial + monthly * n), growth: round2(bal - (initial + monthly * n)) };
+}
+
+/** Rule of 72: years to double. */
+export function ruleOf72(ratePct: number) {
+  return { years: round2(72 / Math.max(0.1, ratePct)) };
+}
+
+/** Salary raise: new salary + weekly/monthly delta. */
+export function salaryRaise(salary: number, raisePct: number) {
+  const newSalary = salary * (1 + raisePct / 100);
+  return { newSalary: round2(newSalary), monthlyDelta: round2((newSalary - salary) / 12), weeklyDelta: round2((newSalary - salary) / 52) };
+}

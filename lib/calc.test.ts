@@ -58,6 +58,16 @@ import {
   propertyTax,
   capitalGains,
   salaryToHourly,
+  amortizationSummary,
+  roiCalc,
+  markupCalc,
+  marginCalc,
+  college529,
+  homeEquity,
+  taxBracketCalc,
+  investmentReturn,
+  ruleOf72,
+  salaryRaise,
 } from "./calc.ts";
 
 // $300k @ 6.5% / 30yr (360 mo) -> ~$1,896.20/mo (known value)
@@ -433,3 +443,58 @@ console.log("ALL PHASE 2B CALC TESTS PASS");
 }
 
 console.log("ALL PHASE 2C CALC TESTS PASS");
+
+// === Phase 3: amortization summary, ROI, markup, margin, 529, home equity, tax bracket, investment, rule of 72, raise ===
+{
+  const r = amortizationSummary(250000, 6.5, 30);
+  assert.ok(r.payment > 1570 && r.payment < 1590, "250k@6.5% 30y = $1,580.17");
+  assert.ok(r.totalInterest > 318000 && r.totalInterest < 320000, "total interest ~$318,861");
+  assert.strictEqual(r.years, 30);
+}
+{
+  const r = roiCalc(10000, 2500, 3);
+  assert.strictEqual(r.roi, 25);
+  assert.ok(r.annualized > 7 && r.annualized < 8, "annualized ~7.7%");
+}
+{
+  const r = markupCalc(50, 40);
+  assert.strictEqual(r.profit, 20);
+  assert.strictEqual(r.price, 70);
+}
+{
+  const r = marginCalc(50, 33);
+  assert.ok(r.price > 74 && r.price < 75, "50/0.67 = $74.63");
+  assert.ok(r.profit > 24 && r.profit < 25);
+}
+{
+  const r = college529(10000, 250, 6, 10, 120000);
+  assert.ok(r.balance > 58000 && r.balance < 60000, "~$59.2k projected");
+  assert.ok(r.shortfall > 60000 && r.shortfall < 62000, "shortfall vs $120k");
+}
+{
+  const r = homeEquity(400000, 280000);
+  assert.strictEqual(r.equity, 120000);
+  assert.strictEqual(r.ltv, 70);
+}
+{
+  const r = taxBracketCalc(85000, "single");
+  assert.strictEqual(r.marginal, 22);
+  assert.ok(r.tax > 10000 && r.tax < 11000, "$85k single federal ~$10,314");
+  assert.ok(r.effective > 12 && r.effective < 13, "effective ~12.1%");
+}
+{
+  const r = investmentReturn(10000, 300, 7, 20);
+  assert.ok(r.balance > 190000 && r.balance < 210000, "~$196.7k after 20y");
+  assert.strictEqual(r.invested, 82000);
+}
+{
+  const r = ruleOf72(8);
+  assert.strictEqual(r.years, 9);
+}
+{
+  const r = salaryRaise(65000, 5);
+  assert.strictEqual(r.newSalary, 68250);
+  assert.strictEqual(r.monthlyDelta, 270.83);
+}
+
+console.log("ALL PHASE 3 CALC TESTS PASS");
