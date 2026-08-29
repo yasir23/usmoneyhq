@@ -749,3 +749,30 @@ export function salaryRaise(salary: number, raisePct: number) {
   const newSalary = salary * (1 + raisePct / 100);
   return { newSalary: round2(newSalary), monthlyDelta: round2((newSalary - salary) / 12), weeklyDelta: round2((newSalary - salary) / 52) };
 }
+
+/** Loan payoff with extra monthly payments: base payment, months saved, interest saved. */
+export function loanWithExtra(principal: number, ratePct: number, termMonths: number, extraMonthly: number) {
+  const r = ratePct / 100 / 12;
+  const base = r === 0 ? principal / Math.max(1, termMonths) : (principal * r * Math.pow(1 + r, termMonths)) / (Math.pow(1 + r, termMonths) - 1);
+  const monthly = base + Math.max(0, extraMonthly);
+  let bal = principal;
+  let months = 0;
+  let totalInterest = 0;
+  const maxMonths = 1200;
+  while (bal > 0 && months < maxMonths) {
+    const interest = bal * r;
+    totalInterest += interest;
+    bal = bal + interest - monthly;
+    if (bal < 0) bal = 0;
+    months++;
+  }
+  const baseInterest = r === 0 ? 0 : base * termMonths - principal;
+  return {
+    payment: Math.round(base * 100) / 100,
+    months,
+    years: Math.floor(months / 12),
+    remMonths: months % 12,
+    totalInterest: Math.round(totalInterest * 100) / 100,
+    interestSaved: Math.round(Math.max(0, baseInterest - totalInterest) * 100) / 100,
+  };
+}

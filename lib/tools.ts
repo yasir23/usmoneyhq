@@ -67,6 +67,7 @@ import {
   investmentReturn,
   ruleOf72,
   salaryRaise,
+  loanWithExtra,
   NO_INCOME_TAX_STATES,
   US_STATES,
 } from "./calc.ts";
@@ -192,6 +193,7 @@ export const TOOLS: ToolDef[] = [
           { value: 84, label: "84 months" },
         ],
       },
+      { key: "extra", label: "Extra monthly payment (USD)", type: "number", default: 0, min: 0, step: 10, inputMode: "numeric" },
     ],
     compute: (v) => {
       const price = Number(v.price) || 0;
@@ -200,6 +202,17 @@ export const TOOLS: ToolDef[] = [
       const rate = Number(v.rate) || 0;
       const term = Number(v.term) || 60;
       const principal = Math.max(0, price - down - tradeIn);
+      const extra = Number(v.extra) || 0;
+      if (extra > 0) {
+        const r = loanWithExtra(principal, rate, term, extra);
+        return [
+          moneyRow("Loan amount", principal),
+          moneyRow("Monthly payment (base)", r.payment, true),
+          moneyRow("With extra $" + extra + "/mo", r.payment + extra),
+          { label: "Payoff time", value: r.years + " yrs " + r.remMonths + " mo" },
+          moneyRow("Interest saved", r.interestSaved),
+        ];
+      }
       const payment = monthlyPaymentSafe(principal, rate, term);
       const totalPaid = payment * term;
       return [
@@ -209,10 +222,11 @@ export const TOOLS: ToolDef[] = [
         moneyRow("Total cost", totalPaid + down + tradeIn),
       ];
     },
-    note: "Estimate only. Fees, taxes, and dealer add-ons not included.",
+    note: "Estimate only. Fees, taxes, and dealer add-ons not included. Add an extra monthly payment to see how much interest you save.",
     faq: [
       { q: "Should I choose a 60-month or 72-month car loan?", a: "Shorter terms (48-60 months) typically have lower rates and cost less overall. 72-84 month terms lower the monthly payment but increase total interest and the risk of being upside-down." },
       { q: "What is a good auto loan rate in 2026?", a: "Rates depend on your credit score, the lender, and whether the loan is new or used. Pre-qualify with multiple lenders before visiting the dealership." },
+      { q: "Does paying extra each month help?", a: "Yes — extra principal payments shorten the loan and slash interest. $50/month extra on a $30k loan at 7% saves about $530 in interest and cuts 5 months off the term; $100/month saves over $1,000." },
     ],
     related: ["mortgage-calculator", "debt-payoff-calculator", "dti-calculator"],
   },
@@ -1029,6 +1043,7 @@ export const TOOLS: ToolDef[] = [
     note: "Assumes 1% property tax + 0.5% insurance. FHA/VA may allow higher ratios.",
     faq: [
       { q: "What is the 28/36 rule?", a: "Lenders typically cap housing costs at 28% of gross income and total debt at 36%. FHA allows up to 31/43 in many cases." },
+      { q: "How much house can I afford on $100k salary?", a: "On $100k/year with no other debt and 20% down at a 6.5% rate, the 28% rule puts your max monthly payment around $2,333 — roughly a $370k home. At $150k, that scales to about $555k; at $200k, about $740k. Run your real numbers above — debt, down payment, and rate move the answer a lot." },
       { q: "Should I use the max price?", a: "Just because you qualify doesn't mean you should buy at the max. Leave room for maintenance, repairs, and lifestyle costs." },
     ],
     related: ["mortgage-calculator", "dti-calculator", "pmi-calculator"],
@@ -1440,6 +1455,7 @@ export const TOOLS: ToolDef[] = [
     faq: [
       { q: "How do I calculate salary from hourly?", a: "Multiply your hourly rate by hours per week, then by weeks per year (usually 52, or 40 if you take 12 weeks unpaid)." },
       { q: "Is overtime included?", a: "No — this assumes straight time. Add overtime separately using the overtime calculator." },
+      { q: "Is this before or after taxes?", a: "Gross pay before taxes. For take-home, run the same salary through the salary after tax calculator — federal, FICA, and state deductions typically leave 70-80% of gross, depending on your state." },
     ],
     related: ["salary-after-tax-calculator", "paycheck-calculator", "overtime-calculator"],
   },
@@ -1533,6 +1549,7 @@ export const TOOLS: ToolDef[] = [
     faq: [
       { q: "Is BMI accurate for athletes?", a: "BMI doesn't distinguish muscle from fat, so very muscular people can show 'overweight' or 'obese' at healthy body-fat levels. Use it as one data point, not the whole picture." },
       { q: "What is a healthy BMI?", a: "18.5-24.9 is the normal range. Below 18.5 is underweight; 25-29.9 overweight; 30+ obese." },
+      { q: "Does age affect BMI?", a: "The standard BMI formula uses only height and weight — age and gender are not part of the calculation. Healthy ranges are the same for all adults, though doctors sometimes adjust interpretation for older adults and children." },
     ],
     related: ["body-fat-calculator", "tdee-calculator", "water-intake-calculator"],
   },
@@ -1599,6 +1616,7 @@ export const TOOLS: ToolDef[] = [
     faq: [
       { q: "How do I calculate percent off?", a: "Multiply the original price by the discount percentage (as a decimal), then subtract from the original. Example: $120 x 0.25 = $30 off, final price $90." },
       { q: "Do stacked discounts work that way?", a: "No — a '20% off + 10% off' coupon stack applies sequentially, not as 30%. The second discount applies to the already-discounted price." },
+      { q: "Is sales tax applied before or after the discount?", a: "Almost always after — tax is charged on the discounted price you actually pay. A $100 item at 25% off with 8% tax: $75 x 1.08 = $81. Charge the price after discount first, then add tax." },
     ],
     related: ["percentage-calculator", "sales-tax-calculator", "tip-calculator"],
   },
@@ -1907,8 +1925,14 @@ export const TOOLS: ToolDef[] = [
       { key: "amount", label: "Loan amount (USD)", type: "number", default: 250000, min: 0, step: 1000, inputMode: "numeric" },
       { key: "rate", label: "Interest rate (annual %)", type: "number", default: 6.5, min: 0, step: 0.01, inputMode: "decimal" },
       { key: "years", label: "Loan term (years)", type: "select", default: 30, options: [{ value: 10, label: "10 years" }, { value: 15, label: "15 years" }, { value: 20, label: "20 years" }, { value: 30, label: "30 years" }] },
+      { key: "extra", label: "Extra monthly payment (USD)", type: "number", default: 0, min: 0, step: 25, inputMode: "numeric" },
     ],
     compute: (v) => {
+      const extra = Number(v.extra) || 0;
+      if (extra > 0) {
+        const r = loanWithExtra(Number(v.amount) || 0, Number(v.rate) || 0, (Number(v.years) || 30) * 12, extra);
+        return [moneyRow("Monthly payment (base)", r.payment, true), { label: "Payoff time", value: r.years + " yrs " + r.remMonths + " mo" }, moneyRow("Total interest", r.totalInterest), moneyRow("Interest saved", r.interestSaved)];
+      }
       const r = amortizationSummary(Number(v.amount) || 0, Number(v.rate) || 0, Number(v.years) || 30);
       return [moneyRow("Monthly payment", r.payment, true), moneyRow("Total interest", r.totalInterest), moneyRow("Total paid", r.totalPaid), { label: "Payoff", value: r.years + " years (" + r.months + " months)" }];
     },

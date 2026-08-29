@@ -68,6 +68,7 @@ import {
   investmentReturn,
   ruleOf72,
   salaryRaise,
+  loanWithExtra,
 } from "./calc.ts";
 
 // $300k @ 6.5% / 30yr (360 mo) -> ~$1,896.20/mo (known value)
@@ -498,3 +499,15 @@ console.log("ALL PHASE 2C CALC TESTS PASS");
 }
 
 console.log("ALL PHASE 3 CALC TESTS PASS");
+
+// === Keyword-implementation tests: extra payments ===
+{
+  const r = loanWithExtra(30000, 7, 60, 50);
+  assert.ok(r.payment > 590 && r.payment < 600, "base payment ~$594");
+  assert.ok(r.months < 60 && r.months > 50, "extra payments shorten term");
+  assert.ok(r.interestSaved > 400 && r.interestSaved < 700, "saves ~$533 in interest");
+  const z = loanWithExtra(10000, 0, 12, 0);
+  assert.strictEqual(z.months, 12, "0% loan with no extra = full term");
+}
+
+console.log("ALL KEYWORD-IMPL TESTS PASS");
