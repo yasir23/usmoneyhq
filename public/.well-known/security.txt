@@ -1,0 +1,5 @@
+Contact: mailto:hello@usmoneyhq.com
+Expires: 2027-08-29T00:00:00.000Z
+Preferred-Languages: en
+Canonical: https://usmoneyhq.com/.well-known/security.txt
+Policy: https://usmoneyhq.com/terms
