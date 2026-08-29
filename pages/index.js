@@ -28,6 +28,7 @@ export default function Home() {
         <meta property="og:description" content={SITE_DESC} />
         <meta property="og:url" content={SITE_URL} />
         <meta property="og:site_name" content={SITE_NAME} />
+        <meta property="og:image" content={`${SITE_URL}/og.png`} />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }} />
       </Head>
 

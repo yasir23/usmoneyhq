@@ -3,32 +3,42 @@ import Link from "next/link";
 import AdSlot from "./AdSlot";
 import ToolClient from "./ToolClient";
 import { getTool, SITE_URL, SITE_NAME, TOOLS } from "../lib/tools";
-import { getState, STATES, STATE_AWARE_TOOLS, type StateData } from "../lib/states";
+import { getState, getComparisonPair, STATES, STATE_AWARE_TOOLS, type StateData } from "../lib/states";
 
 /**
  * ToolPageShell — shared page shell for every calculator (pages router).
  * Centralizes SEO (title/meta/canonical/OG/JSON-LD), breadcrumbs, ad slots,
  * the tool UI, FAQ, and related links. New tools = new registry entry only.
- * Optional stateSlug renders a state-variant page (programmatic SEO).
+ * Optional stateSlug renders a state-variant page; "stateA-vs-stateB" renders
+ * a side-by-side comparison (programmatic SEO).
  */
 export default function ToolPageShell({ slug, stateSlug }: { slug: string; stateSlug?: string }) {
   const tool = getTool(slug);
-  const state: StateData | undefined = stateSlug ? getState(stateSlug) : undefined;
+  const pair: [StateData, StateData] | null = stateSlug && stateSlug.includes("-vs-") ? getComparisonPair(stateSlug) : null;
+  const state: StateData | undefined = stateSlug && !pair ? getState(stateSlug) : undefined;
 
   // state variants only allowed for state-aware tools
   if (stateSlug && !STATE_AWARE_TOOLS.includes(slug)) {
     return <NotFoundShell />;
   }
 
-  if (!tool || (stateSlug && !state)) {
+  if (!tool || (stateSlug && !pair && !state)) {
     return <NotFoundShell />;
   }
 
-  const url = state ? `${SITE_URL}/${tool.slug}/${state.slug}` : `${SITE_URL}/${tool.slug}`;
-  const pageTitle = state
+  const url = pair
+    ? `${SITE_URL}/${tool.slug}/${pair[0].slug}-vs-${pair[1].slug}`
+    : state
+    ? `${SITE_URL}/${tool.slug}/${state.slug}`
+    : `${SITE_URL}/${tool.slug}`;
+  const pageTitle = pair
+    ? `${pair[0].name} vs ${pair[1].name} ${tool.shortTitle.replace(" Calculator", "")} Calculator 2026 | US Money HQ`
+    : state
     ? `${state.name} ${tool.shortTitle.replace(" Calculator", "")} Calculator 2026 | US Money HQ`
     : tool.title;
-  const pageDesc = state
+  const pageDesc = pair
+    ? `Compare ${pair[0].name} vs ${pair[1].name} ${tool.shortTitle.toLowerCase()} 2026: income tax, property tax, sales tax, and take-home math side by side.`
+    : state
     ? `${tool.description} ${state.incomeTaxNote}. Average property tax ${state.propTaxPct}%.`
     : tool.description;
 
@@ -57,13 +67,14 @@ export default function ToolPageShell({ slug, stateSlug }: { slug: string; state
         itemListElement: [
           { "@type": "ListItem", position: 1, name: "Home", item: SITE_URL },
           { "@type": "ListItem", position: 2, name: tool.shortTitle, item: `${SITE_URL}/${tool.slug}` },
-          ...(state ? [{ "@type": "ListItem", position: 3, name: state.name, item: url }] : []),
+          ...(pair ? [{ "@type": "ListItem", position: 3, name: `${pair[0].name} vs ${pair[1].name}`, item: url }] : []),
+          ...(state && !pair ? [{ "@type": "ListItem", position: 3, name: state.name, item: url }] : []),
         ],
       },
     ],
   };
 
-  const initialValues = state ? { state: state.abbr } : undefined;
+  const initialValues = state ? { state: state.abbr } : pair ? { state: pair[0].abbr } : undefined;
 
   return (
     <>
@@ -76,6 +87,7 @@ export default function ToolPageShell({ slug, stateSlug }: { slug: string; state
         <meta property="og:description" content={pageDesc} />
         <meta property="og:url" content={url} />
         <meta property="og:site_name" content={SITE_NAME} />
+        <meta property="og:image" content={`${SITE_URL}/og.png`} />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }} />
       </Head>
 
@@ -84,15 +96,36 @@ export default function ToolPageShell({ slug, stateSlug }: { slug: string; state
           <Link href="/">Home</Link>
           <span aria-hidden="true">›</span>
           <Link href={`/${tool.slug}`}>{tool.shortTitle}</Link>
-          {state && (<><span aria-hidden="true">›</span><span>{state.name}</span></>)}
+          {pair && (<><span aria-hidden="true">›</span><span>{pair[0].name} vs {pair[1].name}</span></>)}
+          {state && !pair && (<><span aria-hidden="true">›</span><span>{state.name}</span></>)}
         </nav>
 
-        <h1>{state ? `${state.name} ${tool.h1}` : tool.h1}</h1>
+        <h1>{pair ? `${pair[0].name} vs ${pair[1].name}: ${tool.h1}` : state ? `${state.name} ${tool.h1}` : tool.h1}</h1>
         <p className="sub">{tool.sub}</p>
 
-        <AdSlot id={`${tool.slug}-${state?.slug || "top"}`} />
+        <AdSlot id={`${tool.slug}-${pair ? "compare" : state?.slug || "top"}`} />
 
-        {state && (
+        {pair && (
+          <div className="compare-grid">
+            {[pair[0], pair[1]].map((s) => (
+              <div key={s.slug} className="state-facts card">
+                <h2>{s.name} Facts</h2>
+                <div className="row"><span>Income tax</span><b>{s.incomeTaxNote}</b></div>
+                <div className="row"><span>Avg. property tax rate</span><b>{s.propTaxPct}% of home value</b></div>
+                <div className="row"><span>Avg. combined sales tax</span><b>{s.salesTax}%</b></div>
+                <p className="note">Averages — verify current rates with your county assessor.</p>
+              </div>
+            ))}
+            <div className="compare-table card">
+              <h2>{pair[0].name} vs {pair[1].name} — Quick Comparison</h2>
+              <div className="row"><span>Income tax type</span><b>{pair[0].incomeTax} vs {pair[1].incomeTax}</b></div>
+              <div className="row"><span>Property tax rate</span><b>{pair[0].propTaxPct}% vs {pair[1].propTaxPct}%</b></div>
+              <div className="row"><span>Sales tax rate</span><b>{pair[0].salesTax}% vs {pair[1].salesTax}%</b></div>
+            </div>
+          </div>
+        )}
+
+        {state && !pair && (
           <div className="state-facts card">
             <h2>{state.name} Facts</h2>
             <div className="row"><span>Income tax</span><b>{state.incomeTaxNote}</b></div>
@@ -102,9 +135,20 @@ export default function ToolPageShell({ slug, stateSlug }: { slug: string; state
           </div>
         )}
 
-        <ToolClient tool={tool} initialValues={initialValues} />
+        {!pair && <ToolClient tool={tool} initialValues={initialValues} />}
 
-        <AdSlot id={`${tool.slug}-${state?.slug || "mid"}`} />
+        {pair && (
+          <div className="compare-grid">
+            {[pair[0], pair[1]].map((s) => (
+              <div key={s.slug}>
+                <h2 className="compare-subhead">{s.name}</h2>
+                <ToolClient tool={tool} initialValues={{ state: s.abbr }} />
+              </div>
+            ))}
+          </div>
+        )}
+
+        <AdSlot id={`${tool.slug}-${pair ? "compare-mid" : state?.slug || "mid"}`} />
 
         {!state && STATE_AWARE_TOOLS.includes(slug) && (
           <div className="seo">

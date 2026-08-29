@@ -641,3 +641,31 @@ export function dividendIncome(investment: number, yieldPct: number, years: numb
   }
   return { annualIncome: round2(annual), monthlyIncome: round2(annual / 12), balanceAfterYears: reinvest ? round2(bal) : round2(investment) };
 }
+
+/** Property tax: annual and monthly from home value and effective rate %. */
+export function propertyTax(homeValue: number, ratePct: number) {
+  const annual = homeValue * (ratePct / 100);
+  return { annual: round2(annual), monthly: round2(annual / 12) };
+}
+
+/** Capital gains tax: short-term (ordinary income) vs long-term (0/15/20) on gain. */
+export function capitalGains(gain: number, taxableIncome: number, holding: "short" | "long") {
+  let tax = 0;
+  if (holding === "short") {
+    const t = federalTax(taxableIncome + gain, "single");
+    const t0 = federalTax(taxableIncome, "single");
+    tax = Math.max(0, t.tax - t0.tax);
+  } else {
+    if (taxableIncome + gain <= 47025) tax = 0;
+    else if (taxableIncome <= 47025 && taxableIncome + gain > 47025) tax = (taxableIncome + gain - 47025) * 0.15;
+    else if (taxableIncome + gain <= 518900) tax = gain * 0.15;
+    else tax = gain * 0.2;
+  }
+  return { tax: round2(tax), net: round2(gain - tax), effectiveRate: round2((tax / Math.max(1, gain)) * 100) };
+}
+
+/** Annual salary to hourly wage. */
+export function salaryToHourly(annual: number, hoursPerWeek: number, weeksPerYear = 52) {
+  const hourly = annual / Math.max(1, hoursPerWeek * weeksPerYear);
+  return { hourly: round2(hourly), weekly: round2(annual / Math.max(1, weeksPerYear)), monthly: round2(annual / 12) };
+}

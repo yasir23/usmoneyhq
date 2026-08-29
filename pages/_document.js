@@ -10,6 +10,9 @@ export default class SiteDocument extends Document {
           {/* SEO */}
           <meta name="robots" content="index, follow" />
           <meta property="og:site_name" content="US Money HQ" />
+          <meta property="og:image" content="https://usmoneyhq.com/og.png" />
+          <meta name="twitter:card" content="summary_large_image" />
+          <meta name="twitter:title" content="US Money HQ — Free Financial Calculators" />
           {/* Google Search Console verification — active once a token is set in lib/verification.ts */}
           {GOOGLE_SITE_VERIFICATION && (
             <meta name="google-site-verification" content={GOOGLE_SITE_VERIFICATION} />

@@ -11,9 +11,19 @@ export async function getServerSideProps({ params }) {
   const slug = String(params.tool || "");
   const stateSlug = String(params.state || "");
   const tool = getTool(slug);
-  const state = getState(stateSlug);
+  const isPair = stateSlug.includes("-vs-");
+  const state = isPair ? undefined : getState(stateSlug);
 
-  if (!tool || !state || !STATE_AWARE_TOOLS.includes(slug)) {
+  if (!tool || !STATE_AWARE_TOOLS.includes(slug)) {
+    return { notFound: true };
+  }
+  if (isPair) {
+    // validate the pair via the same parser the shell uses
+    const { getComparisonPair } = await import("../../lib/states");
+    if (!getComparisonPair(stateSlug)) return { notFound: true };
+    return { props: { slug, stateSlug } };
+  }
+  if (!state) {
     return { notFound: true };
   }
   return { props: { slug, stateSlug } };

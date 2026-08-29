@@ -54,6 +54,9 @@ import {
   closingCosts,
   carAffordability,
   dividendIncome,
+  propertyTax,
+  capitalGains,
+  salaryToHourly,
   NO_INCOME_TAX_STATES,
   US_STATES,
 } from "./calc.ts";
@@ -1810,6 +1813,78 @@ export const TOOLS: ToolDef[] = [
       { q: "Are dividends taxed?", a: "Qualified dividends are taxed at long-term capital gains rates (0/15/20%) depending on income. Non-qualified dividends are taxed as ordinary income." },
     ],
     related: ["compound-interest-calculator", "retirement-calculator", "401k-calculator"],
+  },
+  {
+    slug: "property-tax-calculator",
+    title: "Property Tax Calculator 2026 — by State | US Money HQ",
+    shortTitle: "Property Tax Calculator",
+    description: "Free property tax calculator: annual and monthly property tax for any US state using average effective rates.",
+    h1: "Property Tax Calculator",
+    sub: "Annual and monthly property tax — by state.",
+    fields: [
+      { key: "value", label: "Home value (USD)", type: "number", default: 350000, min: 10000, step: 5000, inputMode: "numeric" },
+      { key: "state", label: "State", type: "select", default: "TX", options: US_STATES.map((s) => ({ value: s, label: s })) },
+    ],
+    compute: (v) => {
+      const value = Number(v.value) || 0;
+      const abbr = String(v.state);
+      const st = STATES.find((s) => s.abbr === abbr);
+      const pct = st ? st.propTaxPct : 1;
+      const r = propertyTax(value, pct);
+      return [{ label: "Effective rate", value: pct.toFixed(2) + "%" }, moneyRow("Annual property tax", r.annual, true), moneyRow("Monthly (escrow)", r.monthly)];
+    },
+    note: "Uses average effective property tax rates per state (2026). Actual rates vary by county and exemptions (homestead, senior, veteran).",
+    faq: [
+      { q: "Which states have the highest property taxes?", a: "New Jersey, Illinois, Connecticut, and New Hampshire have the highest effective rates (2%+). Hawaii, Alabama, and Colorado are among the lowest." },
+      { q: "Is property tax paid monthly or yearly?", a: "Most homeowners pay monthly through escrow as part of the mortgage payment; the lender pays the county annually. Without a mortgage, you pay the county directly, usually annually or semi-annually." },
+    ],
+    related: ["mortgage-calculator", "home-affordability-calculator", "closing-costs-calculator"],
+  },
+  {
+    slug: "capital-gains-calculator",
+    title: "Capital Gains Tax Calculator 2026 | US Money HQ",
+    shortTitle: "Capital Gains Tax Calculator",
+    description: "Free capital gains tax calculator: short-term vs long-term gains tax and your net profit after taxes.",
+    h1: "Capital Gains Tax Calculator",
+    sub: "Short-term or long-term — what you keep after tax.",
+    fields: [
+      { key: "gain", label: "Capital gain (USD)", type: "number", default: 20000, min: 0, step: 500, inputMode: "numeric" },
+      { key: "income", label: "Other taxable income (USD)", type: "number", default: 60000, min: 0, step: 1000, inputMode: "numeric" },
+      { key: "holding", label: "Holding period", type: "select", default: "long", options: [{ value: "long", label: "Long-term (1+ year)" }, { value: "short", label: "Short-term (under 1 year)" }] },
+    ],
+    compute: (v) => {
+      const r = capitalGains(Number(v.gain) || 0, Number(v.income) || 0, String(v.holding) === "short" ? "short" : "long");
+      return [moneyRow("Tax on gain", r.tax), { label: "Effective rate", value: r.effectiveRate.toFixed(2) + "%" }, moneyRow("Net after tax", r.net, true)];
+    },
+    note: "2026 long-term rates: 0% up to $47,025 single, 15% to $518,900, 20% above. Short-term gains are taxed as ordinary income.",
+    faq: [
+      { q: "What is the 0% capital gains bracket?", a: "For 2026, single filers with taxable income up to $47,025 pay 0% on long-term gains. This can be a powerful tax-planning window for low-income years." },
+      { q: "How do I avoid capital gains tax?", a: "Hold assets 1+ years for the lower long-term rates, use tax-advantaged accounts (401k/IRA), and consider tax-loss harvesting — selling losers to offset gains." },
+    ],
+    related: ["tax-calculator", "dividend-calculator", "compound-interest-calculator"],
+  },
+  {
+    slug: "salary-to-hourly-calculator",
+    title: "Salary to Hourly Calculator 2026 | US Money HQ",
+    shortTitle: "Salary to Hourly Calculator",
+    description: "Free salary to hourly calculator: what your annual salary equals per hour, week, and month.",
+    h1: "Salary to Hourly Calculator",
+    sub: "Your annual salary, translated to an hourly rate.",
+    fields: [
+      { key: "salary", label: "Annual salary (USD)", type: "number", default: 65000, min: 0, step: 1000, inputMode: "numeric" },
+      { key: "hours", label: "Hours per week", type: "number", default: 40, min: 1, max: 100, step: 1, inputMode: "numeric" },
+      { key: "weeks", label: "Weeks worked per year", type: "number", default: 52, min: 1, max: 52, step: 1, inputMode: "numeric" },
+    ],
+    compute: (v) => {
+      const r = salaryToHourly(Number(v.salary) || 0, Number(v.hours) || 40, Number(v.weeks) || 52);
+      return [{ label: "Hourly rate", value: "$" + r.hourly.toFixed(2), highlight: true }, moneyRow("Weekly (gross)", r.weekly), moneyRow("Monthly (gross)", r.monthly)];
+    },
+    note: "Gross figures before taxes. The $65k salary example at 40h/52w = $31.25/hr.",
+    faq: [
+      { q: "How do I convert salary to hourly?", a: "Divide annual salary by (hours per week x weeks per year). $65,000 / (40 x 52) = $31.25/hour. Salaried exempt employees often work more than 40 hours, lowering the real hourly rate." },
+      { q: "Is salary or hourly better?", a: "Salary offers stability and benefits; hourly offers overtime pay. Compare total compensation — including benefits worth 20-30% of salary — not just the headline number." },
+    ],
+    related: ["hourly-to-salary-calculator", "salary-after-tax-calculator", "overtime-calculator"],
   },
 ];
 

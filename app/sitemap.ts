@@ -1,6 +1,6 @@
 import type { MetadataRoute } from "next";
 import { SITE_URL, TOOLS } from "@/lib/tools";
-import { STATES, STATE_AWARE_TOOLS } from "@/lib/states";
+import { STATES, STATE_AWARE_TOOLS, getComparisonPairs } from "@/lib/states";
 
 /** Dynamic sitemap — every tool + every state variant for state-aware tools. */
 export default function sitemap(): MetadataRoute.Sitemap {
@@ -22,7 +22,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.9,
     });
   }
-  // state variants: 5 state-aware tools x 50 states
+  // state variants: state-aware tools x 50 states
   for (const slug of STATE_AWARE_TOOLS) {
     for (const s of STATES) {
       pages.push({
@@ -30,6 +30,18 @@ export default function sitemap(): MetadataRoute.Sitemap {
         lastModified: now,
         changeFrequency: "monthly",
         priority: 0.7,
+      });
+    }
+  }
+  // state-vs-state comparisons: state-aware tools x 45 top-state pairs
+  const pairs = getComparisonPairs();
+  for (const slug of STATE_AWARE_TOOLS) {
+    for (const [a, b] of pairs) {
+      pages.push({
+        url: `${SITE_URL}/${slug}/${a.slug}-vs-${b.slug}`,
+        lastModified: now,
+        changeFrequency: "monthly",
+        priority: 0.6,
       });
     }
   }

@@ -55,6 +55,9 @@ import {
   closingCosts,
   carAffordability,
   dividendIncome,
+  propertyTax,
+  capitalGains,
+  salaryToHourly,
 } from "./calc.ts";
 
 // $300k @ 6.5% / 30yr (360 mo) -> ~$1,896.20/mo (known value)
@@ -403,3 +406,30 @@ console.log("ALL PHASE 2 CALC TESTS PASS");
 }
 
 console.log("ALL PHASE 2B CALC TESTS PASS");
+
+// === Phase 2c: property tax, capital gains, salary-to-hourly ===
+{
+  const r = propertyTax(350000, 1.8);
+  assert.strictEqual(r.annual, 6300);
+  assert.strictEqual(r.monthly, 525);
+  const z = propertyTax(250000, 0.5);
+  assert.strictEqual(z.annual, 1250);
+}
+{
+  const r = capitalGains(20000, 60000, "long");
+  assert.strictEqual(r.tax, 3000, "long-term 15% bracket on $20k gain");
+  assert.strictEqual(r.net, 17000);
+  assert.strictEqual(r.effectiveRate, 15);
+  const z = capitalGains(10000, 30000, "long");
+  assert.strictEqual(z.tax, 0, "0% long-term bracket");
+  const s = capitalGains(10000, 60000, "short");
+  assert.ok(s.tax > 0 && s.tax < 3000, "short-term taxed as ordinary income");
+}
+{
+  const r = salaryToHourly(65000, 40, 52);
+  assert.strictEqual(r.hourly, 31.25);
+  assert.strictEqual(r.weekly, 1250);
+  assert.strictEqual(r.monthly, 5416.67);
+}
+
+console.log("ALL PHASE 2C CALC TESTS PASS");

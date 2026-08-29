@@ -74,10 +74,48 @@ export const STATE_AWARE_TOOLS = [
   "mortgage-calculator",
   "home-affordability-calculator",
   "sales-tax-calculator",
+  "property-tax-calculator",
 ];
 
 export function getState(slug: string): StateData | undefined {
   return STATES.find((s) => s.slug === slug);
+}
+
+/** Top-10 most populous states — drive state-vs-state comparison pages (45 pairs). */
+export const POPULAR_STATES = [
+  "california",
+  "texas",
+  "florida",
+  "new-york",
+  "pennsylvania",
+  "illinois",
+  "ohio",
+  "georgia",
+  "north-carolina",
+  "michigan",
+];
+
+/** Parse a "stateA-vs-stateB" slug into two validated states, or null. */
+export function getComparisonPair(pairSlug: string): [StateData, StateData] | null {
+  const m = pairSlug.match(/^([a-z-]+)-vs-([a-z-]+)$/);
+  if (!m) return null;
+  const a = getState(m[1]);
+  const b = getState(m[2]);
+  if (!a || !b || a.abbr === b.abbr) return null;
+  return [a, b];
+}
+
+/** Unordered pairs of POPULAR_STATES (a-b, not b-a) for sitemap generation. */
+export function getComparisonPairs(): [StateData, StateData][] {
+  const out: [StateData, StateData][] = [];
+  for (let i = 0; i < POPULAR_STATES.length; i++) {
+    for (let j = i + 1; j < POPULAR_STATES.length; j++) {
+      const a = getState(POPULAR_STATES[i]);
+      const b = getState(POPULAR_STATES[j]);
+      if (a && b) out.push([a, b]);
+    }
+  }
+  return out;
 }
 
 export function getStateByAbbr(abbr: string): StateData | undefined {
