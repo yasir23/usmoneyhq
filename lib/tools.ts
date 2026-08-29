@@ -68,6 +68,16 @@ import {
   ruleOf72,
   salaryRaise,
   loanWithExtra,
+  socialSecurityEstimate,
+  debtSnowball,
+  leaseVsBuy,
+  mortgagePoints,
+  pricePerSqft,
+  constructionCost,
+  calorieDeficit,
+  loanCompare,
+  savingsRate,
+  taxRefundEstimate,
   NO_INCOME_TAX_STATES,
   US_STATES,
 } from "./calc.ts";
@@ -2161,6 +2171,257 @@ export const TOOLS: ToolDef[] = [
       { q: "Should I negotiate?", a: "Almost always. Research comparable salaries, cite specific contributions, and ask — employees who negotiate typically gain 5-10% more than the first offer." },
     ],
     related: ["salary-after-tax-calculator", "hourly-to-salary-calculator", "salary-percentile-calculator"],
+  },
+  {
+    slug: "social-security-calculator",
+    title: "Social Security Calculator 2026 — Benefit Estimate | US Money HQ",
+    shortTitle: "Social Security Calculator",
+    description: "Free Social Security calculator: estimate your monthly retirement benefit based on income and claiming age.",
+    h1: "Social Security Calculator",
+    sub: "Your estimated monthly benefit — clearly an estimate.",
+    fields: [
+      { key: "income", label: "Current annual income (USD)", type: "number", default: 75000, min: 0, step: 1000, inputMode: "numeric" },
+      { key: "age", label: "Your age now", type: "number", default: 45, min: 18, max: 85, step: 1, inputMode: "numeric" },
+      { key: "retireAge", label: "Claiming age", type: "select", default: 67, options: [{ value: 62, label: "62 (early)" }, { value: 65, label: "65" }, { value: 67, label: "67 (full retirement)" }, { value: 70, label: "70 (delayed)" }] },
+    ],
+    compute: (v) => {
+      const r = socialSecurityEstimate(Number(v.age) || 45, Number(v.retireAge) || 67, Number(v.income) || 0);
+      return [moneyRow("Est. monthly benefit", r.monthly, true), moneyRow("Est. annual benefit", r.annual), moneyRow("PIA (full retirement age)", r.pia)];
+    },
+    note: "Rough estimate using 2026 bend points and today's income. Actual benefits use your 35 highest-earning years — check ssa.gov for your real statement.",
+    faq: [
+      { q: "When should I claim Social Security?", a: "Full retirement age is 67 for anyone born after 1960. Claiming at 62 cuts benefits ~30% permanently; waiting to 70 adds ~8% per year. The right choice depends on your health, savings, and lifespan expectations." },
+      { q: "Is my benefit taxed?", a: "Up to 85% of Social Security benefits can be taxed if your combined income exceeds $25k (single) or $32k (married). About 40% of beneficiaries owe tax on some portion." },
+    ],
+    related: ["retirement-calculator", "401k-calculator", "investment-calculator"],
+  },
+  {
+    slug: "debt-snowball-calculator",
+    title: "Debt Snowball Calculator 2026 — Payoff Plan | US Money HQ",
+    shortTitle: "Debt Snowball Calculator",
+    description: "Free debt snowball calculator: order your debts, see months to debt-free, and total interest paid — snowball or avalanche method.",
+    h1: "Debt Snowball Calculator",
+    sub: "Your debt-free date, method by method.",
+    fields: [
+      { key: "budget", label: "Monthly debt budget (USD)", type: "number", default: 700, min: 0, step: 25, inputMode: "numeric" },
+      { key: "method", label: "Method", type: "select", default: "snowball", options: [{ value: "snowball", label: "Snowball (smallest first)" }, { value: "avalanche", label: "Avalanche (highest APR first)" }] },
+      { key: "b1", label: "Debt 1 balance (USD)", type: "number", default: 1500, min: 0, step: 50, inputMode: "numeric" },
+      { key: "a1", label: "Debt 1 APR (%)", type: "number", default: 22, min: 0, step: 0.5, inputMode: "decimal" },
+      { key: "m1", label: "Debt 1 min payment", type: "number", default: 60, min: 0, step: 5, inputMode: "numeric" },
+      { key: "b2", label: "Debt 2 balance (USD)", type: "number", default: 5000, min: 0, step: 100, inputMode: "numeric" },
+      { key: "a2", label: "Debt 2 APR (%)", type: "number", default: 18, min: 0, step: 0.5, inputMode: "decimal" },
+      { key: "m2", label: "Debt 2 min payment", type: "number", default: 150, min: 0, step: 5, inputMode: "numeric" },
+      { key: "b3", label: "Debt 3 balance (USD)", type: "number", default: 12000, min: 0, step: 100, inputMode: "numeric" },
+      { key: "a3", label: "Debt 3 APR (%)", type: "number", default: 7, min: 0, step: 0.5, inputMode: "decimal" },
+      { key: "m3", label: "Debt 3 min payment", type: "number", default: 250, min: 0, step: 5, inputMode: "numeric" },
+    ],
+    compute: (v) => {
+      const debts = [];
+      for (const i of [1, 2, 3]) {
+        const bal = Number(v["b" + i]) || 0;
+        if (bal > 0) debts.push({ name: "Debt " + i, balance: bal, apr: Number(v["a" + i]) || 0, min: Number(v["m" + i]) || 0 });
+      }
+      const r = debtSnowball(debts, Number(v.budget) || 0, String(v.method) === "avalanche" ? "avalanche" : "snowball");
+      return [{ label: "Debt-free in", value: r.years > 0 ? r.years + " yrs " + r.remMonths + " mo" : r.months + " months", highlight: true }, moneyRow("Total interest paid", r.totalInterest), { label: "Method", value: String(v.method) === "avalanche" ? "Avalanche" : "Snowball" }];
+    },
+    note: "Snowball pays smallest balances first (momentum); avalanche pays highest APR first (least interest). Both use every freed minimum toward the next debt.",
+    faq: [
+      { q: "Snowball or avalanche — which is better?", a: "Avalanche saves the most money; snowball keeps you motivated. Studies show both work — the best method is the one you'll actually stick with." },
+      { q: "Should my monthly budget exceed the minimums?", a: "Yes — the gap between your budget and total minimums is what accelerates payoff. Every extra dollar goes to the current target debt." },
+    ],
+    related: ["debt-payoff-calculator", "credit-card-payoff-calculator", "budget-calculator"],
+  },
+  {
+    slug: "lease-vs-buy-calculator",
+    title: "Lease vs Buy Calculator 2026 — Car | US Money HQ",
+    shortTitle: "Lease vs Buy Calculator",
+    description: "Free lease vs buy calculator: compare total cost of leasing vs financing a car over the lease term.",
+    h1: "Lease vs Buy Calculator",
+    sub: "Lease or finance — the honest comparison.",
+    fields: [
+      { key: "price", label: "Car price (USD)", type: "number", default: 35000, min: 1000, step: 500, inputMode: "numeric" },
+      { key: "leaseMonths", label: "Lease term (months)", type: "select", default: 36, options: [{ value: 24, label: "24 months" }, { value: 36, label: "36 months" }, { value: 48, label: "48 months" }] },
+      { key: "leasePayment", label: "Monthly lease payment (USD)", type: "number", default: 420, min: 0, step: 10, inputMode: "numeric" },
+      { key: "residual", label: "Residual value (%)", type: "number", default: 55, min: 0, max: 90, step: 1, inputMode: "numeric" },
+      { key: "rate", label: "Finance rate (%)", type: "number", default: 7, min: 0, step: 0.1, inputMode: "decimal" },
+      { key: "buyMonths", label: "Finance term (months)", type: "select", default: 60, options: [{ value: 48, label: "48 months" }, { value: 60, label: "60 months" }, { value: 72, label: "72 months" }] },
+      { key: "down", label: "Down payment (USD)", type: "number", default: 3000, min: 0, step: 500, inputMode: "numeric" },
+    ],
+    compute: (v) => {
+      const r = leaseVsBuy(Number(v.price) || 0, Number(v.leaseMonths) || 36, Number(v.leasePayment) || 0, Number(v.residual) || 55, Number(v.rate) || 7, Number(v.buyMonths) || 60, Number(v.down) || 0);
+      return [moneyRow("Lease total (over term)", r.leaseTotal, true), moneyRow("Buy total (over term)", r.buyTotal), moneyRow("Buy monthly payment", r.buyPayment), { label: "Car residual value", value: "$" + r.residual.toLocaleString() }];
+    },
+    note: "Compares cash out over the lease term only. Leasing lets you walk away after the term; buying leaves you an asset worth the residual.",
+    faq: [
+      { q: "Is leasing cheaper than buying?", a: "Monthly payments are usually lower, but you own nothing at the end. Over a 36-month window, leasing often costs less cash — over 5-10 years, buying almost always wins because you keep the car." },
+      { q: "What is a good residual value?", a: "55-60% for a 36-month lease is typical. Higher residual = lower payment. Negotiate the cap cost (price) hard — that's what drives the payment." },
+    ],
+    related: ["auto-loan-calculator", "car-affordability-calculator", "gas-cost-calculator"],
+  },
+  {
+    slug: "mortgage-points-calculator",
+    title: "Mortgage Points Calculator 2026 — Buy Down | US Money HQ",
+    shortTitle: "Mortgage Points Calculator",
+    description: "Free mortgage points calculator: cost of buying discount points, your reduced rate, monthly savings, and break-even.",
+    h1: "Mortgage Points Calculator",
+    sub: "Should you buy down your rate?",
+    fields: [
+      { key: "amount", label: "Loan amount (USD)", type: "number", default: 300000, min: 10000, step: 5000, inputMode: "numeric" },
+      { key: "rate", label: "Interest rate (%)", type: "number", default: 6.5, min: 0, step: 0.01, inputMode: "decimal" },
+      { key: "points", label: "Points to buy", type: "number", default: 1, min: 0, max: 4, step: 0.125, inputMode: "decimal" },
+      { key: "years", label: "Loan term (years)", type: "select", default: 30, options: [{ value: 15, label: "15 years" }, { value: 30, label: "30 years" }] },
+    ],
+    compute: (v) => {
+      const r = mortgagePoints(Number(v.amount) || 0, Number(v.rate) || 0, Number(v.points) || 0, Number(v.years) || 30);
+      return [moneyRow("Points cost", r.pointCost), { label: "Reduced rate", value: r.reducedRate.toFixed(2) + "%" }, moneyRow("Monthly savings", r.monthlySavings), { label: "Break-even", value: r.breakevenMonths + " months" }];
+    },
+    note: "One point = 1% of the loan, typically cutting the rate by ~0.25%. Points pay off if you stay past break-even.",
+    faq: [
+      { q: "Should I buy mortgage points?", a: "Buy points if you'll stay in the home past the break-even point — usually 4-8 years. If you might move sooner, skip them or negotiate a lender credit instead." },
+      { q: "Are points tax deductible?", a: "Points on a purchase mortgage are generally deductible in the year paid as mortgage interest. Refinance points must be amortized over the loan term." },
+    ],
+    related: ["mortgage-calculator", "closing-costs-calculator", "refinance-calculator"],
+  },
+  {
+    slug: "price-per-square-foot-calculator",
+    title: "Price Per Square Foot Calculator 2026 | US Money HQ",
+    shortTitle: "Price Per Square Foot Calculator",
+    description: "Free price per square foot calculator: compare home prices per square foot — the standard real estate metric.",
+    h1: "Price Per Square Foot Calculator",
+    sub: "The real estate metric that levels the comparison field.",
+    fields: [
+      { key: "price", label: "Home price (USD)", type: "number", default: 350000, min: 10000, step: 5000, inputMode: "numeric" },
+      { key: "sqft", label: "Square feet", type: "number", default: 1800, min: 100, step: 50, inputMode: "numeric" },
+    ],
+    compute: (v) => {
+      const r = pricePerSqft(Number(v.price) || 0, Number(v.sqft) || 1);
+      return [{ label: "Price per sq ft", value: "$" + r.pricePerSqft.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }), highlight: true }];
+    },
+    note: "Compare like-for-like: same neighborhood, same home type. Condition and lot size move the number a lot.",
+    faq: [
+      { q: "What is a good price per square foot?", a: "It varies wildly by market — $150 in the Midwest, $400+ on the coasts. Only compare within the same city and home type." },
+      { q: "Why do appraisers use price per sq ft?", a: "It's the quickest apples-to-apples comparison for similar homes. Appraisers combine it with condition, upgrades, lot size, and recent comps." },
+    ],
+    related: ["square-footage-calculator", "home-affordability-calculator", "property-tax-calculator"],
+  },
+  {
+    slug: "construction-cost-calculator",
+    title: "Construction Cost Calculator 2026 — Build Estimate | US Money HQ",
+    shortTitle: "Construction Cost Calculator",
+    description: "Free construction cost calculator: estimate building costs by square footage, from basic to luxury finishes.",
+    h1: "Construction Cost Calculator",
+    sub: "What new construction costs in your market.",
+    fields: [
+      { key: "sqft", label: "Building size (sq ft)", type: "number", default: 2000, min: 100, step: 100, inputMode: "numeric" },
+      { key: "costPerSqft", label: "Cost per sq ft (USD)", type: "number", default: 200, min: 50, max: 1000, step: 5, inputMode: "numeric" },
+    ],
+    compute: (v) => {
+      const r = constructionCost(Number(v.sqft) || 0, Number(v.costPerSqft) || 0);
+      return [moneyRow("Total build cost", r.total, true), { label: "Per sq ft", value: "$" + r.perSqft.toFixed(2) }];
+    },
+    note: "Typical US new-construction runs $120-$400/sq ft depending on region and finishes. This excludes land and soft costs.",
+    faq: [
+      { q: "How much does it cost to build a house?", a: "Nationally, $150-$250/sq ft for mid-grade finishes — a 2,000 sq ft home runs $300k-$500k plus land. Coastal and luxury markets exceed $400/sq ft." },
+      { q: "What's included in cost per square foot?", a: "Materials, labor, foundation, framing, roof, systems, and basic finishes. It excludes land, permits, design fees, and site work." },
+    ],
+    related: ["concrete-calculator", "square-footage-calculator", "home-equity-calculator"],
+  },
+  {
+    slug: "calorie-deficit-calculator",
+    title: "Calorie Deficit Calculator 2026 — Weight Loss Timeline | US Money HQ",
+    shortTitle: "Calorie Deficit Calculator",
+    description: "Free calorie deficit calculator: how long it takes to lose your target pounds at your calorie intake.",
+    h1: "Calorie Deficit Calculator",
+    sub: "Your weight-loss timeline, honestly calculated.",
+    fields: [
+      { key: "tdee", label: "Your daily TDEE (calories)", type: "number", default: 2400, min: 800, step: 50, inputMode: "numeric" },
+      { key: "intake", label: "Daily calorie intake", type: "number", default: 1900, min: 800, step: 50, inputMode: "numeric" },
+      { key: "target", label: "Weight to lose (lbs)", type: "number", default: 15, min: 1, max: 300, step: 1, inputMode: "numeric" },
+    ],
+    compute: (v) => {
+      const r = calorieDeficit(Number(v.tdee) || 0, Number(v.intake) || 0, Number(v.target) || 0);
+      return [{ label: "Daily deficit", value: r.deficit + " cal" }, { label: "Time to target", value: r.weeks >= 0 ? r.weeks + " weeks (" + r.months + " months)" : "No deficit — eating at/above TDEE", highlight: true }];
+    },
+    note: "3,500 calories ≈ 1 lb of fat. A 500-calorie daily deficit loses ~1 lb/week. Get your TDEE from the TDEE calculator.",
+    faq: [
+      { q: "How fast should I lose weight?", a: "1-2 lbs per week is the safe, sustainable range. Faster deficits risk muscle loss and rebound. Never eat below ~1,200 (women) / ~1,500 (men) without medical guidance." },
+      { q: "Do calories from exercise count?", a: "Exercise calories are notoriously overestimated. Set your TDEE activity level conservatively and treat extra workouts as bonus deficit." },
+    ],
+    related: ["tdee-calculator", "bmi-calculator", "body-fat-calculator"],
+  },
+  {
+    slug: "loan-comparison-calculator",
+    title: "Loan Comparison Calculator 2026 — Side by Side | US Money HQ",
+    shortTitle: "Loan Comparison Calculator",
+    description: "Free loan comparison calculator: compare two loans side by side — payment, interest, and total cost.",
+    h1: "Loan Comparison Calculator",
+    sub: "Two loans, side by side, no math required.",
+    fields: [
+      { key: "a1", label: "Loan A amount (USD)", type: "number", default: 20000, min: 0, step: 500, inputMode: "numeric" },
+      { key: "r1", label: "Loan A rate (%)", type: "number", default: 8, min: 0, step: 0.1, inputMode: "decimal" },
+      { key: "t1", label: "Loan A term (months)", type: "number", default: 60, min: 1, max: 360, step: 1, inputMode: "numeric" },
+      { key: "a2", label: "Loan B amount (USD)", type: "number", default: 20000, min: 0, step: 500, inputMode: "numeric" },
+      { key: "r2", label: "Loan B rate (%)", type: "number", default: 6, min: 0, step: 0.1, inputMode: "decimal" },
+      { key: "t2", label: "Loan B term (months)", type: "number", default: 48, min: 1, max: 360, step: 1, inputMode: "numeric" },
+    ],
+    compute: (v) => {
+      const r = loanCompare(
+        { amount: Number(v.a1) || 0, rate: Number(v.r1) || 0, months: Number(v.t1) || 60 },
+        { amount: Number(v.a2) || 0, rate: Number(v.r2) || 0, months: Number(v.t2) || 48 }
+      );
+      return [moneyRow("A monthly", r.a.payment), moneyRow("A total interest", r.a.interest), moneyRow("B monthly", r.b.payment), moneyRow("B total interest", r.b.interest), { label: "Monthly difference (A−B)", value: "$" + r.diff.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }), highlight: true }];
+    },
+    note: "Same loan math, two columns — perfect for comparing lender offers or terms.",
+    faq: [
+      { q: "Which loan is better?", a: "Compare total cost, not just the payment. A longer term lowers payments but adds interest — this calculator shows both sides explicitly." },
+      { q: "Should I compare APR or interest rate?", a: "APR includes fees and is the truer cost. Use APR for the rate field when comparing lenders." },
+    ],
+    related: ["loan-calculator", "refinance-calculator", "simple-interest-calculator"],
+  },
+  {
+    slug: "savings-rate-calculator",
+    title: "Savings Rate Calculator 2026 — % of Income | US Money HQ",
+    shortTitle: "Savings Rate Calculator",
+    description: "Free savings rate calculator: your savings rate as a percentage of income, and what it means for your timeline.",
+    h1: "Savings Rate Calculator",
+    sub: "What percent of your income you're keeping.",
+    fields: [
+      { key: "income", label: "Monthly take-home income (USD)", type: "number", default: 5000, min: 0, step: 100, inputMode: "numeric" },
+      { key: "saved", label: "Monthly savings (USD)", type: "number", default: 1000, min: 0, step: 50, inputMode: "numeric" },
+    ],
+    compute: (v) => {
+      const r = savingsRate(Number(v.income) || 0, Number(v.saved) || 0);
+      return [{ label: "Savings rate", value: r.rate.toFixed(1) + "%", highlight: true }];
+    },
+    note: "The Mr. Money Mustache table: 10% rate = ~51 years to retirement; 25% = ~32 years; 50% = ~17 years.",
+    faq: [
+      { q: "What is a good savings rate?", a: "The average American saves ~5-10%. FIRE enthusiasts target 50%+. Even moving from 10% to 15% shaves roughly a decade off the road to financial independence." },
+      { q: "Does savings rate include retirement contributions?", a: "Yes — 401k, IRA, and employer match all count. The point is the percentage of income you're not spending." },
+    ],
+    related: ["budget-calculator", "net-worth-calculator", "investment-calculator"],
+  },
+  {
+    slug: "tax-refund-calculator",
+    title: "Tax Refund Calculator 2026 — Refund or Owed | US Money HQ",
+    shortTitle: "Tax Refund Calculator",
+    description: "Free tax refund calculator: estimate your federal refund or amount owed from income and taxes withheld.",
+    h1: "Tax Refund Calculator",
+    sub: "Refund or bill — estimate before filing.",
+    fields: [
+      { key: "income", label: "Annual income (USD)", type: "number", default: 75000, min: 0, step: 1000, inputMode: "numeric" },
+      { key: "withheld", label: "Federal tax withheld (USD)", type: "number", default: 9000, min: 0, step: 100, inputMode: "numeric" },
+      { key: "filing", label: "Filing status", type: "select", default: "single", options: [{ value: "single", label: "Single" }, { value: "married", label: "Married filing jointly" }] },
+    ],
+    compute: (v) => {
+      const r = taxRefundEstimate(Number(v.income) || 0, Number(v.withheld) || 0, String(v.filing) === "married" ? "married" : "single");
+      return [moneyRow("Estimated refund", r.refund, true), moneyRow("Amount owed", r.owed), moneyRow("Actual federal tax", r.tax)];
+    },
+    note: "Estimate based on standard deduction only — credits, deductions, and other income change the real number.",
+    faq: [
+      { q: "Is a big refund good?", a: "A refund means you over-withheld — you gave the government an interest-free loan. Most people prefer to break even or owe a little. Adjust your W-4 if refunds top $1,000." },
+      { q: "How do I check what was withheld?", a: "Look at box 2 of your W-2 or the 'Federal income tax withheld' line on your paystubs. This calculator compares that total to your actual tax." },
+    ],
+    related: ["tax-calculator", "salary-after-tax-calculator", "tax-bracket-calculator"],
   },
 ];
 

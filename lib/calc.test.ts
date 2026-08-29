@@ -69,6 +69,16 @@ import {
   ruleOf72,
   salaryRaise,
   loanWithExtra,
+  socialSecurityEstimate,
+  debtSnowball,
+  leaseVsBuy,
+  mortgagePoints,
+  pricePerSqft,
+  constructionCost,
+  calorieDeficit,
+  loanCompare,
+  savingsRate,
+  taxRefundEstimate,
 } from "./calc.ts";
 
 // $300k @ 6.5% / 30yr (360 mo) -> ~$1,896.20/mo (known value)
@@ -511,3 +521,58 @@ console.log("ALL PHASE 3 CALC TESTS PASS");
 }
 
 console.log("ALL KEYWORD-IMPL TESTS PASS");
+
+// === Phase 4: social security, snowball, lease-vs-buy, points, price/sqft, construction, deficit, loan compare, savings rate, refund ===
+{
+  const r = socialSecurityEstimate(45, 67, 75000);
+  assert.ok(r.monthly > 2500 && r.monthly < 2800, "$75k income PIA ~$2,681");
+  const early = socialSecurityEstimate(45, 62, 75000);
+  assert.ok(early.monthly < r.monthly, "claiming early reduces benefit");
+}
+{
+  const r = debtSnowball([{ name: "A", balance: 1500, apr: 22, min: 60 }, { name: "B", balance: 5000, apr: 18, min: 150 }, { name: "C", balance: 12000, apr: 7, min: 250 }], 700, "snowball");
+  assert.ok(r.months > 20 && r.months < 40, "snowball ~27 months");
+  const av = debtSnowball([{ name: "A", balance: 1500, apr: 22, min: 60 }, { name: "B", balance: 5000, apr: 18, min: 150 }, { name: "C", balance: 12000, apr: 7, min: 250 }], 700, "avalanche");
+  assert.ok(av.totalInterest <= r.totalInterest + 1, "avalanche <= snowball interest");
+}
+{
+  const r = leaseVsBuy(35000, 36, 420, 55, 7, 60, 3000);
+  assert.strictEqual(r.leaseTotal, 18120);
+  assert.ok(r.buyPayment > 630 && r.buyPayment < 640, "buy payment ~$634");
+}
+{
+  const r = mortgagePoints(300000, 6.5, 1, 30);
+  assert.strictEqual(r.pointCost, 3000);
+  assert.strictEqual(r.reducedRate, 6.25);
+  assert.ok(r.monthlySavings > 40 && r.monthlySavings < 60, "~$49/mo saved");
+  assert.ok(r.breakevenMonths > 50 && r.breakevenMonths < 70, "break-even ~61 months");
+}
+{
+  const r = pricePerSqft(350000, 1800);
+  assert.ok(r.pricePerSqft > 194 && r.pricePerSqft < 195, "~$194.44/sqft");
+}
+{
+  const r = constructionCost(2000, 200);
+  assert.strictEqual(r.total, 400000);
+}
+{
+  const r = calorieDeficit(2400, 1900, 15);
+  assert.strictEqual(r.deficit, 500);
+  assert.ok(r.weeks > 14 && r.weeks < 16, "15lb at 500 cal/day = 15 weeks");
+}
+{
+  const r = loanCompare({ amount: 20000, rate: 8, months: 60 }, { amount: 20000, rate: 6, months: 48 });
+  assert.ok(r.a.payment > 400 && r.a.payment < 410, "A ~$405");
+  assert.ok(r.b.payment > 465 && r.b.payment < 475, "B ~$470");
+}
+{
+  const r = savingsRate(5000, 1000);
+  assert.strictEqual(r.rate, 20);
+}
+{
+  const r = taxRefundEstimate(75000, 9000, "single");
+  assert.ok(r.tax > 8000 && r.tax < 8500, "$75k federal ~$8,114");
+  assert.ok(r.refund > 500 && r.refund < 1000, "refund ~$886");
+}
+
+console.log("ALL PHASE 4 CALC TESTS PASS");

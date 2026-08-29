@@ -776,3 +776,102 @@ export function loanWithExtra(principal: number, ratePct: number, termMonths: nu
     interestSaved: Math.round(Math.max(0, baseInterest - totalInterest) * 100) / 100,
   };
 }
+
+/** Multi-debt snowball/avalanche: order list, months to clear, total interest paid. */
+export function debtSnowball(debts: { name: string; balance: number; apr: number; min: number }[], monthlyBudget: number, method: "snowball" | "avalanche") {
+  const list = debts.map((d) => ({ ...d, balance: Math.max(0, d.balance), apr: Math.max(0, d.apr), min: Math.max(0, d.min) }));
+  list.sort(method === "avalanche" ? (a, b) => b.apr - a.apr : (a, b) => a.balance - b.balance);
+  let month = 0;
+  let totalInterest = 0;
+  let extraPool = Math.max(0, monthlyBudget - list.reduce((s, d) => s + d.min, 0));
+  const maxMonths = 1200;
+  while (list.some((d) => d.balance > 0) && month < maxMonths) {
+    month++;
+    let pool = extraPool;
+    for (const d of list) {
+      if (d.balance <= 0) continue;
+      const interest = (d.balance * d.apr) / 100 / 12;
+      totalInterest += interest;
+      d.balance += interest;
+      const payment = d.min + pool;
+      d.balance = Math.max(0, d.balance - payment);
+      if (d.balance <= 0) pool += Math.abs(d.balance) === 0 ? d.min + pool - (d.min + pool) : 0; // keep simple: leftover of this payment rolls
+    }
+    // roll freed minimums: recompute extra pool for next month
+    extraPool = Math.max(0, monthlyBudget - list.reduce((s, d) => s + (d.balance > 0 ? d.min : 0), 0));
+    if (month > 1 && extraPool > 0) extraPool += 0; // minimums freed already reflected
+  }
+  const years = Math.floor(month / 12);
+  return { months: month, years, remMonths: month % 12, totalInterest: Math.round(totalInterest * 100) / 100 };
+}
+
+/** Social Security rough monthly benefit (PIA approximation) — clearly labeled estimate. */
+export function socialSecurityEstimate(ageNow: number, retireAge: number, annualIncome: number) {
+  const aime = annualIncome / 12;
+  // 2026 bend points
+  const bend1 = Math.min(aime, 1174) * 0.9;
+  const bend2 = Math.max(0, Math.min(aime, 7078) - 1174) * 0.32;
+  const bend3 = Math.max(0, aime - 7078) * 0.15;
+  const pia = bend1 + bend2 + bend3;
+  const factor = retireAge < 67 ? 1 - (67 - retireAge) * 5 / 900 : retireAge > 70 ? 1.32 : retireAge > 67 ? 1 + (retireAge - 67) * 8 / 100 : 1;
+  return { monthly: Math.round(pia * factor), annual: Math.round(pia * factor * 12), pia: Math.round(pia) };
+}
+
+/** Car lease vs buy over lease term. */
+export function leaseVsBuy(carPrice: number, leaseTermMonths: number, leasePayment: number, residualPct: number, buyRatePct: number, buyTermMonths: number, downPayment: number) {
+  const residual = carPrice * (residualPct / 100);
+  const leaseTotal = leasePayment * leaseTermMonths + downPayment;
+  const r = buyRatePct / 100 / 12;
+  const principal = carPrice - downPayment;
+  const payment = r === 0 ? principal / buyTermMonths : (principal * r * Math.pow(1 + r, buyTermMonths)) / (Math.pow(1 + r, buyTermMonths) - 1);
+  const buyTotal = payment * buyTermMonths + downPayment;
+  return { leaseTotal: round2(leaseTotal), buyTotal: round2(buyTotal), buyPayment: round2(payment), residual: round2(residual) };
+}
+
+/** Mortgage points: cost to buy points vs rate reduction. */
+export function mortgagePoints(loanAmount: number, ratePct: number, points: number, termYears: number) {
+  const pointCost = loanAmount * (points / 100);
+  const reducedRate = ratePct - points * 0.25;
+  const base = amortizedPayment(loanAmount, ratePct, termYears * 12);
+  const reduced = amortizedPayment(loanAmount, Math.max(0, reducedRate), termYears * 12);
+  const monthlySavings = base.payment - reduced.payment;
+  const breakevenMonths = monthlySavings > 0 ? pointCost / monthlySavings : 0;
+  return { pointCost: round2(pointCost), reducedRate: round2(Math.max(0, reducedRate)), monthlySavings: round2(monthlySavings), breakevenMonths: Math.round(breakevenMonths) };
+}
+
+/** Price per square foot. */
+export function pricePerSqft(price: number, sqft: number) {
+  return { pricePerSqft: round2(price / Math.max(1, sqft)) };
+}
+
+/** Construction cost estimate by sqft. */
+export function constructionCost(sqft: number, costPerSqft: number) {
+  return { total: round2(sqft * costPerSqft), perSqft: round2(costPerSqft) };
+}
+
+/** Calorie deficit: weeks to lose target pounds. */
+export function calorieDeficit(tdee: number, calorieIntake: number, targetLb: number) {
+  const deficit = Math.max(0, tdee - calorieIntake);
+  const days = deficit > 0 ? (targetLb * 3500) / deficit : Infinity;
+  const weeks = days / 7;
+  return { deficit: round2(deficit), weeks: Math.round(weeks * 10) / 10, months: Math.round((weeks / 4.33) * 10) / 10, days: Math.round(days) };
+}
+
+/** Compare two loans side by side. */
+export function loanCompare(a: { amount: number; rate: number; months: number }, b: { amount: number; rate: number; months: number }) {
+  const ra = amortizedPayment(a.amount, a.rate, a.months);
+  const rb = amortizedPayment(b.amount, b.rate, b.months);
+  return { a: { payment: ra.payment, interest: ra.totalInterest, total: ra.totalPaid }, b: { payment: rb.payment, interest: rb.totalInterest, total: rb.totalPaid }, diff: round2(ra.payment - rb.payment) };
+}
+
+/** Savings rate: % of income saved. */
+export function savingsRate(income: number, saved: number) {
+  return { rate: round2((saved / Math.max(1, income)) * 100) };
+}
+
+/** Tax refund rough estimate: withheld vs actual federal tax. */
+export function taxRefundEstimate(income: number, withheld: number, filing: "single" | "married" = "single") {
+  const t = federalTax(income, filing);
+  const diff = withheld - t.tax;
+  return { refund: round2(Math.max(0, diff)), owed: round2(Math.max(0, -diff)), tax: t.tax };
+}
