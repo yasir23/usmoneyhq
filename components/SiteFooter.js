@@ -21,6 +21,7 @@ export default function SiteFooter() {
           <div>
             <h3>For Webmasters</h3>
             <Link href="/widgets">Free Embeddable Calculators</Link>
+            <Link href="/premium">Premium (Whop)</Link>
             <Link href="/methodology">Methodology & Data Sources</Link>
             <Link href="/about">About</Link>
             <Link href="/contact">Contact</Link>
