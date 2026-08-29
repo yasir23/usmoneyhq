@@ -871,6 +871,7 @@ export const TOOLS: ToolDef[] = [
     faq: [
       { q: "What are sleep cycles?", a: "Sleep runs in ~90-minute cycles through light, deep, and REM stages. Waking mid-cycle causes sleep inertia; waking at cycle end feels natural." },
       { q: "How many cycles do I need?", a: "Most adults need 5-6 full cycles (7.5-9 hours). Four cycles works for some, but most people feel best at 7.5+ hours." },
+      { q: "What time should I go to bed?", a: "Count back 5-6 sleep cycles (90 minutes each) from your wake time. Waking at 7:00 AM means bedtime between 10:00 PM and 11:30 PM — this calculator gives you the exact times." },
     ],
     related: ["tdee-calculator", "water-intake-calculator", "body-fat-calculator"],
   },
@@ -1050,6 +1051,7 @@ export const TOOLS: ToolDef[] = [
     faq: [
       { q: "What is the 28/36 rule?", a: "Lenders typically cap housing costs at 28% of gross income and total debt at 36%. FHA allows up to 31/43 in many cases." },
       { q: "How much house can I afford on $100k salary?", a: "On $100k/year with no other debt and 20% down at a 6.5% rate, the 28% rule puts your max monthly payment around $2,333 — roughly a $370k home. At $150k, that scales to about $555k; at $200k, about $740k. Run your real numbers above — debt, down payment, and rate move the answer a lot." },
+      { q: "How much house can I afford with a $20k down payment?", a: "A $20k down payment is 10% on a $200k home or about 6% on a $320k home. Smaller down payments mean PMI and higher monthly costs — run the numbers in this calculator and the PMI calculator together to see the true payment." },
       { q: "Should I use the max price?", a: "Just because you qualify doesn't mean you should buy at the max. Leave room for maintenance, repairs, and lifestyle costs." },
     ],
     related: ["mortgage-calculator", "dti-calculator", "pmi-calculator"],
@@ -1157,6 +1159,7 @@ export const TOOLS: ToolDef[] = [
     faq: [
       { q: "How is the needed score calculated?", a: "Desired = current×(1−weight) + exam×weight. Solving for exam gives the score you need." },
       { q: "What if I can't reach my target?", a: "If the needed score is over 100, your target is mathematically out of reach — recalculate with a lower target." },
+      { q: "How does this work with points instead of percentages?", a: "Same math, different units: if your course uses points, use your current points and the exam's point value as the weight. A 50-point exam = 50% weight in a 100-point course." },
     ],
     related: ["gpa-calculator", "due-date-calculator", "salary-percentile-calculator"],
   },
@@ -1603,6 +1606,7 @@ export const TOOLS: ToolDef[] = [
       { q: "What counts as needs vs wants?", a: "Needs are essentials: housing, food, utilities, transport, minimum debt payments. Wants are lifestyle: dining out, subscriptions, travel. Savings includes retirement, emergency fund, and extra debt payoff." },
       { q: "My rent is over 50% of take-home — now what?", a: "The rule is a target, not a law. If needs exceed 50%, reduce wants and savings temporarily — then work on income or housing costs to rebalance." },
       { q: "How much rent can I afford?", a: "With the 50/30/20 rule, rent belongs in the 50% needs bucket along with utilities and groceries. Many landlords use 30% of gross income as the affordability cap — at $60k/year that's $1,500/month." },
+      { q: "How much do I need to make?", a: "Work the rule backward: multiply your monthly needs by 2 for take-home income. If rent + utilities + groceries + minimums total $3,000, you need about $6,000/month take-home ($100k+/year gross) to stay at 50/30/20." },
     ],
     related: ["net-worth-calculator", "savings-goal-calculator", "debt-payoff-calculator"],
   },
@@ -1897,6 +1901,7 @@ export const TOOLS: ToolDef[] = [
     faq: [
       { q: "What is the 0% capital gains bracket?", a: "For 2026, single filers with taxable income up to $47,025 pay 0% on long-term gains. This can be a powerful tax-planning window for low-income years." },
       { q: "How do I avoid capital gains tax?", a: "Hold assets 1+ years for the lower long-term rates, use tax-advantaged accounts (401k/IRA), and consider tax-loss harvesting — selling losers to offset gains." },
+      { q: "Are gains taxed at the state level too?", a: "Yes — most states tax capital gains as ordinary income on top of federal. California and New Jersey tax all gains at your income rate; nine states with no income tax (TX, FL, NV, etc.) don't tax gains at all." },
     ],
     related: ["tax-calculator", "dividend-calculator", "compound-interest-calculator"],
   },
@@ -2041,6 +2046,7 @@ export const TOOLS: ToolDef[] = [
     faq: [
       { q: "Is a 529 worth it?", a: "Earnings grow tax-free and withdrawals for qualified education expenses are tax-free — plus many states offer a tax deduction on contributions. It's the best college savings vehicle for most families." },
       { q: "What return should I assume?", a: "Age-based 529 portfolios blend stocks and bonds. Expect 5-7% for long horizons, less as the child nears college." },
+      { q: "Does my state give a 529 tax deduction?", a: "Most states offer a state income tax deduction or credit for 529 contributions — 30+ states do, with limits usually between $5k-$20k per year per beneficiary. A few (like California and New Jersey) don't, but you can still use any state's plan." },
     ],
     related: ["savings-goal-calculator", "compound-interest-calculator", "net-worth-calculator"],
   },
@@ -2109,6 +2115,7 @@ export const TOOLS: ToolDef[] = [
     faq: [
       { q: "What return should I use?", a: "For a diversified stock portfolio, 7% is a common conservative real return (after inflation). Use 4-5% for bond-heavy portfolios and 10% for optimistic stock-only cases." },
       { q: "Why does time matter so much?", a: "Compound growth is exponential. $300/month at 7% grows to ~$158k in 20 years but ~$365k in 30 — the last decade does more than all the earlier ones combined." },
+      { q: "What if I increase my contributions over time?", a: "Raising contributions with your income accelerates growth dramatically. If $300/month grows to ~$158k in 20 years at 7%, increasing by just $25/month every year reaches roughly $215k — an extra $57k from gradual raises." },
     ],
     related: ["compound-interest-calculator", "retirement-calculator", "401k-calculator"],
   },
