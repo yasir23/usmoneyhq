@@ -2125,7 +2125,8 @@ export const TOOLS: ToolDef[] = [
 ];
 
 // Planned tools — render automatically via pages/[tool].js once added to TOOLS.
-export const FUTURE_TOOLS = ["investment-calculator", "home-equity-calculator", "tax-bracket-calculator"];
+// No tools in the pipeline — every planned tool shipped. Add future slugs here when scoping new ones.
+export const FUTURE_TOOLS: string[] = [];
 
 export function getTool(slug: string): ToolDef | undefined {
   return TOOLS.find((t) => t.slug === slug);
