@@ -546,3 +546,99 @@ export function simpleInterest(principal: number, ratePct: number, years: number
 export function budgetSplit(netMonthly: number) {
   return { needs: round2(netMonthly * 0.5), wants: round2(netMonthly * 0.3), savings: round2(netMonthly * 0.2) };
 }
+
+/** Discount: price minus % off. */
+export function discountPrice(price: number, pct: number) {
+  const savings = price * (pct / 100);
+  return { savings: round2(savings), finalPrice: round2(price - savings) };
+}
+
+/** Sales tax: price plus tax at given combined rate %. */
+export function salesTaxAmount(price: number, pct: number) {
+  const tax = price * (pct / 100);
+  return { tax: round2(tax), total: round2(price + tax) };
+}
+
+/** Inflation: what amount is worth after N years at given annual rate. */
+export function inflationValue(amount: number, ratePct: number, years: number) {
+  const futureValue = amount * Math.pow(1 + ratePct / 100, years);
+  return { futureValue: round2(futureValue), lossPct: round2((1 - amount / futureValue) * 100) };
+}
+
+/** MPG: miles per gallon. */
+export function mpgCalc(miles: number, gallons: number) {
+  return { mpg: round2(miles / Math.max(0.001, gallons)), miles: round2(miles), gallons: round2(gallons) };
+}
+
+/** Rent vs buy over N years. Buy: monthly payment + 1% maintenance + property tax; appreciation on price. */
+export function rentVsBuy(rentMonthly: number, price: number, downPct: number, ratePct: number, years: number, rentGrowthPct: number, appreciationPct: number) {
+  const n = 360; // standard 30-year mortgage term for the payment math
+  const horizon = Math.max(1, years * 12);
+  const down = price * (downPct / 100);
+  const principal = price - down;
+  const r = ratePct / 100 / 12;
+  let payment = principal;
+  if (r > 0) payment = (principal * r * Math.pow(1 + r, n)) / (Math.pow(1 + r, n) - 1);
+  const propTax = price * 0.011 / 12;
+  const maintenance = price * 0.01 / 12;
+  const buyMonthly = payment + propTax + maintenance;
+  let rent = rentMonthly;
+  let rentTotal = 0;
+  for (let i = 0; i < horizon; i++) {
+    rentTotal += rent;
+    rent *= (1 + rentGrowthPct / 100 / 12);
+  }
+  const buyTotal = buyMonthly * horizon + down;
+  const homeValue = price * Math.pow(1 + appreciationPct / 100, years);
+  const equity = Math.max(0, homeValue - principal * Math.pow(1 + r, n) * 0); // simple: value minus remaining (approx via paid)
+  return {
+    buyMonthly: round2(buyMonthly),
+    rentTotal: round2(rentTotal),
+    buyTotal: round2(buyTotal),
+    homeValue: round2(homeValue),
+    diff: round2(buyTotal - rentTotal),
+    rentStartsAt: round2(rent),
+  };
+}
+
+/** 401k projection with employer match (match % of your contribution, capped at % of salary). */
+export function retirement401k(current: number, monthlyOwn: number, matchPct: number, matchCapPct: number, salary: number, ratePct: number, years: number) {
+  const monthlyCap = (salary / 12) * (matchCapPct / 100);
+  const match = Math.min(monthlyOwn, monthlyCap) * (matchPct / 100);
+  const totalMonthly = monthlyOwn + match;
+  const r = ratePct / 100 / 12;
+  let bal = current;
+  const n = Math.max(1, years * 12);
+  for (let i = 0; i < n; i++) bal = bal * (1 + r) + totalMonthly;
+  return { balance: round2(bal), monthlyTotal: round2(totalMonthly), monthlyMatch: round2(match) };
+}
+
+/** Emergency fund target. */
+export function emergencyFund(monthlyExpenses: number, months: number) {
+  return { target: round2(monthlyExpenses * months) };
+}
+
+/** Closing costs: % of home price (typical 2-5%). */
+export function closingCosts(price: number, pct: number) {
+  const costs = price * (pct / 100);
+  return { costs: round2(costs), totalCash: round2(price + costs) };
+}
+
+/** Car affordability: max loan amount from monthly budget (reverse amortization). */
+export function carAffordability(payment: number, ratePct: number, months: number, downPayment: number) {
+  const r = ratePct / 100 / 12;
+  let principal = payment * months;
+  if (r > 0) principal = payment * (1 - Math.pow(1 + r, -months)) / r;
+  return { loanAmount: round2(principal), carPrice: round2(principal + downPayment), totalPaid: round2(payment * months) };
+}
+
+/** Dividend income: annual income from a yield, and balance after N years reinvesting. */
+export function dividendIncome(investment: number, yieldPct: number, years: number, reinvest: boolean) {
+  const annual = investment * (yieldPct / 100);
+  let bal = investment;
+  if (reinvest) {
+    const r = yieldPct / 100;
+    for (let i = 0; i < years; i++) bal = bal * (1 + r);
+  }
+  return { annualIncome: round2(annual), monthlyIncome: round2(annual / 12), balanceAfterYears: reinvest ? round2(bal) : round2(investment) };
+}

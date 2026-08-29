@@ -44,9 +44,20 @@ import {
   bmiCalc,
   simpleInterest,
   budgetSplit,
+  discountPrice,
+  salesTaxAmount,
+  inflationValue,
+  mpgCalc,
+  rentVsBuy,
+  retirement401k,
+  emergencyFund,
+  closingCosts,
+  carAffordability,
+  dividendIncome,
   NO_INCOME_TAX_STATES,
   US_STATES,
 } from "./calc.ts";
+import { STATES } from "./states.ts";
 
 export const SITE_URL = "https://usmoneyhq.com";
 export const SITE_NAME = "US Money HQ";
@@ -1555,6 +1566,250 @@ export const TOOLS: ToolDef[] = [
       { q: "My rent is over 50% of take-home — now what?", a: "The rule is a target, not a law. If needs exceed 50%, reduce wants and savings temporarily — then work on income or housing costs to rebalance." },
     ],
     related: ["net-worth-calculator", "savings-goal-calculator", "debt-payoff-calculator"],
+  },
+  {
+    slug: "discount-calculator",
+    title: "Discount Calculator 2026 — Sale Price & Savings | US Money HQ",
+    shortTitle: "Discount Calculator",
+    description: "Free discount calculator: final price after a percent-off sale, and exactly how much you save.",
+    h1: "Discount Calculator",
+    sub: "Percent off, final price, and savings — instantly.",
+    fields: [
+      { key: "price", label: "Original price (USD)", type: "number", default: 120, min: 0, step: 1, inputMode: "decimal" },
+      { key: "pct", label: "Discount (%)", type: "number", default: 25, min: 0, max: 100, step: 1, inputMode: "numeric" },
+    ],
+    compute: (v) => {
+      const r = discountPrice(Number(v.price) || 0, Number(v.pct) || 0);
+      return [moneyRow("You save", r.savings), moneyRow("Final price", r.finalPrice, true)];
+    },
+    note: "Sale math for anything from shopping carts to contractor quotes.",
+    faq: [
+      { q: "How do I calculate percent off?", a: "Multiply the original price by the discount percentage (as a decimal), then subtract from the original. Example: $120 x 0.25 = $30 off, final price $90." },
+      { q: "Do stacked discounts work that way?", a: "No — a '20% off + 10% off' coupon stack applies sequentially, not as 30%. The second discount applies to the already-discounted price." },
+    ],
+    related: ["percentage-calculator", "sales-tax-calculator", "tip-calculator"],
+  },
+  {
+    slug: "sales-tax-calculator",
+    title: "Sales Tax Calculator 2026 — by State | US Money HQ",
+    shortTitle: "Sales Tax Calculator",
+    description: "Free sales tax calculator: total price with combined state and local sales tax for any US state.",
+    h1: "Sales Tax Calculator",
+    sub: "Price plus sales tax — for every state.",
+    fields: [
+      { key: "price", label: "Item price (USD)", type: "number", default: 499, min: 0, step: 1, inputMode: "decimal" },
+      { key: "state", label: "State", type: "select", default: "CA", options: US_STATES.map((s) => ({ value: s, label: s })) },
+    ],
+    compute: (v) => {
+      const price = Number(v.price) || 0;
+      const abbr = String(v.state);
+      const st = STATES.find((s) => s.abbr === abbr);
+      const pct = st ? st.salesTax : 0;
+      const r = salesTaxAmount(price, pct);
+      return [{ label: "Sales tax rate", value: pct.toFixed(2) + "%" }, moneyRow("Sales tax", r.tax), moneyRow("Total price", r.total, true)];
+    },
+    note: "Rates are average combined state + local sales tax (2026). Actual rates vary by city and county.",
+    faq: [
+      { q: "Which states have no sales tax?", a: "Five states have no statewide sales tax: Alaska, Delaware, Montana, New Hampshire, and Oregon. Local taxes may still apply in some areas." },
+      { q: "Is online shopping taxed?", a: "Yes — since the Wayfair ruling, most states require online retailers to collect sales tax based on your shipping address, at your local rate." },
+    ],
+    related: ["discount-calculator", "salary-after-tax-calculator", "percentage-calculator"],
+  },
+  {
+    slug: "inflation-calculator",
+    title: "Inflation Calculator 2026 — Purchasing Power | US Money HQ",
+    shortTitle: "Inflation Calculator",
+    description: "Free inflation calculator: what a dollar amount is worth after years of inflation, and the real loss in purchasing power.",
+    h1: "Inflation Calculator",
+    sub: "How much your money loses to inflation over time.",
+    fields: [
+      { key: "amount", label: "Amount (USD)", type: "number", default: 10000, min: 0, step: 100, inputMode: "numeric" },
+      { key: "rate", label: "Annual inflation (%)", type: "number", default: 3, min: 0, max: 25, step: 0.1, inputMode: "decimal" },
+      { key: "years", label: "Years", type: "number", default: 10, min: 1, max: 50, step: 1, inputMode: "numeric" },
+    ],
+    compute: (v) => {
+      const r = inflationValue(Number(v.amount) || 0, Number(v.rate) || 0, Number(v.years) || 0);
+      return [moneyRow("Future value needed", r.futureValue, true), { label: "Purchasing power loss", value: r.lossPct.toFixed(2) + "%" }];
+    },
+    note: "The Fed targets 2% annual inflation; the long-run US average is about 3%.",
+    faq: [
+      { q: "How does inflation affect savings?", a: "If your savings earn less than inflation, your purchasing power shrinks. At 3% inflation, $10,000 buys what $7,441 buys today after 10 years." },
+      { q: "What causes inflation?", a: "Demand outpacing supply, rising wages and input costs, money supply growth, and supply shocks. The Fed manages it mainly with interest rates." },
+    ],
+    related: ["compound-interest-calculator", "savings-goal-calculator", "retirement-calculator"],
+  },
+  {
+    slug: "miles-per-gallon-calculator",
+    title: "MPG Calculator 2026 — Fuel Economy | US Money HQ",
+    shortTitle: "MPG Calculator",
+    description: "Free MPG calculator: your real miles per gallon from trip distance and gallons used.",
+    h1: "MPG Calculator",
+    sub: "Your actual fuel economy, from the pump.",
+    fields: [
+      { key: "miles", label: "Miles driven", type: "number", default: 320, min: 1, step: 10, inputMode: "numeric" },
+      { key: "gallons", label: "Gallons used", type: "number", default: 11.4, min: 0.1, step: 0.1, inputMode: "decimal" },
+    ],
+    compute: (v) => {
+      const r = mpgCalc(Number(v.miles) || 0, Number(v.gallons) || 1);
+      return [{ label: "Miles per gallon", value: r.mpg.toFixed(1), highlight: true }, { label: "Miles driven", value: r.miles.toFixed(1) }, { label: "Gallons used", value: r.gallons.toFixed(2) }];
+    },
+    note: "Measure between fill-ups: record miles on the trip odometer and gallons at the pump.",
+    faq: [
+      { q: "How do I measure my real MPG?", a: "Fill the tank, reset the trip odometer, drive normally, then fill again. Divide miles driven by gallons pumped. Repeat 3-4 tanks for accuracy." },
+      { q: "Why is my MPG lower than the sticker?", a: "Sticker estimates come from lab tests. Real-world MPG is typically 10-20% lower due to city driving, traffic, AC use, tire pressure, and driving style." },
+    ],
+    related: ["gas-cost-calculator", "auto-loan-calculator", "car-affordability-calculator"],
+  },
+  {
+    slug: "rent-vs-buy-calculator",
+    title: "Rent vs Buy Calculator 2026 | US Money HQ",
+    shortTitle: "Rent vs Buy Calculator",
+    description: "Free rent vs buy calculator: compare the total cost of renting vs buying a home over any number of years.",
+    h1: "Rent vs Buy Calculator",
+    sub: "Renting or buying — the honest 10-year comparison.",
+    fields: [
+      { key: "rent", label: "Monthly rent (USD)", type: "number", default: 1800, min: 0, step: 50, inputMode: "numeric" },
+      { key: "price", label: "Home price (USD)", type: "number", default: 350000, min: 10000, step: 5000, inputMode: "numeric" },
+      { key: "down", label: "Down payment (%)", type: "number", default: 20, min: 0, max: 100, step: 0.5, inputMode: "decimal" },
+      { key: "rate", label: "Mortgage rate (%)", type: "number", default: 6.5, min: 0, step: 0.01, inputMode: "decimal" },
+      { key: "years", label: "Time horizon (years)", type: "number", default: 10, min: 1, max: 30, step: 1, inputMode: "numeric" },
+      { key: "rentGrowth", label: "Rent growth (%)", type: "number", default: 3, min: 0, step: 0.5, inputMode: "decimal" },
+      { key: "appreciation", label: "Home appreciation (%)", type: "number", default: 3, min: 0, step: 0.5, inputMode: "decimal" },
+    ],
+    compute: (v) => {
+      const r = rentVsBuy(Number(v.rent) || 0, Number(v.price) || 0, Number(v.down) || 0, Number(v.rate) || 0, Number(v.years) || 10, Number(v.rentGrowth) || 0, Number(v.appreciation) || 0);
+      return [
+        moneyRow("Buy: monthly cost", r.buyMonthly, true),
+        moneyRow("Rent: total paid", r.rentTotal),
+        moneyRow("Buy: total cost", r.buyTotal),
+        moneyRow("Buy: home value at end", r.homeValue),
+      ];
+    },
+    note: "Buy cost includes mortgage payment, 1% property tax, and 1% maintenance. Renting includes rent growth. Not a substitute for a full financial plan.",
+    faq: [
+      { q: "Is renting or buying better?", a: "It depends on your time horizon, local prices, and rates. Buying wins when you stay long enough for appreciation and equity to beat transaction costs — often 5-7 years. This calculator shows the raw math for your numbers." },
+      { q: "What costs do buyers forget?", a: "Closing costs (2-5% of price), property tax, insurance, maintenance (about 1% of home value per year), HOA fees, and the opportunity cost of the down payment." },
+    ],
+    related: ["mortgage-calculator", "home-affordability-calculator", "closing-costs-calculator"],
+  },
+  {
+    slug: "401k-calculator",
+    title: "401(k) Calculator 2026 — With Employer Match | US Money HQ",
+    shortTitle: "401(k) Calculator",
+    description: "Free 401(k) calculator: project your balance with contributions and employer match, including match caps.",
+    h1: "401(k) Calculator",
+    sub: "Your 401(k) with employer match — projected.",
+    fields: [
+      { key: "current", label: "Current balance (USD)", type: "number", default: 25000, min: 0, step: 1000, inputMode: "numeric" },
+      { key: "monthly", label: "Your monthly contribution (USD)", type: "number", default: 500, min: 0, step: 25, inputMode: "numeric" },
+      { key: "matchPct", label: "Employer match (%)", type: "number", default: 100, min: 0, max: 100, step: 5, inputMode: "numeric" },
+      { key: "capPct", label: "Match cap (% of salary)", type: "number", default: 6, min: 0, max: 20, step: 1, inputMode: "numeric" },
+      { key: "salary", label: "Annual salary (USD)", type: "number", default: 85000, min: 0, step: 1000, inputMode: "numeric" },
+      { key: "rate", label: "Annual return (%)", type: "number", default: 7, min: 0, max: 25, step: 0.5, inputMode: "decimal" },
+      { key: "years", label: "Years to retirement", type: "number", default: 25, min: 1, max: 50, step: 1, inputMode: "numeric" },
+    ],
+    compute: (v) => {
+      const r = retirement401k(Number(v.current) || 0, Number(v.monthly) || 0, Number(v.matchPct) || 0, Number(v.capPct) || 0, Number(v.salary) || 0, Number(v.rate) || 0, Number(v.years) || 25);
+      return [moneyRow("Monthly total (incl. match)", r.monthlyTotal), moneyRow("Employer match/mo", r.monthlyMatch), moneyRow("Projected balance", r.balance, true)];
+    },
+    note: "Assumes monthly compounding. The 2026 401(k) contribution limit is $23,500 ($31,000 if 50+).",
+    faq: [
+      { q: "Should I max out my employer match first?", a: "Almost always yes — it's an instant 50-100% return on your contribution. Contribute at least enough to capture the full match before other investing." },
+      { q: "What return should I assume?", a: "A diversified stock-heavy 401(k) historically returns 7-10% annually. Use 6-7% for a conservative projection." },
+    ],
+    related: ["retirement-calculator", "compound-interest-calculator", "savings-goal-calculator"],
+  },
+  {
+    slug: "emergency-fund-calculator",
+    title: "Emergency Fund Calculator 2026 | US Money HQ",
+    shortTitle: "Emergency Fund Calculator",
+    description: "Free emergency fund calculator: how much you need saved for 3-12 months of expenses.",
+    h1: "Emergency Fund Calculator",
+    sub: "Your safety net number, in seconds.",
+    fields: [
+      { key: "expenses", label: "Monthly expenses (USD)", type: "number", default: 3500, min: 0, step: 50, inputMode: "numeric" },
+      { key: "months", label: "Months of coverage", type: "number", default: 6, min: 1, max: 24, step: 1, inputMode: "numeric" },
+    ],
+    compute: (v) => {
+      const r = emergencyFund(Number(v.expenses) || 0, Number(v.months) || 6);
+      return [moneyRow("Emergency fund target", r.target, true), { label: "Months covered", value: String(Number(v.months) || 6) }];
+    },
+    note: "Financial advisors recommend 3-6 months for stable jobs, 6-12 for variable income.",
+    faq: [
+      { q: "How big should my emergency fund be?", a: "3-6 months of essential expenses is the standard. Freelancers, commission earners, and single-income households should target 6-12 months." },
+      { q: "Where should I keep it?", a: "A high-yield savings account — safe, liquid, and earning ~4% in 2026. Don't invest your emergency fund in stocks." },
+    ],
+    related: ["budget-calculator", "savings-goal-calculator", "net-worth-calculator"],
+  },
+  {
+    slug: "closing-costs-calculator",
+    title: "Closing Costs Calculator 2026 | US Money HQ",
+    shortTitle: "Closing Costs Calculator",
+    description: "Free closing costs calculator: estimate the 2-5% of home price you'll pay at closing, plus total cash needed.",
+    h1: "Closing Costs Calculator",
+    sub: "What you'll actually pay at the closing table.",
+    fields: [
+      { key: "price", label: "Home price (USD)", type: "number", default: 350000, min: 10000, step: 5000, inputMode: "numeric" },
+      { key: "pct", label: "Closing costs (%)", type: "number", default: 3, min: 0.5, max: 10, step: 0.5, inputMode: "decimal" },
+    ],
+    compute: (v) => {
+      const r = closingCosts(Number(v.price) || 0, Number(v.pct) || 3);
+      return [moneyRow("Estimated closing costs", r.costs, true), moneyRow("Price + closing costs", r.totalCash)];
+    },
+    note: "Closing costs typically run 2-5% of the purchase price: lender fees, title, appraisal, escrow, and recording.",
+    faq: [
+      { q: "What is included in closing costs?", a: "Loan origination fees, appraisal, title search and insurance, credit report, escrow prepaids, recording fees, and points. Buyers and sellers split different parts." },
+      { q: "Can closing costs be negotiated?", a: "Yes — lenders compete on origination fees, and you can ask the seller to cover some costs. Always compare Loan Estimates from 2-3 lenders." },
+    ],
+    related: ["mortgage-calculator", "rent-vs-buy-calculator", "home-affordability-calculator"],
+  },
+  {
+    slug: "car-affordability-calculator",
+    title: "Car Affordability Calculator 2026 | US Money HQ",
+    shortTitle: "Car Affordability Calculator",
+    description: "Free car affordability calculator: the max car price you can afford from your monthly payment budget.",
+    h1: "Car Affordability Calculator",
+    sub: "What car price fits your monthly budget?",
+    fields: [
+      { key: "payment", label: "Monthly payment budget (USD)", type: "number", default: 450, min: 0, step: 10, inputMode: "numeric" },
+      { key: "rate", label: "Loan rate (%)", type: "number", default: 7, min: 0, step: 0.1, inputMode: "decimal" },
+      { key: "months", label: "Loan term (months)", type: "select", default: 60, options: [{ value: 36, label: "36 months" }, { value: 48, label: "48 months" }, { value: 60, label: "60 months" }, { value: 72, label: "72 months" }] },
+      { key: "down", label: "Down payment (USD)", type: "number", default: 3000, min: 0, step: 500, inputMode: "numeric" },
+    ],
+    compute: (v) => {
+      const r = carAffordability(Number(v.payment) || 0, Number(v.rate) || 0, Number(v.months) || 60, Number(v.down) || 0);
+      return [moneyRow("Max loan amount", r.loanAmount), moneyRow("Max car price", r.carPrice, true), moneyRow("Total paid (loan only)", r.totalPaid)];
+    },
+    note: "A common rule: keep total car costs under 15% of monthly take-home pay.",
+    faq: [
+      { q: "What percentage of income should go to a car?", a: "The 15% rule: total car costs (payment, insurance, fuel, maintenance) under 15% of take-home pay. Many buyers stretch this — the calculator shows what your budget allows." },
+      { q: "Is a longer loan term a good idea?", a: "Longer terms lower the payment but add interest and leave you underwater on the loan longer. 60 months is the sweet spot for most buyers; avoid 84-month loans." },
+    ],
+    related: ["auto-loan-calculator", "gas-cost-calculator", "miles-per-gallon-calculator"],
+  },
+  {
+    slug: "dividend-calculator",
+    title: "Dividend Calculator 2026 — Income & Reinvestment | US Money HQ",
+    shortTitle: "Dividend Calculator",
+    description: "Free dividend calculator: your annual dividend income from a yield, and the power of reinvesting.",
+    h1: "Dividend Calculator",
+    sub: "Annual income from dividends — reinvested or not.",
+    fields: [
+      { key: "investment", label: "Investment (USD)", type: "number", default: 50000, min: 0, step: 1000, inputMode: "numeric" },
+      { key: "yield", label: "Dividend yield (%)", type: "number", default: 3.5, min: 0, max: 20, step: 0.1, inputMode: "decimal" },
+      { key: "years", label: "Years", type: "number", default: 10, min: 1, max: 40, step: 1, inputMode: "numeric" },
+      { key: "reinvest", label: "Reinvest dividends", type: "select", default: "yes", options: [{ value: "yes", label: "Yes — DRIP" }, { value: "no", label: "No — take cash" }] },
+    ],
+    compute: (v) => {
+      const r = dividendIncome(Number(v.investment) || 0, Number(v.yield) || 0, Number(v.years) || 10, String(v.reinvest) === "yes");
+      return [moneyRow("Annual income", r.annualIncome, true), moneyRow("Monthly income", r.monthlyIncome), moneyRow("Balance after " + (Number(v.years) || 10) + " yrs", r.balanceAfterYears)];
+    },
+    note: "Assumes the yield stays constant and, with DRIP, dividends buy more shares at the same yield.",
+    faq: [
+      { q: "What is a good dividend yield?", a: "The S&P 500 average yield is about 1.3-1.5% in 2026. High-yield stocks pay 4-6% but often carry more risk. Yields above 8% deserve extra scrutiny." },
+      { q: "Are dividends taxed?", a: "Qualified dividends are taxed at long-term capital gains rates (0/15/20%) depending on income. Non-qualified dividends are taxed as ordinary income." },
+    ],
+    related: ["compound-interest-calculator", "retirement-calculator", "401k-calculator"],
   },
 ];
 

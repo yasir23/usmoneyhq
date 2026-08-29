@@ -73,6 +73,7 @@ export const STATE_AWARE_TOOLS = [
   "tax-calculator",
   "mortgage-calculator",
   "home-affordability-calculator",
+  "sales-tax-calculator",
 ];
 
 export function getState(slug: string): StateData | undefined {

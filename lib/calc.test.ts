@@ -45,6 +45,16 @@ import {
   bmiCalc,
   simpleInterest,
   budgetSplit,
+  discountPrice,
+  salesTaxAmount,
+  inflationValue,
+  mpgCalc,
+  rentVsBuy,
+  retirement401k,
+  emergencyFund,
+  closingCosts,
+  carAffordability,
+  dividendIncome,
 } from "./calc.ts";
 
 // $300k @ 6.5% / 30yr (360 mo) -> ~$1,896.20/mo (known value)
@@ -332,3 +342,64 @@ console.log("ALL PHASE 2 CALC TESTS PASS");
 }
 
 console.log("ALL PHASE 2 CALC TESTS PASS");
+
+// === Phase 2b: discount, sales tax, inflation, mpg, rent-vs-buy, 401k, emergency fund, closing costs, car affordability, dividends ===
+{
+  const r = discountPrice(120, 25);
+  assert.strictEqual(r.savings, 30);
+  assert.strictEqual(r.finalPrice, 90);
+}
+{
+  const r = salesTaxAmount(499, 8.82);
+  assert.ok(r.tax > 43 && r.tax < 45, "CA ~8.82% on $499 = $44.01");
+  assert.strictEqual(r.total, 543.01);
+  const zero = salesTaxAmount(100, 0);
+  assert.strictEqual(zero.total, 100);
+}
+{
+  const r = inflationValue(10000, 3, 10);
+  assert.ok(r.futureValue > 13400 && r.futureValue < 13450, "$10k at 3% for 10y = ~$13,439");
+  assert.ok(r.lossPct > 25 && r.lossPct < 26, "purchasing power loss ~25.6%");
+}
+{
+  const r = mpgCalc(320, 11.4);
+  assert.ok(r.mpg > 28 && r.mpg < 28.1, "320/11.4 = 28.07 mpg");
+}
+{
+  const r = rentVsBuy(1800, 350000, 20, 6.5, 10, 3, 3);
+  assert.ok(r.buyMonthly > 2200 && r.buyMonthly < 3200, "buy monthly ~$2,700 incl tax/maint");
+  assert.ok(r.rentTotal > 240000 && r.rentTotal < 260000, "10y rent ~$248k with growth");
+  assert.ok(r.homeValue > 450000 && r.homeValue < 480000, "$350k at 3% for 10y = ~$470k");
+}
+{
+  const r = retirement401k(25000, 500, 100, 6, 85000, 7, 25);
+  assert.strictEqual(r.monthlyMatch, 425, "match capped at 6% of $85k / 12 = $425");
+  assert.strictEqual(r.monthlyTotal, 925);
+  assert.ok(r.balance > 700000 && r.balance < 900000, "25y at 7% with $925/mo + $25k start ~$800k");
+  const noMatch = retirement401k(0, 500, 0, 0, 0, 0, 1);
+  assert.strictEqual(noMatch.balance, 6000);
+}
+{
+  const r = emergencyFund(3500, 6);
+  assert.strictEqual(r.target, 21000);
+}
+{
+  const r = closingCosts(350000, 3);
+  assert.strictEqual(r.costs, 10500);
+  assert.strictEqual(r.totalCash, 360500);
+}
+{
+  const r = carAffordability(450, 7, 60, 3000);
+  assert.ok(r.loanAmount > 22000 && r.loanAmount < 24000, "$450 @ 7% 60mo = ~$22.7k loan");
+  assert.ok(r.carPrice > 25000 && r.carPrice < 27000, "car price ~$25.7k");
+}
+{
+  const r = dividendIncome(50000, 3.5, 10, true);
+  assert.strictEqual(r.annualIncome, 1750);
+  assert.strictEqual(r.monthlyIncome, 145.83);
+  assert.ok(r.balanceAfterYears > 70000 && r.balanceAfterYears < 71000, "DRIP 10y ~$70.5k");
+  const cash = dividendIncome(50000, 3.5, 10, false);
+  assert.strictEqual(cash.balanceAfterYears, 50000);
+}
+
+console.log("ALL PHASE 2B CALC TESTS PASS");
