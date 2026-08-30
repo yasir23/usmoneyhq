@@ -98,6 +98,8 @@ import {
   movingCost,
   lifeInsuranceNeeds,
   remodelCost,
+  daysBetween,
+  timeDuration,
 } from "./calc.ts";
 
 // $300k @ 6.5% / 30yr (360 mo) -> ~$1,896.20/mo (known value)
@@ -703,3 +705,20 @@ console.log("ALL PHASE 6 CALC TESTS PASS");
 }
 
 console.log("ALL PHASE 7 CALC TESTS PASS");
+
+// === Phase 8: date + time duration ===
+{
+  const r = daysBetween(2026, 1, 1, 2026, 12, 31);
+  assert.strictEqual(r.days, 364);
+  const leap = daysBetween(2024, 1, 1, 2025, 1, 1);
+  assert.strictEqual(leap.days, 366);
+}
+{
+  const r = timeDuration(9, 0, 17, 30);
+  assert.strictEqual(r.hours, 8);
+  assert.strictEqual(r.remMinutes, 30);
+  const night = timeDuration(22, 0, 6, 0);
+  assert.strictEqual(night.hours, 8);
+}
+
+console.log("ALL PHASE 8 CALC TESTS PASS");

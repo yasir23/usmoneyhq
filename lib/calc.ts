@@ -1030,3 +1030,17 @@ export function remodelCost(room: string, sqft: number, quality: string) {
   const r = rates[room]?.[quality] ?? [100, 150];
   return { low: round2(sqft * r[0]), high: round2(sqft * r[1]), perSqftLow: r[0], perSqftHigh: r[1] };
 }
+
+/** Days between two dates (UTC). */
+export function daysBetween(fromY: number, fromM: number, fromD: number, toY: number, toM: number, toD: number) {
+  const a = Date.UTC(fromY, fromM - 1, fromD);
+  const b = Date.UTC(toY, toM - 1, toD);
+  return { days: Math.round((b - a) / 86400000) };
+}
+
+/** Time duration between two clock times (supports overnight). */
+export function timeDuration(startH: number, startM: number, endH: number, endM: number) {
+  let diff = (endH * 60 + endM) - (startH * 60 + startM);
+  if (diff < 0) diff += 1440;
+  return { minutes: diff, hours: Math.floor(diff / 60), remMinutes: diff % 60 };
+}

@@ -97,6 +97,8 @@ import {
   movingCost,
   lifeInsuranceNeeds,
   remodelCost,
+  daysBetween,
+  timeDuration,
   NO_INCOME_TAX_STATES,
   US_STATES,
 } from "./calc.ts";
@@ -2908,6 +2910,57 @@ export const TOOLS: ToolDef[] = [
       { q: "What adds the most value?", a: "Kitchens and baths return 60-80% on resale. Focus on cabinet fronts, countertops, and lighting before splurging on appliances." },
     ],
     related: ["construction-cost-calculator", "concrete-calculator", "paint-calculator"],
+  },
+  {
+    slug: "date-calculator",
+    title: "Date Calculator 2026 — Days Between Dates | US Money HQ",
+    shortTitle: "Date Calculator",
+    description: "Free date calculator: days, weeks, and months between any two dates — for planning, deadlines, and anniversaries.",
+    h1: "Date Calculator",
+    sub: "Days between any two dates, instantly.",
+    fields: [
+      { key: "fm", label: "From month", type: "number", default: 1, min: 1, max: 12, step: 1, inputMode: "numeric" },
+      { key: "fd", label: "From day", type: "number", default: 1, min: 1, max: 31, step: 1, inputMode: "numeric" },
+      { key: "fy", label: "From year", type: "number", default: 2026, min: 1900, max: 2100, step: 1, inputMode: "numeric" },
+      { key: "tm", label: "To month", type: "number", default: 12, min: 1, max: 12, step: 1, inputMode: "numeric" },
+      { key: "td", label: "To day", type: "number", default: 31, min: 1, max: 31, step: 1, inputMode: "numeric" },
+      { key: "ty", label: "To year", type: "number", default: 2026, min: 1900, max: 2100, step: 1, inputMode: "numeric" },
+    ],
+    compute: (v) => {
+      const r = daysBetween(Number(v.fy) || 2026, Number(v.fm) || 1, Number(v.fd) || 1, Number(v.ty) || 2026, Number(v.tm) || 12, Number(v.td) || 31);
+      const abs = Math.abs(r.days);
+      return [{ label: "Days between", value: String(r.days), highlight: true }, { label: "Weeks", value: (abs / 7).toFixed(1) }, { label: "Months (approx)", value: (abs / 30.44).toFixed(1) }];
+    },
+    note: "Counts calendar days between the two dates. Negative means the 'to' date is before the 'from' date.",
+    faq: [
+      { q: "How do I count days between dates?", a: "Subtract the earlier date from the later one. This calculator does it precisely in UTC, so daylight saving doesn't cause off-by-one errors." },
+      { q: "How many days until a date?", a: "Set the 'from' date to today and the 'to' date to your target. The result is your countdown in days." },
+    ],
+    related: ["due-date-calculator", "time-duration-calculator", "age-calculator"],
+  },
+  {
+    slug: "time-duration-calculator",
+    title: "Time Duration Calculator 2026 — Hours Between | US Money HQ",
+    shortTitle: "Time Duration Calculator",
+    description: "Free time duration calculator: hours and minutes between two times, with overnight support.",
+    h1: "Time Duration Calculator",
+    sub: "How long — from clock time to clock time.",
+    fields: [
+      { key: "sh", label: "Start hour (0-23)", type: "number", default: 9, min: 0, max: 23, step: 1, inputMode: "numeric" },
+      { key: "sm", label: "Start minute", type: "number", default: 0, min: 0, max: 59, step: 1, inputMode: "numeric" },
+      { key: "eh", label: "End hour (0-23)", type: "number", default: 17, min: 0, max: 23, step: 1, inputMode: "numeric" },
+      { key: "em", label: "End minute", type: "number", default: 30, min: 0, max: 59, step: 1, inputMode: "numeric" },
+    ],
+    compute: (v) => {
+      const r = timeDuration(Number(v.sh) || 0, Number(v.sm) || 0, Number(v.eh) || 0, Number(v.em) || 0);
+      return [{ label: "Duration", value: r.hours + " hrs " + r.remMinutes + " min", highlight: true }, { label: "Total minutes", value: String(r.minutes) }];
+    },
+    note: "If the end time is earlier than the start time, it's treated as overnight (past midnight).",
+    faq: [
+      { q: "How do I calculate hours between times?", a: "Convert both to minutes, subtract, and convert back. An end time before the start time means the shift crosses midnight." },
+      { q: "How many hours is a 9-5 shift?", a: "9:00 AM to 5:00 PM is 8 hours. With a 30-minute lunch, billable hours are 7.5." },
+    ],
+    related: ["overtime-calculator", "date-calculator", "hourly-to-salary-calculator"],
   },
 ];
 
