@@ -4,7 +4,8 @@ import AdSlot from "./AdSlot";
 import ToolClient from "./ToolClient";
 import { getTool, SITE_URL, SITE_NAME, TOOLS } from "../lib/tools";
 import { getState, getComparisonPair, STATES, STATE_AWARE_TOOLS, type StateData } from "../lib/states";
-import { SALARY_AMOUNTS, SALARY_TOOL_SLUGS, fmtAmount, amountFromSlug } from "../lib/amounts";
+import { AMOUNT_TOOLS, allowedAmounts, fmtAmount, amountFromSlug } from "../lib/amounts";
+import { getMetro, type Metro } from "../lib/metros";
 
 /**
  * ToolPageShell — shared page shell for every calculator (pages router).
@@ -14,19 +15,25 @@ import { SALARY_AMOUNTS, SALARY_TOOL_SLUGS, fmtAmount, amountFromSlug } from "..
  * a side-by-side comparison; amountSlug renders a salary-amount scenario page
  * (programmatic SEO — real computed numbers per variant).
  */
-export default function ToolPageShell({ slug, stateSlug, amountSlug }: { slug: string; stateSlug?: string; amountSlug?: string }) {
+export default function ToolPageShell({ slug, stateSlug, amountSlug, metroSlug }: { slug: string; stateSlug?: string; amountSlug?: string; metroSlug?: string }) {
   const tool = getTool(slug);
   const pair: [StateData, StateData] | null = stateSlug && stateSlug.includes("-vs-") ? getComparisonPair(stateSlug) : null;
   const state: StateData | undefined = stateSlug && !pair ? getState(stateSlug) : undefined;
+  const metro: Metro | undefined = metroSlug ? getMetro(metroSlug) : undefined;
   const amount: number | undefined = amountSlug ? amountFromSlug(amountSlug) : undefined;
-  const validAmount = amount !== undefined && !isNaN(amount) && SALARY_AMOUNTS.includes(amount);
+  const amtTool = AMOUNT_TOOLS[slug];
+  const validAmount = amount !== undefined && !isNaN(amount) && amtTool && (allowedAmounts(slug) || []).includes(amount);
 
   // state variants only allowed for state-aware tools
   if (stateSlug && !STATE_AWARE_TOOLS.includes(slug)) {
     return <NotFoundShell />;
   }
-  // amount variants only allowed for salary tools with a known amount
-  if (amountSlug && (!validAmount || !SALARY_TOOL_SLUGS.includes(slug))) {
+  // amount variants only allowed for tools with an amount config + known amount
+  if (amountSlug && !validAmount) {
+    return <NotFoundShell />;
+  }
+  // metro variants only allowed for state-aware tools
+  if (metroSlug && (!metro || !STATE_AWARE_TOOLS.includes(slug))) {
     return <NotFoundShell />;
   }
 
@@ -36,6 +43,8 @@ export default function ToolPageShell({ slug, stateSlug, amountSlug }: { slug: s
 
   const url = pair
     ? `${SITE_URL}/${tool.slug}/${pair[0].slug}-vs-${pair[1].slug}`
+    : metro
+    ? `${SITE_URL}/${tool.slug}/${metro.slug}`
     : state
     ? amount
       ? `${SITE_URL}/${tool.slug}/${amountSlug}/${state.slug}`
@@ -43,23 +52,36 @@ export default function ToolPageShell({ slug, stateSlug, amountSlug }: { slug: s
     : amount
     ? `${SITE_URL}/${tool.slug}/${amountSlug}`
     : `${SITE_URL}/${tool.slug}`;
+  const amountKind = amtTool?.kind || "salary";
   const pageTitle = pair
     ? `${pair[0].name} vs ${pair[1].name} ${tool.shortTitle.replace(" Calculator", "")} Calculator 2026 | US Money HQ`
+    : metro
+    ? `${metro.name}, ${state?.name || ""} ${tool.shortTitle.replace(" Calculator", "")} Calculator 2026 | US Money HQ`
     : state && amount
     ? `${state.name} Take-Home on a ${fmtAmount(amount)} Salary (2026) | US Money HQ`
     : state
     ? `${state.name} ${tool.shortTitle.replace(" Calculator", "")} Calculator 2026 | US Money HQ`
     : amount
-    ? `${fmtAmount(amount)} Salary After Tax: Take-Home Pay in 2026 | US Money HQ`
+    ? amountKind === "price"
+      ? `Mortgage Payment on a ${fmtAmount(amount)} Home (2026) | US Money HQ`
+      : amountKind === "income"
+      ? `How Much House Can You Afford on ${fmtAmount(amount)}? (2026) | US Money HQ`
+      : `${fmtAmount(amount)} Salary After Tax: Take-Home Pay in 2026 | US Money HQ`
     : tool.title;
   const pageDesc = pair
     ? `Compare ${pair[0].name} vs ${pair[1].name} ${tool.shortTitle.toLowerCase()} 2026: income tax, property tax, sales tax, and take-home math side by side.`
+    : metro
+    ? `${tool.description} Real numbers for ${metro.name}, ${state?.name || ""}.`
     : state && amount
     ? `${fmtAmount(amount)} salary in ${state.name} after federal and state taxes in 2026. ${state.incomeTaxNote}.`
     : state
     ? `${tool.description} ${state.incomeTaxNote}. Average property tax ${state.propTaxPct}%.`
     : amount
-    ? `Your take-home pay on a ${fmtAmount(amount)} salary in 2026: federal tax, FICA, and what lands in your bank account each month.`
+    ? amountKind === "price"
+      ? `Your monthly payment and total interest on a ${fmtAmount(amount)} home at today's rates.`
+      : amountKind === "income"
+      ? `How much house a ${fmtAmount(amount)} salary buys in 2026: payment cap, down payment, and price range.`
+      : `Your take-home pay on a ${fmtAmount(amount)} salary in 2026: federal tax, FICA, and what lands in your bank account each month.`
     : tool.description;
 
   const schema = {
@@ -97,9 +119,10 @@ export default function ToolPageShell({ slug, stateSlug, amountSlug }: { slug: s
   };
 
   const initialValues: Record<string, string | number> | undefined =
-    state && amount ? { salary: amount, state: state.abbr }
-    : amount ? { salary: amount }
+    state && amount ? { [amtTool?.field || "salary"]: amount, state: state.abbr }
+    : amount ? { [amtTool?.field || "salary"]: amount }
     : state ? { state: state.abbr }
+    : metro ? { state: getState(metro.stateSlug)?.abbr || "" }
     : pair ? { state: pair[0].abbr }
     : undefined;
 
@@ -124,12 +147,13 @@ export default function ToolPageShell({ slug, stateSlug, amountSlug }: { slug: s
           <span aria-hidden="true">›</span>
           <Link href={`/${tool.slug}`}>{tool.shortTitle}</Link>
           {pair && (<><span aria-hidden="true">›</span><span>{pair[0].name} vs {pair[1].name}</span></>)}
+          {metro && (<><span aria-hidden="true">›</span><span>{metro.name}</span></>)}
           {amount && !state && (<><span aria-hidden="true">›</span><span>{fmtAmount(amount)}</span></>)}
-          {state && !pair && !amount && (<><span aria-hidden="true">›</span><span>{state.name}</span></>)}
+          {state && !pair && !amount && !metro && (<><span aria-hidden="true">›</span><span>{state.name}</span></>)}
           {amount && state && (<><span aria-hidden="true">›</span><Link href={`/${tool.slug}/${amountSlug}`}>{fmtAmount(amount)}</Link><span aria-hidden="true">›</span><span>{state.name}</span></>)}
         </nav>
 
-        <h1>{pair ? `${pair[0].name} vs ${pair[1].name}: ${tool.h1}` : state && amount ? `${fmtAmount(amount)} Salary in ${state.name}: ${tool.h1}` : amount ? `${fmtAmount(amount)} Salary: ${tool.h1}` : state ? `${state.name} ${tool.h1}` : tool.h1}</h1>
+        <h1>{pair ? `${pair[0].name} vs ${pair[1].name}: ${tool.h1}` : metro ? `${metro.name}, ${state?.name || ""}: ${tool.h1}` : state && amount ? `${fmtAmount(amount)} Salary in ${state.name}: ${tool.h1}` : amount ? (amountKind === "income" ? `How Much House on ${fmtAmount(amount)}?` : amountKind === "price" ? `${fmtAmount(amount)} Home: ${tool.h1}` : `${fmtAmount(amount)} Salary: ${tool.h1}`) : state ? `${state.name} ${tool.h1}` : tool.h1}</h1>
         <p className="sub">{tool.sub}</p>
 
         <AdSlot id={`${tool.slug}-${pair ? "compare" : state?.slug || "top"}`} />
