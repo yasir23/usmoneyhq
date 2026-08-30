@@ -9,6 +9,11 @@ export default function GuidesHub() {
     { href: "/guides/mortgage-calculator-guide", title: "How Mortgage Payments Work", desc: "PITI, 15 vs 30 years, and rates — the four parts of your payment." },
     { href: "/guides/salary-after-tax-guide", title: "How Much of Your Salary You Actually Keep", desc: "Federal brackets, FICA, and why your state matters most." },
     { href: "/guides/debt-payoff-guide", title: "The Fastest Way to Pay Off Debt", desc: "Snowball vs avalanche, and the power of extra payments." },
+    { href: "/guides/debt-snowball-guide", title: "Multiple Debts? Run the Snowball", desc: "The debt-free date and the method that keeps you going." },
+    { href: "/guides/401k-guide", title: "The 401k Guide", desc: "Match, limits, Roth vs traditional — the free money rule." },
+    { href: "/guides/investing-basics-guide", title: "Investing Basics", desc: "Compound growth, index funds, and time in the market." },
+    { href: "/guides/home-improvement-guide", title: "Home Improvement Budgeting", desc: "Remodel costs by room, the 10% materials rule, DIY vs pro." },
+    { href: "/guides/health-fitness-guide", title: "Health & Fitness Numbers", desc: "TDEE, BMI, hydration, sleep — the boring wins first." },
   ];
   return (
     <>
