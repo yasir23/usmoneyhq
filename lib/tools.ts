@@ -99,6 +99,9 @@ import {
   remodelCost,
   daysBetween,
   timeDuration,
+  mileageReimbursement,
+  retirementAge,
+  breakEven,
   NO_INCOME_TAX_STATES,
   US_STATES,
 } from "./calc.ts";
@@ -2961,6 +2964,72 @@ export const TOOLS: ToolDef[] = [
       { q: "How many hours is a 9-5 shift?", a: "9:00 AM to 5:00 PM is 8 hours. With a 30-minute lunch, billable hours are 7.5." },
     ],
     related: ["overtime-calculator", "date-calculator", "hourly-to-salary-calculator"],
+  },
+  {
+    slug: "mileage-reimbursement-calculator",
+    title: "Mileage Reimbursement Calculator 2026 — IRS Rate | US Money HQ",
+    shortTitle: "Mileage Reimbursement Calculator",
+    description: "Free mileage reimbursement calculator: what you're owed at the IRS standard rate, with the 2026 rate built in.",
+    h1: "Mileage Reimbursement Calculator",
+    sub: "Miles driven, money owed.",
+    fields: [
+      { key: "miles", label: "Business miles", type: "number", default: 100, min: 1, step: 10, inputMode: "numeric" },
+      { key: "rate", label: "Rate (cents per mile)", type: "number", default: 70, min: 0, max: 200, step: 1, inputMode: "numeric" },
+    ],
+    compute: (v) => {
+      const r = mileageReimbursement(Number(v.miles) || 0, Number(v.rate) || 70);
+      return [moneyRow("Reimbursement", r.reimbursement, true), { label: "Per mile", value: "$" + r.perMile.toFixed(2) }];
+    },
+    note: "The 2026 IRS standard mileage rate is 70 cents per mile (up from 70¢ in 2025). Employers can reimburse more — the rate is a safe-harbor floor, not a cap.",
+    faq: [
+      { q: "What is the IRS mileage rate for 2026?", a: "70 cents per mile for business driving, 21¢ for medical/moving, 14¢ for charitable. The business rate is the one most reimbursement policies use." },
+      { q: "Is mileage reimbursement taxable?", a: "No — reimbursements at or below the IRS rate are tax-free. Amounts above the rate are treated as taxable income." },
+    ],
+    related: ["gas-cost-calculator", "overtime-calculator", "hourly-to-salary-calculator"],
+  },
+  {
+    slug: "retirement-age-calculator",
+    title: "Retirement Age Calculator 2026 — Social Security FRA | US Money HQ",
+    shortTitle: "Retirement Age Calculator",
+    description: "Free Social Security retirement age calculator: your full retirement age by birth year, earliest claim, and the reduction at 62.",
+    h1: "Retirement Age Calculator",
+    sub: "Your FRA, and what claiming early really costs.",
+    fields: [
+      { key: "birth", label: "Birth year", type: "number", default: 1980, min: 1943, max: 2005, step: 1, inputMode: "numeric" },
+    ],
+    compute: (v) => {
+      const r = retirementAge(Number(v.birth) || 1980);
+      return [{ label: "Full retirement age", value: r.fraLabel, highlight: true }, { label: "Claim at 62: reduction", value: "-" + r.reductionPct.toFixed(1) + "%" }, { label: "Claim at 70: increase", value: "+" + (r.fraMonths <= 66 * 12 ? "24" : "30") + "% (approx)" }, { label: "Earliest / latest", value: "62 / 70" }];
+    },
+    note: "Full retirement age is 66 for those born 1943-1954, rising 2 months per year to 67 for 1960+. Delaying past FRA adds 8% per year (24-32% total).",
+    faq: [
+      { q: "What is my full retirement age?", a: "Born 1943-1954: 66. Born 1955-1959: 66 plus 2 months per year. Born 1960+: 67. This calculator gives your exact age." },
+      { q: "Should I claim Social Security at 62?", a: "Claiming at 62 locks in a permanent 25-30% reduction. If you expect to live past your late 70s, waiting to 70 usually wins. The break-even is around age 80." },
+    ],
+    related: ["social-security-calculator", "retirement-calculator", "rmd-calculator"],
+  },
+  {
+    slug: "break-even-calculator",
+    title: "Break-Even Calculator 2026 — Units Needed | US Money HQ",
+    shortTitle: "Break-Even Calculator",
+    description: "Free break-even calculator: how many units you must sell to cover fixed costs, with contribution margin.",
+    h1: "Break-Even Calculator",
+    sub: "The sales number that makes you profitable.",
+    fields: [
+      { key: "fixed", label: "Fixed costs (USD)", type: "number", default: 50000, min: 0, step: 1000, inputMode: "numeric" },
+      { key: "price", label: "Price per unit (USD)", type: "number", default: 25, min: 0.01, step: 0.5, inputMode: "decimal" },
+      { key: "variable", label: "Variable cost per unit (USD)", type: "number", default: 10, min: 0, step: 0.5, inputMode: "decimal" },
+    ],
+    compute: (v) => {
+      const r = breakEven(Number(v.fixed) || 0, Number(v.price) || 0, Number(v.variable) || 0);
+      return [{ label: "Units to break even", value: String(r.units), highlight: true }, { label: "Contribution per unit", value: "$" + r.contributionPerUnit.toFixed(2) }, moneyRow("Revenue at break-even", r.revenueAtBreakEven)];
+    },
+    note: "Break-even units = fixed costs ÷ (price − variable cost). Every unit beyond that is pure profit (minus taxes).",
+    faq: [
+      { q: "What is contribution margin?", a: "Price minus variable cost — what each sale contributes to covering fixed costs. $25 price, $10 variable cost = $15 contribution per unit." },
+      { q: "How do I lower my break-even?", a: "Cut fixed costs, raise prices, or reduce variable costs. Each $1 of contribution margin improvement cuts break-even units proportionally." },
+    ],
+    related: ["roi-calculator", "markup-calculator", "margin-calculator"],
   },
 ];
 

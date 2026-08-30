@@ -1044,3 +1044,31 @@ export function timeDuration(startH: number, startM: number, endH: number, endM:
   if (diff < 0) diff += 1440;
   return { minutes: diff, hours: Math.floor(diff / 60), remMinutes: diff % 60 };
 }
+
+/** Mileage reimbursement: miles x IRS rate. */
+export function mileageReimbursement(miles: number, rateCents: number) {
+  const reimbursement = miles * (rateCents / 100);
+  return { reimbursement: round2(reimbursement), perMile: round2(rateCents / 100) };
+}
+
+/** Social Security full retirement age by birth year + earliest/latest claim ages. */
+export function retirementAge(birthYear: number) {
+  let fraMonths: number;
+  if (birthYear <= 1954) fraMonths = 66 * 12;
+  else if (birthYear <= 1959) fraMonths = 66 * 12 + (birthYear - 1954) * 2;
+  else fraMonths = 67 * 12;
+  const fraYear = Math.floor(fraMonths / 12);
+  const fraMonth = fraMonths % 12;
+  const label = fraMonth === 0 ? String(fraYear) : `${fraYear} yrs ${fraMonth} mo`;
+  // Reduction for claiming at 62: 5/9% per month for first 36 months, 5/12% beyond.
+  const monthsEarly = Math.max(0, fraMonths - 62 * 12);
+  const reduction = Math.min(36, monthsEarly) * (5 / 9) + Math.max(0, monthsEarly - 36) * (5 / 12);
+  return { fraMonths, fraLabel: label, earliest: 62, latest: 70, reductionPct: round2(reduction) };
+}
+
+/** Break-even: units to cover fixed costs given price and variable cost. */
+export function breakEven(fixedCosts: number, pricePerUnit: number, variableCostPerUnit: number) {
+  const contribution = Math.max(0.0001, pricePerUnit - variableCostPerUnit);
+  const units = Math.ceil(fixedCosts / contribution);
+  return { units, contributionPerUnit: round2(contribution), revenueAtBreakEven: round2(units * pricePerUnit) };
+}

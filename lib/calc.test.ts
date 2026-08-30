@@ -100,6 +100,9 @@ import {
   remodelCost,
   daysBetween,
   timeDuration,
+  mileageReimbursement,
+  retirementAge,
+  breakEven,
 } from "./calc.ts";
 
 // $300k @ 6.5% / 30yr (360 mo) -> ~$1,896.20/mo (known value)
@@ -722,3 +725,25 @@ console.log("ALL PHASE 7 CALC TESTS PASS");
 }
 
 console.log("ALL PHASE 8 CALC TESTS PASS");
+
+// === Phase 9: mileage, retirement age, break-even ===
+{
+  const r = mileageReimbursement(100, 70);
+  assert.strictEqual(r.reimbursement, 70);
+  const r2 = mileageReimbursement(250, 70);
+  assert.strictEqual(r2.reimbursement, 175);
+}
+{
+  const r = retirementAge(1980);
+  assert.strictEqual(r.fraMonths, 804); // 67
+  assert.strictEqual(r.reductionPct, 30);
+  const r2 = retirementAge(1954);
+  assert.strictEqual(r2.fraLabel, "66");
+}
+{
+  const r = breakEven(50000, 25, 10);
+  assert.strictEqual(r.units, 3334);
+  assert.strictEqual(r.contributionPerUnit, 15);
+}
+
+console.log("ALL PHASE 9 CALC TESTS PASS");
