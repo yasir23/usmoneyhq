@@ -96,7 +96,12 @@ export default function ToolPageShell({ slug, stateSlug, amountSlug }: { slug: s
     ],
   };
 
-  const initialValues = state && amount ? { salary: amount, state: state.abbr } : amount ? { salary: amount } : state ? { state: state.abbr } : pair ? { state: pair[0].abbr } : undefined;
+  const initialValues: Record<string, string | number> | undefined =
+    state && amount ? { salary: amount, state: state.abbr }
+    : amount ? { salary: amount }
+    : state ? { state: state.abbr }
+    : pair ? { state: pair[0].abbr }
+    : undefined;
 
   return (
     <>
