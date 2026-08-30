@@ -7,6 +7,13 @@ export default class SiteDocument extends Document {
     return (
       <Html lang="en-US">
         <Head>
+          {/* Favicon set — Google requires a proper multi-size favicon to drop the gray globe */}
+          <link rel="icon" href="/favicon.ico" sizes="any" />
+          <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+          <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48x48.png" />
+          <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+          <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+          <meta name="theme-color" content="#0f172a" />
           {/* SEO */}
           <meta name="robots" content="index, follow" />
           <meta property="og:site_name" content="US Money HQ" />
