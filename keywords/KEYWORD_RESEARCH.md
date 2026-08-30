@@ -85,12 +85,12 @@ Long-tail (autocomplete):
 - paycheck calculator illinois
 - paycheck calculator texas
 - paycheck calculator california
+- paycheck calculator florida
 - paycheck calculator pa
 - paycheck calculator nc
 - paycheck calculator nyc
 - paycheck calculator ohio
 - paycheck calculator michigan
-- paycheck calculator va
 - paycheck calculator 2026
 - paycheck calculator 2026 california
 - paycheck calculator 2026 with taxes
@@ -256,10 +256,10 @@ Long-tail (autocomplete):
 Short-tail: tax calculator | income tax calculator
 Long-tail (autocomplete):
 - tax calculator
+- tax calculator 2026-27
+- tax calculator 2025-26
 - tax calculator pakistan
 - tax calculator 2026
-- tax calculator 2025-26
-- tax calculator 2026-27
 - tax calculator 2025-26 pakistan
 - tax calculator 2026-27 pakistan
 - tax calculator 2025
@@ -575,10 +575,10 @@ Long-tail (autocomplete):
 - due date calculator pregnancy
 - due date calculator from conception
 - due date calculator babycenter
-- due date calculator week by week
 - due date calculator ivf
 - due date calculator flo
 - due date calculator twins
+- due date calculator with weeks
 - due date calculator by ultrasound
 - due date calculator 2026
 - chinese due date calculator 2026
@@ -722,9 +722,9 @@ Long-tail (autocomplete):
 - tip calculator iphone
 - tip calculator nyc
 - tip calculator ny
-- tip calculator az
 - tip calculator formula
 - tip calculator canada
+- tip calculator ontario
 - tip calculator 2026
 - gratuity calculator 2026
 - gratuity calculator 2026 india
@@ -1264,6 +1264,7 @@ Short-tail: property tax calculator | property tax estimator
 Long-tail (autocomplete):
 - property tax calculator
 - property tax calculator karachi
+- property tax calculator hyderabad
 - property tax calculator sindh
 - property tax calculator punjab
 - property tax calculator punjab pakistan
@@ -1271,7 +1272,6 @@ Long-tail (autocomplete):
 - property tax calculator faisalabad
 - property tax calculator islamabad
 - property tax calculator pakistan
-- property tax calculator kpk
 - property tax calculator 2026-27
 - property tax calculator 2026
 - property tax rates 2026
@@ -1475,8 +1475,8 @@ Long-tail (autocomplete):
 - how is home equity calculated
 - home equity loan calculator free
 - home equity payment calculator free
-- simple home equity calculator free
 - home equity loan calculator freedom mortgage
+- best home equity calculator free
 
 ## tax-bracket-calculator
 

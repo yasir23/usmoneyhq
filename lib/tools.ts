@@ -1974,17 +1974,22 @@ export const TOOLS: ToolDef[] = [
       { key: "rate", label: "Interest rate (annual %)", type: "number", default: 6.5, min: 0, step: 0.01, inputMode: "decimal" },
       { key: "years", label: "Loan term (years)", type: "select", default: 30, options: [{ value: 10, label: "10 years" }, { value: 15, label: "15 years" }, { value: 20, label: "20 years" }, { value: 30, label: "30 years" }] },
       { key: "extra", label: "Extra monthly payment (USD)", type: "number", default: 0, min: 0, step: 25, inputMode: "numeric" },
+      { key: "balloon", label: "Balloon payment at end (USD)", type: "number", default: 0, min: 0, step: 10000, inputMode: "numeric" },
     ],
     compute: (v) => {
       const extra = Number(v.extra) || 0;
+      const balloon = Number(v.balloon) || 0;
       if (extra > 0) {
         const r = loanWithExtra(Number(v.amount) || 0, Number(v.rate) || 0, (Number(v.years) || 30) * 12, extra);
         return [moneyRow("Monthly payment (base)", r.payment, true), { label: "Payoff time", value: r.years + " yrs " + r.remMonths + " mo" }, moneyRow("Total interest", r.totalInterest), moneyRow("Interest saved", r.interestSaved)];
       }
-      const r = amortizationSummary(Number(v.amount) || 0, Number(v.rate) || 0, Number(v.years) || 30);
-      return [moneyRow("Monthly payment", r.payment, true), moneyRow("Total interest", r.totalInterest), moneyRow("Total paid", r.totalPaid), { label: "Payoff", value: r.years + " years (" + r.months + " months)" }];
+      const r = amortizationSummary(Number(v.amount) || 0, Number(v.rate) || 0, Number(v.years) || 30, balloon);
+      const rows = [moneyRow("Monthly payment", r.payment, true)];
+      if (balloon > 0) rows.push(moneyRow("Balloon payment (final)", r.balloon));
+      rows.push(moneyRow("Total interest", r.totalInterest), moneyRow("Total paid", r.totalPaid), { label: "Payoff", value: r.years + " years (" + r.months + " months)" });
+      return rows;
     },
-    note: "Standard amortization: equal payments, interest front-loaded.",
+    note: "Standard amortization: equal payments, interest front-loaded. A balloon payment (common on commercial or 5-year loans) lowers the regular payment but leaves a large final lump sum.",
     faq: [
       { q: "What is an amortization schedule?", a: "It's the monthly breakdown of principal and interest over a loan's life. Early payments are mostly interest; later payments shift toward principal." },
       { q: "How can I pay less interest?", a: "Shorter terms and extra principal payments slash total interest. Even one extra payment per year can shave years off a 30-year mortgage." },

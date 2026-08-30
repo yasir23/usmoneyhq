@@ -670,14 +670,16 @@ export function salaryToHourly(annual: number, hoursPerWeek: number, weeksPerYea
   return { hourly: round2(hourly), weekly: round2(annual / Math.max(1, weeksPerYear)), monthly: round2(annual / 12) };
 }
 
-/** Amortization SUMMARY: payment, interest, total, payoff time (full schedule lives in amortizationSchedule). */
-export function amortizationSummary(principal: number, ratePct: number, years: number) {
+/** Amortization SUMMARY: payment, interest, total, payoff time (full schedule lives in amortizationSchedule).
+ * Optional balloon: lump-sum final payment (e.g. 5-year balloon mortgage) lowers the regular payment. */
+export function amortizationSummary(principal: number, ratePct: number, years: number, balloon = 0) {
   const n = Math.max(1, Math.round(years * 12));
   const r = ratePct / 100 / 12;
-  if (r === 0) return { payment: round2(principal / n), totalInterest: 0, totalPaid: principal, months: n, years: Math.round(n / 12) };
-  const payment = (principal * r * Math.pow(1 + r, n)) / (Math.pow(1 + r, n) - 1);
-  const totalPaid = payment * n;
-  return { payment: round2(payment), totalInterest: round2(totalPaid - principal), totalPaid: round2(totalPaid), months: n, years: Math.round(n / 12) };
+  if (r === 0) return { payment: round2(Math.max(0, principal - balloon) / n), totalInterest: 0, totalPaid: principal, months: n, years: Math.round(n / 12), balloon: round2(balloon) };
+  const pv = Math.max(0, principal - balloon / Math.pow(1 + r, n));
+  const payment = (pv * r * Math.pow(1 + r, n)) / (Math.pow(1 + r, n) - 1);
+  const totalPaid = payment * n + balloon;
+  return { payment: round2(payment), totalInterest: round2(totalPaid - principal), totalPaid: round2(totalPaid), months: n, years: Math.round(n / 12), balloon: round2(balloon) };
 }
 
 /** ROI: gain on investment, annualized. */

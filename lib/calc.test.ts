@@ -747,3 +747,16 @@ console.log("ALL PHASE 8 CALC TESTS PASS");
 }
 
 console.log("ALL PHASE 9 CALC TESTS PASS");
+
+// === Balloon payment on amortization ===
+{
+  const base = amortizationSummary(250000, 6.5, 30);
+  assert.ok(base.payment > 1570 && base.payment < 1590, "no-balloon payment ~$1,580");
+  const b = amortizationSummary(250000, 6.5, 30, 100000);
+  assert.ok(b.payment < base.payment, "balloon lowers the monthly payment");
+  assert.strictEqual(b.balloon, 100000);
+  assert.ok(Math.abs(b.totalPaid - (b.payment * 360 + 100000)) < 2, "total = payments + balloon");
+  assert.ok(b.totalInterest > base.totalInterest, "balloon on fixed term raises total interest (slower paydown)");
+}
+
+console.log("ALL BALLOON TESTS PASS");
