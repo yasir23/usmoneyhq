@@ -14,6 +14,9 @@ export default function GuidesHub() {
     { href: "/guides/investing-basics-guide", title: "Investing Basics", desc: "Compound growth, index funds, and time in the market." },
     { href: "/guides/home-improvement-guide", title: "Home Improvement Budgeting", desc: "Remodel costs by room, the 10% materials rule, DIY vs pro." },
     { href: "/guides/health-fitness-guide", title: "Health & Fitness Numbers", desc: "TDEE, BMI, hydration, sleep — the boring wins first." },
+    { href: "/guides/rmd-guide", title: "RMDs Explained", desc: "Required distributions, the penalty, and the math." },
+    { href: "/guides/529-guide", title: "The 529 Plan Guide", desc: "Tax-free growth, state deductions, and college costs." },
+    { href: "/guides/tax-refund-guide", title: "Tax Refunds Decoded", desc: "Why a big refund means you overpaid — and the fix." },
   ];
   return (
     <>
