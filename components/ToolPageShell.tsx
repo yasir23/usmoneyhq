@@ -4,21 +4,29 @@ import AdSlot from "./AdSlot";
 import ToolClient from "./ToolClient";
 import { getTool, SITE_URL, SITE_NAME, TOOLS } from "../lib/tools";
 import { getState, getComparisonPair, STATES, STATE_AWARE_TOOLS, type StateData } from "../lib/states";
+import { SALARY_AMOUNTS, SALARY_TOOL_SLUGS, fmtAmount, amountFromSlug } from "../lib/amounts";
 
 /**
  * ToolPageShell — shared page shell for every calculator (pages router).
  * Centralizes SEO (title/meta/canonical/OG/JSON-LD), breadcrumbs, ad slots,
  * the tool UI, FAQ, and related links. New tools = new registry entry only.
  * Optional stateSlug renders a state-variant page; "stateA-vs-stateB" renders
- * a side-by-side comparison (programmatic SEO).
+ * a side-by-side comparison; amountSlug renders a salary-amount scenario page
+ * (programmatic SEO — real computed numbers per variant).
  */
-export default function ToolPageShell({ slug, stateSlug }: { slug: string; stateSlug?: string }) {
+export default function ToolPageShell({ slug, stateSlug, amountSlug }: { slug: string; stateSlug?: string; amountSlug?: string }) {
   const tool = getTool(slug);
   const pair: [StateData, StateData] | null = stateSlug && stateSlug.includes("-vs-") ? getComparisonPair(stateSlug) : null;
   const state: StateData | undefined = stateSlug && !pair ? getState(stateSlug) : undefined;
+  const amount: number | undefined = amountSlug ? amountFromSlug(amountSlug) : undefined;
+  const validAmount = amount !== undefined && !isNaN(amount) && SALARY_AMOUNTS.includes(amount);
 
   // state variants only allowed for state-aware tools
   if (stateSlug && !STATE_AWARE_TOOLS.includes(slug)) {
+    return <NotFoundShell />;
+  }
+  // amount variants only allowed for salary tools with a known amount
+  if (amountSlug && (!validAmount || !SALARY_TOOL_SLUGS.includes(slug))) {
     return <NotFoundShell />;
   }
 
@@ -29,17 +37,29 @@ export default function ToolPageShell({ slug, stateSlug }: { slug: string; state
   const url = pair
     ? `${SITE_URL}/${tool.slug}/${pair[0].slug}-vs-${pair[1].slug}`
     : state
-    ? `${SITE_URL}/${tool.slug}/${state.slug}`
+    ? amount
+      ? `${SITE_URL}/${tool.slug}/${amountSlug}/${state.slug}`
+      : `${SITE_URL}/${tool.slug}/${state.slug}`
+    : amount
+    ? `${SITE_URL}/${tool.slug}/${amountSlug}`
     : `${SITE_URL}/${tool.slug}`;
   const pageTitle = pair
     ? `${pair[0].name} vs ${pair[1].name} ${tool.shortTitle.replace(" Calculator", "")} Calculator 2026 | US Money HQ`
+    : state && amount
+    ? `${state.name} Take-Home on a ${fmtAmount(amount)} Salary (2026) | US Money HQ`
     : state
     ? `${state.name} ${tool.shortTitle.replace(" Calculator", "")} Calculator 2026 | US Money HQ`
+    : amount
+    ? `${fmtAmount(amount)} Salary After Tax: Take-Home Pay in 2026 | US Money HQ`
     : tool.title;
   const pageDesc = pair
     ? `Compare ${pair[0].name} vs ${pair[1].name} ${tool.shortTitle.toLowerCase()} 2026: income tax, property tax, sales tax, and take-home math side by side.`
+    : state && amount
+    ? `${fmtAmount(amount)} salary in ${state.name} after federal and state taxes in 2026. ${state.incomeTaxNote}.`
     : state
     ? `${tool.description} ${state.incomeTaxNote}. Average property tax ${state.propTaxPct}%.`
+    : amount
+    ? `Your take-home pay on a ${fmtAmount(amount)} salary in 2026: federal tax, FICA, and what lands in your bank account each month.`
     : tool.description;
 
   const schema = {
@@ -68,13 +88,15 @@ export default function ToolPageShell({ slug, stateSlug }: { slug: string; state
           { "@type": "ListItem", position: 1, name: "Home", item: SITE_URL },
           { "@type": "ListItem", position: 2, name: tool.shortTitle, item: `${SITE_URL}/${tool.slug}` },
           ...(pair ? [{ "@type": "ListItem", position: 3, name: `${pair[0].name} vs ${pair[1].name}`, item: url }] : []),
-          ...(state && !pair ? [{ "@type": "ListItem", position: 3, name: state.name, item: url }] : []),
+          ...(state && !pair && !amount ? [{ "@type": "ListItem", position: 3, name: state.name, item: url }] : []),
+          ...(amount && !state ? [{ "@type": "ListItem", position: 3, name: fmtAmount(amount), item: url }] : []),
+          ...(state && amount ? [{ "@type": "ListItem", position: 3, name: fmtAmount(amount), item: `${SITE_URL}/${tool.slug}/${amountSlug}` }, { "@type": "ListItem", position: 4, name: state.name, item: url }] : []),
         ],
       },
     ],
   };
 
-  const initialValues = state ? { state: state.abbr } : pair ? { state: pair[0].abbr } : undefined;
+  const initialValues = state && amount ? { salary: amount, state: state.abbr } : amount ? { salary: amount } : state ? { state: state.abbr } : pair ? { state: pair[0].abbr } : undefined;
 
   return (
     <>
@@ -97,10 +119,12 @@ export default function ToolPageShell({ slug, stateSlug }: { slug: string; state
           <span aria-hidden="true">›</span>
           <Link href={`/${tool.slug}`}>{tool.shortTitle}</Link>
           {pair && (<><span aria-hidden="true">›</span><span>{pair[0].name} vs {pair[1].name}</span></>)}
-          {state && !pair && (<><span aria-hidden="true">›</span><span>{state.name}</span></>)}
+          {amount && !state && (<><span aria-hidden="true">›</span><span>{fmtAmount(amount)}</span></>)}
+          {state && !pair && !amount && (<><span aria-hidden="true">›</span><span>{state.name}</span></>)}
+          {amount && state && (<><span aria-hidden="true">›</span><Link href={`/${tool.slug}/${amountSlug}`}>{fmtAmount(amount)}</Link><span aria-hidden="true">›</span><span>{state.name}</span></>)}
         </nav>
 
-        <h1>{pair ? `${pair[0].name} vs ${pair[1].name}: ${tool.h1}` : state ? `${state.name} ${tool.h1}` : tool.h1}</h1>
+        <h1>{pair ? `${pair[0].name} vs ${pair[1].name}: ${tool.h1}` : state && amount ? `${fmtAmount(amount)} Salary in ${state.name}: ${tool.h1}` : amount ? `${fmtAmount(amount)} Salary: ${tool.h1}` : state ? `${state.name} ${tool.h1}` : tool.h1}</h1>
         <p className="sub">{tool.sub}</p>
 
         <AdSlot id={`${tool.slug}-${pair ? "compare" : state?.slug || "top"}`} />

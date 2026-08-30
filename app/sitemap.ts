@@ -1,6 +1,7 @@
 import type { MetadataRoute } from "next";
 import { SITE_URL, TOOLS } from "@/lib/tools";
 import { STATES, STATE_AWARE_TOOLS, getComparisonPairs } from "@/lib/states";
+import { SALARY_AMOUNTS, SALARY_TOOL_SLUGS } from "@/lib/amounts";
 
 /** Dynamic sitemap — every tool + every state variant for state-aware tools. */
 export default function sitemap(): MetadataRoute.Sitemap {
@@ -41,6 +42,18 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.9,
     });
   }
+  // salary-amount scenario pages: salary tools x 15 amounts (and x 50 states)
+  for (const slug of SALARY_TOOL_SLUGS) {
+    for (const amt of SALARY_AMOUNTS) {
+      pages.push({ url: `${SITE_URL}/${slug}/${amt}`, lastModified: now, changeFrequency: "monthly", priority: 0.6 });
+      if (STATE_AWARE_TOOLS.includes(slug)) {
+        for (const s of STATES) {
+          pages.push({ url: `${SITE_URL}/${slug}/${amt}/${s.slug}`, lastModified: now, changeFrequency: "monthly", priority: 0.6 });
+        }
+      }
+    }
+  }
+
   // state variants: state-aware tools x 50 states
   for (const slug of STATE_AWARE_TOOLS) {
     for (const s of STATES) {
