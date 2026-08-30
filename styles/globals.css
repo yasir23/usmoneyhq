@@ -566,3 +566,12 @@ thead th {
 /* ---------- homepage categories ---------- */
 .cat-section { margin: 28px 0; }
 .cat-title { font-size: 22px; margin: 0 0 12px; padding-bottom: 8px; border-bottom: 2px solid #e2e8f0; }
+
+/* ---------- homepage search ---------- */
+.search-bar { margin: 16px 0 8px; }
+.search-bar input {
+  width: 100%; max-width: 560px; padding: 12px 16px; font-size: 16px;
+  border: 2px solid #e2e8f0; border-radius: 10px; outline: none;
+}
+.search-bar input:focus { border-color: #6366f1; }
+.search-count { margin: 8px 0 0; font-size: 14px; color: #64748b; }

@@ -1,11 +1,28 @@
 import Head from "next/head";
 import Link from "next/link";
+import { useEffect, useMemo, useState } from "react";
 import { TOOLS, SITE_URL, SITE_NAME, SITE_DESC } from "../lib/tools";
 import { CATEGORIES } from "../lib/categories";
 
 /** Homepage — registry-driven tool grid grouped into categories for crawl + UX. */
 
 export default function Home() {
+  const [query, setQuery] = useState("");
+  useEffect(() => {
+    // ?q= support (SearchAction schema): prefill + filter on load
+    try {
+      const q = new URLSearchParams(window.location.search).get("q") || "";
+      if (q) setQuery(q);
+    } catch (e) { /* ignore */ }
+  }, []);
+
+  const q = query.trim().toLowerCase();
+  const filtered = useMemo(() => {
+    if (!q) return TOOLS;
+    return TOOLS.filter((t) =>
+      (t.title + " " + t.shortTitle + " " + t.description + " " + t.slug).toLowerCase().includes(q)
+    );
+  }, [q]);
   const schema = {
     "@context": "https://schema.org",
     "@type": "WebSite",
@@ -28,7 +45,7 @@ export default function Home() {
 
   const grouped = CATEGORIES.map((c) => ({
     ...c,
-    tools: TOOLS.filter((t) => categorize(t.slug) === c.name),
+    tools: filtered.filter((t) => categorize(t.slug) === c.name),
   })).filter((c) => c.tools.length > 0);
 
   return (
@@ -50,20 +67,33 @@ export default function Home() {
         <h1>Free US Financial Calculators</h1>
         <p className="sub">Fast, accurate, no sign-up. {TOOLS.length} tools updated for 2026.</p>
 
-        {grouped.map((c) => (
-          <section key={c.name} className="cat-section">
-            <h2 className="cat-title">{c.name}</h2>
-            <div className="tool-grid">
-              {c.tools.map((t) => (
-                <Link key={t.slug} href={`/${t.slug}`} className="tool-card">
-                  <h3>{t.shortTitle}</h3>
-                  <p>{t.description.split(".")[0]}.</p>
-                  <span className="cta">Open calculator →</span>
-                </Link>
-              ))}
-            </div>
-          </section>
-        ))}
+        <div className="search-bar">
+          <input
+            type="search"
+            placeholder="Search 96 calculators — try 'mortgage', 'tax', 'bmi'…"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            aria-label="Search calculators"
+          />
+          {q && <p className="search-count">{filtered.length} of {TOOLS.length} tools match "{query.trim()}"</p>}
+        </div>
+
+        <nav className="cat-jump" aria-label="Categories">
+          {grouped.map((c) => (
+            <section key={c.name} id={c.name.toLowerCase().replace(/[^a-z]+/g, "-")} className="cat-section">
+              <h2 className="cat-title">{c.name}</h2>
+              <div className="tool-grid">
+                {c.tools.map((t) => (
+                  <Link key={t.slug} href={`/${t.slug}`} className="tool-card">
+                    <h3>{t.shortTitle}</h3>
+                    <p>{t.description.split(".")[0]}.</p>
+                    <span className="cta">Open calculator →</span>
+                  </Link>
+                ))}
+              </div>
+            </section>
+          ))}
+        </nav>
 
         <div className="seo">
           <h2>Why use our calculators?</h2>
