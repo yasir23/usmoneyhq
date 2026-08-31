@@ -1,7 +1,7 @@
 import type { MetadataRoute } from "next";
 import { SITE_URL, TOOLS } from "@/lib/tools";
 import { STATES, STATE_AWARE_TOOLS, getComparisonPairs } from "@/lib/states";
-import { AMOUNT_TOOLS, allowedAmounts } from "@/lib/amounts";
+import { AMOUNT_TOOLS, allowedAmounts, AGE_TOOLS, allowedAges } from "@/lib/amounts";
 import { METROS } from "@/lib/metros";
 
 /** Dynamic sitemap — every tool + every state variant for state-aware tools. */
@@ -53,6 +53,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
           pages.push({ url: `${SITE_URL}/${slug}/${amt}/${s.slug}`, lastModified: now, changeFrequency: "monthly", priority: 0.6 });
         }
       }
+    }
+  }
+
+  // age scenario pages: age-config tools x 9 ages
+  for (const slug of Object.keys(AGE_TOOLS)) {
+    for (const a of allowedAges(slug) || []) {
+      pages.push({ url: `${SITE_URL}/${slug}/${a}`, lastModified: now, changeFrequency: "monthly", priority: 0.6 });
     }
   }
 

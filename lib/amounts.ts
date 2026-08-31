@@ -25,6 +25,25 @@ export function allowedAmounts(slug: string): number[] | undefined {
   return undefined;
 }
 
+// Age-based scenario pages ("401k at 30") — prefill the years field from a
+// retirement-age assumption.
+export const AGES = [25, 30, 35, 40, 45, 50, 55, 60, 65];
+
+export const AGE_TOOLS: Record<string, { field: string; retirementAge: number }> = {
+  "401k-calculator": { field: "years", retirementAge: 65 },
+  "retirement-calculator": { field: "years", retirementAge: 65 },
+};
+
+export function allowedAges(slug: string): number[] | undefined {
+  return AGE_TOOLS[slug] ? AGES : undefined;
+}
+
+export function ageFromSlug(slug: string): number | undefined {
+  const n = parseInt(slug, 10);
+  if (isNaN(n) || String(n) !== slug) return undefined;
+  return n;
+}
+
 export function fmtAmount(n: number): string {
   return "$" + n.toLocaleString("en-US");
 }

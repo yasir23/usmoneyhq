@@ -4,7 +4,7 @@ import AdSlot from "./AdSlot";
 import ToolClient from "./ToolClient";
 import { getTool, SITE_URL, SITE_NAME, TOOLS } from "../lib/tools";
 import { getState, getComparisonPair, STATES, STATE_AWARE_TOOLS, type StateData } from "../lib/states";
-import { AMOUNT_TOOLS, allowedAmounts, fmtAmount, amountFromSlug } from "../lib/amounts";
+import { AMOUNT_TOOLS, allowedAmounts, allowedAges, AGE_TOOLS, ageFromSlug, fmtAmount, amountFromSlug } from "../lib/amounts";
 import { getMetro, type Metro } from "../lib/metros";
 
 /**
@@ -15,7 +15,7 @@ import { getMetro, type Metro } from "../lib/metros";
  * a side-by-side comparison; amountSlug renders a salary-amount scenario page
  * (programmatic SEO — real computed numbers per variant).
  */
-export default function ToolPageShell({ slug, stateSlug, amountSlug, metroSlug }: { slug: string; stateSlug?: string; amountSlug?: string; metroSlug?: string }) {
+export default function ToolPageShell({ slug, stateSlug, amountSlug, metroSlug, ageSlug }: { slug: string; stateSlug?: string; amountSlug?: string; metroSlug?: string; ageSlug?: string }) {
   const tool = getTool(slug);
   const pair: [StateData, StateData] | null = stateSlug && stateSlug.includes("-vs-") ? getComparisonPair(stateSlug) : null;
   const state: StateData | undefined = stateSlug && !pair ? getState(stateSlug) : undefined;
@@ -23,6 +23,9 @@ export default function ToolPageShell({ slug, stateSlug, amountSlug, metroSlug }
   const amount: number | undefined = amountSlug ? amountFromSlug(amountSlug) : undefined;
   const amtTool = AMOUNT_TOOLS[slug];
   const validAmount = amount !== undefined && !isNaN(amount) && amtTool && (allowedAmounts(slug) || []).includes(amount);
+  const age: number | undefined = ageSlug ? ageFromSlug(ageSlug) : undefined;
+  const ageTool = AGE_TOOLS[slug];
+  const validAge = age !== undefined && !isNaN(age) && ageTool && (allowedAges(slug) || []).includes(age);
 
   // state variants only allowed for state-aware tools
   if (stateSlug && !STATE_AWARE_TOOLS.includes(slug)) {
@@ -30,6 +33,10 @@ export default function ToolPageShell({ slug, stateSlug, amountSlug, metroSlug }
   }
   // amount variants only allowed for tools with an amount config + known amount
   if (amountSlug && !validAmount) {
+    return <NotFoundShell />;
+  }
+  // age variants only allowed for age-config tools with a known age
+  if (ageSlug && !validAge) {
     return <NotFoundShell />;
   }
   // metro variants only allowed for state-aware tools
@@ -45,6 +52,8 @@ export default function ToolPageShell({ slug, stateSlug, amountSlug, metroSlug }
     ? `${SITE_URL}/${tool.slug}/${pair[0].slug}-vs-${pair[1].slug}`
     : metro
     ? `${SITE_URL}/${tool.slug}/${metro.slug}`
+    : age
+    ? `${SITE_URL}/${tool.slug}/${ageSlug}`
     : state
     ? amount
       ? `${SITE_URL}/${tool.slug}/${amountSlug}/${state.slug}`
@@ -57,6 +66,8 @@ export default function ToolPageShell({ slug, stateSlug, amountSlug, metroSlug }
     ? `${pair[0].name} vs ${pair[1].name} ${tool.shortTitle.replace(" Calculator", "")} Calculator 2026 | US Money HQ`
     : metro
     ? `${metro.name}, ${state?.name || ""} ${tool.shortTitle.replace(" Calculator", "")} Calculator 2026 | US Money HQ`
+    : age
+    ? `${tool.shortTitle} at Age ${age}: Projected Retirement (2026) | US Money HQ`
     : state && amount
     ? `${state.name} Take-Home on a ${fmtAmount(amount)} Salary (2026) | US Money HQ`
     : state
@@ -72,6 +83,8 @@ export default function ToolPageShell({ slug, stateSlug, amountSlug, metroSlug }
     ? `Compare ${pair[0].name} vs ${pair[1].name} ${tool.shortTitle.toLowerCase()} 2026: income tax, property tax, sales tax, and take-home math side by side.`
     : metro
     ? `${tool.description} Real numbers for ${metro.name}, ${state?.name || ""}.`
+    : age
+    ? `${tool.shortTitle} started at age ${age}: projected balance at ${ageTool?.retirementAge || 65} with contributions and employer match.`
     : state && amount
     ? `${fmtAmount(amount)} salary in ${state.name} after federal and state taxes in 2026. ${state.incomeTaxNote}.`
     : state
@@ -121,12 +134,14 @@ export default function ToolPageShell({ slug, stateSlug, amountSlug, metroSlug }
   const initialValues: Record<string, string | number> | undefined =
     state && amount ? { [amtTool?.field || "salary"]: amount, state: state.abbr }
     : amount ? { [amtTool?.field || "salary"]: amount }
+    : age ? { [ageTool?.field || "years"]: Math.max(1, (ageTool?.retirementAge || 65) - age) }
     : state ? { state: state.abbr }
     : metro ? { state: getState(metro.stateSlug)?.abbr || "" }
     : pair ? { state: pair[0].abbr }
     : undefined;
 
   const amountLinks = amtTool ? (allowedAmounts(slug) || []) : [];
+  const ageLinks = ageTool ? (allowedAges(slug) || []) : [];
 
   return (
     <>
@@ -150,12 +165,13 @@ export default function ToolPageShell({ slug, stateSlug, amountSlug, metroSlug }
           <Link href={`/${tool.slug}`}>{tool.shortTitle}</Link>
           {pair && (<><span aria-hidden="true">›</span><span>{pair[0].name} vs {pair[1].name}</span></>)}
           {metro && (<><span aria-hidden="true">›</span><span>{metro.name}</span></>)}
+          {age && (<><span aria-hidden="true">›</span><span>Age {age}</span></>)}
           {amount && !state && (<><span aria-hidden="true">›</span><span>{fmtAmount(amount)}</span></>)}
           {state && !pair && !amount && !metro && (<><span aria-hidden="true">›</span><span>{state.name}</span></>)}
           {amount && state && (<><span aria-hidden="true">›</span><Link href={`/${tool.slug}/${amountSlug}`}>{fmtAmount(amount)}</Link><span aria-hidden="true">›</span><span>{state.name}</span></>)}
         </nav>
 
-        <h1>{pair ? `${pair[0].name} vs ${pair[1].name}: ${tool.h1}` : metro ? `${metro.name}, ${state?.name || ""}: ${tool.h1}` : state && amount ? `${fmtAmount(amount)} Salary in ${state.name}: ${tool.h1}` : amount ? (amountKind === "income" ? `How Much House on ${fmtAmount(amount)}?` : amountKind === "price" ? `${fmtAmount(amount)} Home: ${tool.h1}` : `${fmtAmount(amount)} Salary: ${tool.h1}`) : state ? `${state.name} ${tool.h1}` : tool.h1}</h1>
+        <h1>{pair ? `${pair[0].name} vs ${pair[1].name}: ${tool.h1}` : metro ? `${metro.name}, ${state?.name || ""}: ${tool.h1}` : age ? `${tool.shortTitle} at ${age}: ${tool.h1}` : state && amount ? `${fmtAmount(amount)} Salary in ${state.name}: ${tool.h1}` : amount ? (amountKind === "income" ? `How Much House on ${fmtAmount(amount)}?` : amountKind === "price" ? `${fmtAmount(amount)} Home: ${tool.h1}` : `${fmtAmount(amount)} Salary: ${tool.h1}`) : state ? `${state.name} ${tool.h1}` : tool.h1}</h1>
         <p className="sub">{tool.sub}</p>
 
         <AdSlot id={`${tool.slug}-${pair ? "compare" : state?.slug || "top"}`} />
@@ -198,6 +214,17 @@ export default function ToolPageShell({ slug, stateSlug, amountSlug, metroSlug }
             <div className="link-cloud">
               {amountLinks.map((a) => (
                 <Link key={a} href={`/${tool.slug}/${a}`} className="state-link">{fmtAmount(a)}</Link>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {ageLinks.length > 0 && !pair && (
+          <div className="state-links card">
+            <h2>Starting ages</h2>
+            <div className="link-cloud">
+              {ageLinks.map((a) => (
+                <Link key={a} href={`/${tool.slug}/${a}`} className="state-link">Age {a}</Link>
               ))}
             </div>
           </div>

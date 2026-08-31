@@ -1,7 +1,7 @@
 import ToolPageShell from "../../components/ToolPageShell";
 import { getTool } from "../../lib/tools";
 import { getState, getComparisonPair, STATE_AWARE_TOOLS } from "../../lib/states";
-import { allowedAmounts, amountFromSlug } from "../../lib/amounts";
+import { allowedAmounts, allowedAges, ageFromSlug, amountFromSlug } from "../../lib/amounts";
 import { getMetro } from "../../lib/metros";
 
 /**
@@ -28,8 +28,14 @@ export async function getServerSideProps({ params }) {
     }
     if (amountFromSlug(s) !== undefined) {
       const amt = amountFromSlug(s);
-      if (!(allowedAmounts(slug) || []).includes(amt)) return { notFound: true };
-      return { props: { slug, amountSlug: s } };
+      if ((allowedAmounts(slug) || []).includes(amt)) {
+        return { props: { slug, amountSlug: s } };
+      }
+      const a = ageFromSlug(s);
+      if (a !== undefined && (allowedAges(slug) || []).includes(a)) {
+        return { props: { slug, ageSlug: s } };
+      }
+      return { notFound: true };
     }
     if (getMetro(s)) {
       if (!STATE_AWARE_TOOLS.includes(slug)) return { notFound: true };
