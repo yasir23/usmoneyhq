@@ -411,6 +411,7 @@ export const TOOLS: ToolDef[] = [
       { q: "Should I pay off debt or invest?", a: "As a rule of thumb, pay off debt above ~7-8% APR before investing, since guaranteed debt interest savings usually beat expected market returns after taxes." },
       { q: "How does extra payment help?", a: "Every extra dollar goes straight to principal, skipping interest. Even $50/month can shave years off a high-APR balance." },
       { q: "Snowball or avalanche method?", a: "Avalanche (highest APR first) saves the most interest. Snowball (smallest balance first, the Dave Ramsey approach) builds momentum. Both beat minimum payments — pick the one you'll stick with." },
+      { q: "What is my payoff amount vs my balance?", a: "Your payoff amount is the balance plus interest accrued up to the payoff date, plus any fees — usually slightly higher than the statement balance. Ask your lender for a 10-day payoff quote (interest accrues daily) and pay before the quote expires to avoid extra interest." },
     ],
     related: ["mortgage-calculator", "auto-loan-calculator", "dti-calculator"],
   },
@@ -1735,6 +1736,7 @@ export const TOOLS: ToolDef[] = [
     faq: [
       { q: "How do I measure my real MPG?", a: "Fill the tank, reset the trip odometer, drive normally, then fill again. Divide miles driven by gallons pumped. Repeat 3-4 tanks for accuracy." },
       { q: "Why is my MPG lower than the sticker?", a: "Sticker estimates come from lab tests. Real-world MPG is typically 10-20% lower due to city driving, traffic, AC use, tire pressure, and driving style." },
+      { q: "Do bigger tires change my MPG calculation?", a: "Yes. Larger tires have a bigger rolling circumference, so your odometer undercounts the miles you actually drove — and the MPG you calculate reads lower than reality. If you upsized by 5% in diameter, multiply the odometer miles by about 1.05 before dividing by gallons. Bigger tires also tend to reduce real fuel economy from extra weight and rolling resistance." },
     ],
     related: ["gas-cost-calculator", "auto-loan-calculator", "car-affordability-calculator"],
   },
@@ -1794,6 +1796,7 @@ export const TOOLS: ToolDef[] = [
     faq: [
       { q: "Should I max out my employer match first?", a: "Almost always yes — it's an instant 50-100% return on your contribution. Contribute at least enough to capture the full match before other investing." },
       { q: "What return should I assume?", a: "A diversified stock-heavy 401(k) historically returns 7-10% annually. Use 6-7% for a conservative projection." },
+      { q: "What happens if I withdraw from my 401(k) early?", a: "Before age 59½ you'll owe ordinary income tax plus a 10% early-withdrawal penalty on most withdrawals. Penalty exceptions include disability, death, unreimbursed medical expenses above 7.5% of your AGI, substantially equal periodic payments (72t), and qualified reservist distributions. When you change jobs, roll the balance into an IRA or your new 401(k) instead of cashing out — a direct rollover avoids the penalty and keeps the money growing tax-deferred." },
     ],
     related: ["retirement-calculator", "compound-interest-calculator", "savings-goal-calculator"],
   },
