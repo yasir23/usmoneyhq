@@ -96,6 +96,11 @@ export default function Home() {
         </nav>
 
         <div className="seo">
+          <h2>Popular salary scenarios</h2>
+          <p>See exactly what different salaries take home in every state:</p>
+          <p><a href="/salary-after-tax-calculator/40000">$40,000</a> · <a href="/salary-after-tax-calculator/60000">$60,000</a> · <a href="/salary-after-tax-calculator/75000">$75,000</a> · <a href="/salary-after-tax-calculator/100000">$100,000</a> · <a href="/salary-after-tax-calculator/150000">$150,000</a> · <a href="/salary-after-tax-calculator/200000">$200,000</a></p>
+          <h2>Popular home scenarios</h2>
+          <p><a href="/home-affordability-calculator/100000">House on $100k</a> · <a href="/home-affordability-calculator/150000">House on $150k</a> · <a href="/mortgage-calculator/300000">$300k mortgage</a> · <a href="/mortgage-calculator/500000">$500k mortgage</a> · <a href="/mortgage-calculator/houston-texas">Houston mortgage</a> · <a href="/mortgage-calculator/new-york-new-york">NYC mortgage</a></p>
           <h2>Why use our calculators?</h2>
           <p>Every calculator runs instantly in your browser — no page reloads, no sign-up, no data collected. Formulas use standard US amortization, current federal tax brackets, and state-specific tax data. Full transparency: see our <a href="/methodology">methodology page</a> for the exact formulas and data sources.</p>
           <h2>State-specific tools</h2>

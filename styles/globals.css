@@ -575,3 +575,8 @@ thead th {
 }
 .search-bar input:focus { border-color: #6366f1; }
 .search-count { margin: 8px 0 0; font-size: 14px; color: #64748b; }
+
+/* ---------- popular-amounts link cloud ---------- */
+.link-cloud { display: flex; flex-wrap: wrap; gap: 8px; }
+.link-cloud a { background: #eef2ff; color: #3730a3; padding: 5px 12px; border-radius: 999px; font-size: 14px; text-decoration: none; }
+.link-cloud a:hover { background: #e0e7ff; }

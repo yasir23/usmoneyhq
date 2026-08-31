@@ -126,6 +126,8 @@ export default function ToolPageShell({ slug, stateSlug, amountSlug, metroSlug }
     : pair ? { state: pair[0].abbr }
     : undefined;
 
+  const amountLinks = amtTool ? (allowedAmounts(slug) || []) : [];
+
   return (
     <>
       <Head>
@@ -189,6 +191,17 @@ export default function ToolPageShell({ slug, stateSlug, amountSlug, metroSlug }
         )}
 
         {!pair && <ToolClient tool={tool} initialValues={initialValues} />}
+
+        {amountLinks.length > 0 && !pair && (
+          <div className="state-links card">
+            <h2>Popular {amtTool?.kind === "price" ? "home prices" : amtTool?.kind === "income" ? "incomes" : "salaries"}</h2>
+            <div className="link-cloud">
+              {amountLinks.map((a) => (
+                <Link key={a} href={`/${tool.slug}/${a}`} className="state-link">{fmtAmount(a)}</Link>
+              ))}
+            </div>
+          </div>
+        )}
 
         {pair && (
           <div className="compare-grid">
