@@ -68,6 +68,56 @@ TOPICS = [
         "title": "Texas vs California sales tax",
         "script": "Buying a fifty dollar item in California, and the same item in Texas. California's average combined sales tax is about eight point eight percent, so you pay about four dollars and forty cents. Texas averages eight point two percent, about four dollars and ten cents. Small difference once. Huge over a year of shopping. The sales tax calculator at US Money HQ works for every state. Free, instant, accurate.",
     },
+    {
+        "id": "house-150k",
+        "title": "How much house can you afford on $150k?",
+        "script": "One hundred and fifty thousand a year. That is top ten percent of American incomes. How much house does it buy? Twenty eight percent of gross income is forty two hundred a month. At six and a half percent with twenty percent down, that is roughly a five hundred and fifty thousand dollar home. Different state, different property taxes, different result. The home affordability calculator at US Money HQ does your exact math for any state, free.",
+    },
+    {
+        "id": "emergency-fund",
+        "title": "The 3-6 month emergency fund rule",
+        "script": "Experts say keep three to six months of expenses in an emergency fund. What does that actually mean? If your monthly bills are four thousand dollars, three months is twelve thousand. Six months is twenty four thousand. That money sits in a high yield savings account, earning five percent, ready for layoffs and car repairs. The emergency fund calculator at US Money HQ tells you your exact target in seconds.",
+    },
+    {
+        "id": "rent-vs-buy",
+        "title": "Rent vs buy: the honest math",
+        "script": "Rent for ten years or buy? The honest answer depends on one number: how long you stay. Buy, and the first five years mostly pay interest. Rent, and you never build equity. In most US cities, the break even is around five to seven years. Stay longer, buying wins. Move sooner, renting wins. The rent versus buy calculator at US Money HQ compares both scenarios with real numbers for your city.",
+    },
+    {
+        "id": "closing-costs",
+        "title": "The hidden 3% you forgot",
+        "script": "You saved the down payment. Did you save the closing costs? Buying a four hundred thousand dollar home, closing costs typically run two to five percent, eight to twenty thousand dollars. Appraisal, title insurance, loan origination, escrow. First time buyers forget this every time. The closing cost calculator at US Money HQ estimates your exact closing costs before you make an offer.",
+    },
+    {
+        "id": "car-affordability",
+        "title": "The 20/4/10 car rule",
+        "script": "Here is the car buying rule financial advisors love: twenty percent down, finance for no more than four years, and keep total car costs under ten percent of your gross income. On a sixty thousand dollar salary, that is six thousand a year, about five hundred a month. The car affordability calculator at US Money HQ shows what you can really afford, payments and insurance included.",
+    },
+    {
+        "id": "retirement",
+        "title": "The 25x retirement rule",
+        "script": "Here is the simplest retirement math: multiply your annual spending by twenty five. That is your target nest egg. Spend sixty thousand a year? One point five million. The idea: withdraw four percent a year, adjust for inflation, and the money lasts thirty years. The retirement calculator at US Money HQ checks whether your savings rate gets you there by your target age.",
+    },
+    {
+        "id": "child-support",
+        "title": "How child support is calculated",
+        "script": "Child support formulas vary wildly by state. Many states use income shares: both parents incomes, combined, then split by custody time. Others use a flat percentage of the non custodial parent's income. A sixty thousand dollar salary can mean anywhere from five hundred to eleven hundred dollars a month depending on where you live. The child support calculator at US Money HQ shows state by state estimates.",
+    },
+    {
+        "id": "heloc",
+        "title": "HELOC: the cheap money trap",
+        "script": "A home equity line of credit feels like cheap money, because the rate is low. But it is your house on the line. The draw period is often interest only, ten years. Then the repayment period hits, and your payment can double. Only borrow for improvements that raise home value. The HELOC calculator at US Money HQ shows the true payment schedule.",
+    },
+    {
+        "id": "overtime",
+        "title": "Time and a half, explained",
+        "script": "Hourly workers: time and a half kicks in after forty hours. Twenty dollars an hour becomes thirty. Forty five hour week? Five hours at time and a half adds one hundred and fifty dollars. The overtime calculator at US Money HQ computes your paycheck with overtime in seconds, including double time states.",
+    },
+    {
+        "id": "529",
+        "title": "College costs: start a 529 now",
+        "script": "A four year public college now runs about one hundred thousand dollars, all in. Private, two hundred and fifty thousand or more. Start at birth with two hundred and fifty dollars a month at six percent, and you have about fifty eight thousand by eighteen. Tax free growth and state deductions make the 529 plan the best college vehicle. The 529 calculator at US Money HQ shows your exact projection.",
+    },
 ]
 
 
