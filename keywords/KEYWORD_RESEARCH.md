@@ -256,8 +256,8 @@ Long-tail (autocomplete):
 Short-tail: tax calculator | income tax calculator
 Long-tail (autocomplete):
 - tax calculator
-- tax calculator 2026-27
 - tax calculator 2025-26
+- tax calculator 2026-27
 - tax calculator pakistan
 - tax calculator 2026
 - tax calculator 2025-26 pakistan
@@ -575,10 +575,10 @@ Long-tail (autocomplete):
 - due date calculator pregnancy
 - due date calculator from conception
 - due date calculator babycenter
+- due date calculator week by week
 - due date calculator ivf
 - due date calculator flo
 - due date calculator twins
-- due date calculator with weeks
 - due date calculator by ultrasound
 - due date calculator 2026
 - chinese due date calculator 2026
@@ -1066,11 +1066,11 @@ Long-tail (autocomplete):
 Short-tail: inflation calculator | inflation rate calculator
 Long-tail (autocomplete):
 - inflation calculator
-- inflation calculator pakistan
 - inflation calculator pkr
 - inflation calculator usd
 - inflation calculator uk
 - inflation calculator us
+- inflation calculator pakistan
 - inflation calculator by year
 - inflation calculator india
 - inflation calculator canada
