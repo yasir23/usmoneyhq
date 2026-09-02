@@ -1310,6 +1310,7 @@ export const TOOLS: ToolDef[] = [
       { q: "What is a CD?", a: "A certificate of deposit locks your money for a fixed term in exchange for a guaranteed interest rate, typically higher than a savings account." },
       { q: "Are CD rates worth it?", a: "CDs offer a guaranteed return with FDIC insurance. Compare APYs across banks — online banks often pay 2-3x branch rates." },
       { q: "What are CD rates in 2026?", a: "Short-term CDs (6-12 months) are tracking the Fed's rate path, generally 3-4% APY in 2026. Longer terms (2-5 years) pay similar or slightly less when the market expects cuts. Always lock the best APY you can find — rates differ by 1%+ between banks." },
+      { q: "APY vs interest rate — what's the difference?", a: "APY (annual percentage yield) already includes compounding; the stated interest rate does not. At 4.5% APY with monthly compounding, $10,000 earns $459.40 over 12 months — the same as a ~4.41% nominal rate that compounds monthly. Always compare APYs when shopping CDs, because APY reflects what you actually earn." },
     ],
     related: ["compound-interest-calculator", "retirement-calculator", "savings-goal-calculator"],
   },
@@ -1342,6 +1343,7 @@ export const TOOLS: ToolDef[] = [
     faq: [
       { q: "When does overtime start?", a: "Under federal law (FLSA), nonexempt employees earn 1.5x for hours over 40 in a workweek. Some states have daily overtime rules." },
       { q: "What is double time?", a: "Some states or contracts pay 2x for certain hours (e.g., over 12 in a day, or working a 7th consecutive day)." },
+      { q: "Is overtime taxed at a higher rate?", a: "No — overtime is ordinary income taxed at your regular marginal rate, not a special higher rate. Heavy overtime can push part of your income into a higher tax bracket and raise withholding, so the check can be smaller than hours x 1.5 x rate suggests. The same 2026 federal brackets apply to overtime as to any other wages." },
     ],
     related: ["paycheck-calculator", "salary-after-tax-calculator", "tax-calculator"],
   },
@@ -1619,6 +1621,7 @@ export const TOOLS: ToolDef[] = [
     faq: [
       { q: "Simple vs compound interest?", a: "Simple interest is calculated only on the principal. Compound interest earns on both principal and accumulated interest — which grows faster over time. See the compound interest calculator for comparison." },
       { q: "Where is simple interest used?", a: "Personal loans, auto loans with simple-interest terms, and many short-term bonds. Your loan documents state which method applies." },
+      { q: "How do I calculate simple interest for days or months?", a: "Convert the time to years first: divide days by 365 and months by 12. $10,000 at 5% for 90 days = $10,000 x 0.05 x (90/365) = $123.29. For 6 months: $10,000 x 0.05 x 0.5 = $250. Enter the decimal years (0.5 = six months) in the calculator. Note: some lenders use a 360-day banker's year, which raises the daily interest slightly." },
     ],
     related: ["compound-interest-calculator", "loan-calculator", "cd-calculator"],
   },

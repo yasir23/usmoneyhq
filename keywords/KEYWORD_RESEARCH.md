@@ -256,10 +256,10 @@ Long-tail (autocomplete):
 Short-tail: tax calculator | income tax calculator
 Long-tail (autocomplete):
 - tax calculator
-- tax calculator 2025-26
 - tax calculator 2026-27
-- tax calculator pakistan
+- tax calculator 2025-26
 - tax calculator 2026
+- tax calculator pakistan
 - tax calculator 2025-26 pakistan
 - tax calculator 2026-27 pakistan
 - tax calculator 2025
@@ -311,10 +311,10 @@ Long-tail (autocomplete):
 - child support calculator alberta
 - child support calculator bc
 - child support calculator florida
-- child support calculator indiana
 - child support calculator california
 - child support calculator australia
 - child support calculator pa
+- child support calculator nc
 - child support calculator 2026
 - child support calculator 2026 ontario
 - child support calculator 2026 alberta
@@ -944,8 +944,8 @@ Long-tail (autocomplete):
 - bmi calculator male
 - bmi calculator in kg and feet
 - bmi calculator women
-- bmi calculator kg with age
 - bmi calculator kg
+- bmi calculator kg with age
 - bmi calculator pakistan
 - bmi calculator formula
 - bmi calculator for kids
@@ -1066,11 +1066,11 @@ Long-tail (autocomplete):
 Short-tail: inflation calculator | inflation rate calculator
 Long-tail (autocomplete):
 - inflation calculator
+- inflation calculator pakistan
 - inflation calculator pkr
 - inflation calculator usd
 - inflation calculator uk
 - inflation calculator us
-- inflation calculator pakistan
 - inflation calculator by year
 - inflation calculator india
 - inflation calculator canada
