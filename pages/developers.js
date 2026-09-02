@@ -1,7 +1,7 @@
 import Head from "next/head";
 import Link from "next/link";
-import AdSlot from "../../components/AdSlot";
-import { SITE_URL, SITE_NAME } from "../../lib/tools";
+import AdSlot from "../components/AdSlot";
+import { SITE_URL, SITE_NAME } from "../lib/tools";
 
 export default function DevelopersPage() {
   return (
