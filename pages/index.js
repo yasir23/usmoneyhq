@@ -98,7 +98,12 @@ export default function Home() {
         <div className="seo">
           <h2>Popular salary scenarios</h2>
           <p>See exactly what different salaries take home in every state:</p>
-          <p><a href="/salary-after-tax-calculator/40000">$40,000</a> · <a href="/salary-after-tax-calculator/60000">$60,000</a> · <a href="/salary-after-tax-calculator/75000">$75,000</a> · <a href="/salary-after-tax-calculator/100000">$100,000</a> · <a href="/salary-after-tax-calculator/150000">$150,000</a> · <a href="/salary-after-tax-calculator/200000">$200,000</a></p>
+          <p><a href="/salary-after-tax-calculator/75000">$75,000 salary</a> · <a href="/salary-after-tax-calculator/100000">$100,000 salary</a> · <a href="/salary-after-tax-calculator/150000">$150,000 salary</a> · <a href="/salary-after-tax-calculator/100000/california">$100k in California</a> · <a href="/salary-after-tax-calculator/100000/texas">$100k in Texas</a> · <a href="/salary-after-tax-calculator/100000/new-york-new-york">$100k in NYC</a></p>
+          <h2>For developers &amp; AI agents</h2>
+          <p>
+            <Link href="/developers">Connect all 99 calculators to AI agents</Link> via MCP, llms.txt,
+            and the REST API — free, no key.
+          </p>
           <h2>Popular home scenarios</h2>
           <p><a href="/home-affordability-calculator/100000">House on $100k</a> · <a href="/home-affordability-calculator/150000">House on $150k</a> · <a href="/mortgage-calculator/300000">$300k mortgage</a> · <a href="/mortgage-calculator/500000">$500k mortgage</a> · <a href="/mortgage-calculator/houston-texas">Houston mortgage</a> · <a href="/mortgage-calculator/new-york-new-york">NYC mortgage</a></p>
           <h2>Why use our calculators?</h2>
