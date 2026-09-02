@@ -1,0 +1,39 @@
+# llms.txt — agent discovery file (WebMCP/llms.txt standard).
+# Lets AI agents (Claude, ChatGPT, browsing agents) discover and use
+# US Money HQ's 99 calculators natively.
+# More: https://llmstxt.org
+# US Money HQ
+> US Money HQ — free US financial calculators, state-by-state tax math, and scenario tools. 99 calculators, 4,810 real-data pages. All free, no signup.
+
+## Core tools
+- Mortgage Calculator: https://usmoneyhq.com/mortgage-calculator
+- Salary After Tax Calculator: https://usmoneyhq.com/salary-after-tax-calculator
+- Tax Calculator: https://usmoneyhq.com/tax-calculator
+- Home Affordability Calculator: https://usmoneyhq.com/home-affordability-calculator
+- Paycheck Calculator: https://usmoneyhq.com/paycheck-calculator
+- 401(k) Calculator: https://usmoneyhq.com/401k-calculator
+- Compound Interest Calculator: https://usmoneyhq.com/compound-interest-calculator
+- Debt Payoff Calculator: https://usmoneyhq.com/debt-payoff-calculator
+- Rent vs Buy Calculator: https://usmoneyhq.com/rent-vs-buy-calculator
+- Sales Tax Calculator: https://usmoneyhq.com/sales-tax-calculator
+- Capital Gains Calculator: https://usmoneyhq.com/capital-gains-calculator
+- Emergency Fund Calculator: https://usmoneyhq.com/emergency-fund-calculator
+
+## State variants
+Every state-aware tool has per-state pages and state-vs-state comparisons:
+- California tax math: https://usmoneyhq.com/salary-after-tax-calculator/california
+- Texas vs California: https://usmoneyhq.com/salary-after-tax-calculator/california-vs-texas
+- 50-state list: https://usmoneyhq.com/states
+
+## Scenario pages
+- Salary amounts: https://usmoneyhq.com/salary-after-tax-calculator/75000
+- Metro pages: https://usmoneyhq.com/mortgage-calculator/houston-texas
+
+## API
+Calculators are computable via POST https://usmoneyhq.com/api/calc/{tool-slug} with JSON {field: value}.
+
+## Guides
+- https://usmoneyhq.com/guides
+- Tax refunds: https://usmoneyhq.com/guides/tax-refund-guide
+- 529 plans: https://usmoneyhq.com/guides/529-guide
+- RMDs: https://usmoneyhq.com/guides/rmd-guide
