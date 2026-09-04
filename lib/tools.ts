@@ -1480,6 +1480,7 @@ export const TOOLS: ToolDef[] = [
     faq: [
       { q: "What counts as an asset?", a: "Anything you own with monetary value: cash, bank accounts, investments, retirement accounts, real estate equity, vehicles, and collectibles." },
       { q: "How often should I track net worth?", a: "Monthly is ideal for spotting trends. It should trend upward over time — if it isn't, your spending or debt is outpacing your savings." },
+      { q: "What is the median net worth by age?", a: "The Federal Reserve's 2022 Survey of Consumer Finances (latest available) puts median net worth at about $39,000 under 35, $136,000 at 35-44, $247,000 at 45-54, $365,000 at 55-64, $410,000 at 65-74, and $384,000 at 75+. Medians run far below averages because high-net-worth households skew the mean — judge yourself against the median, not the headline average." },
     ],
     related: ["budget-calculator", "savings-goal-calculator", "retirement-calculator"],
   },
@@ -1892,6 +1893,7 @@ export const TOOLS: ToolDef[] = [
     faq: [
       { q: "What is a good dividend yield?", a: "The S&P 500 average yield is about 1.3-1.5% in 2026. High-yield stocks pay 4-6% but often carry more risk. Yields above 8% deserve extra scrutiny." },
       { q: "Are dividends taxed?", a: "Qualified dividends are taxed at long-term capital gains rates (0/15/20%) depending on income. Non-qualified dividends are taxed as ordinary income." },
+      { q: "What is a DRIP and is reinvesting worth it?", a: "A DRIP (dividend reinvestment plan) automatically uses your dividends to buy more shares, so future dividends grow. On $10,000 at 3.5% yield, taking the cash pays $350/year while your balance stays $10,000. Reinvesting at the same yield compounds the balance to about $19,900 after 20 years, with income near $700/year by then. If you don't need the income, reinvesting is almost always the better long-term move." },
     ],
     related: ["compound-interest-calculator", "retirement-calculator", "401k-calculator"],
   },
@@ -2204,6 +2206,7 @@ export const TOOLS: ToolDef[] = [
     faq: [
       { q: "What is a typical raise?", a: "3-5% is the standard merit increase range. Job switchers often negotiate 10-20% more. If your raise is below inflation, your real pay is falling." },
       { q: "Should I negotiate?", a: "Almost always. Research comparable salaries, cite specific contributions, and ask — employees who negotiate typically gain 5-10% more than the first offer." },
+      { q: "What does a raise look like compounded over several years?", a: "Raises compound on your growing base. A 3% annual raise on $65,000 reaches about $75,353 after 5 years and $87,355 after 10 — 34% higher before any promotions or job changes. Negotiating 5% instead of 3% puts you near $82,958 by year 5, roughly $7,600 ahead. Small annual differences turn into large salary gaps over a career." },
     ],
     related: ["salary-after-tax-calculator", "hourly-to-salary-calculator", "salary-percentile-calculator"],
   },
