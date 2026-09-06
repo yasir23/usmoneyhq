@@ -44,7 +44,7 @@ export default function BlogPost() {
           <h2>Related reading</h2>
           <ul>
             <li><Link href="/blog/mrf-json-format-guide">Mrf Json Format Guide</Link></li>
-            <li><Link href="/blog/mrf-file-format-errors">Mrf File Format Errors</Link></li>
+            <li><Link href="/blog/5-technical-errors-trigger-warning-letters">5 Technical Errors Trigger Warning Letters</Link></li>
             <li><Link href="/blog/cms-mrf-requirements-2026">Cms Mrf Requirements 2026</Link></li>
             <li><a href="https://sealofaudit.com/services/mrf-remediation/">MRF remediation (SealOfAudit)</a></li>
             <li><a href="https://sealofaudit.com/services/cms-warning-letter-response/">CMS warning letter response (SealOfAudit)</a></li>

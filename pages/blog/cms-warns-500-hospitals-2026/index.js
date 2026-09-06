@@ -45,7 +45,7 @@ export default function BlogPost() {
           <ul>
             <li><Link href="/blog/cms-enforcement-tracker-2026">Cms Enforcement Tracker 2026</Link></li>
             <li><Link href="/blog/warning-letter-vs-cap-vs-fine">Warning Letter Vs Cap Vs Fine</Link></li>
-            <li><Link href="/blog/mrf-file-format-errors">Mrf File Format Errors</Link></li>
+            <li><Link href="/blog/5-technical-errors-trigger-warning-letters">5 Technical Errors Trigger Warning Letters</Link></li>
             <li><a href="https://sealofaudit.com/services/mrf-remediation/">MRF remediation (SealOfAudit)</a></li>
             <li><a href="https://sealofaudit.com/services/cms-warning-letter-response/">CMS warning letter response (SealOfAudit)</a></li>
             <li><Link href="/blog">All US Money HQ guides</Link></li>
