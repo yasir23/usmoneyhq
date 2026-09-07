@@ -6,6 +6,7 @@ import { getTool, SITE_URL, SITE_NAME, TOOLS } from "../lib/tools";
 import { getState, getComparisonPair, STATES, STATE_AWARE_TOOLS, type StateData } from "../lib/states";
 import { AMOUNT_TOOLS, allowedAmounts, allowedAges, AGE_TOOLS, ageFromSlug, fmtAmount, amountFromSlug } from "../lib/amounts";
 import { getMetro, type Metro } from "../lib/metros";
+import { federalTax, fica, stateTax, monthlyPayment } from "../lib/calc";
 
 /**
  * ToolPageShell — shared page shell for every calculator (pages router).
@@ -174,6 +175,8 @@ export default function ToolPageShell({ slug, stateSlug, amountSlug, metroSlug, 
         <h1>{pair ? `${pair[0].name} vs ${pair[1].name}: ${tool.h1}` : metro ? `${metro.name}, ${state?.name || ""}: ${tool.h1}` : age ? `${tool.shortTitle} at ${age}: ${tool.h1}` : state && amount ? `${fmtAmount(amount)} Salary in ${state.name}: ${tool.h1}` : amount ? (amountKind === "income" ? `How Much House on ${fmtAmount(amount)}?` : amountKind === "price" ? `${fmtAmount(amount)} Home: ${tool.h1}` : `${fmtAmount(amount)} Salary: ${tool.h1}`) : state ? `${state.name} ${tool.h1}` : tool.h1}</h1>
         <p className="sub">{tool.sub}</p>
 
+        <VariantTLDR slug={slug} state={state} amount={amount} amountKind={amountKind} age={age} ageTool={ageTool} />
+
         <AdSlot id={`${tool.slug}-${pair ? "compare" : state?.slug || "top"}`} />
 
         {pair && (
@@ -273,8 +276,89 @@ export default function ToolPageShell({ slug, stateSlug, amountSlug, metroSlug, 
             </div>
           </div>
         )}
+
+        <RelatedCluster current={slug} stateSlug={state?.slug} />
       </main>
     </>
+  );
+}
+
+function VariantTLDR({ slug, state, amount, amountKind, age, ageTool }: { slug: string; state?: StateData; amount?: number; amountKind?: string; age?: number; ageTool?: { field: string; retirementAge: number } }) {
+  if (state && amount && slug === "salary-after-tax-calculator" && age === undefined) {
+    const gross = amount;
+    const fed = federalTax(gross).tax;
+    const ficaAmt = fica(gross).total;
+    const st = stateTax(gross, state.abbr).tax;
+    const net = gross - fed - ficaAmt - st;
+    return (
+      <p className="tldr" style={{ fontWeight: 600 }}>
+        Quick answer: a {fmtAmount(gross)} salary in {state.name} leaves roughly {fmtAmount(net)} take-home per year — about {fmtAmount(net / 12)}/month — after federal ({fmtAmount(fed)}), FICA ({fmtAmount(ficaAmt)}), and {state.name} state tax ({fmtAmount(st)}).
+      </p>
+    );
+  }
+  if (amount && amountKind === "price" && slug === "mortgage-calculator") {
+    const pmt = monthlyPayment(amount * 0.8, 6.5, 360); // 20% down, ~6.5% 30yr assumption
+    const totalInt = pmt * 360 - amount * 0.8;
+    return (
+      <p className="tldr" style={{ fontWeight: 600 }}>
+        Quick answer: on a {fmtAmount(amount)} home with 20% down at ~6.5% for 30 years, the principal + interest payment is roughly {fmtAmount(pmt)}/month (before taxes and insurance), with about {fmtAmount(totalInt)} in total interest.
+      </p>
+    );
+  }
+  if (amount && amountKind === "income" && slug === "home-affordability-calculator") {
+    const income = amount;
+    const dtiLimit = (income / 12) * 0.36;
+    return (
+      <p className="tldr" style={{ fontWeight: 600 }}>
+        Quick answer: on a {fmtAmount(income)} gross income, lenders typically cap your total monthly debt at ~{fmtAmount(dtiLimit)} (36% DTI), which sets the mortgage payment and price range you can target.
+      </p>
+    );
+  }
+  if (age && ageTool) {
+    const yearsTo = Math.max(1, ageTool.retirementAge - age);
+    return (
+      <p className="tldr" style={{ fontWeight: 600 }}>
+        Quick answer: starting at age {age} gives you {yearsTo} years until {ageTool.retirementAge} — every year earlier adds roughly a full year of compounding on your contributions. Use the inputs below to model your own rate and monthly amount.
+      </p>
+    );
+  }
+  return null;
+}
+
+function RelatedCluster({ current, stateSlug }: { current: string; stateSlug?: string }) {
+  const CLUSTERS: Record<string, { label: string; tools: string[] }> = {
+    home: { label: "Home buying", tools: ["mortgage-calculator", "home-affordability-calculator", "pmi-calculator", "property-tax-calculator", "dti-calculator", "refinance-calculator", "heloc-calculator", "closing-costs-calculator", "home-equity-calculator"] },
+    income: { label: "Income & taxes", tools: ["salary-after-tax-calculator", "paycheck-calculator", "hourly-to-salary-calculator", "salary-to-hourly-calculator", "tax-calculator", "tax-bracket-calculator", "overtime-calculator"] },
+    debt: { label: "Debt & loans", tools: ["debt-payoff-calculator", "credit-card-payoff-calculator", "dti-calculator", "loan-calculator", "auto-loan-calculator", "student-loan-calculator", "debt-snowball-calculator"] },
+    wealth: { label: "Investing & retirement", tools: ["retirement-calculator", "401k-calculator", "compound-interest-calculator", "investment-calculator", "savings-goal-calculator", "inflation-calculator", "rmd-calculator", "net-worth-calculator"] },
+    improve: { label: "Home improvement", tools: ["concrete-calculator", "paint-calculator", "drywall-calculator", "tile-calculator", "mulch-calculator", "carpet-calculator", "home-remodel-cost-calculator", "square-footage-calculator"] },
+  };
+  const findCluster = (slug: string): string | null => {
+    for (const [key, cl] of Object.entries(CLUSTERS)) {
+      if (cl.tools.includes(slug)) return key;
+    }
+    return null;
+  };
+  const key = findCluster(current);
+  if (!key) return null;
+  const members = CLUSTERS[key].tools.filter((t) => t !== current);
+  return (
+    <div className="seo">
+      <h2>Related {CLUSTERS[key].label} tools</h2>
+      <div className="tool-grid">
+        {members.map((t) => {
+          const tt = getTool(t);
+          if (!tt) return null;
+          const toState = stateSlug && STATE_AWARE_TOOLS.includes(t);
+          return (
+            <Link key={t} href={toState ? `/${t}/${stateSlug}` : `/${t}`} className="tool-card">
+              <h3>{toState ? `${getState(stateSlug)?.name || ""} ` : ""}{tt.shortTitle}</h3>
+              <span className="cta">Open calculator →</span>
+            </Link>
+          );
+        })}
+      </div>
+    </div>
   );
 }
 
