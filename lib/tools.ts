@@ -1033,8 +1033,13 @@ export const TOOLS: ToolDef[] = [
     compute: (v) => {
       const income = Number(v.income) || 0;
       const r = salaryPercentile(income);
+      const ordinal = (n: number) => {
+        const s = ["th", "st", "nd", "rd"];
+        const v = n % 100;
+        return n + (s[(v - 20) % 10] || s[v] || s[0]);
+      };
       return [
-        { label: "Income percentile", value: `${r.percentile}th`, highlight: true },
+        { label: "Income percentile", value: ordinal(r.percentile), highlight: true },
         { label: "Note", value: r.note },
       ];
     },
