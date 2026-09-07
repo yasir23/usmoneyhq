@@ -3,7 +3,7 @@ import { TOOLS, getTool } from "@/lib/tools";
 
 /**
  * MCP (Model Context Protocol) server — https://usmoneyhq.com/api/mcp
- * Exposes all 99 calculators as native tools for AI agents
+ * Exposes all 105 calculators as native tools for AI agents
  * (Claude Desktop, agent harnesses, anything MCP-aware).
  *
  * Client config:
