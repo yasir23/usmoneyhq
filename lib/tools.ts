@@ -3045,6 +3045,238 @@ export const TOOLS: ToolDef[] = [
     ],
     related: ["roi-calculator", "markup-calculator", "margin-calculator"],
   },
+  {
+    slug: "take-home-pay-calculator",
+    title: "Take-Home Pay Calculator 2026 — After Taxes by State | US Money HQ",
+    shortTitle: "Take-Home Pay Calculator",
+    description: "Free take-home pay calculator: convert gross salary to net pay after federal, FICA, and state taxes. 2026 tax year, all 50 states.",
+    h1: "Take-Home Pay Calculator",
+    sub: "Your gross salary, minus federal, FICA, and state — what actually hits your bank.",
+    fields: [
+      { key: "salary", label: "Gross annual salary (USD)", type: "number", default: 75000, min: 0, step: 1000, inputMode: "numeric" },
+      { key: "filing", label: "Filing status", type: "select", default: "single", options: [{ value: "single", label: "Single" }, { value: "married", label: "Married filing jointly" }] },
+      { key: "state", label: "State", type: "select", default: "TX", options: [{ value: "TX", label: "Texas (no state tax)" }, { value: "CA", label: "California" }, { value: "NY", label: "New York" }, { value: "FL", label: "Florida (no state tax)" }, { value: "WA", label: "Washington (no state tax)" }] },
+    ],
+    compute: (v) => {
+      const salary = Number(v.salary) || 0;
+      const filing = String(v.filing || "single") as "single" | "married";
+      const st = String(v.state || "TX");
+      const fed = federalTax(salary, filing).tax;
+      const fi = fica(salary).total;
+      const sTax = stateTax(salary, st, filing).tax;
+      const net = Math.max(0, salary - fed - fi - sTax);
+      return [
+        moneyRow("Gross salary", salary),
+        moneyRow("Federal tax", fed),
+        moneyRow("FICA (SS + Medicare)", fi),
+        moneyRow("State tax", sTax),
+        moneyRow("Take-home pay / year", net, true),
+        moneyRow("Take-home pay / month", net / 12),
+        moneyRow("Take-home pay / biweekly", net / 26),
+      ];
+    },
+    note: "Uses 2026 federal brackets, standard deduction, and state income tax assumptions. Local taxes (NYC, etc.) not included.",
+    faq: [
+      { q: "What is the difference between gross and take-home pay?", a: "Gross pay is your salary before deductions. Take-home (net) pay is what remains after federal income tax, FICA, state tax, and any pre-tax benefits." },
+      { q: "Why does take-home vary by state?", a: "Seven states have no income tax (TX, FL, WA, NV, SD, TN, WY), while CA and NY add significant state tax on top of federal." },
+      { q: "Does filing jointly change take-home pay?", a: "Yes — married filing jointly has wider tax brackets, so two earners filing jointly often keep more than two singles filing separately." },
+    ],
+    related: ["salary-after-tax-calculator", "paycheck-calculator", "tax-calculator"],
+  },
+  {
+    slug: "personal-loan-calculator",
+    title: "Personal Loan Calculator 2026 — Monthly Payment | US Money HQ",
+    shortTitle: "Personal Loan Calculator",
+    description: "Free personal loan calculator: monthly payment, total interest, and cost for loans of any amount and term.",
+    h1: "Personal Loan Calculator",
+    sub: "What a personal loan really costs — payment, interest, and total.",
+    fields: [
+      { key: "amount", label: "Loan amount (USD)", type: "number", default: 10000, min: 500, step: 500, inputMode: "numeric" },
+      { key: "rate", label: "Interest rate (annual %)", type: "number", default: 11.5, min: 0, step: 0.1, inputMode: "decimal" },
+      { key: "term", label: "Loan term (months)", type: "select", default: 36, options: [{ value: 12, label: "12 months" }, { value: 24, label: "24 months" }, { value: 36, label: "36 months" }, { value: 48, label: "48 months" }, { value: 60, label: "60 months" }] },
+    ],
+    compute: (v) => {
+      const amount = Number(v.amount) || 0;
+      const rate = Number(v.rate) || 0;
+      const term = Number(v.term) || 36;
+      const payment = monthlyPaymentSafe(amount, rate, term);
+      return [
+        moneyRow("Loan amount", amount),
+        moneyRow("Monthly payment", payment, true),
+        moneyRow("Total interest", Math.max(0, payment * term - amount)),
+        moneyRow("Total cost", payment * term),
+      ];
+    },
+    note: "Personal loan APRs vary widely by credit (roughly 6-36%). The rate you qualify for depends on your credit score and lender.",
+    faq: [
+      { q: "What is a good personal loan rate in 2026?", a: "Excellent credit can see 6-10% APR; good credit 10-18%; fair credit 18-30%+. Compare offers before accepting." },
+      { q: "Should I use a personal loan to consolidate debt?", a: "If the personal loan APR is lower than your credit card rates, consolidation can save interest — but only if you stop using the cards." },
+      { q: "How long should a personal loan term be?", a: "Shortest term you can afford. A 36-month loan at 11.5% on $10k costs ~$1,860 interest; 60 months costs ~$3,160." },
+    ],
+    related: ["loan-calculator", "debt-payoff-calculator", "credit-card-payoff-calculator"],
+  },
+  {
+    slug: "self-employment-tax-calculator",
+    title: "Self-Employment Tax Calculator 2026 | US Money HQ",
+    shortTitle: "Self-Employment Tax Calculator",
+    description: "Free self-employment tax calculator: Social Security + Medicare (15.3%), plus the deduction and federal impact.",
+    h1: "Self-Employment Tax Calculator",
+    sub: "The 15.3% SE tax, the deduction, and what it means for your bottom line.",
+    fields: [
+      { key: "income", label: "Net self-employment income (USD)", type: "number", default: 80000, min: 0, step: 1000, inputMode: "numeric" },
+      { key: "filing", label: "Filing status", type: "select", default: "single", options: [{ value: "single", label: "Single" }, { value: "married", label: "Married filing jointly" }] },
+    ],
+    compute: (v) => {
+      const income = Number(v.income) || 0;
+      const filing = String(v.filing || "single") as "single" | "married";
+      const netEarnings = income * 0.9235;
+      const ss = Math.min(netEarnings, 176100) * 0.124;
+      const medicare = netEarnings * 0.029;
+      const seTax = ss + medicare;
+      const halfDeduction = seTax / 2;
+      const fed = federalTax(income - halfDeduction, filing).tax;
+      return [
+        moneyRow("Net earnings (92.35%)", netEarnings),
+        moneyRow("Social Security (12.4%)", ss),
+        moneyRow("Medicare (2.9%)", medicare),
+        moneyRow("Total SE tax", seTax, true),
+        moneyRow("Deduction for SE tax (50%)", halfDeduction),
+        moneyRow("Estimated federal income tax", fed),
+        moneyRow("Combined federal + SE", fed + seTax),
+      ];
+    },
+    note: "2026 figures. Social Security wage base ~$176,100. Half your SE tax is deductible above the line. State taxes not included.",
+    faq: [
+      { q: "What is self-employment tax?", a: "The employer + employee share of Social Security and Medicare: 12.4% + 2.9% = 15.3% of net earnings, applied to 92.35% of your profit." },
+      { q: "Can I deduct half my self-employment tax?", a: "Yes — half of the SE tax is an above-the-line deduction that lowers your federal income tax, though it does not reduce the SE tax itself." },
+      { q: "Do I need to pay quarterly estimated taxes?", a: "If you expect to owe $1,000+ in tax, the IRS expects quarterly payments. Missing them can trigger underpayment penalties." },
+    ],
+    related: ["tax-calculator", "take-home-pay-calculator", "tax-bracket-calculator"],
+  },
+  {
+    slug: "fha-mortgage-calculator",
+    title: "FHA Mortgage Calculator 2026 — With MIP | US Money HQ",
+    shortTitle: "FHA Mortgage Calculator",
+    description: "Free FHA loan calculator: monthly payment including FHA MIP (1.75% upfront + annual), with 3.5% down scenarios.",
+    h1: "FHA Mortgage Calculator",
+    sub: "FHA loans with 3.5% down — see the true payment including mortgage insurance.",
+    fields: [
+      { key: "price", label: "Home price (USD)", type: "number", default: 300000, min: 10000, step: 10000, inputMode: "numeric" },
+      { key: "downPct", label: "Down payment %", type: "select", default: 3.5, options: [{ value: 3.5, label: "3.5% (minimum)" }, { value: 5, label: "5%" }, { value: 10, label: "10%" }, { value: 15, label: "15%" }, { value: 20, label: "20%" }] },
+      { key: "rate", label: "Interest rate (annual %)", type: "number", default: 6.8, min: 0, step: 0.1, inputMode: "decimal" },
+      { key: "term", label: "Term (years)", type: "select", default: 30, options: [{ value: 30, label: "30 years" }, { value: 15, label: "15 years" }] },
+    ],
+    compute: (v) => {
+      const price = Number(v.price) || 0;
+      const downPct = Number(v.downPct) || 3.5;
+      const rate = Number(v.rate) || 0;
+      const years = Number(v.term) || 30;
+      const down = price * downPct / 100;
+      const base = price - down;
+      const upfrontMip = base * 0.0175;
+      const loanWithMip = base + upfrontMip;
+      const payment = monthlyPaymentSafe(loanWithMip, rate, years * 12);
+      const annualMip = base * 0.0055 / 12; // 0.55% annual on base for >5% down; ~0.55% typical
+      const totalPayment = payment + annualMip;
+      return [
+        moneyRow("Down payment (" + downPct + "%)", down),
+        moneyRow("Base loan amount", base),
+        moneyRow("Upfront MIP (1.75%)", upfrontMip),
+        moneyRow("Principal + interest", payment),
+        moneyRow("Annual MIP (monthly)", annualMip),
+        moneyRow("Total monthly payment (P+I+MIP)", totalPayment, true),
+      ];
+    },
+    note: "Estimate only. FHA requires 3.5% minimum down with 580+ credit. MIP is 1.75% upfront (financed) plus ~0.55% annual for the life of most loans. Property tax and insurance not included.",
+    faq: [
+      { q: "What credit score do I need for an FHA loan?", a: "580+ for the 3.5% down option; 500-579 requires 10% down. Most FHA lenders want 620+ in practice." },
+      { q: "How long do you pay FHA mortgage insurance?", a: "For loans with less than 10% down, MIP lasts the life of the loan. With 10%+ down, it drops off after 11 years." },
+      { q: "Is FHA cheaper than conventional?", a: "FHA helps with lower down payments and credit, but the lifetime MIP often makes conventional (with PMI that drops at 20% equity) cheaper long-term." },
+    ],
+    related: ["mortgage-calculator", "va-mortgage-calculator", "pmi-calculator"],
+  },
+  {
+    slug: "va-mortgage-calculator",
+    title: "VA Mortgage Calculator 2026 — No PMI, No Down Payment | US Money HQ",
+    shortTitle: "VA Mortgage Calculator",
+    description: "Free VA loan calculator: zero-down payment options and the VA funding fee explained, with no PMI.",
+    h1: "VA Mortgage Calculator",
+    sub: "The veteran home loan — zero down, no PMI, and the funding fee.",
+    fields: [
+      { key: "price", label: "Home price (USD)", type: "number", default: 350000, min: 10000, step: 10000, inputMode: "numeric" },
+      { key: "downPct", label: "Down payment %", type: "select", default: 0, options: [{ value: 0, label: "0% (full entitlement)" }, { value: 5, label: "5%" }, { value: 10, label: "10%" }, { value: 20, label: "20%" }] },
+      { key: "rate", label: "Interest rate (annual %)", type: "number", default: 6.4, min: 0, step: 0.1, inputMode: "decimal" },
+      { key: "firstUse", label: "Funding fee", type: "select", default: "first", options: [{ value: "first", label: "First use (0% down): 2.15%" }, { value: "later", label: "Subsequent use (0% down): 3.3%" }] },
+    ],
+    compute: (v) => {
+      const price = Number(v.price) || 0;
+      const downPct = Number(v.downPct) || 0;
+      const rate = Number(v.rate) || 0;
+      const first = String(v.firstUse || "first") === "first";
+      const down = price * downPct / 100;
+      const base = price - down;
+      const feePct = first ? 0.0215 : 0.033;
+      const fundingFee = base * feePct;
+      const payment = monthlyPaymentSafe(base + fundingFee, rate, 360);
+      return [
+        moneyRow("Down payment", down),
+        moneyRow("Base loan", base),
+        moneyRow("VA funding fee (" + (first ? "2.15" : "3.3") + "%)", fundingFee),
+        moneyRow("Monthly payment (P+I)", payment, true),
+        { label: "PMI required", value: "No — VA loans never require PMI" },
+      ];
+    },
+    note: "Estimate only. The VA funding fee is waived for veterans with service-connected disabilities (10%+). Property tax and insurance not included.",
+    faq: [
+      { q: "Do VA loans require a down payment?", a: "No — eligible veterans can buy with 0% down up to their entitlement limit. That is the VA loan's biggest advantage." },
+      { q: "What is the VA funding fee?", a: "A one-time fee (2.15% first use at 0% down) that offsets program cost. It can be financed into the loan. Disabled veterans are exempt." },
+      { q: "Is there PMI on a VA loan?", a: "Never. VA loans have no monthly mortgage insurance, which is a major saving vs FHA or conventional sub-20%-down loans." },
+    ],
+    related: ["mortgage-calculator", "fha-mortgage-calculator", "home-affordability-calculator"],
+  },
+  {
+    slug: "401k-contribution-calculator",
+    title: "401(k) Contribution Calculator 2026 — Limits & Match | US Money HQ",
+    shortTitle: "401(k) Contribution Calculator",
+    description: "Free 401(k) contribution calculator: elective deferral limits, employer match, and projected balance at retirement.",
+    h1: "401(k) Contribution Calculator",
+    sub: "How much to contribute, what the match adds, and where you land at 65.",
+    fields: [
+      { key: "salary", label: "Annual salary (USD)", type: "number", default: 90000, min: 0, step: 5000, inputMode: "numeric" },
+      { key: "pct", label: "Your contribution %", type: "number", default: 8, min: 0, max: 100, step: 1, inputMode: "numeric" },
+      { key: "matchPct", label: "Employer match % (e.g. 4)", type: "number", default: 4, min: 0, max: 20, step: 0.5, inputMode: "decimal" },
+      { key: "current", label: "Current balance (USD)", type: "number", default: 20000, min: 0, step: 5000, inputMode: "numeric" },
+      { key: "age", label: "Your age", type: "number", default: 35, min: 18, max: 70, step: 1, inputMode: "numeric" },
+    ],
+    compute: (v) => {
+      const salary = Number(v.salary) || 0;
+      const pct = Number(v.pct) || 0;
+      const matchPct = Number(v.matchPct) || 0;
+      const current = Number(v.current) || 0;
+      const age = Number(v.age) || 35;
+      const yourContribution = Math.min(salary * pct / 100, 23500); // 2026 under-50 limit approx
+      const match = Math.min(salary * matchPct / 100, yourContribution);
+      const years = Math.max(0, 65 - age);
+      const monthly = (yourContribution + match) / 12;
+      let balance = current;
+      const r = 0.07 / 12;
+      for (let m = 0; m < years * 12; m++) balance = balance * (1 + r) + monthly;
+      return [
+        moneyRow("Your annual contribution", yourContribution),
+        moneyRow("Employer match (annual)", match),
+        moneyRow("Total annual (you + match)", yourContribution + match),
+        { label: "Contribution rate of salary", value: ((yourContribution + match) / salary * 100).toFixed(1) + "%" },
+        moneyRow("Projected balance at 65", balance, true),
+      ];
+    },
+    note: "2026 elective deferral limit ~$23,500 (under 50), $31,000 (50+, catch-up). Assumes 7% annual return. Your employer match structure may differ.",
+    faq: [
+      { q: "What is the 2026 401(k) contribution limit?", a: "The elective deferral limit is $23,500 for under-50s, plus a $7,500 catch-up for 50+. Employer matches do not count toward this limit." },
+      { q: "How much should I contribute to get the full match?", a: "At minimum, contribute enough to capture the full employer match — it is free money. If the match is 4% of salary, contribute at least 4%." },
+      { q: "What is the max total contribution including employer match?", a: "The combined limit (you + employer) is $70,000 for 2026 (or $77,500 with catch-up). High earners should watch this cap." },
+    ],
+    related: ["401k-calculator", "retirement-calculator", "compound-interest-calculator"],
+  },
 ];
 
 // Planned tools — render automatically via pages/[tool].js once added to TOOLS.
