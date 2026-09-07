@@ -15,6 +15,7 @@ export default function GuidesHub() {
     { href: "/guides/home-improvement-guide", title: "Home Improvement Budgeting", desc: "Remodel costs by room, the 10% materials rule, DIY vs pro." },
     { href: "/guides/health-fitness-guide", title: "Health & Fitness Numbers", desc: "TDEE, BMI, hydration, sleep — the boring wins first." },
     { href: "/guides/rmd-guide", title: "RMDs Explained", desc: "Required distributions, the penalty, and the math." },
+    { href: "/guides/shopify-vs-etsy-vs-wix-2026", title: "Shopify vs Etsy vs Wix (2026)", desc: "Startup costs, fees, and which platform pays off for a side hustle." },
     { href: "/guides/529-guide", title: "The 529 Plan Guide", desc: "Tax-free growth, state deductions, and college costs." },
     { href: "/guides/tax-refund-guide", title: "Tax Refunds Decoded", desc: "Why a big refund means you overpaid — and the fix." },
   ];
