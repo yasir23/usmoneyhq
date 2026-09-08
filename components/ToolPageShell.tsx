@@ -280,6 +280,21 @@ export default function ToolPageShell({ slug, stateSlug, amountSlug, metroSlug, 
           </div>
         )}
 
+        {/* Visible FAQ — AEO: real Q&A blocks matching the FAQPage schema */}
+        {tool.faq && tool.faq.length > 0 && (
+          <div className="seo" style={{ marginTop: 24 }}>
+            <h2>Frequently asked questions</h2>
+            {tool.faq.map((f, idx) => (
+              <div key={idx} style={{ marginBottom: 14 }}>
+                <h3 style={{ marginBottom: 4 }}>{f.q}</h3>
+                <p style={{ marginTop: 0 }}>{f.a}</p>
+              </div>
+            ))}
+          </div>
+        )}
+
+        <AdSlot id={`${tool.slug}-${pair ? "compare-bottom" : state?.slug || "bottom"}`} />
+
         <RelatedCluster current={slug} stateSlug={state?.slug} />
 
         {isUS && <AffiliateBlock slug={slug} isUS />}
