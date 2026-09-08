@@ -1,13 +1,14 @@
 import Head from "next/head";
 import Link from "next/link";
 import AdSlot from "../../../components/AdSlot";
+import GeoCta from "../../../components/GeoCta";
 import { SITE_URL } from "../../../lib/tools";
 
 /** Guide: How to Start Investing in 2026 (affiliate-funded). Targets
  * 401k/compound-interest/investment calculator traffic. eToro slot reserved. */
 const A = {
-  etoro: "https://www.etoro.com/", // RESERVED: swap for tracked URL after eToro verification
-  canva: "https://www.canva.com/", // swap after approval
+  etoro: "/api/go/etoro-invest?from=guide-investing", // tracked via /api/go (reserved offer)
+  canva: "/api/go/canva-pro?from=guide-investing",
 };
 
 export default function HowToStartInvesting() {
@@ -48,6 +49,7 @@ export default function HowToStartInvesting() {
           <div style={{ background: "#f6f6f4", border: "1px solid #ddd", borderRadius: 12, padding: 24, margin: "32px 0" }}>
             <h2>Run your personal numbers</h2>
             <p>See what $X/month becomes in 30 years: <Link href="/compound-interest-calculator">open the compound interest calculator</Link> — then set your automated contribution.</p>
+            <GeoCta href={A.etoro} label="Explore eToro (fractional investing)" blurb="Interested in a brokerage? Verify current US availability." />
           </div>
 
           <p style={{ fontSize: 13, color: "#666" }}>Disclosure: Some links on this page are affiliate links. If you sign up through them, we may earn a commission at no extra cost to you.</p>

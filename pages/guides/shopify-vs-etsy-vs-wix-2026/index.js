@@ -1,16 +1,17 @@
 import Head from "next/head";
 import Link from "next/link";
 import AdSlot from "../../../components/AdSlot";
+import GeoCta from "../../../components/GeoCta";
 import { SITE_URL } from "../../../lib/tools";
 
 /** Guide: Shopify vs Etsy vs Wix (2026) — startup cost comparison for side-hustle/store founders. Affiliate-funded content. */
 const A = {
-  shopify: "https://shopify.pxf.io/c/6480733/1101159/13624?subId1=usmoneyhq",
-  etsy: "https://shopify.pxf.io/c/6480733/1728771/13624?subId1=usmoneyhq",
-  wix: "https://shopify.pxf.io/c/6480733/1728772/13624?subId1=usmoneyhq",
-  sqsp: "https://shopify.pxf.io/c/6480733/1728773/13624?subId1=usmoneyhq",
-  pod: "https://shopify.pxf.io/c/6480733/2974325/13624?subId1=usmoneyhq",
-  free: "https://shopify.pxf.io/c/6480733/2974326/13624?subId1=usmoneyhq",
+  shopify: "/api/go/shopify-store?from=guide-shopify-vs-etsy-vs-wix",
+  etsy: "/api/go/etsy-printables?from=guide-shopify-vs-etsy-vs-wix",
+  wix: "/api/go/shopify-store?from=guide-shopify-vs-etsy-vs-wix",
+  sqsp: "/api/go/shopify-store?from=guide-shopify-vs-etsy-vs-wix",
+  pod: "/api/go/shopify-store?from=guide-shopify-vs-etsy-vs-wix",
+  free: "/api/go/shopify-store?from=guide-shopify-vs-etsy-vs-wix-free",
 };
 
 export default function ShopifyComparisonGuide() {
@@ -57,6 +58,7 @@ export default function ShopifyComparisonGuide() {
           <div style={{ background: "#f6f6f4", border: "1px solid #ddd", borderRadius: 12, padding: 24, margin: "32px 0" }}>
             <h2>Start the 10-minute test</h2>
             <p>If you are weighing store platforms for a side hustle, the fastest way to decide is a live store with zero risk: <a href={A.free} rel="sponsored">start your free Shopify trial</a> — no credit card needed to explore, and you keep the store only if it fits.</p>
+            <GeoCta href={A.free} label="Start your free Shopify trial →" blurb="US readers: claim the no-credit-card trial." />
           </div>
 
           <p className="affiliate-note" style={{ fontSize: 13, color: "#666" }}>Disclosure: Some links on this page are affiliate links. If you start a store through them, we may earn a commission at no extra cost to you.</p>

@@ -1,14 +1,15 @@
 import Head from "next/head";
 import Link from "next/link";
 import AdSlot from "../../../components/AdSlot";
+import GeoCta from "../../../components/GeoCta";
 import { SITE_URL } from "../../../lib/tools";
 
 /** Guide: Best Budgeting Apps 2026 (affiliate-funded comparison). Targets
  * budget-calculator traffic. Carries tiered offers once approved. */
 const A = {
-  canva: "https://www.canva.com/", // swap: tracked after approval
-  shopify: "https://shopify.pxf.io/c/6480733/1101159/13624?subId1=usmoneyhq-budget",
-  etsy: "https://www.etsy.com/search?q=budget%20planner%20printable", // swap after approval
+  canva: "/api/go/canva-pro?from=guide-budgeting",
+  shopify: "/api/go/shopify-store?from=guide-budgeting",
+  etsy: "/api/go/etsy-printables?from=guide-budgeting",
 };
 
 export default function BestBudgetingApps() {
@@ -51,6 +52,7 @@ export default function BestBudgetingApps() {
           <div style={{ background: "#f6f6f4", border: "1px solid #ddd", borderRadius: 12, padding: 24, margin: "32px 0" }}>
             <h2>Run your numbers free</h2>
             <p>Calculate your real budget split in 2 minutes: <Link href="/budget-calculator">open the budget calculator</Link> — then decide if an app is even worth paying for.</p>
+            <GeoCta href={A.etsy} label="Browse budget printables" blurb="Prefer paper? See budget planner templates." />
           </div>
 
           <p style={{ fontSize: 13, color: "#666" }}>Disclosure: Some links on this page are affiliate links. If you buy or sign up through them, we may earn a commission at no extra cost to you.</p>
