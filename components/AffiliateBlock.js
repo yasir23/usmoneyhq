@@ -4,12 +4,15 @@ import { AFFILIATE_OFFERS, AFFILIATE_DISCLOSURE } from "../lib/affiliates";
 
 /**
  * AffiliateBlock — contextual affiliate CTAs shown ONLY to US visitors.
- * Receives `isUS` from the server render (getServerSideProps / SSR passes
- * the Cloudflare country header). If the client-side check disagrees
- * (e.g. VPN), it still hides for non-US — safe default is OFF.
+ * Clicks route through /api/go/{offerId} (tracked + redirected).
  */
 export default function AffiliateBlock({ slug, isUS = false, compact = false }) {
   const [visible, setVisible] = useState(isUS);
+  const [pagePath, setPagePath] = useState("");
+
+  useEffect(() => {
+    setPagePath(window.location.pathname + window.location.search);
+  }, []);
 
   useEffect(() => {
     // server said not US -> never show. server said US -> also re-check via
@@ -47,7 +50,12 @@ export default function AffiliateBlock({ slug, isUS = false, compact = false }) 
             <div style={{ fontWeight: 700 }}>{o.name}</div>
             <div style={{ fontSize: 13, color: "#555" }}>{o.blurb}</div>
           </div>
-          <a href={o.href} target="_blank" rel="nofollow sponsored noopener" style={{ whiteSpace: "nowrap", background: "#1a3c5e", color: "#fff", padding: "8px 14px", borderRadius: 8, textDecoration: "none", fontSize: 14 }}>
+          <a
+            href={`/api/go/${o.id}?from=${encodeURIComponent(pagePath || slug)}`}
+            target="_blank"
+            rel="nofollow sponsored noopener"
+            style={{ whiteSpace: "nowrap", background: "#1a3c5e", color: "#fff", padding: "8px 14px", borderRadius: 8, textDecoration: "none", fontSize: 14 }}
+          >
             Try it →
           </a>
         </div>

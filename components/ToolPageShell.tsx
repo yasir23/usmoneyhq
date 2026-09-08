@@ -2,6 +2,7 @@ import Head from "next/head";
 import Link from "next/link";
 import AdSlot from "./AdSlot";
 import AffiliateBlock from "./AffiliateBlock";
+import NewsletterSignup from "./NewsletterSignup";
 import ToolClient from "./ToolClient";
 import { getTool, SITE_URL, SITE_NAME, TOOLS } from "../lib/tools";
 import { getState, getComparisonPair, STATES, STATE_AWARE_TOOLS, type StateData } from "../lib/states";
@@ -282,6 +283,8 @@ export default function ToolPageShell({ slug, stateSlug, amountSlug, metroSlug, 
         <RelatedCluster current={slug} stateSlug={state?.slug} />
 
         {isUS && <AffiliateBlock slug={slug} isUS />}
+
+        {isUS && <NewsletterSignup isUS context="money tips and rate alerts" />}
       </main>
     </>
   );
