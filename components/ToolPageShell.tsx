@@ -1,6 +1,7 @@
 import Head from "next/head";
 import Link from "next/link";
 import AdSlot from "./AdSlot";
+import AffiliateBlock from "./AffiliateBlock";
 import ToolClient from "./ToolClient";
 import { getTool, SITE_URL, SITE_NAME, TOOLS } from "../lib/tools";
 import { getState, getComparisonPair, STATES, STATE_AWARE_TOOLS, type StateData } from "../lib/states";
@@ -16,7 +17,8 @@ import { federalTax, fica, stateTax, monthlyPayment } from "../lib/calc";
  * a side-by-side comparison; amountSlug renders a salary-amount scenario page
  * (programmatic SEO — real computed numbers per variant).
  */
-export default function ToolPageShell({ slug, stateSlug, amountSlug, metroSlug, ageSlug }: { slug: string; stateSlug?: string; amountSlug?: string; metroSlug?: string; ageSlug?: string }) {
+export default function ToolPageShell({ slug, stateSlug, amountSlug, metroSlug, ageSlug, country }: { slug: string; stateSlug?: string; amountSlug?: string; metroSlug?: string; ageSlug?: string; country?: string }) {
+  const isUS = (country || "").toUpperCase() === "US";
   const tool = getTool(slug);
   const pair: [StateData, StateData] | null = stateSlug && stateSlug.includes("-vs-") ? getComparisonPair(stateSlug) : null;
   const state: StateData | undefined = stateSlug && !pair ? getState(stateSlug) : undefined;
@@ -278,6 +280,8 @@ export default function ToolPageShell({ slug, stateSlug, amountSlug, metroSlug, 
         )}
 
         <RelatedCluster current={slug} stateSlug={state?.slug} />
+
+        {isUS && <AffiliateBlock slug={slug} isUS />}
       </main>
     </>
   );

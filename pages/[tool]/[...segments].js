@@ -13,46 +13,48 @@ import { getMetro } from "../../lib/metros";
  *   /mortgage-calculator/houston-texas         → metro variant
  * Server-side validation: invalid combos return a REAL 404 (not 200).
  */
-export async function getServerSideProps({ params }) {
+export async function getServerSideProps({ params, req }) {
   const slug = String(params.tool || "");
   const segs = (params.segments || []).map(String);
   const tool = getTool(slug);
   if (!tool) {
     return { notFound: true };
   }
+  // US-only gate for affiliate content
+  const country = (req.headers["cf-ipcountry"] || "").toString().toUpperCase();
   if (segs.length === 1) {
     const s = segs[0];
     if (s.includes("-vs-")) {
       if (!getComparisonPair(s)) return { notFound: true };
-      return { props: { slug, stateSlug: s } };
+      return { props: { slug, stateSlug: s, country } };
     }
     if (amountFromSlug(s) !== undefined) {
       const amt = amountFromSlug(s);
       if ((allowedAmounts(slug) || []).includes(amt)) {
-        return { props: { slug, amountSlug: s } };
+        return { props: { slug, amountSlug: s, country } };
       }
       const a = ageFromSlug(s);
       if (a !== undefined && (allowedAges(slug) || []).includes(a)) {
-        return { props: { slug, ageSlug: s } };
+        return { props: { slug, ageSlug: s, country } };
       }
       return { notFound: true };
     }
     if (getMetro(s)) {
       if (!STATE_AWARE_TOOLS.includes(slug)) return { notFound: true };
-      return { props: { slug, metroSlug: s } };
+      return { props: { slug, metroSlug: s, country } };
     }
     if (!STATE_AWARE_TOOLS.includes(slug) || !getState(s)) return { notFound: true };
-    return { props: { slug, stateSlug: s } };
+    return { props: { slug, stateSlug: s, country } };
   }
   if (segs.length === 2) {
     const amt = amountFromSlug(segs[0]);
     if (amt === undefined || !(allowedAmounts(slug) || []).includes(amt)) return { notFound: true };
     if (!STATE_AWARE_TOOLS.includes(slug) || !getState(segs[1])) return { notFound: true };
-    return { props: { slug, amountSlug: segs[0], stateSlug: segs[1] } };
+    return { props: { slug, amountSlug: segs[0], stateSlug: segs[1], country } };
   }
   return { notFound: true };
 }
 
-export default function VariantToolPage({ slug, stateSlug, amountSlug, metroSlug }) {
-  return <ToolPageShell slug={slug} stateSlug={stateSlug} amountSlug={amountSlug} metroSlug={metroSlug} />;
+export default function VariantToolPage({ slug, stateSlug, amountSlug, metroSlug, country }) {
+  return <ToolPageShell slug={slug} stateSlug={stateSlug} amountSlug={amountSlug} metroSlug={metroSlug} country={country} />;
 }
