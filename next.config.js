@@ -71,6 +71,13 @@ const nextConfig = {
           { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
         ],
       },
+      // Agent discovery Link headers (RFC 8288 / RFC 9727) on the homepage
+      {
+        source: "/",
+        headers: [
+          { key: "Link", value: '</.well-known/api-catalog>; rel="api-catalog", </openapi.json>; rel="service-desc"; type="application/openapi+json", </developers>; rel="service-doc"; type="text/html", </.well-known/agent-card.json>; rel="http://www.w3.org/ns/agents#card", </llms.txt>; rel="describedby"; type="text/plain"' },
+        ],
+      },
     ];
   },
 };
