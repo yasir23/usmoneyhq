@@ -44,3 +44,8 @@ Calculators are computable via POST https://usmoneyhq.com/api/calc/{tool-slug} w
 - 529 plans: https://usmoneyhq.com/guides/529-guide
 - RMDs: https://usmoneyhq.com/guides/rmd-guide
 - Shopify vs Etsy vs Wix 2026: https://usmoneyhq.com/guides/shopify-vs-etsy-vs-wix-2026
+- Best Budgeting Apps 2026: https://usmoneyhq.com/guides/best-budgeting-apps-2026
+- How to Start Investing 2026: https://usmoneyhq.com/guides/how-to-start-investing-2026
+- Best CD Rates 2026: https://usmoneyhq.com/guides/best-cd-rates-2026
+- Best High-Yield Savings 2026: https://usmoneyhq.com/guides/best-high-yield-savings-2026
+- Debt Consolidation 2026: https://usmoneyhq.com/guides/debt-consolidation-2026
