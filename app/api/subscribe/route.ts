@@ -2,8 +2,9 @@
 // Appends to a JSONL file; safe for the VPS. Use for money-tips / rate alerts.
 import { NextRequest, NextResponse } from "next/server";
 import fs from "fs";
+import path from "path";
 
-const LIST_PATH = process.env.SUBSCRIBE_LOG || "/tmp/usmoneyhq_subscribers.jsonl";
+const LIST_PATH = process.env.SUBSCRIBE_LOG || "/data/usmoneyhq_subscribers.jsonl";
 
 const EMAIL_RE = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-z]{2,}$/i;
 const DISPOSABLE = ["mailinator.com", "guerrillamail.com", "10minutemail.com", "yopmail.com", "temp-mail.org", "throwawaymail.com"];
@@ -24,6 +25,7 @@ export async function POST(req: NextRequest) {
   if (DISPOSABLE.includes(domain)) return NextResponse.json({ ok: false, error: "invalid email" }, { status: 400 });
 
   try {
+    fs.mkdirSync(path.dirname(LIST_PATH), { recursive: true });
     const row = {
       t: new Date().toISOString(),
       email,

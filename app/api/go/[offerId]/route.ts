@@ -6,7 +6,7 @@ import { AFFILIATE_OFFERS } from "@/lib/affiliates";
 import fs from "fs";
 import path from "path";
 
-const LOG_PATH = process.env.AFFILIATE_LOG || "/tmp/affiliate_clicks.jsonl";
+const LOG_PATH = process.env.AFFILIATE_LOG || "/data/affiliate_clicks.jsonl";
 
 export async function GET(req: NextRequest, { params }: { params: { offerId: string } }) {
   const offer = AFFILIATE_OFFERS.find((o) => o.id === params.offerId);
@@ -14,6 +14,8 @@ export async function GET(req: NextRequest, { params }: { params: { offerId: str
 
   // Log the click: offer, referrer page, country, UA-ish (no PII beyond country)
   try {
+    const dir = path.dirname(LOG_PATH);
+    fs.mkdirSync(dir, { recursive: true });
     const row = {
       t: new Date().toISOString(),
       offer: offer.id,
