@@ -70,6 +70,15 @@ export const AFFILIATE_OFFERS: AffiliateOffer[] = [
     tools: ["hourly-to-salary-calculator", "salary-to-hourly-calculator", "take-home-pay-calculator", "salary-after-tax-calculator"],
   },
   {
+    id: "etoro-invest",
+    name: "eToro",
+    blurb: "Practice investing with fractional shares and social copy-trading — verify current US onboarding.",
+    href: "https://www.etoro.com/", // RESERVED: swap for tracked CPA URL after verification
+    program: "direct",
+    payout: "$100-350 / funded client (CPA)",
+    tools: ["retirement-calculator", "401k-calculator", "401k-contribution-calculator", "compound-interest-calculator", "investment-calculator", "how-long-will-my-money-last-calculator", "net-worth-calculator", "roi-calculator", "rule-of-72-calculator"],
+  },
+  {
     id: "michaels-craft",
     name: "Michaels",
     blurb: "Craft & DIY supplies for the projects in your budget.",
