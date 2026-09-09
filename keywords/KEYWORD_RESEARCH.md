@@ -206,8 +206,8 @@ Long-tail (autocomplete):
 Short-tail: refinance calculator | mortgage refinance calculator
 Long-tail (autocomplete):
 - refinance calculator
+- refinance calculator mortgage
 - refinance calculator car
-- refinance calculator home
 - refinance calculator auto
 - refinance calculator free
 - refinance calculator with cash out
@@ -256,8 +256,8 @@ Long-tail (autocomplete):
 Short-tail: tax calculator | income tax calculator
 Long-tail (autocomplete):
 - tax calculator
-- tax calculator 2025-26
 - tax calculator pakistan
+- tax calculator 2025-26
 - tax calculator 2026
 - tax calculator 2026-27
 - tax calculator 2025-26 pakistan
@@ -618,13 +618,13 @@ Long-tail (autocomplete):
 - percentage calculator
 - percentage calculator of marks
 - percentage calculator formula
-- percentage calculator online
 - percentage calculator money
 - percentage calculator of cgpa
 - percentage calculator in excel
 - percentage calculator extension
 - percentage calculator formula in excel
 - percentage calculator pakistan
+- percentage calculator from gpa
 - percentage calculator 2026
 - rates calculator 2026
 - ignou percentage calculator 2026
@@ -1264,7 +1264,6 @@ Short-tail: property tax calculator | property tax estimator
 Long-tail (autocomplete):
 - property tax calculator
 - property tax calculator karachi
-- property tax calculator hyderabad
 - property tax calculator sindh
 - property tax calculator lahore
 - property tax calculator punjab pakistan
@@ -1272,6 +1271,7 @@ Long-tail (autocomplete):
 - property tax calculator faisalabad
 - property tax calculator islamabad
 - property tax calculator pakistan
+- property tax calculator kpk
 - property tax calculator 2026-27
 - property tax calculator 2026
 - property tax rates 2026
