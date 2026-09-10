@@ -62,6 +62,14 @@ a:hover {
   padding: 2.5rem 1.5rem 6rem;
 }
 
+/* The header and footer bars also use .container for their own layout and
+   declare padding-top/bottom later in this file, which was cancelling the
+   page spacing above. Scoping to main restores it for page content. */
+main .container {
+  padding-top: 2.5rem;
+  padding-bottom: 6rem;
+}
+
 h1 {
   font-size: clamp(1.7rem, 4vw, 2.35rem);
   line-height: 1.15;
@@ -205,7 +213,7 @@ h3 {
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--radius);
-  padding: 32px;
+  padding: 28px;
   box-shadow: var(--shadow);
 }
 
@@ -332,7 +340,9 @@ h3 {
 /* ---------- Tool grid (home + related) ---------- */
 .tool-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  /* 300px minimum so each card still has ~250px of usable text width once
+     the card's own padding is applied (250px boxes were getting crowded) */
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 24px;
   margin: 38px 0;
 }
@@ -342,7 +352,7 @@ h3 {
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--radius);
-  padding: 30px;
+  padding: 26px;
   color: var(--text);
   box-shadow: var(--shadow);
   transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
