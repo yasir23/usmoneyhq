@@ -43,7 +43,9 @@ body {
   background: var(--bg);
   color: var(--text);
   line-height: 1.55;
-  font-size: 16px;
+  /* rem-based so the user's browser font-size preference is respected
+     (a hard 16px ignored it and made the site read small at 100% zoom) */
+  font-size: 1.0625rem;
 }
 
 a {
@@ -56,7 +58,7 @@ a:hover {
 }
 
 .container {
-  max-width: 1024px;
+  max-width: 1120px;
   margin: 0 auto;
   padding: 24px 16px 72px;
 }

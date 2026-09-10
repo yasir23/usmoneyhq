@@ -8,6 +8,7 @@ export default class SiteDocument extends Document {
     return (
       <Html lang="en-US">
         <Head>
+          <meta name="viewport" content="width=device-width, initial-scale=1" />
           {/* Favicon set — Google requires a proper multi-size favicon to drop the gray globe */}
           <link rel="icon" href="/favicon.ico" sizes="any" />
           <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
