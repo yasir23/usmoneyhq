@@ -36,7 +36,11 @@
 
 html {
   -webkit-text-size-adjust: 100%;
-  font-size: 100%;
+  /* Site-wide base: 106.25% = 17px at the browser default. Every type size in
+     this stylesheet is rem-based, so this single value scales the whole site
+     (header, footer, all 105 calculator pages). A percentage rather than a
+     fixed px still honours a visitor's own larger font setting. */
+  font-size: 106.25%;
 }
 
 body {
@@ -57,9 +61,13 @@ a:hover {
 }
 
 .container {
-  max-width: 70rem;
+  max-width: 75rem;
   margin: 0 auto;
-  padding: 2.5rem 1.5rem 6rem;
+  padding: 2.5rem 1.25rem 6rem;
+}
+
+@media (min-width: 768px) {
+  .container { padding-left: 2rem; padding-right: 2rem; }
 }
 
 /* The header and footer bars also use .container for their own layout and
@@ -71,14 +79,14 @@ main .container {
 }
 
 h1 {
-  font-size: clamp(1.7rem, 4vw, 2.35rem);
+  font-size: clamp(2rem, 4.5vw, 3.1rem);
   line-height: 1.15;
   letter-spacing: -0.02em;
   margin-bottom: 8px;
 }
 
 h2 {
-  font-size: 1.3rem;
+  font-size: 1.55rem;
   margin: 44px 0 16px;
   letter-spacing: -0.01em;
 }
@@ -107,13 +115,13 @@ h3 {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding-top: 14px;
-  padding-bottom: 14px;
+  padding-top: 20px;
+  padding-bottom: 20px;
 }
 
 .brand {
   font-weight: 800;
-  font-size: 1.15rem;
+  font-size: 1.4rem;
   color: var(--text);
   letter-spacing: -0.01em;
 }
@@ -128,8 +136,8 @@ h3 {
 
 .nav-links {
   display: flex;
-  gap: 18px;
-  font-size: 0.92rem;
+  gap: 26px;
+  font-size: 1rem;
   color: var(--muted);
 }
 
@@ -137,12 +145,12 @@ h3 {
   background: var(--surface);
   border-top: 1px solid var(--border);
   color: var(--muted);
-  font-size: 0.88rem;
+  font-size: 0.95rem;
 }
 
 .site-footer .container {
-  padding-top: 28px;
-  padding-bottom: 28px;
+  padding-top: 48px;
+  padding-bottom: 48px;
 }
 
 .footer-grid {
@@ -162,7 +170,7 @@ h3 {
 
 .footer-grid a {
   display: block;
-  padding: 3px 0;
+  padding: 6px 0;
   color: var(--muted);
 }
 
@@ -199,7 +207,7 @@ h3 {
 .grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 28px;
+  gap: 34px;
   align-items: start;
 }
 
@@ -213,7 +221,7 @@ h3 {
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--radius);
-  padding: 28px;
+  padding: 34px;
   box-shadow: var(--shadow);
 }
 
@@ -243,8 +251,8 @@ h3 {
 .field input,
 .field select {
   width: 100%;
-  padding: 15px 17px;
-  font-size: 1rem;
+  padding: 17px 19px;
+  font-size: 1.08rem;
   font-family: var(--mono);
   border: 1px solid var(--border-strong);
   border-radius: var(--radius-sm);
@@ -277,17 +285,17 @@ h3 {
 }
 
 .results h2 {
-  margin: 0 0 12px;
-  font-size: 1.05rem;
+  margin: 0 0 16px;
+  font-size: 1.3rem;
 }
 
 .results .row {
   display: flex;
   justify-content: space-between;
-  gap: 12px;
-  padding: 14px 0;
+  gap: 14px;
+  padding: 17px 0;
   border-bottom: 1px dashed var(--border);
-  font-size: 0.95rem;
+  font-size: 1.08rem;
 }
 
 .results .row span {
@@ -342,9 +350,9 @@ h3 {
   display: grid;
   /* 300px minimum so each card still has ~250px of usable text width once
      the card's own padding is applied (250px boxes were getting crowded) */
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 24px;
-  margin: 38px 0;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 32px;
+  margin: 44px 0;
 }
 
 .tool-card {
@@ -352,7 +360,7 @@ h3 {
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--radius);
-  padding: 26px;
+  padding: 32px;
   color: var(--text);
   box-shadow: var(--shadow);
   transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
@@ -367,14 +375,16 @@ h3 {
 
 .tool-card h2,
 .tool-card h3 {
-  margin: 0 0 10px;
+  margin: 0 0 12px;
   color: var(--text);
+  font-size: 1.22rem;
 }
 
 .tool-card p {
   color: var(--muted);
-  font-size: 0.9rem;
-  margin-bottom: 12px;
+  font-size: 1rem;
+  line-height: 1.6;
+  margin-bottom: 16px;
 }
 
 .tool-card .cta {
@@ -545,7 +555,7 @@ thead th {
   background: #0f172a; color: #e2e8f0; padding: 12px 14px; border-radius: 8px;
   font-family: var(--mono); font-size: 0.7812rem; overflow-x: auto; white-space: pre-wrap; word-break: break-all;
 }
-.btn { display: inline-block; margin: 6px 0 4px; padding: 8px 14px; background: var(--accent); color: #fff; border: 0; border-radius: 8px; font-size: 0.8438rem; font-weight: 600; cursor: pointer; }
+.btn { display: inline-block; margin: 8px 0 6px; padding: 13px 22px; background: var(--accent); color: #fff; border: 0; border-radius: 9px; font-size: 1rem; font-weight: 600; cursor: pointer; }
 .btn:hover { background: var(--accent-dark); }
 .widget-note { font-size: 0.8438rem; color: var(--muted); margin-top: 14px; line-height: 1.55; }
 
@@ -591,3 +601,57 @@ thead th {
 .link-cloud { display: flex; flex-wrap: wrap; gap: 8px; }
 .link-cloud a { background: #eef2ff; color: #3730a3; padding: 5px 12px; border-radius: 999px; font-size: 0.875rem; text-decoration: none; }
 .link-cloud a:hover { background: #e0e7ff; }
+
+/* ---------- Global scale: responsive pullback (mobile) ----------
+   The scale-up above targets desktop. Below the md breakpoint we pull the
+   spacing and type back so phones stay comfortable and nothing overflows. */
+@media (max-width: 767px) {
+  .container {
+    padding: 1.5rem 1rem 3.5rem;
+  }
+  .site-header .container {
+    padding-top: 14px;
+    padding-bottom: 14px;
+  }
+  .brand {
+    font-size: 1.2rem;
+  }
+  .nav-links {
+    gap: 16px;
+    font-size: 0.92rem;
+  }
+  h1 {
+    font-size: clamp(1.75rem, 7vw, 2.2rem);
+  }
+  h2 {
+    font-size: 1.3rem;
+  }
+  .tool-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+    margin: 28px 0;
+  }
+  .tool-card {
+    padding: 24px;
+  }
+  .card {
+    padding: 24px;
+  }
+  .grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  .field input,
+  .field select {
+    padding: 15px 16px;
+    font-size: 1rem;
+  }
+  .results .row {
+    padding: 14px 0;
+    font-size: 1rem;
+  }
+  .site-footer .container {
+    padding-top: 32px;
+    padding-bottom: 32px;
+  }
+}
