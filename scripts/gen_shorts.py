@@ -118,6 +118,16 @@ TOPICS = [
         "title": "College costs: start a 529 now",
         "script": "A four year public college now runs about one hundred thousand dollars, all in. Private, two hundred and fifty thousand or more. Start at birth with two hundred and fifty dollars a month at six percent, and you have about fifty eight thousand by eighteen. Tax free growth and state deductions make the 529 plan the best college vehicle. The 529 calculator at US Money HQ shows your exact projection.",
     },
+    {
+        "id": "salary-100k-texas",
+        "title": "$100,000 salary in Texas: what you keep",
+        "script": "A one hundred thousand dollar salary in Texas. Federal income tax takes thirteen thousand six hundred and fourteen dollars. Social Security and Medicare take seven thousand six hundred and fifty. Texas state income tax: zero. What is left is about seventy eight thousand eight hundred a year, six thousand five hundred and sixty one a month, or three thousand and twenty eight dollars on a bi weekly paycheck. The salary after tax calculator at US Money HQ runs your number in all fifty states, free.",
+    },
+    {
+        "id": "mortgage-400k",
+        "title": "The $400,000 mortgage payment",
+        "script": "A four hundred thousand dollar home with twenty percent down is a three hundred and twenty thousand dollar loan. At six and a half percent for thirty years, the payment is two thousand and twenty two dollars a month. Principal and interest only, before taxes and insurance. Over the full thirty years, you pay four hundred and eight thousand dollars in interest. More than the loan itself. The mortgage calculator at US Money HQ shows the monthly payment and the full amortization schedule. Free, no sign up.",
+    },
 ]
 
 

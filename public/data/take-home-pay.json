@@ -1,0 +1,511 @@
+{
+ "generated": "2026-09-10T12:33:26.134334",
+ "salaries": [
+  60000,
+  100000,
+  150000
+ ],
+ "methodology_url": "https://usmoneyhq.com/methodology",
+ "metros": [
+  {
+   "metro": "Dallas",
+   "state": "Texas",
+   "net_60000": 50248,
+   "eff_rate_60000": 16.3,
+   "net_100000": 78736,
+   "eff_rate_100000": 21.3,
+   "net_150000": 113278,
+   "eff_rate_150000": 24.5
+  },
+  {
+   "metro": "Houston",
+   "state": "Texas",
+   "net_60000": 50248,
+   "eff_rate_60000": 16.3,
+   "net_100000": 78736,
+   "eff_rate_100000": 21.3,
+   "net_150000": 113278,
+   "eff_rate_150000": 24.5
+  },
+  {
+   "metro": "Miami",
+   "state": "Florida",
+   "net_60000": 50248,
+   "eff_rate_60000": 16.3,
+   "net_100000": 78736,
+   "eff_rate_100000": 21.3,
+   "net_150000": 113278,
+   "eff_rate_150000": 24.5
+  },
+  {
+   "metro": "Seattle",
+   "state": "Washington",
+   "net_60000": 50248,
+   "eff_rate_60000": 16.3,
+   "net_100000": 78736,
+   "eff_rate_100000": 21.3,
+   "net_150000": 113278,
+   "eff_rate_150000": 24.5
+  },
+  {
+   "metro": "Tampa",
+   "state": "Florida",
+   "net_60000": 50248,
+   "eff_rate_60000": 16.3,
+   "net_100000": 78736,
+   "eff_rate_100000": 21.3,
+   "net_150000": 113278,
+   "eff_rate_150000": 24.5
+  },
+  {
+   "metro": "Orlando",
+   "state": "Florida",
+   "net_60000": 50248,
+   "eff_rate_60000": 16.3,
+   "net_100000": 78736,
+   "eff_rate_100000": 21.3,
+   "net_150000": 113278,
+   "eff_rate_150000": 24.5
+  },
+  {
+   "metro": "San Antonio",
+   "state": "Texas",
+   "net_60000": 50248,
+   "eff_rate_60000": 16.3,
+   "net_100000": 78736,
+   "eff_rate_100000": 21.3,
+   "net_150000": 113278,
+   "eff_rate_150000": 24.5
+  },
+  {
+   "metro": "Austin",
+   "state": "Texas",
+   "net_60000": 50248,
+   "eff_rate_60000": 16.3,
+   "net_100000": 78736,
+   "eff_rate_100000": 21.3,
+   "net_150000": 113278,
+   "eff_rate_150000": 24.5
+  },
+  {
+   "metro": "Las Vegas",
+   "state": "Nevada",
+   "net_60000": 50248,
+   "eff_rate_60000": 16.3,
+   "net_100000": 78736,
+   "eff_rate_100000": 21.3,
+   "net_150000": 113278,
+   "eff_rate_150000": 24.5
+  },
+  {
+   "metro": "Nashville",
+   "state": "Tennessee",
+   "net_60000": 50248,
+   "eff_rate_60000": 16.3,
+   "net_100000": 78736,
+   "eff_rate_100000": 21.3,
+   "net_150000": 113278,
+   "eff_rate_150000": 24.5
+  },
+  {
+   "metro": "Jacksonville",
+   "state": "Florida",
+   "net_60000": 50248,
+   "eff_rate_60000": 16.3,
+   "net_100000": 78736,
+   "eff_rate_100000": 21.3,
+   "net_150000": 113278,
+   "eff_rate_150000": 24.5
+  },
+  {
+   "metro": "Memphis",
+   "state": "Tennessee",
+   "net_60000": 50248,
+   "eff_rate_60000": 16.3,
+   "net_100000": 78736,
+   "eff_rate_100000": 21.3,
+   "net_150000": 113278,
+   "eff_rate_150000": 24.5
+  },
+  {
+   "metro": "Phoenix",
+   "state": "Arizona",
+   "net_60000": 48748,
+   "eff_rate_60000": 18.8,
+   "net_100000": 76236,
+   "eff_rate_100000": 23.8,
+   "net_150000": 109528,
+   "eff_rate_150000": 27.0
+  },
+  {
+   "metro": "Indianapolis",
+   "state": "Indiana",
+   "net_60000": 48448,
+   "eff_rate_60000": 19.3,
+   "net_100000": 75736,
+   "eff_rate_100000": 24.3,
+   "net_150000": 108778,
+   "eff_rate_150000": 27.5
+  },
+  {
+   "metro": "New Orleans",
+   "state": "Louisiana",
+   "net_60000": 48448,
+   "eff_rate_60000": 19.3,
+   "net_100000": 75736,
+   "eff_rate_100000": 24.3,
+   "net_150000": 108778,
+   "eff_rate_150000": 27.5
+  },
+  {
+   "metro": "Philadelphia",
+   "state": "Pennsylvania",
+   "net_60000": 48406,
+   "eff_rate_60000": 19.3,
+   "net_100000": 75666,
+   "eff_rate_100000": 24.3,
+   "net_150000": 108673,
+   "eff_rate_150000": 27.6
+  },
+  {
+   "metro": "Pittsburgh",
+   "state": "Pennsylvania",
+   "net_60000": 48406,
+   "eff_rate_60000": 19.3,
+   "net_100000": 75666,
+   "eff_rate_100000": 24.3,
+   "net_150000": 108673,
+   "eff_rate_150000": 27.6
+  },
+  {
+   "metro": "Cincinnati",
+   "state": "Ohio",
+   "net_60000": 48148,
+   "eff_rate_60000": 19.8,
+   "net_100000": 75236,
+   "eff_rate_100000": 24.8,
+   "net_150000": 108028,
+   "eff_rate_150000": 28.0
+  },
+  {
+   "metro": "Columbus",
+   "state": "Ohio",
+   "net_60000": 48148,
+   "eff_rate_60000": 19.8,
+   "net_100000": 75236,
+   "eff_rate_100000": 24.8,
+   "net_150000": 108028,
+   "eff_rate_150000": 28.0
+  },
+  {
+   "metro": "Cleveland",
+   "state": "Ohio",
+   "net_60000": 48148,
+   "eff_rate_60000": 19.8,
+   "net_100000": 75236,
+   "eff_rate_100000": 24.8,
+   "net_150000": 108028,
+   "eff_rate_150000": 28.0
+  },
+  {
+   "metro": "St Louis",
+   "state": "Missouri",
+   "net_60000": 47848,
+   "eff_rate_60000": 20.3,
+   "net_100000": 74736,
+   "eff_rate_100000": 25.3,
+   "net_150000": 107278,
+   "eff_rate_150000": 28.5
+  },
+  {
+   "metro": "Kansas City",
+   "state": "Missouri",
+   "net_60000": 47848,
+   "eff_rate_60000": 20.3,
+   "net_100000": 74736,
+   "eff_rate_100000": 25.3,
+   "net_150000": 107278,
+   "eff_rate_150000": 28.5
+  },
+  {
+   "metro": "Louisville",
+   "state": "Kentucky",
+   "net_60000": 47848,
+   "eff_rate_60000": 20.3,
+   "net_100000": 74736,
+   "eff_rate_100000": 25.3,
+   "net_150000": 107278,
+   "eff_rate_150000": 28.5
+  },
+  {
+   "metro": "Detroit",
+   "state": "Michigan",
+   "net_60000": 47698,
+   "eff_rate_60000": 20.5,
+   "net_100000": 74486,
+   "eff_rate_100000": 25.5,
+   "net_150000": 106903,
+   "eff_rate_150000": 28.7
+  },
+  {
+   "metro": "Charlotte",
+   "state": "North Carolina",
+   "net_60000": 47698,
+   "eff_rate_60000": 20.5,
+   "net_100000": 74486,
+   "eff_rate_100000": 25.5,
+   "net_150000": 106903,
+   "eff_rate_150000": 28.7
+  },
+  {
+   "metro": "Raleigh",
+   "state": "North Carolina",
+   "net_60000": 47698,
+   "eff_rate_60000": 20.5,
+   "net_100000": 74486,
+   "eff_rate_100000": 25.5,
+   "net_150000": 106903,
+   "eff_rate_150000": 28.7
+  },
+  {
+   "metro": "Denver",
+   "state": "Colorado",
+   "net_60000": 47608,
+   "eff_rate_60000": 20.7,
+   "net_100000": 74336,
+   "eff_rate_100000": 25.7,
+   "net_150000": 106678,
+   "eff_rate_150000": 28.9
+  },
+  {
+   "metro": "Oklahoma City",
+   "state": "Oklahoma",
+   "net_60000": 47548,
+   "eff_rate_60000": 20.8,
+   "net_100000": 74236,
+   "eff_rate_100000": 25.8,
+   "net_150000": 106528,
+   "eff_rate_150000": 29.0
+  },
+  {
+   "metro": "Birmingham",
+   "state": "Alabama",
+   "net_60000": 47548,
+   "eff_rate_60000": 20.8,
+   "net_100000": 74236,
+   "eff_rate_100000": 25.8,
+   "net_150000": 106528,
+   "eff_rate_150000": 29.0
+  },
+  {
+   "metro": "Salt Lake City",
+   "state": "Utah",
+   "net_60000": 47548,
+   "eff_rate_60000": 20.8,
+   "net_100000": 74236,
+   "eff_rate_100000": 25.8,
+   "net_150000": 106528,
+   "eff_rate_150000": 29.0
+  },
+  {
+   "metro": "Chicago",
+   "state": "Illinois",
+   "net_60000": 47278,
+   "eff_rate_60000": 21.2,
+   "net_100000": 73786,
+   "eff_rate_100000": 26.2,
+   "net_150000": 105853,
+   "eff_rate_150000": 29.4
+  },
+  {
+   "metro": "Atlanta",
+   "state": "Georgia",
+   "net_60000": 47248,
+   "eff_rate_60000": 21.3,
+   "net_100000": 73736,
+   "eff_rate_100000": 26.3,
+   "net_150000": 105778,
+   "eff_rate_150000": 29.5
+  },
+  {
+   "metro": "Boston",
+   "state": "Massachusetts",
+   "net_60000": 47248,
+   "eff_rate_60000": 21.3,
+   "net_100000": 73736,
+   "eff_rate_100000": 26.3,
+   "net_150000": 105778,
+   "eff_rate_150000": 29.5
+  },
+  {
+   "metro": "Baltimore",
+   "state": "Maryland",
+   "net_60000": 47248,
+   "eff_rate_60000": 21.3,
+   "net_100000": 73736,
+   "eff_rate_100000": 26.3,
+   "net_150000": 105778,
+   "eff_rate_150000": 29.5
+  },
+  {
+   "metro": "Virginia Beach",
+   "state": "Virginia",
+   "net_60000": 47248,
+   "eff_rate_60000": 21.3,
+   "net_100000": 73736,
+   "eff_rate_100000": 26.3,
+   "net_150000": 105778,
+   "eff_rate_150000": 29.5
+  },
+  {
+   "metro": "Providence",
+   "state": "Rhode Island",
+   "net_60000": 47248,
+   "eff_rate_60000": 21.3,
+   "net_100000": 73736,
+   "eff_rate_100000": 26.3,
+   "net_150000": 105778,
+   "eff_rate_150000": 29.5
+  },
+  {
+   "metro": "Richmond",
+   "state": "Virginia",
+   "net_60000": 47248,
+   "eff_rate_60000": 21.3,
+   "net_100000": 73736,
+   "eff_rate_100000": 26.3,
+   "net_150000": 105778,
+   "eff_rate_150000": 29.5
+  },
+  {
+   "metro": "Hartford",
+   "state": "Connecticut",
+   "net_60000": 47248,
+   "eff_rate_60000": 21.3,
+   "net_100000": 73736,
+   "eff_rate_100000": 26.3,
+   "net_150000": 105778,
+   "eff_rate_150000": 29.5
+  },
+  {
+   "metro": "Milwaukee",
+   "state": "Wisconsin",
+   "net_60000": 47068,
+   "eff_rate_60000": 21.6,
+   "net_100000": 73436,
+   "eff_rate_100000": 26.6,
+   "net_150000": 105328,
+   "eff_rate_150000": 29.8
+  },
+  {
+   "metro": "New York",
+   "state": "New York",
+   "net_60000": 46348,
+   "eff_rate_60000": 22.8,
+   "net_100000": 72236,
+   "eff_rate_100000": 27.8,
+   "net_150000": 103528,
+   "eff_rate_150000": 31.0
+  },
+  {
+   "metro": "Buffalo",
+   "state": "New York",
+   "net_60000": 46348,
+   "eff_rate_60000": 22.8,
+   "net_100000": 72236,
+   "eff_rate_100000": 27.8,
+   "net_150000": 103528,
+   "eff_rate_150000": 31.0
+  },
+  {
+   "metro": "Minneapolis",
+   "state": "Minnesota",
+   "net_60000": 46168,
+   "eff_rate_60000": 23.1,
+   "net_100000": 71936,
+   "eff_rate_100000": 28.1,
+   "net_150000": 103078,
+   "eff_rate_150000": 31.3
+  },
+  {
+   "metro": "Los Angeles",
+   "state": "California",
+   "net_60000": 45448,
+   "eff_rate_60000": 24.3,
+   "net_100000": 70736,
+   "eff_rate_100000": 29.3,
+   "net_150000": 101278,
+   "eff_rate_150000": 32.5
+  },
+  {
+   "metro": "San Francisco",
+   "state": "California",
+   "net_60000": 45448,
+   "eff_rate_60000": 24.3,
+   "net_100000": 70736,
+   "eff_rate_100000": 29.3,
+   "net_150000": 101278,
+   "eff_rate_150000": 32.5
+  },
+  {
+   "metro": "Riverside",
+   "state": "California",
+   "net_60000": 45448,
+   "eff_rate_60000": 24.3,
+   "net_100000": 70736,
+   "eff_rate_100000": 29.3,
+   "net_150000": 101278,
+   "eff_rate_150000": 32.5
+  },
+  {
+   "metro": "San Diego",
+   "state": "California",
+   "net_60000": 45448,
+   "eff_rate_60000": 24.3,
+   "net_100000": 70736,
+   "eff_rate_100000": 29.3,
+   "net_150000": 101278,
+   "eff_rate_150000": 32.5
+  },
+  {
+   "metro": "Sacramento",
+   "state": "California",
+   "net_60000": 45448,
+   "eff_rate_60000": 24.3,
+   "net_100000": 70736,
+   "eff_rate_100000": 29.3,
+   "net_150000": 101278,
+   "eff_rate_150000": 32.5
+  },
+  {
+   "metro": "San Jose",
+   "state": "California",
+   "net_60000": 45448,
+   "eff_rate_60000": 24.3,
+   "net_100000": 70736,
+   "eff_rate_100000": 29.3,
+   "net_150000": 101278,
+   "eff_rate_150000": 32.5
+  },
+  {
+   "metro": "Washington Dc",
+   "state": "District Of Columbia",
+   "net_60000": 45148,
+   "eff_rate_60000": 24.8,
+   "net_100000": 70236,
+   "eff_rate_100000": 29.8,
+   "net_150000": 100528,
+   "eff_rate_150000": 33.0
+  },
+  {
+   "metro": "Portland",
+   "state": "Oregon",
+   "net_60000": 45148,
+   "eff_rate_60000": 24.8,
+   "net_100000": 70236,
+   "eff_rate_100000": 29.8,
+   "net_150000": 100528,
+   "eff_rate_150000": 33.0
+  }
+ ]
+}

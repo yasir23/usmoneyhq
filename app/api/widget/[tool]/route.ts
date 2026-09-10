@@ -74,7 +74,7 @@ export async function GET(_req: NextRequest, { params }: { params: { tool: strin
   </form>
   <div class="umhq-err" role="alert"></div>
   <div class="umhq-results" aria-live="polite"></div>
-  <div class="umhq-foot"><a href="${SITE_URL}/${esc(slug)}" target="_blank" rel="noopener nofollow">Powered by US Money HQ — free ${esc(tool.shortTitle)}</a></div>
+  <div class="umhq-foot"><a href="${SITE_URL}/${esc(slug)}" target="_blank" rel="noopener">Powered by US Money HQ</a></div>
 </div>`;
 
   const js = `(function(){
