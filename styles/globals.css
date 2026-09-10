@@ -36,12 +36,19 @@
 
 html {
   -webkit-text-size-adjust: 100%;
-  /* Site renders at what used to require 150% browser zoom: the root is 150%
-     of the browser default (16px -> 24px), and because every type size in this
-     stylesheet is expressed in rem, all text scales with it. Using a percentage
-     (not a px value) means a visitor who has set a larger default still gets
-     their preference honoured on top. */
-  font-size: 150%;
+  /* Mobile-first base: 112.5% (18px) — comfortable on a phone at 100% zoom,
+     where 24px would be oversized. */
+  font-size: 112.5%;
+}
+
+/* Desktop / tablet: render at 150% (16px -> 24px) so visitors never have to
+   zoom in to read the site. Every type size in this stylesheet is expressed in
+   rem, so all text scales from this single value; using a percentage rather
+   than a fixed px still honours a visitor's own larger browser font setting. */
+@media (min-width: 768px) {
+  html {
+    font-size: 150%;
+  }
 }
 
 body {
