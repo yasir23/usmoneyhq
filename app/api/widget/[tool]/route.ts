@@ -64,6 +64,13 @@ export async function GET(_req: NextRequest, { params }: { params: { tool: strin
     .umhq-foot a{font-size:11px;color:#6b7280;text-decoration:none}
     .umhq-foot a:hover{color:#2563eb;text-decoration:underline}
     .umhq-err{color:#dc2626;font-size:13px;margin-top:10px;display:none}
+    @media (max-width:480px){
+      .umhq-widget{padding:12px}
+      .umhq-widget h3{font-size:15px;margin-bottom:8px}
+      .umhq-actions{flex-direction:column}
+      .umhq-btn{width:100%}
+      .umhq-row{font-size:13px}
+    }
   </style>
   <h3>${esc(tool.h1)}</h3>
   <form class="umhq-form" onsubmit="return false">${fields}
