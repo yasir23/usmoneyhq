@@ -36,11 +36,12 @@
 
 html {
   -webkit-text-size-adjust: 100%;
-  /* Root-driven scale: every rem in the stylesheet is relative to <html>, so
-     raising it here lifts ALL type at once. 106.25% = 17px at the browser
-     default, and because it is a percentage it still honours a user who has
-     set a larger default font size (an absolute px value would override them). */
-  font-size: 106.25%;
+  /* Site renders at what used to require 150% browser zoom: the root is 150%
+     of the browser default (16px -> 24px), and because every type size in this
+     stylesheet is expressed in rem, all text scales with it. Using a percentage
+     (not a px value) means a visitor who has set a larger default still gets
+     their preference honoured on top. */
+  font-size: 150%;
 }
 
 body {
@@ -61,9 +62,11 @@ a:hover {
 }
 
 .container {
-  max-width: 70rem;
+  /* 48rem = 1152px at the 150% root below. Keeps the line measure readable
+     (~65-75 characters) at 24px type, which is what 150% browser zoom gave. */
+  max-width: 48rem;
   margin: 0 auto;
-  padding: 24px 16px 72px;
+  padding: 1rem 1rem 3rem;
 }
 
 h1 {
