@@ -11,6 +11,8 @@
 Usage:
     python3 scripts/page_audit.py                       # against the live site
     python3 scripts/page_audit.py http://localhost:3999 # against a local build
+    python3 scripts/page_audit.py --sitemap             # every URL in sitemap.xml
+    python3 scripts/page_audit.py --sitemap http://localhost:3999
 
 Exit code 1 if anything is found, so it can gate a push.
 """
@@ -20,7 +22,9 @@ import urllib.error
 import urllib.request
 from concurrent.futures import ThreadPoolExecutor
 
-BASE = (sys.argv[1] if len(sys.argv) > 1 else "https://usmoneyhq.com").rstrip("/")
+args = [a for a in sys.argv[1:] if not a.startswith("--")]
+FULL_SITEMAP = "--sitemap" in sys.argv
+BASE = (args[0] if args else "https://usmoneyhq.com").rstrip("/")
 UA = "Mozilla/5.0 (compatible; usmoneyhq-page-audit/1.0)"
 
 
@@ -57,17 +61,36 @@ def audit(path):
     return problems
 
 
-def main():
-    _, home = fetch("/")
-    slugs = sorted(set(re.findall(r'href="/([a-z0-9-]+)"', home)))
-    skip = {"", "blog", "guides", "about", "contact", "privacy", "privacy-policy",
-            "terms", "widgets", "developers", "methodology", "premium"}
-    pages = [f"/{s}" for s in slugs if s not in skip]
+def sitemap_paths():
+    """Every path in /sitemap.xml, rewritten relative to BASE (so the same list
+    works against localhost and production)."""
+    _, xml = fetch("/sitemap.xml")
+    locs = re.findall(r"<loc>\s*([^<\s]+)\s*</loc>", xml)
+    out = []
+    for u in locs:
+        m = re.match(r"^https?://[^/]+(/.*)?$", u)
+        path = (m.group(1) or "/") if m else u
+        out.append(path)
+    return out
 
-    # variant shapes worth probing on every tool: valid + intentionally invalid
-    for s in list(pages):
-        pages += [f"{s}/california", f"{s}/texas-vs-florida", f"{s}/houston-texas",
-                  f"{s}/75000", f"{s}/75000/california", f"{s}/notastate"]
+
+def main():
+    if FULL_SITEMAP:
+        pages = sitemap_paths()
+        if not pages:
+            print("sitemap.xml returned no <loc> entries — check the fetch")
+            return 1
+    else:
+        _, home = fetch("/")
+        slugs = sorted(set(re.findall(r'href="/([a-z0-9-]+)"', home)))
+        skip = {"", "blog", "guides", "about", "contact", "privacy", "privacy-policy",
+                "terms", "widgets", "developers", "methodology", "premium"}
+        pages = [f"/{s}" for s in slugs if s not in skip]
+
+        # variant shapes worth probing on every tool: valid + intentionally invalid
+        for s in list(pages):
+            pages += [f"{s}/california", f"{s}/texas-vs-florida", f"{s}/houston-texas",
+                      f"{s}/75000", f"{s}/75000/california", f"{s}/notastate"]
 
     seen = set()
     pages = [p for p in pages if not (p in seen or seen.add(p))]
