@@ -25,7 +25,11 @@ export async function getServerSideProps({ params, req }) {
   if (segs.length === 1) {
     const s = segs[0];
     if (s.includes("-vs-")) {
-      if (!getComparisonPair(s)) return { notFound: true };
+      // Comparison pairs only exist for state-aware tools. Without the
+      // STATE_AWARE_TOOLS check a pair URL on any other tool passed validation
+      // and rendered the shell's NotFoundShell with HTTP 200 — a soft 404
+      // (e.g. /net-worth-calculator/texas-vs-florida).
+      if (!STATE_AWARE_TOOLS.includes(slug) || !getComparisonPair(s)) return { notFound: true };
       return { props: { slug, stateSlug: s, country } };
     }
     if (amountFromSlug(s) !== undefined) {

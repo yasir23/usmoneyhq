@@ -4,7 +4,7 @@ import { useMemo, useState } from "react";
 import Link from "next/link";
 import type { ToolDef } from "../lib/tools";
 
-export default function ToolClient({ tool, initialValues, showFaq = true }: { tool: ToolDef; initialValues?: Record<string, number | string>; showFaq?: boolean }) {
+export default function ToolClient({ tool, initialValues, showFaq = true, showRelated = true }: { tool: ToolDef; initialValues?: Record<string, number | string>; showFaq?: boolean; showRelated?: boolean }) {
   const [values, setValues] = useState<Record<string, number | string>>(() => {
     const init: Record<string, number | string> = {};
     for (const f of tool.fields) init[f.key] = f.default;
@@ -75,7 +75,7 @@ export default function ToolClient({ tool, initialValues, showFaq = true }: { to
             ))}
           </>
         )}
-        {tool.related.length > 0 && (
+        {showRelated && tool.related.length > 0 && (
           <>
             <h2>Related Calculators</h2>
             <div className="tool-grid">

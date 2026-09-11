@@ -146,6 +146,11 @@ export default function ToolPageShell({ slug, stateSlug, amountSlug, metroSlug, 
 
   const amountLinks = amtTool ? (allowedAmounts(slug) || []) : [];
   const ageLinks = ageTool ? (allowedAges(slug) || []) : [];
+  // State-aware siblings NOT already linked by the related-tools grid — keeps
+  // every internal link on the page unique (this grid and RelatedTools both
+  // point at /{tool}/{state} URLs for state-aware tools).
+  const relatedMembers = relatedMembersFor(slug);
+  const stateExtras = STATE_AWARE_TOOLS.filter((t) => t !== slug && !relatedMembers.includes(t));
 
   return (
     <>
@@ -212,7 +217,7 @@ export default function ToolPageShell({ slug, stateSlug, amountSlug, metroSlug, 
           </div>
         )}
 
-        {!pair && <ToolClient tool={tool} initialValues={initialValues} showFaq={false} />}
+        {!pair && <ToolClient tool={tool} initialValues={initialValues} showFaq={false} showRelated={false} />}
 
         {amountLinks.length > 0 && !pair && (
           <div className="state-links card">
@@ -241,7 +246,7 @@ export default function ToolPageShell({ slug, stateSlug, amountSlug, metroSlug, 
             {[pair[0], pair[1]].map((s) => (
               <div key={s.slug}>
                 <h2 className="compare-subhead">{s.name}</h2>
-                <ToolClient tool={tool} initialValues={{ state: s.abbr }} showFaq={false} />
+                <ToolClient tool={tool} initialValues={{ state: s.abbr }} showFaq={false} showRelated={false} />
               </div>
             ))}
           </div>
@@ -264,19 +269,23 @@ export default function ToolPageShell({ slug, stateSlug, amountSlug, metroSlug, 
           <div className="seo">
             <h2>{state.name}-specific notes for this calculator</h2>
             <p>{state.name} has {state.incomeTaxNote.toLowerCase()} and an average effective property tax rate of {state.propTaxPct}% of home value (combined sales tax ~{state.salesTax}%). Use the numbers above as a starting point — local county rates and exemptions can change the real figures.</p>
-            <h3>More {state.name} calculators</h3>
-            <div className="tool-grid">
-              {STATE_AWARE_TOOLS.filter((t) => t !== slug).map((t) => {
-                const tt = getTool(t);
-                if (!tt) return null;
-                return (
-                  <Link key={t} href={`/${t}/${state.slug}`} className="tool-card">
-                    <h3>{state.name} {tt.shortTitle}</h3>
-                    <span className="cta">Open calculator →</span>
-                  </Link>
-                );
-              })}
-            </div>
+            {stateExtras.length > 0 && (
+              <>
+                <h3>More {state.name} calculators</h3>
+                <div className="tool-grid">
+                  {stateExtras.map((t) => {
+                    const tt = getTool(t);
+                    if (!tt) return null;
+                    return (
+                      <Link key={t} href={`/${t}/${state.slug}`} className="tool-card">
+                        <h3>{state.name} {tt.shortTitle}</h3>
+                        <span className="cta">Open calculator →</span>
+                      </Link>
+                    );
+                  })}
+                </div>
+              </>
+            )}
           </div>
         )}
 
@@ -295,7 +304,7 @@ export default function ToolPageShell({ slug, stateSlug, amountSlug, metroSlug, 
 
         <AdSlot id={`${tool.slug}-${pair ? "compare-bottom" : state?.slug || "bottom"}`} />
 
-        <RelatedCluster current={slug} stateSlug={state?.slug} />
+        <RelatedTools current={slug} stateSlug={state?.slug} />
 
         {isUS && <AffiliateBlock slug={slug} isUS />}
 
@@ -347,26 +356,49 @@ function VariantTLDR({ slug, state, amount, amountKind, age, ageTool }: { slug: 
   return null;
 }
 
-function RelatedCluster({ current, stateSlug }: { current: string; stateSlug?: string }) {
-  const CLUSTERS: Record<string, { label: string; tools: string[] }> = {
-    home: { label: "Home buying", tools: ["mortgage-calculator", "home-affordability-calculator", "pmi-calculator", "property-tax-calculator", "dti-calculator", "refinance-calculator", "heloc-calculator", "closing-costs-calculator", "home-equity-calculator"] },
-    income: { label: "Income & taxes", tools: ["salary-after-tax-calculator", "paycheck-calculator", "hourly-to-salary-calculator", "salary-to-hourly-calculator", "tax-calculator", "tax-bracket-calculator", "overtime-calculator"] },
-    debt: { label: "Debt & loans", tools: ["debt-payoff-calculator", "credit-card-payoff-calculator", "dti-calculator", "loan-calculator", "auto-loan-calculator", "student-loan-calculator", "debt-snowball-calculator"] },
-    wealth: { label: "Investing & retirement", tools: ["retirement-calculator", "401k-calculator", "compound-interest-calculator", "investment-calculator", "savings-goal-calculator", "inflation-calculator", "rmd-calculator", "net-worth-calculator"] },
-    improve: { label: "Home improvement", tools: ["concrete-calculator", "paint-calculator", "drywall-calculator", "tile-calculator", "mulch-calculator", "carpet-calculator", "home-remodel-cost-calculator", "square-footage-calculator"] },
+const RELATED_CLUSTERS: Record<string, { label: string; tools: string[] }> = {
+  home: { label: "Home buying", tools: ["mortgage-calculator", "home-affordability-calculator", "pmi-calculator", "property-tax-calculator", "dti-calculator", "refinance-calculator", "heloc-calculator", "closing-costs-calculator", "home-equity-calculator"] },
+  income: { label: "Income & taxes", tools: ["salary-after-tax-calculator", "paycheck-calculator", "hourly-to-salary-calculator", "salary-to-hourly-calculator", "tax-calculator", "tax-bracket-calculator", "overtime-calculator"] },
+  debt: { label: "Debt & loans", tools: ["debt-payoff-calculator", "credit-card-payoff-calculator", "dti-calculator", "loan-calculator", "auto-loan-calculator", "student-loan-calculator", "debt-snowball-calculator"] },
+  wealth: { label: "Investing & retirement", tools: ["retirement-calculator", "401k-calculator", "compound-interest-calculator", "investment-calculator", "savings-goal-calculator", "inflation-calculator", "rmd-calculator", "net-worth-calculator"] },
+  improve: { label: "Home improvement", tools: ["concrete-calculator", "paint-calculator", "drywall-calculator", "tile-calculator", "mulch-calculator", "carpet-calculator", "home-remodel-cost-calculator", "square-footage-calculator"] },
+};
+
+function clusterKeyFor(slug: string): string | null {
+  for (const [key, cl] of Object.entries(RELATED_CLUSTERS)) {
+    if (cl.tools.includes(slug)) return key;
+  }
+  return null;
+}
+
+/**
+ * THE single source of related-tool links for a page.
+ *
+ * Cluster siblings first (curated topical context), then the tool's own
+ * registry `related[]`, deduped and never including the current slug. Every
+ * internal-link block on a tool page derives from this list so the same tool is
+ * never linked twice on one URL — before this existed, ToolClient's "Related
+ * Calculators" grid and the shell's cluster grid both rendered and repeated the
+ * same four tools on every page.
+ */
+export function relatedMembersFor(slug: string): string[] {
+  const key = clusterKeyFor(slug);
+  const out: string[] = [];
+  const add = (t: string) => {
+    if (t !== slug && !out.includes(t) && getTool(t)) out.push(t);
   };
-  const findCluster = (slug: string): string | null => {
-    for (const [key, cl] of Object.entries(CLUSTERS)) {
-      if (cl.tools.includes(slug)) return key;
-    }
-    return null;
-  };
-  const key = findCluster(current);
-  if (!key) return null;
-  const members = CLUSTERS[key].tools.filter((t) => t !== current);
+  if (key) RELATED_CLUSTERS[key].tools.forEach(add);
+  (getTool(slug)?.related || []).forEach(add);
+  return out;
+}
+
+function RelatedTools({ current, stateSlug }: { current: string; stateSlug?: string }) {
+  const members = relatedMembersFor(current);
+  if (members.length === 0) return null;
+  const key = clusterKeyFor(current);
   return (
     <div className="seo">
-      <h2>Related {CLUSTERS[key].label} tools</h2>
+      <h2>{key ? `Related ${RELATED_CLUSTERS[key].label} tools` : "Related Calculators"}</h2>
       <div className="tool-grid">
         {members.map((t) => {
           const tt = getTool(t);
