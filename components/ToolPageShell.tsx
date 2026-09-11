@@ -212,7 +212,7 @@ export default function ToolPageShell({ slug, stateSlug, amountSlug, metroSlug, 
           </div>
         )}
 
-        {!pair && <ToolClient tool={tool} initialValues={initialValues} />}
+        {!pair && <ToolClient tool={tool} initialValues={initialValues} showFaq={false} />}
 
         {amountLinks.length > 0 && !pair && (
           <div className="state-links card">
@@ -241,7 +241,7 @@ export default function ToolPageShell({ slug, stateSlug, amountSlug, metroSlug, 
             {[pair[0], pair[1]].map((s) => (
               <div key={s.slug}>
                 <h2 className="compare-subhead">{s.name}</h2>
-                <ToolClient tool={tool} initialValues={{ state: s.abbr }} />
+                <ToolClient tool={tool} initialValues={{ state: s.abbr }} showFaq={false} />
               </div>
             ))}
           </div>
@@ -283,7 +283,7 @@ export default function ToolPageShell({ slug, stateSlug, amountSlug, metroSlug, 
         {/* Visible FAQ — AEO: real Q&A blocks matching the FAQPage schema */}
         {tool.faq && tool.faq.length > 0 && (
           <div className="seo" style={{ marginTop: 24 }}>
-            <h2>Frequently asked questions</h2>
+            <h2>Frequently Asked Questions</h2>
             {tool.faq.map((f, idx) => (
               <div key={idx} style={{ marginBottom: 14 }}>
                 <h3 style={{ marginBottom: 4 }}>{f.q}</h3>

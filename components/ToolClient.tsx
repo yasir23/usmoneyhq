@@ -4,7 +4,7 @@ import { useMemo, useState } from "react";
 import Link from "next/link";
 import type { ToolDef } from "../lib/tools";
 
-export default function ToolClient({ tool, initialValues }: { tool: ToolDef; initialValues?: Record<string, number | string> }) {
+export default function ToolClient({ tool, initialValues, showFaq = true }: { tool: ToolDef; initialValues?: Record<string, number | string>; showFaq?: boolean }) {
   const [values, setValues] = useState<Record<string, number | string>>(() => {
     const init: Record<string, number | string> = {};
     for (const f of tool.fields) init[f.key] = f.default;
@@ -64,7 +64,7 @@ export default function ToolClient({ tool, initialValues }: { tool: ToolDef; ini
       </div>
 
       <div className="seo">
-        {tool.faq.length > 0 && (
+        {showFaq && tool.faq.length > 0 && (
           <>
             <h2>Frequently Asked Questions</h2>
             {tool.faq.map((f) => (
