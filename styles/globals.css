@@ -587,6 +587,8 @@ thead th {
 /* ---------- homepage categories ---------- */
 .cat-section { margin: 28px 0; }
 .cat-title { font-size: 1.375rem; margin: 0 0 12px; padding-bottom: 8px; border-bottom: 2px solid #e2e8f0; }
+.cat-title a { color: inherit; }
+.cat-title a:hover { text-decoration: underline; }
 
 /* ---------- homepage search ---------- */
 .search-bar { margin: 16px 0 8px; }

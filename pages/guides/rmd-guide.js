@@ -33,7 +33,7 @@ export default function RmdGuide() {
           <h2>Your distribution</h2>
         </div>
 
-        {tool && <ToolClient tool={tool} showFaq={false} />}
+        {tool && <ToolClient tool={tool} showFaq={false} excludeRelated={["retirement-calculator", "401k-calculator", "social-security-calculator"]} />}
 
         <GuideFaq slug="rmd-guide" />
 

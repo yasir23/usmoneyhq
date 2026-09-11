@@ -4,7 +4,7 @@ import { useMemo, useState } from "react";
 import Link from "next/link";
 import type { ToolDef } from "../lib/tools";
 
-export default function ToolClient({ tool, initialValues, showFaq = true, showRelated = true }: { tool: ToolDef; initialValues?: Record<string, number | string>; showFaq?: boolean; showRelated?: boolean }) {
+export default function ToolClient({ tool, initialValues, showFaq = true, showRelated = true, excludeRelated = [] }: { tool: ToolDef; initialValues?: Record<string, number | string>; showFaq?: boolean; showRelated?: boolean; excludeRelated?: string[] }) {
   const [values, setValues] = useState<Record<string, number | string>>(() => {
     const init: Record<string, number | string> = {};
     for (const f of tool.fields) init[f.key] = f.default;
@@ -19,6 +19,11 @@ export default function ToolClient({ tool, initialValues, showFaq = true, showRe
   const results = useMemo(() => tool.compute(values), [tool, values]);
 
   const set = (key: string, val: number | string) => setValues((p) => ({ ...p, [key]: val }));
+
+  // Guides link their own curated tool list in anchor text, so they pass those
+  // slugs in excludeRelated — one href per URL, and the remaining tool.related
+  // cards still get rendered instead of the whole grid being dropped.
+  const relatedShown = tool.related.filter((s) => !excludeRelated.includes(s));
 
   return (
     <>
@@ -75,11 +80,11 @@ export default function ToolClient({ tool, initialValues, showFaq = true, showRe
             ))}
           </>
         )}
-        {showRelated && tool.related.length > 0 && (
+        {showRelated && relatedShown.length > 0 && (
           <>
             <h2>Related Calculators</h2>
             <div className="tool-grid">
-              {tool.related.map((slug) => (
+              {relatedShown.map((slug) => (
                 <Link key={slug} href={`/${slug}`} className="tool-card">
                   <h3>{slug.replace(/-/g, " ")}</h3>
                   <span className="cta">Open calculator →</span>

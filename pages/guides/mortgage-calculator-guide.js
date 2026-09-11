@@ -38,7 +38,7 @@ export default function MortgageGuide() {
           <h2>Your payment, calculated</h2>
         </div>
 
-        {tool && <ToolClient tool={tool} showFaq={false} />}
+        {tool && <ToolClient tool={tool} showFaq={false} excludeRelated={["mortgage-points-calculator", "escrow-calculator", "refinance-calculator"]} />}
 
         <GuideFaq slug="mortgage-calculator-guide" />
 

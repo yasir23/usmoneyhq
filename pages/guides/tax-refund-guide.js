@@ -33,7 +33,7 @@ export default function TaxRefundGuide() {
           <h2>Estimate yours</h2>
         </div>
 
-        {tool && <ToolClient tool={tool} showFaq={false} />}
+        {tool && <ToolClient tool={tool} showFaq={false} excludeRelated={["tax-calculator", "tax-bracket-calculator", "salary-after-tax-calculator"]} />}
 
         <GuideFaq slug="tax-refund-guide" />
 

@@ -40,7 +40,7 @@ export default function HouseAffordabilityGuide() {
           <h2>Run your real numbers</h2>
         </div>
 
-        {tool && <ToolClient tool={tool} showFaq={false} />}
+        {tool && <ToolClient tool={tool} showFaq={false} excludeRelated={["mortgage-calculator", "dti-calculator", "pmi-calculator"]} />}
 
         <GuideFaq slug="how-much-house-can-i-afford" />
 

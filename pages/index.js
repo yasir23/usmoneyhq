@@ -70,7 +70,7 @@ export default function Home() {
         <div className="search-bar">
           <input
             type="search"
-            placeholder="Search 96 calculators — try 'mortgage', 'tax', 'bmi'…"
+            placeholder={`Search ${TOOLS.length} calculators — try 'mortgage', 'tax', 'bmi'…`}
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             aria-label="Search calculators"
@@ -80,8 +80,12 @@ export default function Home() {
 
         <nav className="cat-jump" aria-label="Categories">
           {grouped.map((c) => (
-            <section key={c.name} id={c.name.toLowerCase().replace(/[^a-z]+/g, "-")} className="cat-section">
-              <h2 className="cat-title">{c.name}</h2>
+            <section key={c.name} id={c.slug} className="cat-section">
+              {/* h2 links the category landing page — those pages were orphaned
+                  (sitemap-only, no internal links) before this */}
+              <h2 className="cat-title">
+                <Link href={`/calculators/${c.slug}`}>{c.name}</Link>
+              </h2>
               <div className="tool-grid">
                 {c.tools.map((t) => (
                   <Link key={t.slug} href={`/${t.slug}`} className="tool-card">

@@ -33,7 +33,7 @@ export default function InvestingGuide() {
           <h2>Your growth, modeled</h2>
         </div>
 
-        {tool && <ToolClient tool={tool} showFaq={false} />}
+        {tool && <ToolClient tool={tool} showFaq={false} excludeRelated={["compound-interest-calculator", "rule-of-72-calculator", "dividend-calculator"]} />}
 
         <GuideFaq slug="investing-basics-guide" />
 

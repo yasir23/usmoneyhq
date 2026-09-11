@@ -33,7 +33,7 @@ export default function College529Guide() {
           <h2>Your savings plan</h2>
         </div>
 
-        {tool && <ToolClient tool={tool} showFaq={false} />}
+        {tool && <ToolClient tool={tool} showFaq={false} excludeRelated={["investment-calculator", "compound-interest-calculator"]} />}
 
         <GuideFaq slug="529-guide" />
 

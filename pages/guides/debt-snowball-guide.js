@@ -33,7 +33,7 @@ export default function DebtSnowballGuide() {
           <h2>Your plan, calculated</h2>
         </div>
 
-        {tool && <ToolClient tool={tool} showFaq={false} />}
+        {tool && <ToolClient tool={tool} showFaq={false} excludeRelated={["debt-payoff-calculator", "credit-card-payoff-calculator", "budget-calculator"]} />}
 
         <GuideFaq slug="debt-snowball-guide" />
 

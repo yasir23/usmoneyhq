@@ -33,7 +33,7 @@ export default function Guide401k() {
           <h2>What your contributions grow to</h2>
         </div>
 
-        {tool && <ToolClient tool={tool} showFaq={false} />}
+        {tool && <ToolClient tool={tool} showFaq={false} excludeRelated={["retirement-calculator", "rmd-calculator", "investment-calculator"]} />}
 
         <GuideFaq slug="401k-guide" />
 

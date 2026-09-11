@@ -33,7 +33,7 @@ export default function HomeImprovementGuide() {
           <h2>Your remodel, priced</h2>
         </div>
 
-        {tool && <ToolClient tool={tool} showFaq={false} />}
+        {tool && <ToolClient tool={tool} showFaq={false} excludeRelated={["concrete-calculator", "tile-calculator", "paint-calculator", "mulch-calculator", "drywall-calculator"]} />}
 
         <GuideFaq slug="home-improvement-guide" />
 

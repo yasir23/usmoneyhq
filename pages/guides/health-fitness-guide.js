@@ -33,7 +33,7 @@ export default function HealthFitnessGuide() {
           <h2>Your daily numbers</h2>
         </div>
 
-        {tool && <ToolClient tool={tool} showFaq={false} />}
+        {tool && <ToolClient tool={tool} showFaq={false} excludeRelated={["bmi-calculator", "body-fat-calculator", "water-intake-calculator", "sleep-calculator", "calorie-deficit-calculator"]} />}
 
         <GuideFaq slug="health-fitness-guide" />
 

@@ -33,7 +33,7 @@ export default function SalaryTaxGuide() {
           <h2>Your take-home, by state</h2>
         </div>
 
-        {tool && <ToolClient tool={tool} showFaq={false} />}
+        {tool && <ToolClient tool={tool} showFaq={false} excludeRelated={["tax-bracket-calculator", "paycheck-calculator", "tax-refund-calculator"]} />}
 
         <GuideFaq slug="salary-after-tax-guide" />
 
