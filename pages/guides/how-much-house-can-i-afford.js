@@ -1,6 +1,7 @@
 import Head from "next/head";
 import Link from "next/link";
 import ToolClient from "../../components/ToolClient";
+import GuideFaq from "../../components/GuideFaq";
 import AdSlot from "../../components/AdSlot";
 import { getTool, SITE_URL } from "../../lib/tools";
 
@@ -39,7 +40,9 @@ export default function HouseAffordabilityGuide() {
           <h2>Run your real numbers</h2>
         </div>
 
-        {tool && <ToolClient tool={tool} />}
+        {tool && <ToolClient tool={tool} showFaq={false} />}
+
+        <GuideFaq slug="how-much-house-can-i-afford" />
 
         <div className="seo">
           <h2>Related tools</h2>

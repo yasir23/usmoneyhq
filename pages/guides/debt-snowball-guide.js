@@ -1,6 +1,7 @@
 import Head from "next/head";
 import Link from "next/link";
 import ToolClient from "../../components/ToolClient";
+import GuideFaq from "../../components/GuideFaq";
 import AdSlot from "../../components/AdSlot";
 import { getTool, SITE_URL } from "../../lib/tools";
 
@@ -32,7 +33,9 @@ export default function DebtSnowballGuide() {
           <h2>Your plan, calculated</h2>
         </div>
 
-        {tool && <ToolClient tool={tool} />}
+        {tool && <ToolClient tool={tool} showFaq={false} />}
+
+        <GuideFaq slug="debt-snowball-guide" />
 
         <div className="seo">
           <h2>Related tools</h2>
