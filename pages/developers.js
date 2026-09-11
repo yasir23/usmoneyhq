@@ -9,6 +9,7 @@ export default function DevelopersPage() {
       <Head>
         <title>Developers — Connect US Money HQ Calculators to AI Agents | {SITE_NAME}</title>
         <meta name="description" content="Expose 105 free US finance calculators to AI agents via MCP, llms.txt, and a JSON REST API. Free, no key, CORS-open." />
+        <link rel="canonical" href={`${SITE_URL}/developers`} />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{

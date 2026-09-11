@@ -59,6 +59,6 @@ export async function getServerSideProps({ params, req }) {
   return { notFound: true };
 }
 
-export default function VariantToolPage({ slug, stateSlug, amountSlug, metroSlug, country }) {
-  return <ToolPageShell slug={slug} stateSlug={stateSlug} amountSlug={amountSlug} metroSlug={metroSlug} country={country} />;
+export default function VariantToolPage({ slug, stateSlug, amountSlug, metroSlug, ageSlug, country }) {
+  return <ToolPageShell slug={slug} stateSlug={stateSlug} amountSlug={amountSlug} metroSlug={metroSlug} ageSlug={ageSlug} country={country} />;
 }

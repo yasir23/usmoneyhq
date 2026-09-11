@@ -18,6 +18,42 @@ import { federalTax, fica, stateTax, monthlyPayment } from "../lib/calc";
  * a side-by-side comparison; amountSlug renders a salary-amount scenario page
  * (programmatic SEO — real computed numbers per variant).
  */
+/**
+ * Per-tool title/description for amount and state×amount scenario pages.
+ *
+ * The kind-based fallback ("$100,000 Salary After Tax: Take-Home Pay…") is
+ * shared by every salary-kind tool, so salary-after-tax, paycheck, salary-
+ * percentile and salary-to-hourly all emitted the SAME title for the same
+ * amount — 1,590 pages in duplicate-title groups — and the wording was wrong
+ * for the percentile and hourly tools anyway. Each salary-kind tool now names
+ * its own intent; anything without an entry falls back to the kind phrasing.
+ */
+const AMOUNT_TITLES: Record<string, (amt: string, stateName?: string) => string> = {
+  "salary-after-tax-calculator": (amt, st) =>
+    st ? `${amt} Salary in ${st}: Take-Home Pay (2026) | US Money HQ`
+       : `${amt} Salary After Tax: Take-Home Pay in 2026 | US Money HQ`,
+  "paycheck-calculator": (amt, st) =>
+    st ? `${amt} Paycheck in ${st}: Take-Home Pay After Tax (2026) | US Money HQ`
+       : `${amt} Paycheck: Take-Home Pay After Taxes (2026) | US Money HQ`,
+  "salary-percentile-calculator": (amt) =>
+    `${amt} Salary Percentile: Where You Rank in 2026 | US Money HQ`,
+  "salary-to-hourly-calculator": (amt) =>
+    `${amt} Salary as an Hourly Rate (2026) | US Money HQ`,
+};
+
+const AMOUNT_DESCS: Record<string, (amt: string, stateName?: string, stateNote?: string) => string> = {
+  "salary-after-tax-calculator": (amt, st, note) =>
+    st ? `${amt} salary in ${st} after federal and state taxes in 2026. ${note}.`
+       : `Your take-home pay on a ${amt} salary in 2026: federal tax, FICA, and what lands in your bank account each month.`,
+  "paycheck-calculator": (amt, st, note) =>
+    st ? `Per-paycheck take-home on a ${amt} salary in ${st} for 2026, after federal withholding, FICA, and state tax. ${note}.`
+       : `What a ${amt} salary actually pays per paycheck in 2026, after federal withholding, FICA, and state tax.`,
+  "salary-percentile-calculator": (amt) =>
+    `See which income percentile a ${amt} salary falls in for 2026 and what share of US earners it out-earns.`,
+  "salary-to-hourly-calculator": (amt) =>
+    `Convert a ${amt} annual salary to an hourly rate in 2026 — based on the hours and weeks you actually work.`,
+};
+
 export default function ToolPageShell({ slug, stateSlug, amountSlug, metroSlug, ageSlug, country }: { slug: string; stateSlug?: string; amountSlug?: string; metroSlug?: string; ageSlug?: string; country?: string }) {
   const isUS = (country || "").toUpperCase() === "US";
   const tool = getTool(slug);
@@ -66,6 +102,11 @@ export default function ToolPageShell({ slug, stateSlug, amountSlug, metroSlug, 
     ? `${SITE_URL}/${tool.slug}/${amountSlug}`
     : `${SITE_URL}/${tool.slug}`;
   const amountKind = amtTool?.kind || "salary";
+  // per-tool overrides for scenario pages (falls back to the kind phrasing below)
+  const amtTitleOverride = amount ? AMOUNT_TITLES[tool.slug]?.(fmtAmount(amount), state?.name) : undefined;
+  const amtDescOverride = amount
+    ? AMOUNT_DESCS[tool.slug]?.(fmtAmount(amount), state?.name, state?.incomeTaxNote)
+    : undefined;
   const pageTitle = pair
     ? `${pair[0].name} vs ${pair[1].name} ${tool.shortTitle.replace(" Calculator", "")} Calculator 2026 | US Money HQ`
     : metro
@@ -73,15 +114,19 @@ export default function ToolPageShell({ slug, stateSlug, amountSlug, metroSlug, 
     : age
     ? `${tool.shortTitle} at Age ${age}: Projected Retirement (2026) | US Money HQ`
     : state && amount
-    ? `${state.name} Take-Home on a ${fmtAmount(amount)} Salary (2026) | US Money HQ`
+    ? amtTitleOverride || (amountKind === "price"
+      ? `${fmtAmount(amount)} Home in ${state.name}: Payment & Total Interest (2026) | US Money HQ`
+      : amountKind === "income"
+      ? `How Much House on ${fmtAmount(amount)} in ${state.name}? (2026) | US Money HQ`
+      : `${fmtAmount(amount)} Salary in ${state.name}: Take-Home Pay (2026) | US Money HQ`)
     : state
     ? `${state.name} ${tool.shortTitle.replace(" Calculator", "")} Calculator 2026 | US Money HQ`
     : amount
-    ? amountKind === "price"
+    ? amtTitleOverride || (amountKind === "price"
       ? `Mortgage Payment on a ${fmtAmount(amount)} Home (2026) | US Money HQ`
       : amountKind === "income"
       ? `How Much House Can You Afford on ${fmtAmount(amount)}? (2026) | US Money HQ`
-      : `${fmtAmount(amount)} Salary After Tax: Take-Home Pay in 2026 | US Money HQ`
+      : `${fmtAmount(amount)} Salary After Tax: Take-Home Pay in 2026 | US Money HQ`)
     : tool.title;
   const pageDesc = pair
     ? `Compare ${pair[0].name} vs ${pair[1].name} ${tool.shortTitle.toLowerCase()} 2026: income tax, property tax, sales tax, and take-home math side by side.`
@@ -90,15 +135,19 @@ export default function ToolPageShell({ slug, stateSlug, amountSlug, metroSlug, 
     : age
     ? `${tool.shortTitle} started at age ${age}: projected balance at ${ageTool?.retirementAge || 65} with contributions and employer match.`
     : state && amount
-    ? `${fmtAmount(amount)} salary in ${state.name} after federal and state taxes in 2026. ${state.incomeTaxNote}.`
+    ? amtDescOverride || (amountKind === "price"
+      ? `Monthly payment and total interest on a ${fmtAmount(amount)} home in ${state.name} at today's rates. Property tax averages ${state.propTaxPct}% of value.`
+      : amountKind === "income"
+      ? `How much house a ${fmtAmount(amount)} income buys in ${state.name}: payment cap, down payment, and price range. ${state.incomeTaxNote}.`
+      : `${fmtAmount(amount)} salary in ${state.name} after federal and state taxes in 2026. ${state.incomeTaxNote}.`)
     : state
     ? `${tool.description} ${state.incomeTaxNote}. Average property tax ${state.propTaxPct}%.`
     : amount
-    ? amountKind === "price"
+    ? amtDescOverride || (amountKind === "price"
       ? `Your monthly payment and total interest on a ${fmtAmount(amount)} home at today's rates.`
       : amountKind === "income"
       ? `How much house a ${fmtAmount(amount)} salary buys in 2026: payment cap, down payment, and price range.`
-      : `Your take-home pay on a ${fmtAmount(amount)} salary in 2026: federal tax, FICA, and what lands in your bank account each month.`
+      : `Your take-home pay on a ${fmtAmount(amount)} salary in 2026: federal tax, FICA, and what lands in your bank account each month.`)
     : tool.description;
 
   const schema = {
@@ -180,7 +229,7 @@ export default function ToolPageShell({ slug, stateSlug, amountSlug, metroSlug, 
           {amount && state && (<><span aria-hidden="true">›</span><Link href={`/${tool.slug}/${amountSlug}`}>{fmtAmount(amount)}</Link><span aria-hidden="true">›</span><span>{state.name}</span></>)}
         </nav>
 
-        <h1>{pair ? `${pair[0].name} vs ${pair[1].name}: ${tool.h1}` : metro ? `${metro.name}, ${state?.name || ""}: ${tool.h1}` : age ? `${tool.shortTitle} at ${age}: ${tool.h1}` : state && amount ? `${fmtAmount(amount)} Salary in ${state.name}: ${tool.h1}` : amount ? (amountKind === "income" ? `How Much House on ${fmtAmount(amount)}?` : amountKind === "price" ? `${fmtAmount(amount)} Home: ${tool.h1}` : `${fmtAmount(amount)} Salary: ${tool.h1}`) : state ? `${state.name} ${tool.h1}` : tool.h1}</h1>
+        <h1>{pair ? `${pair[0].name} vs ${pair[1].name}: ${tool.h1}` : metro ? `${metro.name}, ${state?.name || ""}: ${tool.h1}` : age ? `${tool.shortTitle} at ${age}: projected balance at ${ageTool?.retirementAge || 65}` : state && amount ? (amountKind === "price" ? `${fmtAmount(amount)} Home in ${state.name}: ${tool.h1}` : amountKind === "income" ? `How Much House on ${fmtAmount(amount)} in ${state.name}?` : `${fmtAmount(amount)} Salary in ${state.name}: ${tool.h1}`) : amount ? (amountKind === "income" ? `How Much House on ${fmtAmount(amount)}?` : amountKind === "price" ? `${fmtAmount(amount)} Home: ${tool.h1}` : `${fmtAmount(amount)} Salary: ${tool.h1}`) : state ? `${state.name} ${tool.h1}` : tool.h1}</h1>
         <p className="sub">{tool.sub}</p>
 
         <VariantTLDR slug={slug} state={state} amount={amount} amountKind={amountKind} age={age} ageTool={ageTool} />
@@ -331,6 +380,14 @@ function VariantTLDR({ slug, state, amount, amountKind, age, ageTool }: { slug: 
   if (amount && amountKind === "price" && slug === "mortgage-calculator") {
     const pmt = monthlyPayment(amount * 0.8, 6.5, 360); // 20% down, ~6.5% 30yr assumption
     const totalInt = pmt * 360 - amount * 0.8;
+    if (state) {
+      const taxMonthly = (amount * (state.propTaxPct / 100)) / 12;
+      return (
+        <p className="tldr" style={{ fontWeight: 600 }}>
+          Quick answer: on a {fmtAmount(amount)} home in {state.name} with 20% down at ~6.5% for 30 years, principal + interest is roughly {fmtAmount(pmt)}/month. Property tax at {state.name}&apos;s average {state.propTaxPct}% of value adds about {fmtAmount(taxMonthly)}/month, before insurance — and total interest over the loan runs about {fmtAmount(totalInt)}.
+        </p>
+      );
+    }
     return (
       <p className="tldr" style={{ fontWeight: 600 }}>
         Quick answer: on a {fmtAmount(amount)} home with 20% down at ~6.5% for 30 years, the principal + interest payment is roughly {fmtAmount(pmt)}/month (before taxes and insurance), with about {fmtAmount(totalInt)} in total interest.
@@ -340,6 +397,14 @@ function VariantTLDR({ slug, state, amount, amountKind, age, ageTool }: { slug: 
   if (amount && amountKind === "income" && slug === "home-affordability-calculator") {
     const income = amount;
     const dtiLimit = (income / 12) * 0.36;
+    if (state) {
+      const housing = (income / 12) * 0.28;
+      return (
+        <p className="tldr" style={{ fontWeight: 600 }}>
+          Quick answer: a {fmtAmount(income)} income in {state.name} supports roughly {fmtAmount(housing)}/month of housing cost at the 28% guideline, and lenders cap total debt at about {fmtAmount(dtiLimit)}/month (36% DTI). {state.name}&apos;s average property tax of {state.propTaxPct}% of value comes out of that same budget, so the same income buys less house here than in a low-property-tax state.
+        </p>
+      );
+    }
     return (
       <p className="tldr" style={{ fontWeight: 600 }}>
         Quick answer: on a {fmtAmount(income)} gross income, lenders typically cap your total monthly debt at ~{fmtAmount(dtiLimit)} (36% DTI), which sets the mortgage payment and price range you can target.
