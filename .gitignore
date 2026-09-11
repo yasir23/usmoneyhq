@@ -2,3 +2,6 @@ node_modules/
 .next/
 out/
 scripts/__pycache__/
+
+# TS incremental build info (from npx tsc --noEmit)
+*.tsbuildinfo
