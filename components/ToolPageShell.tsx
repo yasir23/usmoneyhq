@@ -234,7 +234,7 @@ export default function ToolPageShell({ slug, stateSlug, amountSlug, metroSlug, 
 
         <VariantTLDR slug={slug} state={state} amount={amount} amountKind={amountKind} age={age} ageTool={ageTool} />
 
-        <AdSlot id={`${tool.slug}-${pair ? "compare" : state?.slug || "top"}`} />
+        <AdSlot id="top" />
 
         {pair && (
           <div className="compare-grid">
@@ -302,7 +302,7 @@ export default function ToolPageShell({ slug, stateSlug, amountSlug, metroSlug, 
           </div>
         )}
 
-        <AdSlot id={`${tool.slug}-${pair ? "compare-mid" : state?.slug || "mid"}`} />
+        <AdSlot id="mid" />
 
         {!state && STATE_AWARE_TOOLS.includes(slug) && (
           <div className="seo">
@@ -352,7 +352,7 @@ export default function ToolPageShell({ slug, stateSlug, amountSlug, metroSlug, 
           </div>
         )}
 
-        <AdSlot id={`${tool.slug}-${pair ? "compare-bottom" : state?.slug || "bottom"}`} />
+        <AdSlot id="bottom" />
 
         <RelatedTools current={slug} stateSlug={state?.slug} />
 
