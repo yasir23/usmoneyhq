@@ -205,11 +205,11 @@ export const TOOLS: ToolDef[] = [
   },
   {
     slug: "auto-loan-calculator",
-    title: "Auto Loan Calculator 2026 — Car Payment Estimator | US Money HQ",
+    title: "Auto Loan Calculator 2026 — Payment & Car Loan Interest Deduction | US Money HQ",
     shortTitle: "Auto Loan Calculator",
-    description: "Free US auto loan calculator: estimate your monthly car payment, total interest, and total cost. Updated for 2026.",
+    description: "Free US auto loan calculator: monthly car payment, total interest, and the 2026 car loan interest deduction (up to $10,000).",
     h1: "Auto Loan Calculator",
-    sub: "Estimate your monthly car payment and total loan cost for a US auto purchase.",
+    sub: "Monthly car payment, total loan cost, and the new car loan interest deduction.",
     fields: [
       { key: "price", label: "Vehicle price (USD)", type: "number", default: 35000, min: 1000, step: 500, inputMode: "numeric" },
       { key: "down", label: "Down payment (USD)", type: "number", default: 5000, min: 0, step: 500, inputMode: "numeric" },
@@ -257,11 +257,13 @@ export const TOOLS: ToolDef[] = [
         moneyRow("Total cost", totalPaid + down + tradeIn),
       ];
     },
-    note: "Estimate only. Fees, taxes, and dealer add-ons not included. Add an extra monthly payment to see how much interest you save.",
+    note: "Estimate only. Fees, taxes, and dealer add-ons not included. Add an extra monthly payment to see how much interest you save. New from 2025: interest on a US-assembled new vehicle is deductible up to $10,000 (IRC section 163(h)(4)).",
     faq: [
       { q: "Should I choose a 60-month or 72-month car loan?", a: "Shorter terms (48-60 months) typically have lower rates and cost less overall. 72-84 month terms lower the monthly payment but increase total interest and the risk of being upside-down." },
       { q: "What is a good auto loan rate in 2026?", a: "Rates depend on your credit score, the lender, and whether the loan is new or used. Pre-qualify with multiple lenders before visiting the dealership." },
       { q: "Does paying extra each month help?", a: "Yes — extra principal payments shorten the loan and slash interest. $50/month extra on a $30k loan at 7% saves about $530 in interest and cuts 5 months off the term; $100/month saves over $1,000." },
+      { q: "Is car loan interest tax deductible in 2026?", a: "Partly, and only for a new vehicle. IRC section 163(h)(4) allows a deduction of up to $10,000 of interest on a loan taken out after 31 December 2024 to buy a new passenger vehicle for personal use, for tax years 2025 through 2028. The vehicle must have been assembled in the United States and the loan must be secured by a first lien on it. Leases, fleet and commercial loans, salvage or scrap vehicles, and loans on used vehicles do not qualify, and you must report the VIN on your return. The deduction phases out by $200 for every $1,000 of modified AGI above $100,000 ($200,000 joint) and disappears entirely at $150,000 ($250,000 joint)." },
+      { q: "How much would the car loan interest deduction save me?", a: "At this calculator's defaults — a $35,000 vehicle, $5,000 down, 7.2% over 60 months — you finance $30,000 and pay about $1,992 of interest in the first year. That is inside the $10,000 cap and worth roughly $438 of tax at a 22% marginal rate. The benefit is a deduction, not a credit, so your marginal rate sets its value, and the cap rarely binds on a single car loan: total interest on this loan across all five years is only about $5,812." },
     ],
     related: ["mortgage-calculator", "debt-payoff-calculator", "dti-calculator"],
   },
@@ -666,10 +668,11 @@ export const TOOLS: ToolDef[] = [
         { label: "Effective tax rate", value: `${effective.toFixed(1)}%` },
       ];
     },
-    note: "Estimate only — does not include credits, deductions beyond the standard deduction, or self-employment tax.",
+    note: "Estimate only — does not include credits, deductions beyond the standard deduction, or self-employment tax. It also does not model the 2025-2028 OBBBA deductions for overtime, tips, or car loan interest.",
     faq: [
       { q: "What is my effective tax rate?", a: "Your effective rate is total tax divided by gross income. Because of brackets and deductions, it is always lower than your marginal (top-bracket) rate." },
       { q: "Does this include self-employment tax?", a: "No. Self-employed filers pay an extra 15.3% on net earnings (deductible half), which this W-2-style estimate does not include." },
+      { q: "Does this include the new overtime, tips, and car loan interest deductions?", a: "No. This calculator estimates tax from gross income and the standard deduction. The One Big Beautiful Bill Act added three temporary deductions for 2025 through 2028 — overtime premium pay up to $12,500 ($25,000 joint), qualified tips up to $25,000, and car loan interest up to $10,000 — each with its own income phase-out. To estimate the benefit, subtract your deductible amount from the taxable income above and multiply by your marginal rate; the savings are typically 12-22% of the deduction, not the whole amount." },
     ],
     related: ["salary-after-tax-calculator", "paycheck-calculator", "retirement-calculator"],
   },
@@ -1327,11 +1330,11 @@ export const TOOLS: ToolDef[] = [
   },
   {
     slug: "overtime-calculator",
-    title: "Overtime Calculator 2026 — Time and a Half Pay | US Money HQ",
+    title: "Overtime Calculator 2026 — Time and a Half & No Tax on Overtime | US Money HQ",
     shortTitle: "Overtime Calculator",
-    description: "Free overtime calculator: estimate your weekly pay with time-and-a-half (1.5x) and double-time (2x) overtime hours.",
+    description: "Free overtime calculator: time-and-a-half (1.5x) and double-time (2x) pay, plus the 2026 no-tax-on-overtime deduction (up to $12,500).",
     h1: "Overtime Calculator",
-    sub: "Estimate your paycheck with overtime at 1.5x and 2x your regular rate.",
+    sub: "Estimate your paycheck with overtime at 1.5x and 2x your regular rate — and see the new overtime tax deduction.",
     fields: [
       { key: "rate", label: "Regular hourly rate (USD)", type: "number", default: 25, min: 0, step: 0.5, inputMode: "decimal" },
       { key: "regularHours", label: "Regular hours", type: "number", default: 40, min: 0, step: 0.5, inputMode: "decimal" },
@@ -1350,21 +1353,23 @@ export const TOOLS: ToolDef[] = [
         moneyRow("Total pay", r.total, true),
       ];
     },
-    note: "FLSA requires 1.5x after 40 hours/week; double-time depends on state/employer.",
+    note: "FLSA requires 1.5x after 40 hours/week; double-time depends on state/employer. Since 2025 the OBBBA (IRC section 225) also makes the overtime premium deductible up to $12,500 ($25,000 joint), through 2028.",
     faq: [
       { q: "When does overtime start?", a: "Under federal law (FLSA), nonexempt employees earn 1.5x for hours over 40 in a workweek. Some states have daily overtime rules." },
       { q: "What is double time?", a: "Some states or contracts pay 2x for certain hours (e.g., over 12 in a day, or working a 7th consecutive day)." },
-      { q: "Is overtime taxed at a higher rate?", a: "No — overtime is ordinary income taxed at your regular marginal rate, not a special higher rate. Heavy overtime can push part of your income into a higher tax bracket and raise withholding, so the check can be smaller than hours x 1.5 x rate suggests. The same 2026 federal brackets apply to overtime as to any other wages." },
+      { q: "Is overtime taxed at a higher rate?", a: "No — overtime is not taxed at a special higher rate. It is ordinary income taxed at your marginal rate, so heavy overtime can push part of your pay into the next bracket and raise withholding, which is why the net check can look smaller than hours x 1.5 x rate suggests. What changed in 2025 is a new deduction, not a new rate: part of the overtime premium is now subtracted from taxable income. See the two questions below." },
+      { q: "Is there really no tax on overtime in 2026?", a: "Partly. The One Big Beautiful Bill Act added IRC section 225, a deduction for qualified overtime compensation of up to $12,500 ($25,000 on a joint return) for tax years 2025 through 2028, available whether or not you itemize. Because it is a deduction and not an exemption, the benefit equals the deductible amount times your marginal rate — about $715 on $3,250 of overtime at 22%, not $3,250. Only the FLSA-required premium above your regular rate counts, so at time-and-a-half just the extra 0.5x is deductible, not the whole overtime check. It phases out by $100 for every $1,000 of modified AGI above $150,000 ($300,000 joint) and disappears entirely at $275,000 ($550,000 joint). You must be a non-exempt employee, married filers must file jointly, and the return needs a Social Security number." },
+      { q: "How much of my overtime pay is deductible?", a: "Only the premium above your regular rate. At $25 an hour with 5 overtime hours a week, the premium is $12.50 an hour: $62.50 a week, or $3,250 a year — all of it under the $12,500 cap and worth roughly $715 of tax at a 22% marginal rate. For those same 5 weekly overtime hours the full annual overtime pay is $9,750, but only the $3,250 premium counts. Reaching the $12,500 cap takes about 1,000 overtime hours a year at $25 an hour (19 a week), 833 hours at $30, or 625 hours at $40." },
     ],
     related: ["paycheck-calculator", "salary-after-tax-calculator", "tax-calculator"],
   },
   {
     slug: "tip-calculator",
-    title: "Tip Calculator 2026 — Split the Bill | US Money HQ",
+    title: "Tip Calculator 2026 — Split the Bill & No Tax on Tips | US Money HQ",
     shortTitle: "Tip Calculator",
-    description: "Free tip calculator: calculate tip, total, and per-person amount. Split bills between friends instantly.",
+    description: "Free tip calculator: tip, total, and per-person split — plus how the 2026 no-tax-on-tips deduction (up to $25,000) works.",
     h1: "Tip Calculator",
-    sub: "Tip, total, and per-person share — instant.",
+    sub: "Tip, total, and per-person share — instant, plus the tipped-worker tax deduction.",
     fields: [
       { key: "bill", label: "Bill amount (USD)", type: "number", default: 85.5, min: 0, step: 0.5, inputMode: "decimal" },
       { key: "tipPct", label: "Tip (%)", type: "number", default: 18, min: 0, max: 100, step: 1, inputMode: "numeric" },
@@ -1381,10 +1386,13 @@ export const TOOLS: ToolDef[] = [
         moneyRow("Per person", r.perPerson, true),
       ];
     },
-    note: "Standard US tipping is 15-20% for table service.",
+    note: "Standard US tipping is 15-20% for table service. Tipped workers can also deduct up to $25,000 of qualified tips (IRC section 224, 2025-2028).",
     faq: [
       { q: "How much should I tip?", a: "15% for average service, 18-20% for good service in full-service restaurants. Many people tip 20% as the default." },
       { q: "Do I tip on the pre-tax amount?", a: "Etiquette varies, but most people tip on the pre-tax total. Some prefer the after-tax amount — either is acceptable." },
+      { q: "Is there really no tax on tips in 2026?", a: "Partly. The One Big Beautiful Bill Act added IRC section 224, a deduction for qualified tips of up to $25,000 for tax years 2025 through 2028. It is a deduction, not an exemption: it reduces taxable income, so $15,000 of qualifying tips is worth roughly $3,300 of tax at a 22% marginal rate — not $15,000. Unlike the overtime deduction the $25,000 cap is flat rather than doubled for a joint return. It phases out by $100 for every $1,000 of modified AGI above $150,000 ($300,000 joint) and disappears entirely at $400,000 ($550,000 joint). Married filers must file jointly and the return needs a Social Security number." },
+      { q: "Which tips qualify for the deduction?", a: "Cash tips — including tips added to a card and your share of a tip pool — earned in an occupation that customarily and regularly received tips on or before 31 December 2024. The tips must be reported to your employer on a W-2 or on Form 4137, and tips earned in a specified service trade or business under section 199A(d)(2) do not qualify." },
+      { q: "How much in tips do I need to reach the $25,000 cap?", a: "At the calculator's default 18% on an $85.50 bill the tip is $15.39. Serving 5 tables a night, 250 nights a year, that comes to about $19,200 of tips — under the cap. You would need roughly 325 nights at that pace, or more tables per night, to reach $25,000." },
     ],
     related: ["percentage-calculator", "paycheck-calculator", "salary-after-tax-calculator"],
   },
