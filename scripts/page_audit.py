@@ -24,13 +24,30 @@ from concurrent.futures import ThreadPoolExecutor
 
 args = [a for a in sys.argv[1:] if not a.startswith("--")]
 FULL_SITEMAP = "--sitemap" in sys.argv
+# CACHE POLITICS (2026-09-15)
+# This script previously sent `Cache-Control: no-cache` on EVERY request. With
+# ~4,845 sitemap URLs that forces every hit to origin and files the whole run
+# under Cloudflare's DYNAMIC bucket, which is a large part of why that site's
+# cache-hit rate reads ~12%. Default is now to ALLOW caching so repeat runs are
+# served from the edge; pass --fresh only when you genuinely need origin state.
+FRESH = "--fresh" in sys.argv
 BASE = (args[0] if args else "https://usmoneyhq.com").rstrip("/")
 UA = "Mozilla/5.0 (compatible; usmoneyhq-page-audit/1.0)"
+
+# Paths this script requests KNOWING they are invalid — they exist to prove that
+# a bad slug yields a hard 404 (or, worse, a soft 200). Their 404s are EXPECTED
+# and are not site defects. They must be counted separately, because otherwise
+# they land in the Cloudflare dashboard as unexplained 404 volume and get
+# misread as broken URLs on the site.
+INVALID_PROBES = ("/notastate",)
 
 
 def fetch(path):
     """Return (status, body). Never raises."""
-    req = urllib.request.Request(BASE + path, headers={"User-Agent": UA, "Cache-Control": "no-cache"})
+    hdrs = {"User-Agent": UA}
+    if FRESH:
+        hdrs["Cache-Control"] = "no-cache"
+    req = urllib.request.Request(BASE + path, headers=hdrs)
     try:
         with urllib.request.urlopen(req, timeout=45) as r:
             return r.status, r.read().decode("utf-8", "ignore")
@@ -100,6 +117,19 @@ def main():
     with ThreadPoolExecutor(max_workers=12) as ex:
         for res in ex.map(audit, pages):
             found += res
+
+    # ---- request-footprint disclosure -------------------------------------
+    # These requests are visible in Cloudflare analytics under our own UA. Two
+    # ways that has misled us: (1) the volume itself inflates "visits" (this
+    # script alone was 10.38k of 124.94k requests), and (2) the intentionally
+    # invalid probes below generate 404s that the audit correctly ignores but
+    # the dashboard counts, which then reads as broken URLs on the site.
+    expected = [p for p in pages if any(p.endswith(bad) for bad in INVALID_PROBES)]
+    print(f"  [footprint] {len(pages)} requests sent as '{UA.rsplit('; ',1)[-1].rstrip(')')}'")
+    if expected:
+        print(f"  [footprint] {len(expected)} of those are DELIBERATELY invalid probes "
+              f"({', '.join(INVALID_PROBES)}) — their 404s are expected, not defects")
+    print(f"  [footprint] cache: {'bypassed (--fresh), all hits go to origin' if FRESH else 'allowed'}")
 
     if not found:
         print(f"clean — no soft 404s, no duplicate internal links ({len(pages)} URLs)")

@@ -7,6 +7,8 @@ import {
   federalTax,
   fica,
   stateTax,
+  TAX_YEAR,
+  SS_WAGE_BASE,
   paycheckBreakdown,
   debtPayoff,
   dti,
@@ -316,7 +318,7 @@ export const TOOLS: ToolDef[] = [
     faq: [
       { q: "Which states have no income tax?", a: `Alaska, Florida, Nevada, New Hampshire, South Dakota, Tennessee, Texas, Washington, and Wyoming do not impose a state income tax: ${NO_INCOME_TAX_STATES.join(", ")}.` },
       { q: "Why does my actual paycheck differ?", a: "Employers also deduct 401(k) contributions, health insurance premiums, and other benefits. This calculator shows a clean estimate before those deductions." },
-      { q: "What tax brackets are used?", a: "The calculator uses 2025 federal brackets with standard deductions ($15,000 single / $30,000 married filing jointly) and a 5% flat state estimate." },
+      { q: "What tax brackets are used?", a: `The calculator uses ${TAX_YEAR} federal brackets with the standard deduction ($16,100 single / $32,200 married filing jointly) and a 5% flat state estimate.` },
     ],
     related: ["paycheck-calculator", "mortgage-calculator", "dti-calculator"],
   },
@@ -628,7 +630,7 @@ export const TOOLS: ToolDef[] = [
     slug: "tax-calculator",
     title: "Tax Calculator 2026 — Estimate Your Income Tax | US Money HQ",
     shortTitle: "Tax Calculator",
-    description: "Free US income tax calculator: estimate federal, FICA, and state taxes plus your effective tax rate. 2025 brackets, all 50 states.",
+    description: "Free US income tax calculator: estimate federal, FICA, and state taxes plus your effective tax rate. 2026 brackets, all 50 states.",
     h1: "Tax Calculator",
     sub: "Estimate your total income tax and effective rate for the current tax year.",
     fields: [
@@ -1815,7 +1817,7 @@ export const TOOLS: ToolDef[] = [
       const r = retirement401k(Number(v.current) || 0, Number(v.monthly) || 0, Number(v.matchPct) || 0, Number(v.capPct) || 0, Number(v.salary) || 0, Number(v.rate) || 0, Number(v.years) || 25);
       return [moneyRow("Monthly total (incl. match)", r.monthlyTotal), moneyRow("Employer match/mo", r.monthlyMatch), moneyRow("Projected balance", r.balance, true)];
     },
-    note: "Assumes monthly compounding. The 2026 401(k) contribution limit is $23,500 ($31,000 if 50+).",
+    note: `Assumes monthly compounding. The ${TAX_YEAR} 401(k) contribution limit is $24,500 ($32,500 if 50+).`,
     faq: [
       { q: "Should I max out my employer match first?", a: "Almost always yes — it's an instant 50-100% return on your contribution. Contribute at least enough to capture the full match before other investing." },
       { q: "What return should I assume?", a: "A diversified stock-heavy 401(k) historically returns 7-10% annually. Use 6-7% for a conservative projection." },
@@ -2285,6 +2287,7 @@ export const TOOLS: ToolDef[] = [
     faq: [
       { q: "Snowball or avalanche — which is better?", a: "Avalanche saves the most money; snowball keeps you motivated. Studies show both work — the best method is the one you'll actually stick with." },
       { q: "Should my monthly budget exceed the minimums?", a: "Yes — the gap between your budget and total minimums is what accelerates payoff. Every extra dollar goes to the current target debt." },
+      { q: "Is there a free debt snowball spreadsheet?", a: "You do not need Excel or Google Sheets — this calculator runs the same month-by-month math in your browser and it is free. If you want a spreadsheet anyway, the recipe is: one row per debt with its balance, APR and minimum payment; sort by smallest balance (snowball) or highest APR (avalanche); send every spare dollar to row 1; when row 1 reaches zero, roll its payment into row 2. The catch is that the ordering changes every month, so a spreadsheet has to be re-sorted by hand — this calculator re-sorts automatically and returns your debt-free month." },
     ],
     related: ["debt-payoff-calculator", "credit-card-payoff-calculator", "budget-calculator"],
   },
@@ -2739,9 +2742,9 @@ export const TOOLS: ToolDef[] = [
   },
   {
     slug: "wallpaper-calculator",
-    title: "Wallpaper Calculator 2026 — Rolls Needed | US Money HQ",
+    title: "Wallpaper Calculator 2026 — Rolls With Pattern Repeat | US Money HQ",
     shortTitle: "Wallpaper Calculator",
-    description: "Free wallpaper calculator: rolls needed for any room, with wall area and 10% waste.",
+    description: "Free wallpaper calculator: rolls needed for any room, with a pattern-repeat allowance, wall area, and 10% cutting waste.",
     h1: "Wallpaper Calculator",
     sub: "Rolls for your room, no math required.",
     fields: [
@@ -2749,14 +2752,20 @@ export const TOOLS: ToolDef[] = [
       { key: "width", label: "Room width (feet)", type: "number", default: 10, min: 1, step: 1, inputMode: "numeric" },
       { key: "height", label: "Wall height (feet)", type: "number", default: 8, min: 1, step: 1, inputMode: "numeric" },
       { key: "coverage", label: "Roll coverage (sq ft)", type: "number", default: 56, min: 10, step: 1, inputMode: "numeric" },
+      { key: "repeat", label: "Pattern repeat (inches, 0 = plain)", type: "number", default: 0, min: 0, max: 36, step: 1, inputMode: "numeric" },
     ],
     compute: (v) => {
-      const r = wallpaperNeeds(Number(v.length) || 0, Number(v.width) || 0, Number(v.height) || 8, Number(v.coverage) || 56);
-      return [{ label: "Wall area", value: r.wallArea + " sq ft" }, { label: "Rolls needed", value: String(r.rolls), highlight: true }];
+      const repeat = Number(v.repeat) || 0;
+      const r = wallpaperNeeds(Number(v.length) || 0, Number(v.width) || 0, Number(v.height) || 8, Number(v.coverage) || 56, repeat);
+      const rows: ResultRow[] = [{ label: "Wall area", value: r.wallArea + " sq ft" }];
+      if (repeat > 0) rows.push({ label: "Extra paper for pattern repeat", value: "+" + r.repeatExtra + " sq ft (" + r.wastePct + "% total waste)" });
+      rows.push({ label: "Rolls needed", value: String(r.rolls), highlight: true });
+      return rows;
     },
-    note: "Standard rolls cover ~56 sq ft. Subtract doors and windows from your area — this calculator is conservative with 10% waste.",
+    note: "Standard rolls cover ~56 sq ft. A straight-match pattern costs one repeat of paper per strip — enter the repeat and that is added automatically. Doors and windows are not subtracted; allow roughly 21 sq ft per door and 15 sq ft per window.",
     faq: [
-      { q: "How do I subtract windows and doors?", a: "A standard door is ~21 sq ft, a double window ~15 sq ft. Subtract them from the wall area before dividing by roll coverage." },
+      { q: "How do I subtract windows and doors?", a: "A standard door is ~21 sq ft, a double window ~15 sq ft. Subtract them from the wall area before dividing by roll coverage — or simply buy one roll less if you have several large openings and a plain paper." },
+      { q: "How do I account for a pattern repeat?", a: "Measure the distance between two identical points in the pattern — it is printed on the roll label, usually 12-24 inches. Enter it and the calculator adds one repeat of paper per strip, because every strip must be cut so the pattern lines up with the strip beside it. On an 8 ft wall that lands at roughly 20-35% total waste depending on the repeat (12 in = 22.5%, 18 in = 28.75%, 24 in = 35%), against 10% for plain paper. Enter 0 for a random match, texture, or solid." },
       { q: "How much do wallpaper rolls cost?", a: "Budget rolls run $20-$40; designer runs $60-$150+. The calculator gives rolls — multiply by your price point." },
     ],
     related: ["paint-calculator", "carpet-calculator", "square-footage-calculator"],
@@ -3149,7 +3158,7 @@ export const TOOLS: ToolDef[] = [
       const income = Number(v.income) || 0;
       const filing = String(v.filing || "single") as "single" | "married";
       const netEarnings = income * 0.9235;
-      const ss = Math.min(netEarnings, 176100) * 0.124;
+      const ss = Math.min(netEarnings, SS_WAGE_BASE) * 0.124;
       const medicare = netEarnings * 0.029;
       const seTax = ss + medicare;
       const halfDeduction = seTax / 2;
@@ -3164,7 +3173,7 @@ export const TOOLS: ToolDef[] = [
         moneyRow("Combined federal + SE", fed + seTax),
       ];
     },
-    note: "2026 figures. Social Security wage base ~$176,100. Half your SE tax is deductible above the line. State taxes not included.",
+    note: `2026 figures. Social Security wage base $184,500. Half your SE tax is deductible above the line. State taxes not included.`,
     faq: [
       { q: "What is self-employment tax?", a: "The employer + employee share of Social Security and Medicare: 12.4% + 2.9% = 15.3% of net earnings, applied to 92.35% of your profit." },
       { q: "Can I deduct half my self-employment tax?", a: "Yes — half of the SE tax is an above-the-line deduction that lowers your federal income tax, though it does not reduce the SE tax itself." },
@@ -3273,7 +3282,7 @@ export const TOOLS: ToolDef[] = [
       const matchPct = Number(v.matchPct) || 0;
       const current = Number(v.current) || 0;
       const age = Number(v.age) || 35;
-      const yourContribution = Math.min(salary * pct / 100, 23500); // 2026 under-50 limit approx
+      const yourContribution = Math.min(salary * pct / 100, 24500); // 2026 elective deferral limit (under 50)
       const match = Math.min(salary * matchPct / 100, yourContribution);
       const years = Math.max(0, 65 - age);
       const monthly = (yourContribution + match) / 12;
@@ -3288,11 +3297,12 @@ export const TOOLS: ToolDef[] = [
         moneyRow("Projected balance at 65", balance, true),
       ];
     },
-    note: "2026 elective deferral limit ~$23,500 (under 50), $31,000 (50+, catch-up). Assumes 7% annual return. Your employer match structure may differ.",
+    note: `2026 elective deferral limit $24,500 (under 50), $32,500 (50+, incl. $8,000 catch-up). Assumes 7% annual return. Your employer match structure may differ.`,
     faq: [
-      { q: "What is the 2026 401(k) contribution limit?", a: "The elective deferral limit is $23,500 for under-50s, plus a $7,500 catch-up for 50+. Employer matches do not count toward this limit." },
+      { q: "What is the 2026 401(k) contribution limit?", a: "The elective deferral limit is $24,500 for under-50s, plus an $8,000 catch-up for 50+, for a $32,500 total. Employer matches do not count toward this limit." },
       { q: "How much should I contribute to get the full match?", a: "At minimum, contribute enough to capture the full employer match — it is free money. If the match is 4% of salary, contribute at least 4%." },
-      { q: "What is the max total contribution including employer match?", a: "The combined limit (you + employer) is $70,000 for 2026 (or $77,500 with catch-up). High earners should watch this cap." },
+      { q: "What is the max total contribution including employer match?", a: "The combined limit (you + employer) is $72,000 for 2026 (or $80,000 with the age-50 catch-up). High earners should watch this cap." },
+      { q: "Should I choose Roth or traditional 401(k) contributions?", a: "Traditional deferrals come out pre-tax and cut your taxable income now; you pay tax on withdrawal. Roth deferrals are made with after-tax dollars and qualified withdrawals are tax-free — and since 2024 designated Roth accounts in a 401(k) have no required minimum distributions. The deciding factor is your tax rate now versus in retirement: Roth tends to win early in a career or in a year with unusually low income; traditional tends to win at peak earnings or if you expect to retire somewhere with no income tax. The $24,500 elective deferral limit covers your Roth and traditional contributions COMBINED, not each — and it does not include the employer match." },
     ],
     related: ["401k-calculator", "retirement-calculator", "compound-interest-calculator"],
   },

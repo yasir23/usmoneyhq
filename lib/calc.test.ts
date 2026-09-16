@@ -6,6 +6,12 @@ import {
   federalTax,
   fica,
   stateTax,
+  TAX_YEAR,
+  STD_DEDUCTION,
+  FED_BRACKETS,
+  SS_WAGE_BASE,
+  LTCG_ZERO_MAX,
+  marginalRate,
   NO_INCOME_TAX_STATES,
   round2,
   paycheckBreakdown,
@@ -118,10 +124,37 @@ assert.strictEqual(sched.length, 120);
 const totalPrincipal = round2(sched.reduce((a, r) => a + r.principal, 0));
 assert.ok(Math.abs(totalPrincipal - 100000) < 1, `principal ${totalPrincipal}`);
 
-// federal tax: $0 -> $0; $75k single -> 8114
+// federal tax: $0 -> $0; $75k single -> 7670 on the 2026 table
+// (taxable 58900 = 10% x 12400 + 12% x 38000 + 22% x 8500 = 1240 + 4560 + 1870)
 assert.strictEqual(federalTax(0).tax, 0);
 const ft = federalTax(75000);
-assert.ok(Math.abs(ft.tax - 8114) < 1, `federal ${ft.tax}`);
+assert.strictEqual(ft.stdDeduction, 16100, "2026 standard deduction");
+assert.strictEqual(ft.taxable, 58900);
+assert.ok(Math.abs(ft.tax - 7670) < 0.01, `federal ${ft.tax}`);
+
+// ── YEAR-CONSTANT DRIFT GUARD (added 2026-09-16) ────────────────────────────
+// The engine once carried 2025 brackets and a 2025 wage base while thousands of
+// page titles claimed "2026 tax year"; capitalGains was on 2024 breakpoints.
+// These assertions pin the published 2026 figures so the next year rollover is a
+// deliberate edit (and a TEST FAILURE), never a silent staleness.
+assert.strictEqual(TAX_YEAR, 2026);
+assert.strictEqual(STD_DEDUCTION.single, 16100, "2026 std deduction single");
+assert.strictEqual(STD_DEDUCTION.married, 32200, "2026 std deduction MFJ");
+assert.strictEqual(SS_WAGE_BASE, 184500, "2026 OASDI wage base (IRS Pub 15)");
+assert.strictEqual(FED_BRACKETS.single[0][1], 12400, "2026 10% band top");
+assert.strictEqual(FED_BRACKETS.single[2][1], 105700, "2026 22% band top");
+assert.strictEqual(FED_BRACKETS.single[6][1], Infinity, "37% band is open-ended");
+assert.strictEqual(FED_BRACKETS.married[0][1], 24800, "2026 MFJ 10% band top");
+// marginalRate boundaries (band edges are inclusive of the lower band)
+assert.strictEqual(marginalRate(50400, "single"), 12);
+assert.strictEqual(marginalRate(50401, "single"), 22);
+assert.strictEqual(marginalRate(100800, "married"), 12, "MFJ 12% band top is inclusive");
+assert.strictEqual(marginalRate(100801, "married"), 22, "MFJ 22% starts above 100800");
+// the FICA cap must actually bind
+const capped = fica(300000);
+assert.strictEqual(capped.socialSecurity, round2(SS_WAGE_BASE * 0.062));
+assert.ok(capped.socialSecurity < 300000 * 0.062, "SS tax is capped");
+assert.ok(Math.abs(capped.medicare - (300000 * 0.0145 + 100000 * 0.009)) < 0.01, "extra 0.9% above $200k");
 
 // FICA: $75k -> 5737.5
 const f = fica(75000);
@@ -467,7 +500,14 @@ console.log("ALL PHASE 2B CALC TESTS PASS");
   assert.strictEqual(r.effectiveRate, 15);
   const z = capitalGains(10000, 30000, "long");
   assert.strictEqual(z.tax, 0, "0% long-term bracket");
+  // 2026 0%->15% breakpoint is 49,450 of taxable income (was 47,025 = 2024 figure)
+  assert.strictEqual(capitalGains(10000, LTCG_ZERO_MAX - 10000, "long").tax, 0,
+    "gain that stops exactly at the 0% ceiling is untaxed");
+  assert.strictEqual(capitalGains(10000, LTCG_ZERO_MAX - 9000, "long").tax, round2(1000 * 0.15),
+    "only the gain above the 0% ceiling is taxed at 15%");
   const s = capitalGains(10000, 60000, "short");
+  // straddles the 12%/22% ordinary bands: 6500 x 12% + 3500 x 22% = 1550 (2026)
+  assert.ok(Math.abs(s.tax - 1550) < 0.01, `short-term at ordinary rates ${s.tax}`);
   assert.ok(s.tax > 0 && s.tax < 3000, "short-term taxed as ordinary income");
 }
 {
@@ -514,8 +554,12 @@ console.log("ALL PHASE 2C CALC TESTS PASS");
 {
   const r = taxBracketCalc(85000, "single");
   assert.strictEqual(r.marginal, 22);
-  assert.ok(r.tax > 10000 && r.tax < 11000, "$85k single federal ~$10,314");
-  assert.ok(r.effective > 12 && r.effective < 13, "effective ~12.1%");
+  // taxable 68900 -> 1240 + 4560 + 22% x 18500 = 9870 (2026 table)
+  assert.ok(Math.abs(r.tax - 9870) < 0.01, `$85k single federal ${r.tax}`);
+  assert.ok(r.effective > 11.5 && r.effective < 11.7, `effective ${r.effective}%`);
+  // top band reachable and open-ended
+  assert.strictEqual(taxBracketCalc(700000, "single").marginal, 37);
+  assert.strictEqual(taxBracketCalc(700000, "married").marginal, 35, "MFJ 37% starts at 768700");
 }
 {
   const r = investmentReturn(10000, 300, 7, 20);
@@ -595,8 +639,13 @@ console.log("ALL KEYWORD-IMPL TESTS PASS");
 }
 {
   const r = taxRefundEstimate(75000, 9000, "single");
-  assert.ok(r.tax > 8000 && r.tax < 8500, "$75k federal ~$8,114");
-  assert.ok(r.refund > 500 && r.refund < 1000, "refund ~$886");
+  // 2026 federal on $75k is 7670, so $9,000 withheld -> $1,330 refund
+  assert.ok(Math.abs(r.tax - 7670) < 0.01, `$75k federal ${r.tax}`);
+  assert.ok(Math.abs(r.refund - 1330) < 0.01, `refund ${r.refund}`);
+  // withholding below the liability is an amount OWED, not a refund
+  const owe = taxRefundEstimate(75000, 6000, "single");
+  assert.strictEqual(owe.refund, 0);
+  assert.ok(Math.abs(owe.owed - 1670) < 0.01, `owed ${owe.owed}`);
 }
 
 console.log("ALL PHASE 4 CALC TESTS PASS");
@@ -659,6 +708,32 @@ console.log("ALL PHASE 5 CALC TESTS PASS");
   const r = wallpaperNeeds(12, 10, 8, 56);
   assert.strictEqual(r.wallArea, 352);
   assert.ok(r.rolls > 6 && r.rolls < 8, "~7 rolls");
+}
+{
+  // --- pattern repeat (added 2026-09-16) -----------------------------------
+  // Closed from keyword mining: "wallpaper calculator with pattern repeat".
+  // Extra paper = perimeter x (repeatIn / 12); the roll width cancels out, which
+  // is why no roll-width input is needed. See the derivation in lib/calc.ts.
+  const plain = wallpaperNeeds(12, 10, 8, 56);
+  assert.strictEqual(plain.rolls, 7, "regression: plain paper still 7 rolls");
+  assert.strictEqual(plain.repeatExtra, 0, "no repeat => no extra paper");
+  assert.strictEqual(plain.wastePct, 10, "plain paper waste unchanged at 10%");
+
+  const r18 = wallpaperNeeds(12, 10, 8, 56, 18);
+  assert.strictEqual(r18.wallArea, 352);
+  assert.strictEqual(r18.repeatExtra, 66, "44 ft perimeter x 1.5 ft = 66 sq ft");
+  assert.strictEqual(r18.rolls, 9, "352 + 35.2 waste + 66 repeat = 453.2 -> 9 rolls");
+  assert.strictEqual(r18.wastePct, 28.75);
+  assert.ok(r18.rolls > plain.rolls, "patterned paper needs more rolls than plain");
+
+  // a taller wall spreads the same repeat over more area => proportionally less waste
+  assert.strictEqual(wallpaperNeeds(12, 10, 10, 56, 18).wastePct, 25, "10 ft wall, 18 in repeat");
+  assert.strictEqual(wallpaperNeeds(12, 10, 8, 56, 12).rolls, 8, "12 in repeat -> 8 rolls");
+  // a negative repeat must behave exactly like plain paper, never reduce the count
+  assert.strictEqual(wallpaperNeeds(12, 10, 8, 56, -5).rolls, 7, "negative repeat = no repeat");
+  // degenerate input must not produce NaN
+  const zero = wallpaperNeeds(0, 0, 8, 56, 18);
+  assert.ok([zero.rolls, zero.repeatExtra, zero.wastePct].every((n) => !Number.isNaN(n)), "zero room is not NaN");
 }
 {
   const r = sodNeeds(40, 25, 250);

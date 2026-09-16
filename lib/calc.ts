@@ -48,32 +48,75 @@ export function amortizationSchedule(principal: number, ratePct: number, termMon
   return rows;
 }
 
-/** US federal income tax (2025 brackets, standard deduction). */
+/* ─── 2026 FEDERAL TAX PARAMETERS ────────────────────────────────────────────
+ * SINGLE SOURCE OF TRUTH for every year-specific figure in this file.
+ * Verified 2026-09-16 against primary sources, not memory:
+ *   - brackets + standard deduction + capital-gain breakpoints: IRS
+ *     Rev. Proc. 2025-32 (2026 inflation adjustments)
+ *   - social security wage base: IRS Pub 15 (Circular E) 2026 — "the social
+ *     security wage base limit is $184,500" — and the SSA cost-of-living
+ *     determination published in the Federal Register on 2025-11-03
+ *   - elective deferral limits: IRS newsroom release (2026 401(k) limits)
+ *
+ * WHY THIS BLOCK EXISTS: these figures previously lived in FOUR places (federalTax,
+ * fica, stateTax, taxBracketCalc) plus a second copy in hermes-outreach's
+ * take_home_report.py. They drifted: the engine still carried 2025 brackets and a
+ * 2025 wage base while page titles and descriptions said "2026 tax year", and
+ * capitalGains was still on 2024 breakpoints. Every scenario page
+ * (/salary-after-tax-calculator/75000, /{tool}/{amount}/{state}, metro pages)
+ * computes through here, so a stale constant is quoted on thousands of pages.
+ * When a figure changes, change it HERE, then grep lib/tools.ts for the copy that
+ * cites it ("2026 brackets", "wage base", "401(k)"). TAX_YEAR is exported so copy
+ * can be written against the constant rather than a hardcoded year.
+ */
+export const TAX_YEAR = 2026;
+
+/** 2026 standard deduction by filing status (Rev. Proc. 2025-32). */
+export const STD_DEDUCTION: Record<Filing, number> = { single: 16100, married: 32200 };
+
+/** 2026 ordinary-income brackets: [lower, upper, rate]. Upper is exclusive of the next band. */
+export const FED_BRACKETS: Record<Filing, [number, number, number][]> = {
+  married: [
+    [0, 24800, 0.1],
+    [24800, 100800, 0.12],
+    [100800, 211400, 0.22],
+    [211400, 403550, 0.24],
+    [403550, 512450, 0.32],
+    [512450, 768700, 0.35],
+    [768700, Infinity, 0.37],
+  ],
+  single: [
+    [0, 12400, 0.1],
+    [12400, 50400, 0.12],
+    [50400, 105700, 0.22],
+    [105700, 201775, 0.24],
+    [201775, 256225, 0.32],
+    [256225, 640600, 0.35],
+    [640600, Infinity, 0.37],
+  ],
+};
+
+/** 2026 long-term capital-gain breakpoints (taxable income, single filer). */
+export const LTCG_ZERO_MAX = 49450;   // 0% up to here
+export const LTCG_FIFTEEN_MAX = 545500; // 15% up to here, 20% above
+
+/** 2026 social security wage base (OASDI). */
+export const SS_WAGE_BASE = 184500;
+
+/** Marginal ordinary-income rate for a TAXABLE income (after the standard deduction). */
+export function marginalRate(taxable: number, filing: Filing = "single"): number {
+  for (const [lo, hi, rate] of FED_BRACKETS[filing]) {
+    if (taxable > lo && taxable <= hi) return rate * 100;
+  }
+  return 0;
+}
+
+/** US federal income tax (2026 brackets, standard deduction). */
 export function federalTax(annualIncome: number, filing: Filing = "single"): { gross: number; stdDeduction: number; taxable: number; tax: number } {
-  const stdDeduction = filing === "married" ? 30000 : 15000;
+  const stdDeduction = STD_DEDUCTION[filing];
   const taxable = Math.max(0, annualIncome - stdDeduction);
-  const brackets: [number, number, number][] =
-    filing === "married"
-      ? [
-          [0, 23850, 0.1],
-          [23850, 96950, 0.12],
-          [96950, 206700, 0.22],
-          [206700, 394600, 0.24],
-          [394600, 501050, 0.32],
-          [501050, 751600, 0.35],
-          [751600, Infinity, 0.37],
-        ]
-      : [
-          [0, 11925, 0.1],
-          [11925, 48475, 0.12],
-          [48475, 103350, 0.22],
-          [103350, 197300, 0.24],
-          [197300, 250525, 0.32],
-          [250525, 626350, 0.35],
-          [626350, Infinity, 0.37],
-        ];
   let tax = 0;
-  for (const [lo, hi, rate] of brackets) {
+  for (const [lo, hi, rate] of FED_BRACKETS[filing]) {
     if (taxable <= lo) break;
     tax += (Math.min(taxable, hi) - lo) * rate;
     if (taxable <= hi) break;
@@ -81,9 +124,9 @@ export function federalTax(annualIncome: number, filing: Filing = "single"): { g
   return { gross: annualIncome, stdDeduction, taxable, tax: round2(tax) };
 }
 
-/** FICA: social security 6.2% up to wage cap, medicare 1.45% (+0.9% above threshold). */
+/** FICA: social security 6.2% up to the 2026 wage cap, medicare 1.45% (+0.9% above threshold). */
 export function fica(annualIncome: number, filing: Filing = "single"): { socialSecurity: number; medicare: number; total: number } {
-  const ssCap = 176100; // 2025
+  const ssCap = SS_WAGE_BASE;
   const ss = Math.min(annualIncome, ssCap) * 0.062;
   let mc = annualIncome * 0.0145;
   const extraThreshold = filing === "married" ? 250000 : 200000;
@@ -102,7 +145,7 @@ export const US_STATES = [
 
 /** Simple state tax estimate: 5% flat for taxable states, 0 for no-income-tax states. Label as estimate. */
 export function stateTax(annualIncome: number, state: string, filing: Filing = "single"): { state: string; tax: number; note: string } {
-  const stdDeduction = filing === "married" ? 30000 : 15000;
+  const stdDeduction = STD_DEDUCTION[filing];
   const taxable = Math.max(0, annualIncome - stdDeduction);
   if (NO_INCOME_TAX_STATES.includes(state.toUpperCase())) {
     return { state, tax: 0, note: "No state income tax" };
@@ -656,9 +699,11 @@ export function capitalGains(gain: number, taxableIncome: number, holding: "shor
     const t0 = federalTax(taxableIncome, "single");
     tax = Math.max(0, t.tax - t0.tax);
   } else {
-    if (taxableIncome + gain <= 47025) tax = 0;
-    else if (taxableIncome <= 47025 && taxableIncome + gain > 47025) tax = (taxableIncome + gain - 47025) * 0.15;
-    else if (taxableIncome + gain <= 518900) tax = gain * 0.15;
+    // 2026 breakpoints (Rev. Proc. 2025-32). These were 2024 figures (47,025 /
+    // 518,900) until 2026-09-16 — two years stale on a page titled "2026".
+    if (taxableIncome + gain <= LTCG_ZERO_MAX) tax = 0;
+    else if (taxableIncome <= LTCG_ZERO_MAX && taxableIncome + gain > LTCG_ZERO_MAX) tax = (taxableIncome + gain - LTCG_ZERO_MAX) * 0.15;
+    else if (taxableIncome + gain <= LTCG_FIFTEEN_MAX) tax = gain * 0.15;
     else tax = gain * 0.2;
   }
   return { tax: round2(tax), net: round2(gain - tax), effectiveRate: round2((tax / Math.max(1, gain)) * 100) };
@@ -721,14 +766,10 @@ export function homeEquity(homeValue: number, loanBalance: number) {
 export function taxBracketCalc(income: number, filing: "single" | "married" = "single") {
   const t = federalTax(income, filing);
   const effective = income > 0 ? (t.tax / income) * 100 : 0;
-  let marginal = 0;
-  const brackets = filing === "married"
-    ? [[23200, 10], [94300, 12], [201050, 22], [383900, 24], [487450, 32], [731200, 35], [Infinity, 37]]
-    : [[11600, 10], [47150, 12], [100525, 22], [191950, 24], [243725, 32], [609350, 35], [Infinity, 37]];
   const taxable = Math.max(0, income - t.stdDeduction);
-  for (const [cap, rate] of brackets) {
-    if (taxable <= cap) { marginal = rate; break; }
-  }
+  // Marginal rate comes from the shared 2026 bracket table — this function used to
+  // carry its own copy (still on 2025 thresholds) and drifted out of sync.
+  const marginal = marginalRate(taxable, filing);
   return { tax: t.tax, marginal: marginal, effective: round2(effective), taxable: round2(taxable) };
 }
 
@@ -954,12 +995,33 @@ export function carpetNeeds(lengthFt: number, widthFt: number, pricePerSqft: num
   return { sqft: round2(sqft), sqYards: round2(sqft / 9), cost: round2(sqft * pricePerSqft) };
 }
 
-/** Wallpaper: rolls needed. */
-export function wallpaperNeeds(roomLengthFt: number, roomWidthFt: number, wallHeightFt: number, rollCoverageSqft: number) {
+/** Wallpaper: rolls needed, with an allowance for patterned (straight-match) paper.
+ *
+ * PATTERN REPEAT MATH — why the extra area is `perimeter x repeat`:
+ * Strips must be cut so the pattern lines up across the wall, so every strip
+ * needs up to one full repeat of EXTRA LENGTH. A strip is one roll-width wide,
+ * so the number of strips is `perimeter / rollWidth` and the extra length totals
+ * `(perimeter / rollWidth) x repeat`; multiplying by rollWidth to get AREA
+ * cancels the roll width out — which is why no roll-width input is needed:
+ *
+ *     extraArea = perimeter x (repeatIn / 12)      [sq ft]
+ *
+ * A repeat of 0 (random match / no pattern) adds nothing and reproduces the
+ * original 10%-waste result exactly. 18 in repeat, 8 ft ceiling, 12x10 room:
+ * 352 sq ft wall + 35.2 waste + 66 repeat = 453.2 -> 9 rolls (vs 7 without).
+ */
+export function wallpaperNeeds(roomLengthFt: number, roomWidthFt: number, wallHeightFt: number, rollCoverageSqft: number, patternRepeatIn = 0) {
   const perimeter = 2 * (roomLengthFt + roomWidthFt);
   const wallArea = perimeter * wallHeightFt;
-  const rolls = Math.ceil(wallArea / Math.max(1, rollCoverageSqft) * 1.1);
-  return { wallArea: round2(wallArea), rolls };
+  const wasteArea = wallArea * 0.1;
+  const repeatArea = patternRepeatIn > 0 ? perimeter * (patternRepeatIn / 12) : 0;
+  const rolls = Math.ceil((wallArea + wasteArea + repeatArea) / Math.max(1, rollCoverageSqft));
+  return {
+    wallArea: round2(wallArea),
+    rolls,
+    repeatExtra: round2(repeatArea),
+    wastePct: round2(((wasteArea + repeatArea) / Math.max(1, wallArea)) * 100),
+  };
 }
 
 /** Sod: sqft, pallets (450 sqft typical). */
