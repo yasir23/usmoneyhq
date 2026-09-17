@@ -1,13 +1,24 @@
 // @ts-nocheck — plain client component; geo decision passed from server (ToolPageShell).
 import { useEffect, useState } from "react";
 import { AFFILIATE_OFFERS, AFFILIATE_DISCLOSURE } from "../lib/affiliates";
+import { resolveUS } from "../lib/geo";
 
 /**
  * AffiliateBlock — contextual affiliate CTAs shown ONLY to US visitors.
  * Clicks route through /api/go/{offerId} (tracked + redirected).
+ *
+ * GEO DECISION (fixed 2026-09-17): this used to be `if (!isUS) return null`,
+ * trusting only the server prop. Only the dynamic route pages/[tool].js supplies
+ * that prop, so on the 111 STATIC tool pages (mortgage-calculator,
+ * budget-calculator, retirement-calculator...) isUS was always false and this
+ * component rendered nothing for every visitor — the affiliate system earned
+ * zero because of a missing prop, not a missing program. Now the server prop is
+ * still authoritative, and when it is absent we fall back to the `geo` cookie
+ * that middleware.ts sets from Cloudflare's cf-ipcountry, then to a US-only
+ * timezone check.
  */
 export default function AffiliateBlock({ slug, isUS = false, compact = false }) {
-  const [visible, setVisible] = useState(isUS);
+  const [visible, setVisible] = useState(false);
   const [pagePath, setPagePath] = useState("");
 
   useEffect(() => {
@@ -15,25 +26,25 @@ export default function AffiliateBlock({ slug, isUS = false, compact = false }) 
   }, []);
 
   useEffect(() => {
-    // server said not US -> never show. server said US -> also re-check via
-    // timezone as a cheap client heuristic (no external call needed)
-    if (!isUS) {
-      setVisible(false);
+    // A server-resolved US is final. Otherwise resolve from the cookie, then tz.
+    if (isUS === true) {
+      setVisible(true);
       return;
     }
-    try {
-      const tz = Intl.DateTimeFormat().resolvedOptions().timeZone || "";
-      const usTz = /^(America|US|Pacific\/Honolulu|Pacific\/Pago_Pago|Pacific\/Adak|Pacific\/Guam|Pacific\/Saipan)/.test(tz);
-      setVisible(usTz);
-    } catch {
-      setVisible(true); // can't detect -> trust server
-    }
+    setVisible(resolveUS(""));
   }, [isUS]);
 
   if (!visible) return null;
 
+  // Only offers with a REAL tracked link. An untracked link (a plain brand
+  // homepage) earns nothing when clicked, so rendering it spends page space and
+  // reader trust for zero revenue while making the block LOOK monetized. Today
+  // that means one offer (Shopify, via Impact); the finance slots in
+  // lib/affiliates.ts switch on the moment a tracked URL is pasted in.
   const offers = AFFILIATE_OFFERS.filter(
-    (o) => !o.tools || o.tools.length === 0 || o.tools.includes(slug)
+    (o) =>
+      o.live === true &&
+      (!o.tools || o.tools.length === 0 || o.tools.includes(slug))
   ).slice(0, compact ? 2 : 3);
 
   if (offers.length === 0) return null;

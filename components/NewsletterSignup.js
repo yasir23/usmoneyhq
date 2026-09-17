@@ -1,16 +1,31 @@
 // @ts-nocheck — client newsletter capture (US-focused list builder).
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { resolveUS } from "../lib/geo";
 
 /**
  * NewsletterSignup — captures emails on calculator pages. Renders only for US
  * visitors (server passes isUS like the affiliate block). Small, non-intrusive,
  * one field + submit. Feed the list later with rate alerts / money tips.
+ *
+ * Same geo defect as AffiliateBlock (fixed 2026-09-17): gating on the server prop
+ * alone meant this never rendered on the 111 static tool pages, because only the
+ * dynamic route passes that prop. Now it falls back to the middleware's `geo`
+ * cookie, then a US-only timezone check.
  */
 export default function NewsletterSignup({ isUS = false, context = "money tips" }) {
   const [email, setEmail] = useState("");
   const [state, setState] = useState("idle");
+  const [show, setShow] = useState(false);
 
-  if (!isUS) return null;
+  useEffect(() => {
+    if (isUS === true) {
+      setShow(true);
+      return;
+    }
+    setShow(resolveUS(""));
+  }, [isUS]);
+
+  if (!show) return null;
 
   async function submit(e) {
     e.preventDefault();
