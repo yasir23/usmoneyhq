@@ -58,8 +58,17 @@ export default function ToolPageShell({ slug, stateSlug, amountSlug, metroSlug, 
   const isUS = (country || "").toUpperCase() === "US";
   const tool = getTool(slug);
   const pair: [StateData, StateData] | null = stateSlug && stateSlug.includes("-vs-") ? getComparisonPair(stateSlug) : null;
-  const state: StateData | undefined = stateSlug && !pair ? getState(stateSlug) : undefined;
   const metro: Metro | undefined = metroSlug ? getMetro(metroSlug) : undefined;
+  // A metro page IS a state page with city-level title/desc/h1 — the catch-all
+  // only passes `metroSlug`, so resolve the metro's own state here. Before this,
+  // `state` stayed undefined on every metro URL, which produced the broken live
+  // strings "Houston, : Mortgage Calculator", "Real numbers for Houston, ." and
+  // a metro page with NO state data, no TLDR and no state-section links at all
+  // (1,092 URLs, found 2026-09-17).
+  const metroState: StateData | undefined = metro ? getState(metro.stateSlug) : undefined;
+  const state: StateData | undefined = stateSlug && !pair ? getState(stateSlug) : metroState;
+  /** "City, State" display string — metro.label wins where the default reads wrong. */
+  const metroLabel: string = metro ? metro.label || `${metro.name}, ${metroState?.name || ""}`.trim().replace(/,\s*$/, "") : "";
   const amount: number | undefined = amountSlug ? amountFromSlug(amountSlug) : undefined;
   const amtTool = AMOUNT_TOOLS[slug];
   const validAmount = amount !== undefined && !isNaN(amount) && amtTool && (allowedAmounts(slug) || []).includes(amount);
@@ -110,7 +119,7 @@ export default function ToolPageShell({ slug, stateSlug, amountSlug, metroSlug, 
   const pageTitle = pair
     ? `${pair[0].name} vs ${pair[1].name} ${tool.shortTitle.replace(" Calculator", "")} Calculator 2026 | US Money HQ`
     : metro
-    ? `${metro.name}, ${state?.name || ""} ${tool.shortTitle.replace(" Calculator", "")} Calculator 2026 | US Money HQ`
+    ? `${metroLabel} ${tool.shortTitle.replace(" Calculator", "")} Calculator 2026 | US Money HQ`
     : age
     ? `${tool.shortTitle} at Age ${age}: Projected Retirement (2026) | US Money HQ`
     : state && amount
@@ -131,7 +140,7 @@ export default function ToolPageShell({ slug, stateSlug, amountSlug, metroSlug, 
   const pageDesc = pair
     ? `Compare ${pair[0].name} vs ${pair[1].name} ${tool.shortTitle.toLowerCase()} 2026: income tax, property tax, sales tax, and take-home math side by side.`
     : metro
-    ? `${tool.description} Real numbers for ${metro.name}, ${state?.name || ""}.`
+    ? `${tool.description} Real numbers for ${metroLabel}.`
     : age
     ? `${tool.shortTitle} started at age ${age}: projected balance at ${ageTool?.retirementAge || 65} with contributions and employer match.`
     : state && amount
@@ -176,7 +185,7 @@ export default function ToolPageShell({ slug, stateSlug, amountSlug, metroSlug, 
           { "@type": "ListItem", position: 1, name: "Home", item: SITE_URL },
           { "@type": "ListItem", position: 2, name: tool.shortTitle, item: `${SITE_URL}/${tool.slug}` },
           ...(pair ? [{ "@type": "ListItem", position: 3, name: `${pair[0].name} vs ${pair[1].name}`, item: url }] : []),
-          ...(state && !pair && !amount ? [{ "@type": "ListItem", position: 3, name: state.name, item: url }] : []),
+          ...(metro && !amount ? [{ "@type": "ListItem", position: 3, name: metroLabel, item: url }] : state && !pair && !amount ? [{ "@type": "ListItem", position: 3, name: state.name, item: url }] : []),
           ...(amount && !state ? [{ "@type": "ListItem", position: 3, name: fmtAmount(amount), item: url }] : []),
           ...(state && amount ? [{ "@type": "ListItem", position: 3, name: fmtAmount(amount), item: `${SITE_URL}/${tool.slug}/${amountSlug}` }, { "@type": "ListItem", position: 4, name: state.name, item: url }] : []),
         ],
@@ -188,8 +197,7 @@ export default function ToolPageShell({ slug, stateSlug, amountSlug, metroSlug, 
     state && amount ? { [amtTool?.field || "salary"]: amount, state: state.abbr }
     : amount ? { [amtTool?.field || "salary"]: amount }
     : age ? { [ageTool?.field || "years"]: Math.max(1, (ageTool?.retirementAge || 65) - age) }
-    : state ? { state: state.abbr }
-    : metro ? { state: getState(metro.stateSlug)?.abbr || "" }
+    : state ? { state: state.abbr } /* state AND metro pages (a metro resolves its state) */
     : pair ? { state: pair[0].abbr }
     : undefined;
 
@@ -222,17 +230,17 @@ export default function ToolPageShell({ slug, stateSlug, amountSlug, metroSlug, 
           <span aria-hidden="true">›</span>
           <Link href={`/${tool.slug}`}>{tool.shortTitle}</Link>
           {pair && (<><span aria-hidden="true">›</span><span>{pair[0].name} vs {pair[1].name}</span></>)}
-          {metro && (<><span aria-hidden="true">›</span><span>{metro.name}</span></>)}
+          {metro && (<><span aria-hidden="true">›</span><span>{metroLabel}</span></>)}
           {age && (<><span aria-hidden="true">›</span><span>Age {age}</span></>)}
           {amount && !state && (<><span aria-hidden="true">›</span><span>{fmtAmount(amount)}</span></>)}
           {state && !pair && !amount && !metro && (<><span aria-hidden="true">›</span><span>{state.name}</span></>)}
           {amount && state && (<><span aria-hidden="true">›</span><Link href={`/${tool.slug}/${amountSlug}`}>{fmtAmount(amount)}</Link><span aria-hidden="true">›</span><span>{state.name}</span></>)}
         </nav>
 
-        <h1>{pair ? `${pair[0].name} vs ${pair[1].name}: ${tool.h1}` : metro ? `${metro.name}, ${state?.name || ""}: ${tool.h1}` : age ? `${tool.shortTitle} at ${age}: projected balance at ${ageTool?.retirementAge || 65}` : state && amount ? (amountKind === "price" ? `${fmtAmount(amount)} Home in ${state.name}: ${tool.h1}` : amountKind === "income" ? `How Much House on ${fmtAmount(amount)} in ${state.name}?` : `${fmtAmount(amount)} Salary in ${state.name}: ${tool.h1}`) : amount ? (amountKind === "income" ? `How Much House on ${fmtAmount(amount)}?` : amountKind === "price" ? `${fmtAmount(amount)} Home: ${tool.h1}` : `${fmtAmount(amount)} Salary: ${tool.h1}`) : state ? `${state.name} ${tool.h1}` : tool.h1}</h1>
+        <h1>{pair ? `${pair[0].name} vs ${pair[1].name}: ${tool.h1}` : metro ? `${metroLabel}: ${tool.h1}` : age ? `${tool.shortTitle} at ${age}: projected balance at ${ageTool?.retirementAge || 65}` : state && amount ? (amountKind === "price" ? `${fmtAmount(amount)} Home in ${state.name}: ${tool.h1}` : amountKind === "income" ? `How Much House on ${fmtAmount(amount)} in ${state.name}?` : `${fmtAmount(amount)} Salary in ${state.name}: ${tool.h1}`) : amount ? (amountKind === "income" ? `How Much House on ${fmtAmount(amount)}?` : amountKind === "price" ? `${fmtAmount(amount)} Home: ${tool.h1}` : `${fmtAmount(amount)} Salary: ${tool.h1}`) : state ? `${state.name} ${tool.h1}` : tool.h1}</h1>
         <p className="sub">{tool.sub}</p>
 
-        <VariantTLDR slug={slug} state={state} amount={amount} amountKind={amountKind} age={age} ageTool={ageTool} />
+        <VariantTLDR slug={slug} state={state} amount={amount} amountKind={amountKind} age={age} ageTool={ageTool} metroLabel={metro ? metroLabel : undefined} />
 
         <AdSlot id="top" />
 
@@ -304,7 +312,11 @@ export default function ToolPageShell({ slug, stateSlug, amountSlug, metroSlug, 
 
         <AdSlot id="mid" />
 
-        {!state && STATE_AWARE_TOOLS.includes(slug) && (
+        {/* Base tool pages AND metro pages carry the 50-state cloud: a metro page
+            resolves a state (so the sibling grid above already fires), and
+            without this guard it would silently lose the site's biggest
+            internal-linking surface for state URLs (1,092 metro pages). */}
+        {(!state || metro) && STATE_AWARE_TOOLS.includes(slug) && (
           <div className="seo">
             <h2>Calculator by State</h2>
             <div className="state-links">
@@ -364,7 +376,45 @@ export default function ToolPageShell({ slug, stateSlug, amountSlug, metroSlug, 
   );
 }
 
-function VariantTLDR({ slug, state, amount, amountKind, age, ageTool }: { slug: string; state?: StateData; amount?: number; amountKind?: string; age?: number; ageTool?: { field: string; retirementAge: number } }) {
+function VariantTLDR({ slug, state, amount, amountKind, age, ageTool, metroLabel }: { slug: string; state?: StateData; amount?: number; amountKind?: string; age?: number; ageTool?: { field: string; retirementAge: number }; metroLabel?: string }) {
+  // Metro pages carry no amount/age, so every branch below used to return null and
+  // a city page shipped no computed figure at all. These use the same reference
+  // figures the rest of the site already quotes (a $300k home with 20% down at
+  // ~6.5%/30yr, a $75k salary, a $100k income) so the number is real and checkable
+  // against the engine — "never thin templates" only holds if the page computes.
+  const REF_PRICE = 300000;
+  const REF_SALARY = 75000;
+  const REF_INCOME = 100000;
+  if (metroLabel && state && amount === undefined && age === undefined) {
+    if (slug === "mortgage-calculator") {
+      const pmt = monthlyPayment(REF_PRICE * 0.8, 6.5, 360);
+      const taxMonthly = (REF_PRICE * (state.propTaxPct / 100)) / 12;
+      const totalInt = pmt * 360 - REF_PRICE * 0.8;
+      return (
+        <p className="tldr" style={{ fontWeight: 600 }}>
+          Quick answer: a {fmtAmount(REF_PRICE)} home in {metroLabel} with 20% down at ~6.5% for 30 years is roughly {fmtAmount(pmt)}/month in principal + interest (about {fmtAmount(totalInt)} of interest over the loan), plus an estimated {fmtAmount(taxMonthly)}/month in property tax at {state.name}&apos;s average {state.propTaxPct}% of value — before insurance and HOA.
+        </p>
+      );
+    }
+    if (slug === "salary-after-tax-calculator") {
+      const net = REF_SALARY - federalTax(REF_SALARY).tax - fica(REF_SALARY).total - stateTax(REF_SALARY, state.abbr).tax;
+      return (
+        <p className="tldr" style={{ fontWeight: 600 }}>
+          Quick answer: a {fmtAmount(REF_SALARY)} salary in {metroLabel} keeps about {fmtAmount(net)} a year after federal, FICA and {state.name} state tax ({state.incomeTaxNote.toLowerCase()}) — roughly {fmtAmount(net / 12)}/month.
+        </p>
+      );
+    }
+    if (slug === "home-affordability-calculator") {
+      const housing = (REF_INCOME / 12) * 0.28;
+      const totalDebt = (REF_INCOME / 12) * 0.36;
+      return (
+        <p className="tldr" style={{ fontWeight: 600 }}>
+          Quick answer: on a {fmtAmount(REF_INCOME)} income in {metroLabel}, the 28% front-end guideline allows about {fmtAmount(housing)}/month of housing cost and lenders cap total debt near {fmtAmount(totalDebt)}/month (36% DTI). {state.name}&apos;s average property tax of {state.propTaxPct}% comes out of that same budget, so the same income buys less house here than in a low-property-tax market.
+        </p>
+      );
+    }
+    return null;
+  }
   if (state && amount && slug === "salary-after-tax-calculator" && age === undefined) {
     const gross = amount;
     const fed = federalTax(gross).tax;

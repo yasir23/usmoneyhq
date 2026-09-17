@@ -4,8 +4,16 @@
 // targeting to the title/desc/h1.
 export interface Metro {
   slug: string;
+  /** City display name, e.g. "Houston" or "Washington D.C.". */
   name: string;
   stateSlug: string;
+  /**
+   * Optional full display string ("City, State") used in titles/H1s.
+   * Defaults to `${name}, <state>` — only set it when that would read wrong
+   * (Washington D.C. is its own state equivalent, so "Washington, Washington
+   * D.C." must not happen).
+   */
+  label?: string;
 }
 
 const RAW: [string, string][] = [
@@ -56,11 +64,36 @@ const RAW: [string, string][] = [
   ["oceanside", "california"], ["temecula", "california"], ["indio", "california"],
 ];
 
-export const METROS: Metro[] = RAW.map(([city, stateSlug]) => ({
-  slug: `${city}-${stateSlug}`,
-  name: city.split("-").map((w) => w[0].toUpperCase() + w.slice(1)).join(" ") + (city === "washington-dc" ? "" : ""),
-  stateSlug,
-}));
+/**
+ * Display overrides for slugs that do NOT title-case cleanly.
+ *
+ * The default name is built by title-casing each hyphen-delimited word, which is
+ * correct for "new-york" → "New York" but produces junk for slugs that carry a
+ * state/postal suffix or a period-bearing abbreviation:
+ *   washington-dc → "Washington Dc" · st-louis → "St Louis"
+ *   portland-me   → "Portland Me"   · columbus-ga → "Columbus Ga"
+ * All four leaked onto live metro pages (2026-09-17). `label` overrides the
+ * "City, State" form only where that pairing would double the state.
+ */
+const DISPLAY: Record<string, { name: string; label?: string }> = {
+  // DC has BOTH a state entry ("Washington D.C.") and this metro, and they cover
+  // the same geography — so the metro label must not repeat the state name or
+  // the two pages ship an identical <title> (caught by the metro verifier).
+  "washington-dc": { name: "Washington D.C.", label: "Washington D.C. Metro" },
+  "st-louis": { name: "St. Louis" },
+  "portland-me": { name: "Portland" },
+  "columbus-ga": { name: "Columbus" },
+};
+
+export const METROS: Metro[] = RAW.map(([city, stateSlug]) => {
+  const ov = DISPLAY[city];
+  const base: Metro = {
+    slug: `${city}-${stateSlug}`,
+    name: ov?.name || city.split("-").map((w) => w[0].toUpperCase() + w.slice(1)).join(" "),
+    stateSlug,
+  };
+  return ov?.label ? { ...base, label: ov.label } : base;
+});
 
 export function getMetro(slug: string): Metro | undefined {
   return METROS.find((m) => m.slug === slug);

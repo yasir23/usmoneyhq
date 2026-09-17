@@ -44,8 +44,17 @@ export function ageFromSlug(slug: string): number | undefined {
   return n;
 }
 
+/**
+ * Display formatter for scenario labels and computed sentences.
+ *
+ * `maximumFractionDigits: 2` is load-bearing: amount slugs are integers, but the
+ * TLDR sentences feed it DERIVED floats (monthly payment, monthly property tax,
+ * 28% of monthly income). Without the cap those rendered three decimals on live
+ * pages — "roughly $1,516.963/month", "$2,333.333" (found 2026-09-17 on the
+ * amount and metro TLDRs).
+ */
 export function fmtAmount(n: number): string {
-  return "$" + n.toLocaleString("en-US");
+  return "$" + n.toLocaleString("en-US", { maximumFractionDigits: 2 });
 }
 
 export function amountFromSlug(slug: string): number | undefined {
