@@ -98,3 +98,19 @@ export const METROS: Metro[] = RAW.map(([city, stateSlug]) => {
 export function getMetro(slug: string): Metro | undefined {
   return METROS.find((m) => m.slug === slug);
 }
+
+/**
+ * Metros that belong to a state — used to link a STATE page DOWN to its city
+ * pages.
+ *
+ * Why this exists (measured 2026-09-18): metro pages were net EXPORTERS of
+ * internal links — every one renders the 50-state cloud — while nothing linked
+ * INTO them. All 7 tool roots together emitted just 7 metro links, and state
+ * pages emitted none, so 999 of the 1,001 metro URLs were reachable only via the
+ * sitemap. A page that nothing links to inherits no internal authority and gets
+ * minimal crawl priority, which is why the metro-tier SEO fixes (1,001 titles,
+ * H1s and descriptions) could not produce traffic: Google had no path to them.
+ */
+export function metrosForState(stateSlug: string): Metro[] {
+  return METROS.filter((m) => m.stateSlug === stateSlug);
+}

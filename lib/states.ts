@@ -118,6 +118,21 @@ export function getComparisonPairs(): [StateData, StateData][] {
   return out;
 }
 
+/**
+ * Comparison pairs that involve one state, returned in CANONICAL slug order
+ * (the a-vs-b spelling getComparisonPairs emits, where a precedes b in
+ * POPULAR_STATES). Emitting that exact order matters: `getComparisonPair` only
+ * resolves the canonical direction, so linking the reversed spelling would
+ * create 315 internal links pointing at URLs that are not the ones in the
+ * sitemap.
+ *
+ * Why this exists (measured 2026-09-18): all 315 comparison-pair URLs were
+ * orphaned — reachable only via the sitemap, linked from nowhere in the site.
+ */
+export function pairsForState(stateSlug: string): [StateData, StateData][] {
+  return getComparisonPairs().filter(([a, b]) => a.slug === stateSlug || b.slug === stateSlug);
+}
+
 export function getStateByAbbr(abbr: string): StateData | undefined {
   return STATES.find((s) => s.abbr === abbr.toUpperCase());
 }

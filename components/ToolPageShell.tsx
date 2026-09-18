@@ -5,9 +5,9 @@ import AffiliateBlock from "./AffiliateBlock";
 import NewsletterSignup from "./NewsletterSignup";
 import ToolClient from "./ToolClient";
 import { getTool, SITE_URL, SITE_NAME, TOOLS } from "../lib/tools";
-import { getState, getComparisonPair, STATES, STATE_AWARE_TOOLS, type StateData } from "../lib/states";
+import { getState, getComparisonPair, STATES, STATE_AWARE_TOOLS, pairsForState, type StateData } from "../lib/states";
 import { AMOUNT_TOOLS, allowedAmounts, allowedAges, AGE_TOOLS, ageFromSlug, fmtAmount, amountFromSlug } from "../lib/amounts";
-import { getMetro, type Metro } from "../lib/metros";
+import { getMetro, metrosForState, type Metro } from "../lib/metros";
 import { federalTax, fica, stateTax, monthlyPayment } from "../lib/calc";
 
 /**
@@ -208,6 +208,14 @@ export default function ToolPageShell({ slug, stateSlug, amountSlug, metroSlug, 
   // point at /{tool}/{state} URLs for state-aware tools).
   const relatedMembers = relatedMembersFor(slug);
   const stateExtras = STATE_AWARE_TOOLS.filter((t) => t !== slug && !relatedMembers.includes(t));
+  // Downward internal links from a STATE page to the city pages and comparison
+  // pairs that belong to that state. Measured 2026-09-18: without these, 999 of
+  // the 1,001 metro URLs and all 315 comparison-pair URLs had no inbound
+  // internal link anywhere on the site — sitemap-only orphans, which is why the
+  // metro-tier SEO work produced no traffic.
+  const isStatePage = Boolean(state && !metro && !pair && amount === undefined);
+  const stateMetros = isStatePage && state ? metrosForState(state.slug) : [];
+  const statePairs = isStatePage && state ? pairsForState(state.slug) : [];
 
   return (
     <>
@@ -351,6 +359,30 @@ export default function ToolPageShell({ slug, stateSlug, amountSlug, metroSlug, 
                       </Link>
                     );
                   })}
+                </div>
+              </>
+            )}
+            {stateMetros.length > 0 && (
+              <>
+                <h3>{state.name} metro areas</h3>
+                <div className="state-links">
+                  {stateMetros.map((m) => (
+                    <Link key={m.slug} href={`/${slug}/${m.slug}`} className="state-link">
+                      {m.label || `${m.name}, ${state.name}`}
+                    </Link>
+                  ))}
+                </div>
+              </>
+            )}
+            {statePairs.length > 0 && (
+              <>
+                <h3>Compare {state.name} with other states</h3>
+                <div className="state-links">
+                  {statePairs.map(([a, b]) => (
+                    <Link key={`${a.slug}-${b.slug}`} href={`/${slug}/${a.slug}-vs-${b.slug}`} className="state-link">
+                      {a.slug === state.slug ? b.name : a.name}
+                    </Link>
+                  ))}
                 </div>
               </>
             )}
