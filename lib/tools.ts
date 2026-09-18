@@ -378,6 +378,8 @@ export const TOOLS: ToolDef[] = [
     note: "Estimate only. 401(k), insurance, and credits not included.",
     faq: [
       { q: "Why is my paycheck different from this estimate?", a: "Employers deduct pre-tax benefits like 401(k), health insurance, and HSA/FSA contributions. Your W-4 withholding choices also affect each check." },
+      { q: "How many paychecks do I get in a year?", a: "It depends on pay frequency: 52 weekly, 26 biweekly, 24 semimonthly, or 12 monthly. Biweekly and semimonthly are easy to mix up — biweekly is every two weeks (26 checks), semimonthly is two fixed dates a month (24 checks). Annual take-home is the same either way; only the amount per check changes. On a $75,000 salary in Texas, biweekly pays $2,368.94 net per check and semimonthly pays $2,566.35, and both total roughly $61,592 a year." },
+      { q: "Is this gross pay or net pay?", a: "Both are shown. Gross pay is your salary divided by the number of pay periods; net pay is what actually lands in your account after federal income tax, Social Security, Medicare, and state tax. On $75,000 in Texas with 26 pay periods that is $2,884.62 gross and $2,368.94 net per check." },
     ],
     related: ["salary-after-tax-calculator", "debt-payoff-calculator", "dti-calculator"],
   },
@@ -1148,9 +1150,9 @@ export const TOOLS: ToolDef[] = [
   },
   {
     slug: "due-date-calculator",
-    title: "Due Date Calculator 2026 — Pregnancy Due Date | US Money HQ",
+    title: "Due Date Calculator 2026 — How Far Along Am I? | US Money HQ",
     shortTitle: "Due Date Calculator",
-    description: "Free pregnancy due date calculator: estimated due date from your last period using Naegele's rule, plus current gestational age and trimester.",
+    description: "Free pregnancy due date calculator: due date from your last period (Naegele's rule), plus how many weeks pregnant you are and your trimester.",
     h1: "Due Date Calculator",
     sub: "Estimated due date, gestational age, and trimester from your last period.",
     fields: [
@@ -1181,6 +1183,8 @@ export const TOOLS: ToolDef[] = [
     faq: [
       { q: "How accurate is a due date from LMP?", a: "Within about a week, assuming regular 28-day cycles. A first-trimester ultrasound is the most accurate dating method." },
       { q: "Why adjust for cycle length?", a: "Ovulation shifts with cycle length. Longer cycles push the due date later; this calculator adjusts proportionally." },
+      { q: "How many weeks pregnant am I?", a: "The Gestational age row is your answer: it counts weeks and days from the first day of your last period, which is how clinicians date a pregnancy. That is why the count runs about two weeks ahead of conception — on a 28-day cycle ovulation happens around day 14, and pregnancy is measured as 40 weeks (280 days) from the last period, not from fertilization." },
+      { q: "How is my due date calculated?", a: "Naegele's rule: take the first day of your last period and add 280 days (40 weeks), then adjust if your cycle is longer or shorter than 28 days. For example, a last period of January 15 with a 28-day cycle gives a due date of October 22." },
     ],
     related: ["grade-calculator", "gpa-calculator", "sleep-calculator"],
   },
@@ -2554,6 +2558,7 @@ export const TOOLS: ToolDef[] = [
     faq: [
       { q: "Is escrow required?", a: "Lenders require escrow for property tax and insurance when you put down less than 20%. With 20%+ down, you may opt out and pay them yourself." },
       { q: "Why does my escrow payment change?", a: "Lenders do an annual escrow analysis. When tax or insurance premiums rise, your monthly escrow increases to cover the new total and any shortfall." },
+      { q: "Which taxes does escrow pay?", a: "Property taxes only — plus homeowners insurance. Escrow never covers income tax or sales tax. Your servicer collects 1/12 of the annual property tax bill each month and pays the county when it comes due. On a $350,000 home at a 1.1% rate that is $3,850 a year, or $320.83 a month, plus $125 a month for a $1,500 insurance policy." },
     ],
     related: ["mortgage-calculator", "property-tax-calculator", "closing-costs-calculator"],
   },
