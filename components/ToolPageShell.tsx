@@ -215,6 +215,12 @@ export default function ToolPageShell({ slug, stateSlug, amountSlug, metroSlug, 
         <title>{pageTitle}</title>
         <meta name="description" content={pageDesc} />
         <link rel="canonical" href={url} />
+        {/* Amount x state combos are near-duplicate permutations of the state and
+            amount pages (measured 2026-09-18: 96-98% identical text, 261-384 words,
+            zero inbound internal links). noindex keeps them usable as deep links
+            while removing them from the index, so they stop cannibalising the
+            canonical /{tool}/{amount} and /{tool}/{state} pages. */}
+        {amount && state && <meta name="robots" content="noindex, follow" />}
         <meta property="og:type" content="website" />
         <meta property="og:title" content={pageTitle} />
         <meta property="og:description" content={pageDesc} />

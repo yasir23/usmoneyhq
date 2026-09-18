@@ -72,16 +72,21 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.9,
     });
   }
-  // amount scenario pages: amount-enabled tools x their amounts (x 50 states)
+  // amount scenario pages: amount-enabled tools x their amounts.
+  //
+  // DELIBERATELY EXCLUDES the amount x state combinations. Measured 2026-09-18:
+  // 2,907 combo URLs were 60% of this sitemap, yet are 96-98% textually identical
+  // to their siblings (361-384 word pages with one number swapped), and receive
+  // ZERO internal links from any tool root — sitemap-only orphans. They cannibalise
+  // /{tool}/{amount} and /{tool}/{state}, both of which ARE internally linked and are
+  // the intended canonical targets, and they spend the crawl budget Google grants a
+  // young domain on pages that cannot rank. The URLs stay live and reachable for
+  // users; ToolPageShell marks them noindex so they leave the index and stop
+  // diluting the site's quality signal. Re-adding them requires per-page unique
+  // content, not a sitemap entry.
   for (const slug of Object.keys(AMOUNT_TOOLS)) {
-    const amounts = allowedAmounts(slug) || [];
-    for (const amt of amounts) {
+    for (const amt of allowedAmounts(slug) || []) {
       pages.push({ url: `${SITE_URL}/${slug}/${amt}`, lastModified: now, changeFrequency: "monthly", priority: 0.6 });
-      if (STATE_AWARE_TOOLS.includes(slug)) {
-        for (const s of STATES) {
-          pages.push({ url: `${SITE_URL}/${slug}/${amt}/${s.slug}`, lastModified: now, changeFrequency: "monthly", priority: 0.6 });
-        }
-      }
     }
   }
 
