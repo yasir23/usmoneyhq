@@ -218,13 +218,13 @@ Long-tail (autocomplete):
 - mortgage calculator 2026
 - loan calculator 2026
 - mortgage calculator how much can i borrow
+- mortgage calculator how much can i afford
 - mortgage calculator how much can i borrow uk
 - mortgage calculator how much will i pay
 - mortgage calculator how much house can i afford
 - loan calculator how much can i borrow
 - mortgage calculator how much
 - mortgage calculator how much borrow
-- mortgage calculator how much can i borrow with deposit
 
 ## retirement-calculator
 
@@ -307,6 +307,7 @@ Short-tail: child support calculator | child support estimate calculator
 Long-tail (autocomplete):
 - child support calculator
 - child support calculator ontario
+- child support calculator texas
 - child support calculator alberta
 - child support calculator bc
 - child support calculator florida
@@ -314,7 +315,6 @@ Long-tail (autocomplete):
 - child support calculator california
 - child support calculator australia
 - child support calculator pa
-- child support calculator nc
 - child support calculator 2026
 - child support calculator 2026 ontario
 - child support calculator 2026 alberta
@@ -943,8 +943,8 @@ Long-tail (autocomplete):
 - bmi calculator
 - bmi calculator male
 - bmi calculator in kg and feet
-- bmi calculator kg with age
 - bmi calculator women
+- bmi calculator kg with age
 - bmi calculator kg
 - bmi calculator pakistan
 - bmi calculator for kids
@@ -993,13 +993,13 @@ Long-tail (autocomplete):
 - budget calculator
 - budget calculator pakistan
 - budget calculator 2026
+- budget calculator free
 - budget calculator 2026-27
 - budget calculator app
 - budget calculator 2026 pakistan
 - budget calculator based on income
 - budget calculator salary
 - budget calculator kpk
-- budget calculator canada
 - budget calculator 2026 ireland
 - budget calculator 2026 gov uk
 - budget calculator 2026 malta
@@ -1009,7 +1009,7 @@ Long-tail (autocomplete):
 - budget 2026 calculator australia
 - budget calculator how much rent can i afford
 - budget calculator how much do i need to make
-- budget calculator free
+- budget calculator free excel
 
 ## discount-calculator
 
@@ -2247,7 +2247,6 @@ Long-tail (autocomplete):
 
 Short-tail: self employment tax calculator | self employed tax calculator
 Long-tail (autocomplete):
-- self employment tax calculator
 - self employment tax calculator 2026
 - self employment tax calculator uk
 - self employment tax calculator 2025
@@ -2257,6 +2256,7 @@ Long-tail (autocomplete):
 - self employment tax calculator ontario
 - self employment tax calculator 1099
 - self employment tax calculator free
+- self employment tax calculator quarterly
 - self employed tax calculator 2026 27
 - self employment tax estimator 2026
 - estimated self employment tax calculator 2026
@@ -2306,7 +2306,7 @@ Long-tail (autocomplete):
 - sod calculator home depot
 - sod calculator by address
 - sod calculator app
-- sod calculator ottawa
+- sod calculator wow
 - how much sod calculator
 - how to figure sod amount
 - how to figure out how much sod i need
@@ -2441,6 +2441,7 @@ Long-tail (autocomplete):
 
 Short-tail: topsoil calculator | how much topsoil do i need
 Long-tail (autocomplete):
+- topsoil calculator
 - topsoil calculator uk
 - topsoil calculator m2
 - topsoil calculator in litres
@@ -2450,7 +2451,6 @@ Long-tail (autocomplete):
 - topsoil calculator yards
 - topsoil calculator square feet
 - topsoil calculator for lawn
-- topsoil calculator for raised beds
 - mulch calculator how much mulch do i need
 - how much topsoil calculator
 - calculator for how much topsoil i need
