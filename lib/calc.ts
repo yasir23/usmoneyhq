@@ -282,7 +282,16 @@ export function retirementProjection(currentAge: number, retireAge: number, savi
   };
 }
 
-/** Credit card minimum payment path: min = max(minPct * balance, minFlat). */
+/**
+ * Credit card minimum payment path: min = max(minPct * balance, minFlat).
+ *
+ * The minimum can be LESS than the monthly interest (a 2% minimum against a
+ * 24% APR is exactly break-even; 29.99% shrinks the payment relative to the
+ * interest). The balance then never amortises and the loop exits on the
+ * 600-month cap. Callers MUST NOT present `months` as a payoff date unless
+ * `paidOff` is true — at that point `finalBalance` is still owed and, when
+ * negative amortisation is in play, is LARGER than the starting balance.
+ */
 export function creditCardMinPayment(balance: number, apr: number, minPct = 0.02, minFlat = 25) {
   const r = apr / 100 / 12;
   let b = balance;
@@ -298,7 +307,13 @@ export function creditCardMinPayment(balance: number, apr: number, minPct = 0.02
     interestTotal += interest;
     totalPaid += payment;
   }
-  return { months, totalInterest: round2(interestTotal), totalPaid: round2(totalPaid) };
+  return {
+    months,
+    totalInterest: round2(interestTotal),
+    totalPaid: round2(totalPaid),
+    paidOff: b <= 0,
+    finalBalance: round2(b),
+  };
 }
 
 /** Child support rough estimate (income-share style % of non-custodial income). State-specific. */

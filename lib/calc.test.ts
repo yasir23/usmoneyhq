@@ -212,6 +212,24 @@ const cc = creditCardMinPayment(8000, 22);
 assert.ok(cc.months > 200, `min months ${cc.months}`);
 assert.ok(cc.totalInterest > 10000, `min interest ${cc.totalInterest}`);
 
+// credit card minimum — BOTH DIRECTIONS on the "does it ever clear?" flag.
+// 2% minimum vs a 24% APR = exactly break-even (2.00%/mo interest == 2.00%
+// payment), so principal never falls and 600 months is a CAP, not a payoff date.
+const ccNever = creditCardMinPayment(5000, 24);
+assert.strictEqual(ccNever.paidOff, false, `24% paidOff ${ccNever.paidOff}`);
+assert.strictEqual(ccNever.months, 600, `24% months ${ccNever.months}`);
+assert.strictEqual(ccNever.finalBalance, 5000, `24% finalBalance ${ccNever.finalBalance}`);
+// 29.99% is NEGATIVE amortisation: the balance grows past the starting amount.
+const ccGrow = creditCardMinPayment(5000, 29.99);
+assert.strictEqual(ccGrow.paidOff, false, `29.99% paidOff ${ccGrow.paidOff}`);
+assert.ok(ccGrow.finalBalance > 5000, `29.99% finalBalance ${ccGrow.finalBalance} should exceed 5000`);
+// ...and a genuinely amortising case must still report a real payoff date.
+const ccOk = creditCardMinPayment(2000, 12);
+assert.strictEqual(ccOk.paidOff, true, `12% paidOff ${ccOk.paidOff}`);
+assert.strictEqual(ccOk.finalBalance, 0, `12% finalBalance ${ccOk.finalBalance}`);
+assert.strictEqual(ccOk.months, 117, `12% months ${ccOk.months}`);
+assert.ok(ccOk.months < 600, `12% must not hit the cap (${ccOk.months})`);
+
 // child support: $5k/mo NCP, 2 kids -> 25% = $1,250
 const cs = childSupportEstimate(5000, 3000, 2);
 assert.ok(Math.abs(cs.monthly - 1250) < 1, `cs ${cs.monthly}`);

@@ -698,17 +698,33 @@ export const TOOLS: ToolDef[] = [
       const fixed = Number(v.fixedPayment) || 0;
       const min = creditCardMinPayment(balance, apr);
       const fix = debtPayoff(balance, apr, fixed, 0);
+      // A 2% minimum against a >=24% APR is at or below the monthly interest, so
+      // the balance never clears. Reporting "600 months" there would state a
+      // payoff date that does not exist (and "interest saved" against a
+      // never-ending path is a 50-year accrual, not a saving).
+      const minYears = (min.months / 12).toFixed(1);
       return [
-        { label: "Payoff time (minimum)", value: `${min.months} months`, highlight: true },
-        moneyRow("Interest (minimum path)", min.totalInterest),
+        {
+          label: "Payoff time (minimum)",
+          value: min.paidOff
+            ? `${min.months} months (${minYears} years)`
+            : `Never at the minimum (50 years in, ${money(min.finalBalance)} still owed)`,
+          highlight: true,
+        },
+        moneyRow(
+          min.paidOff ? "Interest (minimum path)" : "Interest accrued in 50 years at the minimum",
+          min.totalInterest
+        ),
         { label: "Payoff time (your payment)", value: `${fix.months} months` },
         moneyRow("Interest (your payment)", fix.totalInterest),
-        moneyRow("Interest saved", Math.max(0, min.totalInterest - fix.totalInterest)),
+        min.paidOff
+          ? moneyRow("Interest saved", Math.max(0, min.totalInterest - fix.totalInterest))
+          : moneyRow("Owed after 50 years of minimums", min.finalBalance),
       ];
     },
-    note: "Assumes a 2% minimum (min $25). Rates and payments can change.",
+    note: "Assumes a 2% minimum (min $25). Where the minimum does not cover the interest the balance never clears — raise the payment to make progress. Rates and payments can change.",
     faq: [
-      { q: "Why do minimum payments take so long?", a: "The minimum mostly covers interest, so the balance shrinks slowly. At 22% APR, a $8,000 balance takes decades at the minimum and costs thousands in interest." },
+      { q: "Why do minimum payments take so long?", a: "The minimum mostly covers interest, so the balance shrinks slowly — and above roughly 24% APR a 2% minimum does not even cover the monthly interest, so the balance stops falling and starts growing. Pay more than the minimum: every extra dollar goes straight at the principal." },
       { q: "What is the best payoff strategy?", a: "Pay the highest-APR card first (avalanche) to minimize interest, or the smallest balance first (snowball) for motivation. Either beats the minimum." },
     ],
     related: ["debt-payoff-calculator", "auto-loan-calculator", "dti-calculator"],
