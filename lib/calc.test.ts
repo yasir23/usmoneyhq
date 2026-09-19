@@ -110,6 +110,9 @@ import {
   retirementAge,
   breakEven,
 } from "./calc.ts";
+// The state data layer. Imported so the consistency guard below can compare what
+// the PAGE claims about a state against what the CALCULATOR charges for it.
+import { STATES as STATES_ALL } from "./states.ts";
 
 // $300k @ 6.5% / 30yr (360 mo) -> ~$1,896.20/mo (known value)
 const p = monthlyPayment(300000, 6.5, 360);
@@ -165,6 +168,41 @@ assert.strictEqual(stateTax(75000, "TX").tax, 0);
 assert.ok(NO_INCOME_TAX_STATES.includes("TX"));
 const ca = stateTax(75000, "CA");
 assert.ok(ca.tax > 2900 && ca.tax < 3100, `CA ${ca.tax}`);
+
+// ── PAGE vs CALCULATOR CONSISTENCY GUARD ───────────────────────────────────
+// lib/states.ts `incomeTax: "none"` decides what the PAGE tells the reader
+// ("No state income tax"); NO_INCOME_TAX_STATES decides what the CALCULATOR
+// charges. If the two disagree, a page claims no income tax while still
+// deducting state tax — a live contradiction on a money page.
+//
+// That shipped: Oregon and Montana were both marked incomeTax:"none" while
+// calc.ts charged them 5% (its list correctly excluded them), so
+// /salary-after-tax-calculator/oregon read "No state income tax" directly beside
+// a state-tax deduction. Oregon's own note said "income taxed 4.75-9.9%" — the
+// type field had been set from Oregon having no SALES tax.
+//
+// Asserted in BOTH directions, so neither list can drift from the other.
+const pageSaysNone = STATES_ALL.filter((s) => s.incomeTax === "none").map((s) => s.abbr).sort();
+const calcSaysNone = [...NO_INCOME_TAX_STATES].sort();
+assert.deepStrictEqual(
+  pageSaysNone,
+  calcSaysNone,
+  `states.ts incomeTax:"none" ${JSON.stringify(pageSaysNone)} != calc NO_INCOME_TAX_STATES ${JSON.stringify(calcSaysNone)}`,
+);
+assert.strictEqual(
+  pageSaysNone.length,
+  9,
+  `expected 9 zero-income-tax states (AK FL NV NH SD TN TX WA WY), got ${pageSaysNone.length}`,
+);
+// Reverse direction: a state we charge tax must not have a note claiming it is untaxed.
+for (const s of STATES_ALL) {
+  if (s.incomeTax !== "none") {
+    assert.ok(
+      !/no (state )?income tax/i.test(s.incomeTaxNote),
+      `${s.name} is taxed but its note claims otherwise: "${s.incomeTaxNote}"`,
+    );
+  }
+}
 
 // paycheck: $75k single TX biweekly -> gross 2884.62; net in range
 const pc = paycheckBreakdown(75000, "TX", "single", 26);
