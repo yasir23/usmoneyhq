@@ -25,6 +25,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: SITE_URL, lastModified: siteDate, changeFrequency: "weekly", priority: 1 },
     { url: `${SITE_URL}/about`, lastModified: siteDate, changeFrequency: "yearly", priority: 0.3 },
     { url: `${SITE_URL}/methodology`, lastModified: siteDate, changeFrequency: "yearly", priority: 0.4 },
+    { url: `${SITE_URL}/states`, lastModified: siteDate, changeFrequency: "monthly", priority: 0.8 },
     { url: `${SITE_URL}/developers`, lastModified: siteDate, changeFrequency: "monthly", priority: 0.5 },
     { url: `${SITE_URL}/llms.txt`, lastModified: siteDate, changeFrequency: "monthly", priority: 0.3 },
     { url: `${SITE_URL}/contact`, lastModified: siteDate, changeFrequency: "yearly", priority: 0.3 },

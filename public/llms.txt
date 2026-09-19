@@ -29,6 +29,7 @@
 Every state-aware tool has per-state pages and state-vs-state comparisons:
 - California tax math: https://usmoneyhq.com/salary-after-tax-calculator/california
 - Texas vs California: https://usmoneyhq.com/salary-after-tax-calculator/california-vs-texas
+- All 50 states (hub): https://usmoneyhq.com/states
 - Per-state index for any tool: open the tool root, e.g. https://usmoneyhq.com/salary-after-tax-calculator (every state page is linked from there)
 
 ## Scenario pages
