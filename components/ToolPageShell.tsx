@@ -281,11 +281,34 @@ export default function ToolPageShell({ slug, stateSlug, amountSlug, metroSlug, 
         {state && !pair && (
           <div className="state-facts card">
             <h2>{state.name} Facts</h2>
-            <div className="row"><span>Income tax</span><b>{state.incomeTaxNote}</b></div>
+            <div className="row"><span>{state.name}&apos;s actual income tax</span><b>{state.incomeTaxNote}</b></div>
             <div className="row"><span>Avg. property tax rate</span><b>{state.propTaxPct}% of home value</b></div>
             <div className="row"><span>Avg. combined sales tax</span><b>{state.salesTax}%</b></div>
-            <p className="note">Averages — verify current rates with your county assessor.</p>
+            <div className="row"><span>Used by the calculator above</span><b>5% flat national estimate</b></div>
+            <p className="note">
+              The state tax figure this calculator produces is a flat 5% national estimate for
+              every state with an income tax — it does <b>not</b> model {state.name}&apos;s actual
+              schedule ({state.incomeTaxNote.toLowerCase()}). It can differ materially from what
+              you owe. Confirm with the state revenue authority before relying on it.
+            </p>
           </div>
+        )}
+
+        {state && !pair && (
+          <p className="note estimate-basis">
+            <b>Estimate basis:</b> federal tax uses 2026 brackets and the standard deduction;
+            FICA uses the 2026 wage base; the state line is a 5% flat national estimate, or 0 in
+            the nine states with no income tax. This is an estimate, not tax advice.
+          </p>
+        )}
+
+        {pair && (
+          <p className="note estimate-basis">
+            <b>Estimate basis:</b> the state tax line is a flat 5% national estimate, so it does
+            not reflect either state&apos;s real schedule — {pair[0].name}: {pair[0].incomeTaxNote.toLowerCase()};
+            {" "}{pair[1].name}: {pair[1].incomeTaxNote.toLowerCase()}. A genuine two-state take-home
+            comparison will usually differ by more than this shows. This is an estimate, not tax advice.
+          </p>
         )}
 
         {!pair && <ToolClient tool={tool} initialValues={initialValues} showFaq={false} showRelated={false} />}
@@ -344,7 +367,7 @@ export default function ToolPageShell({ slug, stateSlug, amountSlug, metroSlug, 
         {state && (
           <div className="seo">
             <h2>{state.name}-specific notes for this calculator</h2>
-            <p>{state.name} has {state.incomeTaxNote.toLowerCase()} and an average effective property tax rate of {state.propTaxPct}% of home value (combined sales tax ~{state.salesTax}%). Use the numbers above as a starting point — local county rates and exemptions can change the real figures.</p>
+            <p>{state.name} has {state.incomeTaxNote.toLowerCase()} and an average effective property tax rate of {state.propTaxPct}% of home value (combined sales tax ~{state.salesTax}%). The state income tax shown above uses a 5% flat national estimate rather than {state.name}&apos;s bracket schedule, so treat the result as a starting point — local rates and exemptions can change the real figure materially.</p>
             {stateExtras.length > 0 && (
               <>
                 <h3>More {state.name} calculators</h3>

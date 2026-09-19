@@ -3,7 +3,7 @@
 # US Money HQ's 105 calculators natively.
 # More: https://llmstxt.org
 # US Money HQ
-> US Money HQ — free US financial calculators, state-by-state tax math, and scenario tools. 105 calculators, 4,810 real-data pages. All free, no signup.
+> US Money HQ — free US financial calculators, state-by-state tax math, and scenario tools. 105 calculators. 1,938 indexable pages — https://usmoneyhq.com/sitemap.xml is the authoritative list. All free, no signup.
 
 ## Core tools
 - Mortgage Calculator: https://usmoneyhq.com/mortgage-calculator
@@ -29,7 +29,7 @@
 Every state-aware tool has per-state pages and state-vs-state comparisons:
 - California tax math: https://usmoneyhq.com/salary-after-tax-calculator/california
 - Texas vs California: https://usmoneyhq.com/salary-after-tax-calculator/california-vs-texas
-- 50-state list: https://usmoneyhq.com/states
+- Per-state index for any tool: open the tool root, e.g. https://usmoneyhq.com/salary-after-tax-calculator (every state page is linked from there)
 
 ## Scenario pages
 - Salary amounts: https://usmoneyhq.com/salary-after-tax-calculator/75000
