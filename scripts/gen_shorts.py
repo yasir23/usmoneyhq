@@ -128,6 +128,26 @@ TOPICS = [
         "title": "The $400,000 mortgage payment",
         "script": "A four hundred thousand dollar home with twenty percent down is a three hundred and twenty thousand dollar loan. At six and a half percent for thirty years, the payment is two thousand and twenty two dollars a month. Principal and interest only, before taxes and insurance. Over the full thirty years, you pay four hundred and eight thousand dollars in interest. More than the loan itself. The mortgage calculator at US Money HQ shows the monthly payment and the full amortization schedule. Free, no sign up.",
     },
+    {
+        "id": "paycheck-75k-texas",
+        "title": "$75,000 salary: what lands every two weeks",
+        "script": "A seventy five thousand dollar salary pays two thousand eight hundred and eighty five dollars gross every two weeks. In Texas, after federal income tax and FICA, you keep two thousand three hundred and sixty nine dollars a check. The same salary in California leaves two thousand two hundred and fifty six. That is one hundred and thirteen dollars less every payday, about twenty nine hundred dollars a year. The paycheck calculator at US Money HQ runs your salary in any state. Free.",
+    },
+    {
+        "id": "affordability-120k",
+        "title": "On $120,000 you can afford a $403,243 home",
+        "script": "A one hundred and twenty thousand dollar income. Lenders cap housing at twenty eight percent of gross pay, which is two thousand eight hundred dollars a month. At six and a half percent with twenty percent down, that payment supports a four hundred and three thousand dollar home. Add a car payment and the number drops. The home affordability calculator at US Money HQ shows your exact price range. Free.",
+    },
+    {
+        "id": "mortgage-450k",
+        "title": "The $450,000 mortgage payment",
+        "script": "A four hundred and fifty thousand dollar home with twenty percent down leaves a three hundred and sixty thousand dollar loan. At six and a half percent for thirty years, the payment is two thousand two hundred and seventy five dollars a month. Principal and interest only, before taxes and insurance. Across the full term you pay four hundred and fifty nine thousand dollars in interest. More than you borrowed. The mortgage calculator at US Money HQ shows the payment and the full schedule.",
+    },
+    {
+        "id": "hourly-75k",
+        "title": "$75,000 a year is $36.06 an hour",
+        "script": "Seventy five thousand dollars a year. Break it down. That is thirty six dollars and six cents an hour, one thousand four hundred and forty two dollars a week, and six thousand two hundred and fifty dollars a month gross. Salaried roles do not pay overtime, which is exactly why the hourly figure matters when you compare two offers. The salary to hourly calculator at US Money HQ converts any salary in seconds. Free, no sign up.",
+    },
 ]
 
 
