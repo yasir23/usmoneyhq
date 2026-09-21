@@ -76,7 +76,7 @@ GET  ${SITE_URL}/api/calc/mortgage-calculator
 POST ${SITE_URL}/api/calc/mortgage-calculator
 {"amount": 300000, "rate": 6.5, "years": 30}`}</pre>
           <p>
-            Full tool list: <Link href="/tools">all 105 calculators</Link>.
+            Full tool list: <Link href="/">all 105 calculators</Link>.
           </p>
         </div>
 

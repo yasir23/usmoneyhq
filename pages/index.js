@@ -102,7 +102,7 @@ export default function Home() {
         <div className="seo">
           <h2>Popular salary scenarios</h2>
           <p>See exactly what different salaries take home in every state:</p>
-          <p><a href="/salary-after-tax-calculator/75000">$75,000 salary</a> · <a href="/salary-after-tax-calculator/100000">$100,000 salary</a> · <a href="/salary-after-tax-calculator/150000">$150,000 salary</a> · <a href="/salary-after-tax-calculator/100000/california">$100k in California</a> · <a href="/salary-after-tax-calculator/100000/texas">$100k in Texas</a> · <a href="/salary-after-tax-calculator/100000/new-york-new-york">$100k in NYC</a></p>
+          <p><a href="/salary-after-tax-calculator/75000">$75,000 salary</a> · <a href="/salary-after-tax-calculator/100000">$100,000 salary</a> · <a href="/salary-after-tax-calculator/150000">$150,000 salary</a> · <a href="/salary-after-tax-calculator/100000/california">$100k in California</a> · <a href="/salary-after-tax-calculator/100000/texas">$100k in Texas</a> · <a href="/salary-after-tax-calculator/100000/new-york">$100k in New York</a></p>
           <h2>For developers &amp; AI agents</h2>
           <p>
             <Link href="/developers">Connect all 105 calculators to AI agents</Link> via MCP, llms.txt,
