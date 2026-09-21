@@ -450,6 +450,8 @@ export const TOOLS: ToolDef[] = [
       { q: "What is a good DTI ratio?", a: "Conventional loans generally want a back-end DTI under 43%; FHA loans allow up to 50% in some cases. Lower DTI also means better interest rates." },
       { q: "How can I lower my DTI?", a: "Pay down credit card balances, extend loan terms to lower monthly payments, or increase income. Even a small balance payoff can push you under the threshold." },
       { q: "Do credit card payments count in DTI?", a: "Yes — lenders include the minimum monthly payment on every open card, even at a $0 balance. Cards with large balances can push your DTI over the limit even with a solid income." },
+      { q: "How much house can I afford at a 36% DTI?", a: "Multiply gross monthly income by 0.36, then subtract your other debt payments. On $8,000 a month with $700 of other debt, that caps housing at $2,180 — which supports roughly $345,000 of loan at 6.5% over 30 years. Property tax and insurance normally have to fit inside that same $2,180, so the loan you actually qualify for is usually lower." },
+      { q: "Do lenders use gross income or take-home pay for DTI?", a: "Gross income — the amount before taxes and payroll deductions. A ratio you work out from your net paycheck will look far worse than the one a lender calculates, because the lender starts from the larger pre-tax figure." },
     ],
     related: ["mortgage-calculator", "heloc-calculator", "debt-payoff-calculator"],
   },
@@ -3025,6 +3027,8 @@ export const TOOLS: ToolDef[] = [
     faq: [
       { q: "How do I calculate hours between times?", a: "Convert both to minutes, subtract, and convert back. An end time before the start time means the shift crosses midnight." },
       { q: "How many hours is a 9-5 shift?", a: "9:00 AM to 5:00 PM is 8 hours. With a 30-minute lunch, billable hours are 7.5." },
+      { q: "How do I calculate hours worked with breaks?", a: "Work out the total elapsed time first, then subtract unpaid break time. 7:30 AM to 5:30 PM is 10 hours; a 1-hour unpaid lunch leaves 9 paid hours. Paid breaks are not subtracted, so check the policy before billing the elapsed total." },
+      { q: "Does it work for overnight shifts?", a: "Yes — when the end time is earlier than the start time the result is treated as crossing midnight. 10:00 PM to 6:00 AM returns 8 hours, and 10:30 PM to 6:15 AM returns 7 hours 45 minutes." },
     ],
     related: ["overtime-calculator", "date-calculator", "hourly-to-salary-calculator"],
   },
@@ -3166,9 +3170,9 @@ export const TOOLS: ToolDef[] = [
   },
   {
     slug: "self-employment-tax-calculator",
-    title: "Self-Employment Tax Calculator 2026 | US Money HQ",
+    title: "Self-Employment Tax Calculator 2026 — How Much You Owe | US Money HQ",
     shortTitle: "Self-Employment Tax Calculator",
-    description: "Free self-employment tax calculator: Social Security + Medicare (15.3%), plus the deduction and federal impact.",
+    description: "Free self-employed tax calculator: 15.3% Social Security + Medicare on net profit, the 92.35% base, the half-SE-tax deduction and the federal impact.",
     h1: "Self-Employment Tax Calculator",
     sub: "The 15.3% SE tax, the deduction, and what it means for your bottom line.",
     fields: [
@@ -3199,6 +3203,8 @@ export const TOOLS: ToolDef[] = [
       { q: "What is self-employment tax?", a: "The employer + employee share of Social Security and Medicare: 12.4% + 2.9% = 15.3% of net earnings, applied to 92.35% of your profit." },
       { q: "Can I deduct half my self-employment tax?", a: "Yes — half of the SE tax is an above-the-line deduction that lowers your federal income tax, though it does not reduce the SE tax itself." },
       { q: "Do I need to pay quarterly estimated taxes?", a: "If you expect to owe $1,000+ in tax, the IRS expects quarterly payments. Missing them can trigger underpayment penalties." },
+      { q: "How much does the half self-employment tax deduction actually save?", a: "It reduces taxable income, not the SE tax itself. On $80,000 of net profit the SE tax is about $11,304, half is $5,652, and that deduction cuts federal income tax by roughly $1,243 at 2026 single rates. Retirement contributions and the QBI deduction stack on top and are not modelled here." },
+      { q: "Is the tax charged on gross or net income?", a: "On net profit, and then only on 92.35% of it — the missing 7.65% reflects the employer half being deductible. That is why the real burden works out to about 14.13% of profit rather than the headline 15.3%." },
     ],
     related: ["tax-calculator", "take-home-pay-calculator", "tax-bracket-calculator"],
   },
