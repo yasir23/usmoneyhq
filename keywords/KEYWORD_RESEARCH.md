@@ -618,13 +618,13 @@ Long-tail (autocomplete):
 - percentage calculator
 - percentage calculator of marks
 - percentage calculator formula
-- percentage calculator online
 - percentage calculator money
 - percentage calculator of cgpa
 - percentage calculator in excel
 - percentage calculator extension
 - percentage calculator formula in excel
 - percentage calculator pakistan
+- percentage calculator from gpa
 - percentage calculator 2026
 - rates calculator 2026
 - ignou percentage calculator 2026
@@ -645,11 +645,11 @@ Long-tail (autocomplete):
 - compound interest calculator sbi
 - compound interest calculator pkr
 - compound interest calculator daily
-- compound interest calculator monthly
 - compound interest calculator online
 - compound interest calculator with tax
 - compound interest calculator formula
 - compound interest calculator with tax deduction
+- compound interest calculator uk
 - compound interest calculator 2026
 - compound interest calculator online in india 2026
 - what is compound interest calculator
@@ -1346,7 +1346,7 @@ Long-tail (autocomplete):
 - amortization calculator with balloon payment
 - amortization calculator for loan
 - amortization calculator car
-- amortization calculator excel
+- amortization calculator india
 - loan calculator 2026
 - amortization schedule 2026
 - what is a 5 year loan with 20 year amortization
@@ -1622,16 +1622,6 @@ Long-tail (autocomplete):
 
 Short-tail: calorie deficit calculator | how many calories to lose weight
 Long-tail (autocomplete):
-- calorie deficit calculator
-- calorie deficit calculator for weight loss
-- calorie deficit calculator nhs
-- calorie deficit calculator uk
-- calorie deficit calculator tdee
-- calorie deficit calculator nz
-- calorie deficit calculator women
-- calorie deficit calculator australia
-- calorie deficit calculator free app
-- calorie deficit calculator app
 - calorie deficit calculator 2026
 - how many calories deficit calculator
 - what is calorie deficit calculator
@@ -1641,7 +1631,16 @@ Long-tail (autocomplete):
 - how much weight loss calorie deficit calculator
 - what is my calorie deficit calculator
 - how many calories do i need to be in a deficit calculator
+- calorie deficit calculator free app
 - calorie deficit calculator free online
+- calorie deficit calculator free uk
+- calorie deficit calculator free no sign up
+- calorie deficit calculator free for weight loss
+- calorie deficit calculator free reddit
+- calorie deficit calculator free australia
+- calorie deficit calculator free no email
+- calorie deficit calculator free women
+- calorie deficit calculator free nz
 
 ## carpet-calculator
 
@@ -1983,18 +1982,17 @@ Long-tail (autocomplete):
 - lease vs buy calculator car
 - lease vs buy calculator excel
 - lease vs buy calculator for business
+- lease vs buy calculator canada
+- lease vs buy calculator equipment
+- lease vs buy calculator reddit
+- lease vs buy calculator uk
 - lease or buy calculator
-- lease or buy calculator car
-- renting vs buying calculator
-- renting vs buying calculator uk
-- renting vs buying calculator canada
-- renting vs buying calculator nyt
+- rental vs buy calculator
 
 ## life-insurance-needs-calculator
 
 Short-tail: life insurance calculator | how much life insurance do i need
 Long-tail (autocomplete):
-- life insurance calculator
 - life insurance calculator pakistan
 - life insurance calculator by age
 - life insurance calculator monthly payment
@@ -2004,6 +2002,7 @@ Long-tail (autocomplete):
 - life insurance calculator canada
 - life insurance calculator australia
 - life insurance calculator free
+- life insurance calculator nepal
 - postal life insurance calculator 2026
 - ogb life insurance rates 2026
 - life insurance calculation formula
@@ -2144,7 +2143,6 @@ Long-tail (autocomplete):
 
 Short-tail: price per square foot calculator | cost per square foot calculator
 Long-tail (autocomplete):
-- price per square foot calculator
 - price per square foot calculator uk
 - price per square foot calculator commercial
 - price per square foot calculator to build
@@ -2154,7 +2152,9 @@ Long-tail (autocomplete):
 - price per square foot calculator construction
 - price per square foot calculator lease
 - price per square foot calculator london
+- price per square foot calculator house
 - free concrete calculator price per square foot
+- price per square foot calculator
 - average price per square foot calculator
 
 ## retirement-age-calculator
@@ -2247,6 +2247,7 @@ Long-tail (autocomplete):
 
 Short-tail: self employment tax calculator | self employed tax calculator
 Long-tail (autocomplete):
+- self employment tax calculator
 - self employment tax calculator 2026
 - self employment tax calculator uk
 - self employment tax calculator 2025
@@ -2256,7 +2257,6 @@ Long-tail (autocomplete):
 - self employment tax calculator ontario
 - self employment tax calculator 1099
 - self employment tax calculator free
-- self employment tax calculator quarterly
 - self employed tax calculator 2026 27
 - self employment tax estimator 2026
 - estimated self employment tax calculator 2026
