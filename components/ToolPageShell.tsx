@@ -30,15 +30,15 @@ import { federalTax, fica, stateTax, monthlyPayment } from "../lib/calc";
  */
 const AMOUNT_TITLES: Record<string, (amt: string, stateName?: string) => string> = {
   "salary-after-tax-calculator": (amt, st) =>
-    st ? `${amt} Salary in ${st}: Take-Home Pay (2026) | US Money HQ`
-       : `${amt} Salary After Tax: Take-Home Pay in 2026 | US Money HQ`,
+    st ? `${amt} Salary in ${st}: Take-Home Pay (2026)`
+       : `${amt} Salary After Tax: Take-Home Pay in 2026`,
   "paycheck-calculator": (amt, st) =>
-    st ? `${amt} Paycheck in ${st}: Take-Home Pay After Tax (2026) | US Money HQ`
-       : `${amt} Paycheck: Take-Home Pay After Taxes (2026) | US Money HQ`,
+    st ? `${amt} Paycheck in ${st}: Take-Home Pay After Tax (2026)`
+       : `${amt} Paycheck: Take-Home Pay After Taxes (2026)`,
   "salary-percentile-calculator": (amt) =>
-    `${amt} Salary Percentile: Where You Rank in 2026 | US Money HQ`,
+    `${amt} Salary Percentile: Where You Rank in 2026`,
   "salary-to-hourly-calculator": (amt) =>
-    `${amt} Salary as an Hourly Rate (2026) | US Money HQ`,
+    `${amt} Salary as an Hourly Rate (2026)`,
 };
 
 const AMOUNT_DESCS: Record<string, (amt: string, stateName?: string, stateNote?: string) => string> = {
@@ -53,6 +53,65 @@ const AMOUNT_DESCS: Record<string, (amt: string, stateName?: string, stateNote?:
   "salary-to-hourly-calculator": (amt) =>
     `Convert a ${amt} annual salary to an hourly rate in 2026 — based on the hours and weeks you actually work.`,
 };
+
+/**
+ * SERP BUDGET HELPERS — added 2026-09-22.
+ *
+ * Google truncates a title at roughly 60 characters and a description at
+ * roughly 160. Measured on the live site before this change: 843 of 1,938
+ * titles (43.5%) and 968 of 1,938 descriptions (49.9%) were OVER budget, and
+ * they clustered by template shape — 501 state titles, 182 comparison-pair
+ * titles, 949 state descriptions. Every one of those pages was being cut off.
+ *
+ * Being cut off is not a ranking factor, but it IS a click-through factor, and
+ * the ordering made it worse than it looks: the state pages led with the long
+ * generic `tool.description`, so the state-specific fact that trailed
+ * (income-tax note, average property tax) was exactly what got truncated away —
+ * i.e. the only words that differentiated the page from the other 356 state
+ * pages. Two rules now apply at the TEMPLATE, so every variant inherits them:
+ *
+ *   1. Load-bearing words first. The differentiator leads; brand and generic
+ *      description trail.
+ *   2. Hard budget. Drop the brand suffix before trimming content, and cut on a
+ *      word boundary so a snippet never ends mid-word.
+ *
+ * The caps are the WINDOW, not a ranking rule — do not lengthen copy to fill it.
+ */
+const BRAND_SUFFIX = " | US Money HQ";
+const TITLE_BUDGET = 60;
+const DESC_BUDGET = 160;
+
+export function serpTitle(core: string): string {
+  const c = core.trim();
+  if (c.length + BRAND_SUFFIX.length <= TITLE_BUDGET) return c + BRAND_SUFFIX;
+  if (c.length <= TITLE_BUDGET) return c; // drop the brand, keep the content
+  const cut = c.slice(0, TITLE_BUDGET - 1);
+  const sp = cut.lastIndexOf(" ");
+  return (sp > 30 ? cut.slice(0, sp) : cut).trimEnd() + "…";
+}
+
+/** Function words that must never END a snippet — "…FICA, and state." reads broken. */
+const DANGLING = new Set(["and", "or", "the", "a", "an", "with", "for", "to", "of", "in",
+  "on", "by", "from", "your", "their", "our", "state", "at", "as", "that", "this"]);
+
+export function serpDesc(text: string): string {
+  const t = text.replace(/\s+/g, " ").trim();
+  if (t.length <= DESC_BUDGET) return t;
+  const cut = t.slice(0, DESC_BUDGET);
+  // Prefer a whole sentence when one lands in the last ~45% of the window —
+  // on the state pages the first sentence IS the differentiator, so this keeps
+  // a complete thought instead of a clause fragment.
+  const sent = cut.lastIndexOf(". ");
+  if (sent >= DESC_BUDGET * 0.55) return cut.slice(0, sent + 1);
+  // Otherwise cut on a word boundary and drop any dangling function word so the
+  // snippet never ends on "and" / "in" / "state".
+  const words = cut.split(" ");
+  words.pop(); // trailing token is a partially rendered word
+  while (words.length && DANGLING.has(words[words.length - 1].toLowerCase().replace(/[^a-z]/g, ""))) {
+    words.pop();
+  }
+  return words.join(" ").replace(/[.,;:\s]+$/, "") + ".";
+}
 
 export default function ToolPageShell({ slug, stateSlug, amountSlug, metroSlug, ageSlug, country }: { slug: string; stateSlug?: string; amountSlug?: string; metroSlug?: string; ageSlug?: string; country?: string }) {
   const isUS = (country || "").toUpperCase() === "US";
@@ -116,31 +175,31 @@ export default function ToolPageShell({ slug, stateSlug, amountSlug, metroSlug, 
   const amtDescOverride = amount
     ? AMOUNT_DESCS[tool.slug]?.(fmtAmount(amount), state?.name, state?.incomeTaxNote)
     : undefined;
-  const pageTitle = pair
-    ? `${pair[0].name} vs ${pair[1].name} ${tool.shortTitle.replace(" Calculator", "")} Calculator 2026 | US Money HQ`
+  const pageTitle = serpTitle(pair
+    ? `${pair[0].name} vs ${pair[1].name} ${tool.shortTitle.replace(" Calculator", "")} Calculator 2026`
     : metro
-    ? `${metroLabel} ${tool.shortTitle.replace(" Calculator", "")} Calculator 2026 | US Money HQ`
+    ? `${metroLabel} ${tool.shortTitle.replace(" Calculator", "")} Calculator 2026`
     : age
-    ? `${tool.shortTitle} at Age ${age}: Projected Retirement (2026) | US Money HQ`
+    ? `${tool.shortTitle} at Age ${age}: Projected Retirement (2026)`
     : state && amount
     ? amtTitleOverride || (amountKind === "price"
-      ? `${fmtAmount(amount)} Home in ${state.name}: Payment & Total Interest (2026) | US Money HQ`
+      ? `${fmtAmount(amount)} Home in ${state.name}: Payment & Total Interest (2026)`
       : amountKind === "income"
-      ? `How Much House on ${fmtAmount(amount)} in ${state.name}? (2026) | US Money HQ`
-      : `${fmtAmount(amount)} Salary in ${state.name}: Take-Home Pay (2026) | US Money HQ`)
+      ? `How Much House on ${fmtAmount(amount)} in ${state.name}? (2026)`
+      : `${fmtAmount(amount)} Salary in ${state.name}: Take-Home Pay (2026)`)
     : state
-    ? `${state.name} ${tool.shortTitle.replace(" Calculator", "")} Calculator 2026 | US Money HQ`
+    ? `${state.name} ${tool.shortTitle.replace(" Calculator", "")} Calculator 2026`
     : amount
     ? amtTitleOverride || (amountKind === "price"
-      ? `Mortgage Payment on a ${fmtAmount(amount)} Home (2026) | US Money HQ`
+      ? `Mortgage Payment on a ${fmtAmount(amount)} Home (2026)`
       : amountKind === "income"
-      ? `How Much House Can You Afford on ${fmtAmount(amount)}? (2026) | US Money HQ`
-      : `${fmtAmount(amount)} Salary After Tax: Take-Home Pay in 2026 | US Money HQ`)
-    : tool.title;
-  const pageDesc = pair
+      ? `How Much House Can You Afford on ${fmtAmount(amount)}? (2026)`
+      : `${fmtAmount(amount)} Salary After Tax: Take-Home Pay in 2026`)
+    : tool.title.replace(BRAND_SUFFIX, ""));
+  const pageDesc = serpDesc(pair
     ? `Compare ${pair[0].name} vs ${pair[1].name} ${tool.shortTitle.toLowerCase()} 2026: income tax, property tax, sales tax, and take-home math side by side.`
     : metro
-    ? `${tool.description} Real numbers for ${metroLabel}.`
+    ? `${metroLabel}: ${state ? `${state.incomeTaxNote}. Average property tax ${state.propTaxPct}%. ` : ""}${tool.description}`
     : age
     ? `${tool.shortTitle} started at age ${age}: projected balance at ${ageTool?.retirementAge || 65} with contributions and employer match.`
     : state && amount
@@ -150,14 +209,14 @@ export default function ToolPageShell({ slug, stateSlug, amountSlug, metroSlug, 
       ? `How much house a ${fmtAmount(amount)} income buys in ${state.name}: payment cap, down payment, and price range. ${state.incomeTaxNote}.`
       : `${fmtAmount(amount)} salary in ${state.name} after federal and state taxes in 2026. ${state.incomeTaxNote}.`)
     : state
-    ? `${tool.description} ${state.incomeTaxNote}. Average property tax ${state.propTaxPct}%.`
+    ? `${state.name}: ${state.incomeTaxNote}. Average property tax ${state.propTaxPct}%. ${tool.description}`
     : amount
     ? amtDescOverride || (amountKind === "price"
       ? `Your monthly payment and total interest on a ${fmtAmount(amount)} home at today's rates.`
       : amountKind === "income"
       ? `How much house a ${fmtAmount(amount)} salary buys in 2026: payment cap, down payment, and price range.`
       : `Your take-home pay on a ${fmtAmount(amount)} salary in 2026: federal tax, FICA, and what lands in your bank account each month.`)
-    : tool.description;
+    : tool.description);
 
   const schema = {
     "@context": "https://schema.org",
