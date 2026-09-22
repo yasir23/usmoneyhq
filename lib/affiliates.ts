@@ -1,8 +1,10 @@
 // lib/affiliates.ts — affiliate offer registry for US Money HQ.
 // Maps high-intent calculator pages -> relevant affiliate offers (contextual).
 // GEO RULE: all affiliate CTAs render ONLY for US visitors (geo-gated in
-// components/AffiliateBlock.tsx via the middleware `geo` cookie, the server
-// country prop, or a US-only timezone check — see lib/geo.js).
+// components/AffiliateBlock.js via the middleware `geo` cookie, the server
+// country prop, or a US-only timezone check — see lib/geo.js). Note the
+// component is .js, not .tsx; this comment said .tsx until 2026-09-22 and sent
+// a reader looking for a file that does not exist.
 //
 // ⚠️ THE `live` FLAG (added 2026-09-17). Only offers with a REAL tracked link may
 // render. Before this, six of seven offers pointed at plain brand homepages
