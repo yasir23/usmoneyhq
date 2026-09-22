@@ -10,7 +10,7 @@ export default function BlogPost() {
       <Head>
         <title>5 Technical Errors That Trigger CMS Warning Letters (and How to Catch Them) | US Money HQ</title>
         <meta name="description" content="The five most common technical MRF errors that trigger CMS warning letters — missing reporting structure, unparseable JSON, absent rates, bot-blocked files, empty fields — and how to catch them." />
-        <link rel="canonical" href={`${SITE_URL}/blog/5-technical-errors-trigger-warning-letters`} />
+        <link rel="canonical" href={`https://sealofaudit.com/blog/5-technical-errors-trigger-warning-letters`} />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({ "@context": "https://schema.org", "@type": "BlogPosting", headline: "5 Technical Errors That Trigger CMS Warning Letters (and How to Catch Them)", description: "The five most common technical MRF errors that trigger CMS warning letters — missing reporting structure, unparseable JSON, absent rates, bot-blocked files, empty fields — and how to catch them.", url: `https://usmoneyhq.com/blog/5-technical-errors-trigger-warning-letters`, datePublished: "2026-09-06", author: { "@type": "Organization", name: "US Money HQ" }, publisher: { "@type": "Organization", name: "US Money HQ" } }) }} />
       </Head>
       <main className="container">

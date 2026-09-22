@@ -10,7 +10,7 @@ export default function BlogPost() {
       <Head>
         <title>What Is a Machine-Readable File, and Why Does CMS Care So Much? | US Money HQ</title>
         <meta name="description" content="A hospital machine-readable file (MRF) explained: what it contains, why CMS requires it, the JSON/CSV format rules, and what happens when it is missing or malformed." />
-        <link rel="canonical" href={`${SITE_URL}/blog/what-is-machine-readable-file`} />
+        <link rel="canonical" href={`https://sealofaudit.com/blog/what-is-machine-readable-file`} />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({ "@context": "https://schema.org", "@type": "BlogPosting", headline: "What Is a Machine-Readable File, and Why Does CMS Care So Much?", description: "A hospital machine-readable file (MRF) explained: what it contains, why CMS requires it, the JSON/CSV format rules, and what happens when it is missing or malformed.", url: `https://usmoneyhq.com/blog/what-is-machine-readable-file`, datePublished: "2026-09-06", author: { "@type": "Organization", name: "US Money HQ" }, publisher: { "@type": "Organization", name: "US Money HQ" } }) }} />
       </Head>
       <main className="container">

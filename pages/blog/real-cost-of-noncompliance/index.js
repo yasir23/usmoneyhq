@@ -10,7 +10,7 @@ export default function BlogPost() {
       <Head>
         <title>The Real Cost of Price Transparency Noncompliance: A Sliding Scale by Hospital Size | US Money HQ</title>
         <meta name="description" content="What CMS price transparency noncompliance actually costs hospitals: penalty math by bed count, the $5,500/day clock, remediation costs, and why prevention beats response." />
-        <link rel="canonical" href={`${SITE_URL}/blog/real-cost-of-noncompliance`} />
+        <link rel="canonical" href={`https://sealofaudit.com/blog/real-cost-of-noncompliance`} />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({ "@context": "https://schema.org", "@type": "BlogPosting", headline: "The Real Cost of Price Transparency Noncompliance: A Sliding Scale by Hospital Size", description: "What CMS price transparency noncompliance actually costs hospitals: penalty math by bed count, the $5,500/day clock, remediation costs, and why prevention beats response.", url: `https://usmoneyhq.com/blog/real-cost-of-noncompliance`, datePublished: "2026-09-06", author: { "@type": "Organization", name: "US Money HQ" }, publisher: { "@type": "Organization", name: "US Money HQ" } }) }} />
       </Head>
       <main className="container">

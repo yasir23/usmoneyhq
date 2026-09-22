@@ -10,7 +10,7 @@ export default function BlogPost() {
       <Head>
         <title>28 Hospitals Fined Since 2022 — What They All Got Wrong | US Money HQ</title>
         <meta name="description" content="CMS has fined 28 hospitals for price transparency violations since 2022. The common failure patterns, the enforcement data, and how to make sure your hospital is not next." />
-        <link rel="canonical" href={`${SITE_URL}/blog/28-hospitals-fined-what-they-got-wrong`} />
+        <link rel="canonical" href={`https://sealofaudit.com/blog/28-hospitals-fined-what-they-got-wrong`} />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({ "@context": "https://schema.org", "@type": "BlogPosting", headline: "28 Hospitals Fined Since 2022 — What They All Got Wrong", description: "CMS has fined 28 hospitals for price transparency violations since 2022. The common failure patterns, the enforcement data, and how to make sure your hospital is not next.", url: `https://usmoneyhq.com/blog/28-hospitals-fined-what-they-got-wrong`, datePublished: "2026-09-06", author: { "@type": "Organization", name: "US Money HQ" }, publisher: { "@type": "Organization", name: "US Money HQ" } }) }} />
       </Head>
       <main className="container">

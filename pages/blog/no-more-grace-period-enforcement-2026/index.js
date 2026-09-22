@@ -10,7 +10,7 @@ export default function BlogPost() {
       <Head>
         <title>No More Grace Period: What the 2026 Enforcement Stance Means for Hospitals | US Money HQ</title>
         <meta name="description" content="CMS signaled stronger price transparency enforcement in 2026 — no grace period, automated audits, faster escalation. What hospitals need to know and do now." />
-        <link rel="canonical" href={`${SITE_URL}/blog/no-more-grace-period-enforcement-2026`} />
+        <link rel="canonical" href={`https://sealofaudit.com/blog/no-more-grace-period-enforcement-2026`} />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({ "@context": "https://schema.org", "@type": "BlogPosting", headline: "No More Grace Period: What the 2026 Enforcement Stance Means for Hospitals", description: "CMS signaled stronger price transparency enforcement in 2026 — no grace period, automated audits, faster escalation. What hospitals need to know and do now.", url: `https://usmoneyhq.com/blog/no-more-grace-period-enforcement-2026`, datePublished: "2026-09-06", author: { "@type": "Organization", name: "US Money HQ" }, publisher: { "@type": "Organization", name: "US Money HQ" } }) }} />
       </Head>
       <main className="container">

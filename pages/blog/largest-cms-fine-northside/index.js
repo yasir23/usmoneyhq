@@ -10,7 +10,7 @@ export default function BlogPost() {
       <Head>
         <title>$883,180: Inside the Largest CMS Price Transparency Fine | US Money HQ</title>
         <meta name="description" content="The largest CMS price transparency penalty to date: $883,180 against Northside Hospital. How the penalty compounded, what failed, and what hospitals can learn." />
-        <link rel="canonical" href={`${SITE_URL}/blog/largest-cms-fine-northside`} />
+        <link rel="canonical" href={`https://sealofaudit.com/blog/largest-cms-fine-northside`} />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({ "@context": "https://schema.org", "@type": "BlogPosting", headline: "$883,180: Inside the Largest CMS Price Transparency Fine", description: "The largest CMS price transparency penalty to date: $883,180 against Northside Hospital. How the penalty compounded, what failed, and what hospitals can learn.", url: `https://usmoneyhq.com/blog/largest-cms-fine-northside`, datePublished: "2026-09-06", author: { "@type": "Organization", name: "US Money HQ" }, publisher: { "@type": "Organization", name: "US Money HQ" } }) }} />
       </Head>
       <main className="container">

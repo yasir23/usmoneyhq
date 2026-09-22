@@ -2,7 +2,7 @@ import type { MetadataRoute } from "next";
 import { SITE_URL, TOOLS } from "@/lib/tools";
 import { STATES, STATE_AWARE_TOOLS, getComparisonPairs } from "@/lib/states";
 import { AMOUNT_TOOLS, allowedAmounts, AGE_TOOLS, allowedAges } from "@/lib/amounts";
-import { METROS } from "@/lib/metros";
+import { METROS, METRO_VARIANTS_INDEXED } from "@/lib/metros";
 import { contentDate } from "@/lib/content-dates";
 
 /**
@@ -114,10 +114,21 @@ export default function sitemap(): MetadataRoute.Sitemap {
     }
   }
 
-  // metro variants: state-aware tools x top metros
-  for (const slug of STATE_AWARE_TOOLS) {
-    for (const m of METROS) {
-      pages.push({ url: `${SITE_URL}/${slug}/${m.slug}`, lastModified: metroDate, changeFrequency: "monthly", priority: 0.5 });
+  // metro variants: state-aware tools x top metros.
+  //
+  // EXCLUDED while METRO_VARIANTS_INDEXED is false — measured 2026-09-22. Two
+  // cities in the same state share 34 numeric tokens and have ZERO unique ones
+  // between them; the only differing text is the city name (99.2% identical
+  // overall). These 1,085 URLs are 56% of this sitemap and hold no information
+  // their state page does not. Same reasoning as the amount x state exclusion
+  // below, and a stronger case: those were 96-98% identical, these are ~100%.
+  // ToolPageShell marks them noindex,follow so the URLs stay reachable as deep
+  // links without competing with the state pages.
+  if (METRO_VARIANTS_INDEXED) {
+    for (const slug of STATE_AWARE_TOOLS) {
+      for (const m of METROS) {
+        pages.push({ url: `${SITE_URL}/${slug}/${m.slug}`, lastModified: metroDate, changeFrequency: "monthly", priority: 0.5 });
+      }
     }
   }
 
@@ -146,5 +157,19 @@ export default function sitemap(): MetadataRoute.Sitemap {
     }
   }
 
-  return pages;
+  // Hospital MRF-compliance posts are EXCLUDED from this sitemap.
+  //
+  // Verified 2026-09-22: all 20 articles also exist on sealofaudit.com
+  // (/blog/<same-slug> returns 200 on both domains), and both copies
+  // self-canonicalise to their own domain. That is the worst duplicate shape —
+  // two owned domains each claiming to be the original, so neither accumulates
+  // clean signal and the topical mismatch drags a personal-finance domain's
+  // quality signal toward organic search for hospital price-transparency terms
+  // it has no business ranking for.
+  //
+  // They belong on SealOfAudit, which is the business that sells this service.
+  // Filtering here removes them from discovery without deleting anything: the
+  // URLs stay live for existing links, and the canonical now points at
+  // sealofaudit.com (see pages/blog/*/index.js).
+  return pages.filter((p) => !/\/blog(\/|$)/.test(p.url));
 }

@@ -10,7 +10,7 @@ export default function BlogPost() {
       <Head>
         <title>2.24% of Warning Letters Escalate to Fines — Should That Relax You? (No) | US Money HQ</title>
         <meta name="description" content="Only 2.24% of CMS warning letters have escalated to fines — but AI-enabled audits change the math. Why the low rate is a baseline, not a ceiling, for hospital price transparency risk." />
-        <link rel="canonical" href={`${SITE_URL}/blog/escalation-rate-224-percent`} />
+        <link rel="canonical" href={`https://sealofaudit.com/blog/escalation-rate-224-percent`} />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({ "@context": "https://schema.org", "@type": "BlogPosting", headline: "2.24% of Warning Letters Escalate to Fines — Should That Relax You? (No)", description: "Only 2.24% of CMS warning letters have escalated to fines — but AI-enabled audits change the math. Why the low rate is a baseline, not a ceiling, for hospital price transparency risk.", url: `https://usmoneyhq.com/blog/escalation-rate-224-percent`, datePublished: "2026-09-06", author: { "@type": "Organization", name: "US Money HQ" }, publisher: { "@type": "Organization", name: "US Money HQ" } }) }} />
       </Head>
       <main className="container">

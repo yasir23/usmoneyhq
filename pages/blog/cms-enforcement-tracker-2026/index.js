@@ -10,7 +10,7 @@ export default function BlogPost() {
       <Head>
         <title>The 2026 CMS Price Transparency Enforcement Tracker | US Money HQ</title>
         <meta name="description" content="Live tracker of CMS price transparency enforcement: warning letters, corrective action plans, and civil monetary penalties against US hospitals since 2022, updated monthly." />
-        <link rel="canonical" href={`${SITE_URL}/blog/cms-enforcement-tracker-2026`} />
+        <link rel="canonical" href={`https://sealofaudit.com/blog/cms-enforcement-tracker-2026`} />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({ "@context": "https://schema.org", "@type": "BlogPosting", headline: "The 2026 CMS Price Transparency Enforcement Tracker", description: "Live tracker of CMS price transparency enforcement: warning letters, corrective action plans, and civil monetary penalties against US hospitals since 2022, updated monthly.", url: `https://usmoneyhq.com/blog/cms-enforcement-tracker-2026`, datePublished: "2026-09-06", author: { "@type": "Organization", name: "US Money HQ" }, publisher: { "@type": "Organization", name: "US Money HQ" } }) }} />
       </Head>
       <main className="container">

@@ -10,7 +10,7 @@ export default function BlogPost() {
       <Head>
         <title>Most CMS Warning Letters Aren't About Hiding Prices — They're About Formatting | US Money HQ</title>
         <meta name="description" content="The 500+ hospitals CMS warned in 2026 mostly failed on technical file errors, not hidden pricing. Why format failures still trigger fines — and how to catch them before CMS does." />
-        <link rel="canonical" href={`${SITE_URL}/blog/most-warning-letters-formatting-errors`} />
+        <link rel="canonical" href={`https://sealofaudit.com/blog/most-warning-letters-formatting-errors`} />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({ "@context": "https://schema.org", "@type": "BlogPosting", headline: "Most CMS Warning Letters Aren't About Hiding Prices — They're About Formatting", description: "The 500+ hospitals CMS warned in 2026 mostly failed on technical file errors, not hidden pricing. Why format failures still trigger fines — and how to catch them before CMS does.", url: `https://usmoneyhq.com/blog/most-warning-letters-formatting-errors`, datePublished: "2026-09-06", author: { "@type": "Organization", name: "US Money HQ" }, publisher: { "@type": "Organization", name: "US Money HQ" } }) }} />
       </Head>
       <main className="container">

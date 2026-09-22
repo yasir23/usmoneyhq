@@ -10,7 +10,7 @@ export default function BlogPost() {
       <Head>
         <title>Corrective Action Plan Deadline Looming? What You Can Realistically Fix in 45 Days | US Money HQ</title>
         <meta name="description" content="Facing a CMS corrective action plan? Here is a realistic 45-day remediation timeline: diagnose, rebuild, validate, document — and how most hospitals complete it in 3 weeks." />
-        <link rel="canonical" href={`${SITE_URL}/blog/corrective-action-plan-45-days`} />
+        <link rel="canonical" href={`https://sealofaudit.com/blog/corrective-action-plan-45-days`} />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({ "@context": "https://schema.org", "@type": "BlogPosting", headline: "Corrective Action Plan Deadline Looming? What You Can Realistically Fix in 45 Days", description: "Facing a CMS corrective action plan? Here is a realistic 45-day remediation timeline: diagnose, rebuild, validate, document — and how most hospitals complete it in 3 weeks.", url: `https://usmoneyhq.com/blog/corrective-action-plan-45-days`, datePublished: "2026-09-06", author: { "@type": "Organization", name: "US Money HQ" }, publisher: { "@type": "Organization", name: "US Money HQ" } }) }} />
       </Head>
       <main className="container">

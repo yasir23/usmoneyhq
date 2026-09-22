@@ -10,7 +10,7 @@ export default function BlogPost() {
       <Head>
         <title>From Warning Letter to Fine: How Long Do Hospitals Actually Have? | US Money HQ</title>
         <meta name="description" content="The CMS enforcement timeline explained: how long hospitals have between a warning letter, corrective action plan, and a $5,500/day civil monetary penalty — and how to use that time." />
-        <link rel="canonical" href={`${SITE_URL}/blog/from-warning-letter-to-fine-timeline`} />
+        <link rel="canonical" href={`https://sealofaudit.com/blog/from-warning-letter-to-fine-timeline`} />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({ "@context": "https://schema.org", "@type": "BlogPosting", headline: "From Warning Letter to Fine: How Long Do Hospitals Actually Have?", description: "The CMS enforcement timeline explained: how long hospitals have between a warning letter, corrective action plan, and a $5,500/day civil monetary penalty — and how to use that time.", url: `https://usmoneyhq.com/blog/from-warning-letter-to-fine-timeline`, datePublished: "2026-09-06", author: { "@type": "Organization", name: "US Money HQ" }, publisher: { "@type": "Organization", name: "US Money HQ" } }) }} />
       </Head>
       <main className="container">

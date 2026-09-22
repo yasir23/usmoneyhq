@@ -10,7 +10,7 @@ export default function BlogPost() {
       <Head>
         <title>Who Has to Sign Your CMS Compliance Attestation — and What Happens If They Get It Wrong? | US Money HQ</title>
         <meta name="description" content="Hospital price transparency attestation explained: who signs, what they certify, the legal exposure of a false attestation, and how to attest with confidence." />
-        <link rel="canonical" href={`${SITE_URL}/blog/compliance-attestation-signer`} />
+        <link rel="canonical" href={`https://sealofaudit.com/blog/compliance-attestation-signer`} />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({ "@context": "https://schema.org", "@type": "BlogPosting", headline: "Who Has to Sign Your CMS Compliance Attestation — and What Happens If They Get It Wrong?", description: "Hospital price transparency attestation explained: who signs, what they certify, the legal exposure of a false attestation, and how to attest with confidence.", url: `https://usmoneyhq.com/blog/compliance-attestation-signer`, datePublished: "2026-09-06", author: { "@type": "Organization", name: "US Money HQ" }, publisher: { "@type": "Organization", name: "US Money HQ" } }) }} />
       </Head>
       <main className="container">

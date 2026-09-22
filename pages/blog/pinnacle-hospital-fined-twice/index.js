@@ -10,7 +10,7 @@ export default function BlogPost() {
       <Head>
         <title>How a Small Hospital Got Fined Twice in One Year — the Pinnacle Case | US Money HQ</title>
         <meta name="description" content="Pinnacle Hospital received two CMS price transparency fines in one year totaling over $91,000. Here is what went wrong, what the case teaches, and how to avoid the same pattern." />
-        <link rel="canonical" href={`${SITE_URL}/blog/pinnacle-hospital-fined-twice`} />
+        <link rel="canonical" href={`https://sealofaudit.com/blog/pinnacle-hospital-fined-twice`} />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({ "@context": "https://schema.org", "@type": "BlogPosting", headline: "How a Small Hospital Got Fined Twice in One Year — the Pinnacle Case", description: "Pinnacle Hospital received two CMS price transparency fines in one year totaling over $91,000. Here is what went wrong, what the case teaches, and how to avoid the same pattern.", url: `https://usmoneyhq.com/blog/pinnacle-hospital-fined-twice`, datePublished: "2026-09-06", author: { "@type": "Organization", name: "US Money HQ" }, publisher: { "@type": "Organization", name: "US Money HQ" } }) }} />
       </Head>
       <main className="container">

@@ -10,7 +10,7 @@ export default function BlogPost() {
       <Head>
         <title>Shoppable Services 101: What Patients Are Legally Entitled to See | US Money HQ</title>
         <meta name="description" content="The CMS shoppable services rule explained: the 70 required services, what patients can see, how to publish them correctly, and common gaps that trigger fines." />
-        <link rel="canonical" href={`${SITE_URL}/blog/shoppable-services-101`} />
+        <link rel="canonical" href={`https://sealofaudit.com/blog/shoppable-services-101`} />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({ "@context": "https://schema.org", "@type": "BlogPosting", headline: "Shoppable Services 101: What Patients Are Legally Entitled to See", description: "The CMS shoppable services rule explained: the 70 required services, what patients can see, how to publish them correctly, and common gaps that trigger fines.", url: `https://usmoneyhq.com/blog/shoppable-services-101`, datePublished: "2026-09-06", author: { "@type": "Organization", name: "US Money HQ" }, publisher: { "@type": "Organization", name: "US Money HQ" } }) }} />
       </Head>
       <main className="container">

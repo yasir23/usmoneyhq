@@ -2,6 +2,41 @@
 // ("mortgage calculator houston"). Each metro maps to a state slug so the
 // calculator prefills that state's tax data; the metro adds city-level
 // targeting to the title/desc/h1.
+//
+// ─────────────────────────────────────────────────────────────────────────────
+// METRO_VARIANTS_INDEXED — measured 2026-09-22, currently FALSE
+//
+// The line above is an admission, and it was measured rather than assumed: a
+// metro page carries NO city data at all. It renders the parent state's numbers
+// with the city name substituted into the title, description and H1.
+//
+// Evidence — /mortgage-calculator/new-york-new-york vs
+// /mortgage-calculator/binghamton-new-york, two different cities in one state:
+//     numeric tokens shared          34
+//     numeric tokens unique to NYC    0
+//     numeric tokens unique to Bing.  0
+//     visible-text similarity     99.2%
+// The ONLY differing text between them is the city name. A metro page is
+// therefore a doorway: it targets a location query while adding no information
+// the state page does not already have.
+//
+// This is the same defect the sitemap already fixed for amount x state combos
+// (see app/sitemap.ts — 2,907 URLs, 96-98% identical, zero internal links,
+// excluded and noindexed). The metro layer is 1,085 URLs, 56% of the sitemap,
+// and 100% identical to its siblings — a stronger case than the one already
+// acted on, so leaving it indexed is inconsistent.
+//
+// FALSE means: metro URLs stay live and reachable (deep links keep working) but
+// they are excluded from the sitemap and marked noindex,follow, so they stop
+// competing with the state pages that CAN rank.
+//
+// TO REVERSE: set this to true. To make these pages genuinely worth indexing
+// instead, give each metro real city-level data (metro median income, median
+// home price, local tax rates) so the pages stop being permutations — an index
+// entry is not a substitute for content.
+// ─────────────────────────────────────────────────────────────────────────────
+export const METRO_VARIANTS_INDEXED = false;
+
 export interface Metro {
   slug: string;
   /** City display name, e.g. "Houston" or "Washington D.C.". */

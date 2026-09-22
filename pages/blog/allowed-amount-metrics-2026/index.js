@@ -10,7 +10,7 @@ export default function BlogPost() {
       <Head>
         <title>The 2026 Requirement Nobody's Talking About: Allowed-Amount Metrics | US Money HQ</title>
         <meta name="description" content="CMS's 2026 price transparency updates tighten allowed-amount and negotiated-rate reporting. What hospitals must publish, the new compliance expectations, and how to prepare." />
-        <link rel="canonical" href={`${SITE_URL}/blog/allowed-amount-metrics-2026`} />
+        <link rel="canonical" href={`https://sealofaudit.com/blog/allowed-amount-metrics-2026`} />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({ "@context": "https://schema.org", "@type": "BlogPosting", headline: "The 2026 Requirement Nobody's Talking About: Allowed-Amount Metrics", description: "CMS's 2026 price transparency updates tighten allowed-amount and negotiated-rate reporting. What hospitals must publish, the new compliance expectations, and how to prepare.", url: `https://usmoneyhq.com/blog/allowed-amount-metrics-2026`, datePublished: "2026-09-06", author: { "@type": "Organization", name: "US Money HQ" }, publisher: { "@type": "Organization", name: "US Money HQ" } }) }} />
       </Head>
       <main className="container">

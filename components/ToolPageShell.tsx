@@ -7,7 +7,7 @@ import ToolClient from "./ToolClient";
 import { getTool, SITE_URL, SITE_NAME, TOOLS } from "../lib/tools";
 import { getState, getComparisonPair, STATES, STATE_AWARE_TOOLS, pairsForState, type StateData } from "../lib/states";
 import { AMOUNT_TOOLS, allowedAmounts, allowedAges, AGE_TOOLS, ageFromSlug, fmtAmount, amountFromSlug } from "../lib/amounts";
-import { getMetro, metrosForState, type Metro } from "../lib/metros";
+import { getMetro, metrosForState, type Metro, METRO_VARIANTS_INDEXED } from "../lib/metros";
 import { federalTax, fica, stateTax, monthlyPayment } from "../lib/calc";
 
 /**
@@ -288,6 +288,13 @@ export default function ToolPageShell({ slug, stateSlug, amountSlug, metroSlug, 
             while removing them from the index, so they stop cannibalising the
             canonical /{tool}/{amount} and /{tool}/{state} pages. */}
         {amount && state && <meta name="robots" content="noindex, follow" />}
+        {/* Metro (city) pages: a metro page IS its parent state page with the
+            city name swapped into the title/desc/H1 — measured 2026-09-22, two
+            cities in one state share 34 numeric tokens with ZERO unique to
+            either, 99.2% identical text. Same defect as the amount x state case
+            above and excluded on the same reasoning. See lib/metros.ts for the
+            full measurement and how to reverse it. */}
+        {metro && !METRO_VARIANTS_INDEXED && <meta name="robots" content="noindex, follow" />}
         <meta property="og:type" content="website" />
         <meta property="og:title" content={pageTitle} />
         <meta property="og:description" content={pageDesc} />

@@ -10,7 +10,7 @@ export default function BlogPost() {
       <Head>
         <title>Warning Letter vs Corrective Action Plan vs Civil Monetary Penalty: The Stages Explained | US Money HQ</title>
         <meta name="description" content="The three stages of CMS price transparency enforcement — warning letter, corrective action plan, civil monetary penalty — explained with what each means for your hospital." />
-        <link rel="canonical" href={`${SITE_URL}/blog/warning-letter-vs-cap-vs-fine`} />
+        <link rel="canonical" href={`https://sealofaudit.com/blog/warning-letter-vs-cap-vs-fine`} />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({ "@context": "https://schema.org", "@type": "BlogPosting", headline: "Warning Letter vs Corrective Action Plan vs Civil Monetary Penalty: The Stages Explained", description: "The three stages of CMS price transparency enforcement — warning letter, corrective action plan, civil monetary penalty — explained with what each means for your hospital.", url: `https://usmoneyhq.com/blog/warning-letter-vs-cap-vs-fine`, datePublished: "2026-09-06", author: { "@type": "Organization", name: "US Money HQ" }, publisher: { "@type": "Organization", name: "US Money HQ" } }) }} />
       </Head>
       <main className="container">

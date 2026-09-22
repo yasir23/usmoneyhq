@@ -10,7 +10,7 @@ export default function BlogPost() {
       <Head>
         <title>What to Ask Before Hiring Anyone to Audit Your Hospital's Price Transparency Files | US Money HQ</title>
         <meta name="description" content="The questions to ask a CMS price transparency auditor before hiring: methodology, CMS spec coverage, deliverable format, remediation scope, and proof of results." />
-        <link rel="canonical" href={`${SITE_URL}/blog/what-to-ask-before-hiring-mrf-auditor`} />
+        <link rel="canonical" href={`https://sealofaudit.com/blog/what-to-ask-before-hiring-mrf-auditor`} />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({ "@context": "https://schema.org", "@type": "BlogPosting", headline: "What to Ask Before Hiring Anyone to Audit Your Hospital's Price Transparency Files", description: "The questions to ask a CMS price transparency auditor before hiring: methodology, CMS spec coverage, deliverable format, remediation scope, and proof of results.", url: `https://usmoneyhq.com/blog/what-to-ask-before-hiring-mrf-auditor`, datePublished: "2026-09-06", author: { "@type": "Organization", name: "US Money HQ" }, publisher: { "@type": "Organization", name: "US Money HQ" } }) }} />
       </Head>
       <main className="container">

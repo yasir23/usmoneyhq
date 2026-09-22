@@ -10,7 +10,7 @@ export default function BlogPost() {
       <Head>
         <title>DIY Compliance Check vs Professional MRF Audit: What Actually Catches Problems? | US Money HQ</title>
         <meta name="description" content="DIY CMS MRF checking vs a professional compliance audit: what each catches, the technical gaps DIY misses, and when a professional audit is worth the cost." />
-        <link rel="canonical" href={`${SITE_URL}/blog/diy-vs-professional-mrf-audit`} />
+        <link rel="canonical" href={`https://sealofaudit.com/blog/diy-vs-professional-mrf-audit`} />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({ "@context": "https://schema.org", "@type": "BlogPosting", headline: "DIY Compliance Check vs Professional MRF Audit: What Actually Catches Problems?", description: "DIY CMS MRF checking vs a professional compliance audit: what each catches, the technical gaps DIY misses, and when a professional audit is worth the cost.", url: `https://usmoneyhq.com/blog/diy-vs-professional-mrf-audit`, datePublished: "2026-09-06", author: { "@type": "Organization", name: "US Money HQ" }, publisher: { "@type": "Organization", name: "US Money HQ" } }) }} />
       </Head>
       <main className="container">

@@ -10,7 +10,7 @@ export default function BlogPost() {
       <Head>
         <title>Why 'We'll Fix It Later' Is the Most Expensive Sentence in Hospital Compliance | US Money HQ</title>
         <meta name="description" content="'We'll fix it later' has cost hospitals hundreds of thousands in CMS price transparency fines. Why deferral is so costly, and how proactive MRF checks change the math." />
-        <link rel="canonical" href={`${SITE_URL}/blog/fix-it-later-most-expensive-sentence`} />
+        <link rel="canonical" href={`https://sealofaudit.com/blog/fix-it-later-most-expensive-sentence`} />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({ "@context": "https://schema.org", "@type": "BlogPosting", headline: "Why 'We'll Fix It Later' Is the Most Expensive Sentence in Hospital Compliance", description: "'We'll fix it later' has cost hospitals hundreds of thousands in CMS price transparency fines. Why deferral is so costly, and how proactive MRF checks change the math.", url: `https://usmoneyhq.com/blog/fix-it-later-most-expensive-sentence`, datePublished: "2026-09-06", author: { "@type": "Organization", name: "US Money HQ" }, publisher: { "@type": "Organization", name: "US Money HQ" } }) }} />
       </Head>
       <main className="container">
