@@ -17,7 +17,18 @@ export default class SiteDocument extends Document {
           <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
           <meta name="theme-color" content="#0f172a" />
           {/* SEO */}
-          <meta name="robots" content="index, follow" />
+          {/* Deliberately NO site-wide robots meta here. `index, follow` is the
+              default for any page that does not declare one, so adding it site-wide
+              bought nothing and actively broke pages that DO declare one: a page
+              rendering its own noindex produced TWO conflicting robots tags
+              (noindex,follow alongside index,follow). Google resolves conflicts to
+              the most restrictive, so the intent held — but the page was
+              self-contradictory and the signal depended on conflict-resolution
+              rules rather than being stated plainly. This affected the 2,907
+              amount x state pages from 2026-09-18 until 2026-09-22, and would have
+              affected the metro exclusion too. Removed so exactly one robots tag
+              renders per page: the page-level one, or none (= indexable). */}
+
           <meta property="og:site_name" content="US Money HQ" />
           <meta property="og:image" content="https://usmoneyhq.com/og.png" />
           <meta name="twitter:card" content="summary_large_image" />
