@@ -254,6 +254,56 @@ def cmd_scorecard(args) -> int:
     return 0
 
 
+def cmd_offers(args) -> int:
+    """
+    Per-offer economics — the numbers the 30-day test actually decides on.
+
+    The strategy's rule is to keep only offers that produce acceptable NET
+    revenue per qualified visitor, and explicitly warns that "a lower-paying
+    offer with a strong approval rate can outperform a high-payout offer that
+    rejects most traffic". Neither number is visible in the source or page
+    reports, so this exists to make that comparison possible.
+
+    Rates are blank when the denominator is zero, never 0%. A 0% approval rate
+    and "no applications yet" are different facts and drive opposite decisions.
+    """
+    con = connect()
+    con.executescript(SCHEMA)
+    rows = con.execute(
+        "SELECT offer_id, SUM(clicks) c, SUM(conversions) v, SUM(gross_cents) g,"
+        " SUM(refund_cents) r FROM revenue_events"
+        " WHERE day >= ? AND offer_id != '' GROUP BY offer_id ORDER BY offer_id",
+        ((date.today() - timedelta(days=args.days)).isoformat(),),
+    ).fetchall()
+
+    print(f"OFFER ECONOMICS — last {args.days} days")
+    print("=" * 92)
+    if not rows:
+        print("No offer rows recorded yet. Attribution exists (subId2 per page,")
+        print("clicks logged to /api/go) but nothing has flowed through it.")
+        con.close()
+        return 0
+
+    print(f"{'OFFER':<24}{'CLICKS':>7}{'CONV':>6}{'APPR%':>7}{'GROSS':>10}{'REFUNDS':>9}"
+          f"{'NET':>10}{'NET/CLICK':>10}{'NET/QV':>9}")
+    print("-" * 92)
+    for r in rows:
+        c, v = r["c"] or 0, r["v"] or 0
+        g, rf = r["g"] or 0, r["r"] or 0
+        net = g - rf
+        appr = f"{v/c*100:.1f}%" if c else ""
+        per_click = f"{net/c/100:.2f}" if c else ""
+        per_qv = f"{net/v/100:.2f}" if v else ""
+        print(f"{r['offer_id']:<24}{c:>7}{v:>6}{appr:>7}{g/100:>10,.2f}{rf/100:>9,.2f}"
+              f"{net/100:>10,.2f}{per_click:>10}{per_qv:>9}")
+
+    print("\nKEEP an offer only if NET/QV is acceptable — not if GROSS or the")
+    print("advertised payout is large. Rank with rankOffers() in lib/affiliates.ts,")
+    print("which reports an offer as unrankable rather than guessing its inputs.")
+    con.close()
+    return 0
+
+
 def main() -> int:
     ap = argparse.ArgumentParser(
         prog="revenue",
@@ -278,6 +328,10 @@ def main() -> int:
     p = sub.add_parser("report")
     p.add_argument("--days", type=int, default=30)
     p.set_defaults(func=cmd_report)
+
+    p = sub.add_parser("offers")
+    p.add_argument("--days", type=int, default=30)
+    p.set_defaults(func=cmd_offers)
 
     p = sub.add_parser("scorecard")
     p.add_argument("--gsc", default="")
