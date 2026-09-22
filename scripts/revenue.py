@@ -246,8 +246,11 @@ def cmd_scorecard(args) -> int:
     print(f"scorecard -> {out_path} ({min(len(seeds), args.limit)} rows)")
     print("Blank columns are NOT measured yet, not measured-as-zero.")
     print("  index_status/impressions  -> feed a Search Console export with --gsc")
-    print("  sessions                  -> /api/px beacon, or GA4 once wired")
-    print("  calc_completions          -> needs a completion event on the calculator")
+    print("  sessions                  -> /api/px beacons (Cloudflare logs), or GA4")
+    print("  calc_completions          -> /api/px rows with event=calc_complete")
+    print("                               (fired on the first input change, once per")
+    print("                               pageview). Not wired into this CSV yet —")
+    print("                               export those rows and add them here.")
     return 0
 
 

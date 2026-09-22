@@ -1,8 +1,38 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import type { ToolDef } from "../lib/tools";
+
+/**
+ * Fire a one-per-pageview "calc_complete" event.
+ *
+ * WHAT COUNTS AS A COMPLETION HERE, and why it is defined this narrowly:
+ * tool.compute() runs in a useMemo on every render, so a result is already on
+ * screen the moment the page loads. Counting "a result rendered" would just be
+ * a second pageview counter and would make the scorecard's calc_completions
+ * column meaningless. A completion is therefore the first time the visitor
+ * CHANGES an input — that is the first moment they ran the calculator on their
+ * own numbers rather than reading the defaults.
+ *
+ * Fires at most once per mount, so one visitor who edits six fields counts once.
+ * sendBeacon because it survives navigation; wrapped because measurement must
+ * never break a calculation.
+ */
+function reportCompletion() {
+  try {
+    if (typeof navigator === "undefined" || !navigator.sendBeacon) return;
+    const payload = JSON.stringify({
+      kind: "view",
+      event: "calc_complete",
+      path: window.location.pathname,
+      ref: document.referrer || "",
+    });
+    navigator.sendBeacon("/api/px", new Blob([payload], { type: "application/json" }));
+  } catch {
+    /* never throw from a measurement path */
+  }
+}
 
 export default function ToolClient({ tool, initialValues, showFaq = true, showRelated = true, excludeRelated = [] }: { tool: ToolDef; initialValues?: Record<string, number | string>; showFaq?: boolean; showRelated?: boolean; excludeRelated?: string[] }) {
   const [values, setValues] = useState<Record<string, number | string>>(() => {
@@ -17,8 +47,15 @@ export default function ToolClient({ tool, initialValues, showFaq = true, showRe
   });
 
   const results = useMemo(() => tool.compute(values), [tool, values]);
+  const completed = useRef(false);
 
-  const set = (key: string, val: number | string) => setValues((p) => ({ ...p, [key]: val }));
+  const set = (key: string, val: number | string) => {
+    setValues((p) => ({ ...p, [key]: val }));
+    if (!completed.current) {
+      completed.current = true;
+      reportCompletion();
+    }
+  };
 
   // Guides link their own curated tool list in anchor text, so they pass those
   // slugs in excludeRelated — one href per URL, and the remaining tool.related
