@@ -1548,6 +1548,7 @@ export const TOOLS: ToolDef[] = [
       { q: "How do I calculate salary from hourly?", a: "Multiply your hourly rate by hours per week, then by weeks per year (usually 52, or 40 if you take 12 weeks unpaid)." },
       { q: "Is overtime included?", a: "No — this assumes straight time. Add overtime separately using the overtime calculator." },
       { q: "Is this before or after taxes?", a: "Gross pay before taxes. For take-home, run the same salary through the salary after tax calculator — federal, FICA, and state deductions typically leave 70-80% of gross, depending on your state." },
+      { q: "What is $20 an hour after taxes?", a: "At 40 hours a week, 52 weeks a year, $20/hr is $41,600 gross. Federal income tax on that is $2,812 (after the $16,100 standard deduction) and FICA is $3,182, leaving $35,606 a year — about $2,967 a month — in a state with no income tax (TX, FL, NV, WA, TN, SD, WY, AK, NH). Add a typical state income tax of roughly 5% and you keep about $34,331, or $2,861 a month. Scale the same way for other rates: $22/hr grosses $45,760 and $25/hr grosses $52,000. Run your own state through the salary after tax calculator for the exact number." },
     ],
     related: ["salary-after-tax-calculator", "paycheck-calculator", "overtime-calculator"],
   },
@@ -2010,6 +2011,7 @@ export const TOOLS: ToolDef[] = [
     faq: [
       { q: "How do I convert salary to hourly?", a: "Divide annual salary by (hours per week x weeks per year). $65,000 / (40 x 52) = $31.25/hour. Salaried exempt employees often work more than 40 hours, lowering the real hourly rate." },
       { q: "Is salary or hourly better?", a: "Salary offers stability and benefits; hourly offers overtime pay. Compare total compensation — including benefits worth 20-30% of salary — not just the headline number." },
+      { q: "Is the hourly rate before or after taxes?", a: "Before taxes. Dividing salary by hours gives a gross rate, so the number you actually receive is lower. Working backwards: to take home $3,000 a month with no state income tax you need roughly $20.24/hour at 40 hours a week. A $25/hour rate grosses $52,000, which nets $43,962 a year ($3,664 a month) after $4,060 of federal tax and $3,978 of FICA. A state income tax pushes the rate you need higher — about $21.07/hour for the same $3,000 in a state that takes roughly 5%." },
     ],
     related: ["hourly-to-salary-calculator", "salary-after-tax-calculator", "overtime-calculator"],
   },
@@ -2502,6 +2504,7 @@ export const TOOLS: ToolDef[] = [
     faq: [
       { q: "Is a big refund good?", a: "A refund means you over-withheld — you gave the government an interest-free loan. Most people prefer to break even or owe a little. Adjust your W-4 if refunds top $1,000." },
       { q: "How do I check what was withheld?", a: "Look at box 2 of your W-2 or the 'Federal income tax withheld' line on your paystubs. This calculator compares that total to your actual tax." },
+      { q: "Does this calculator include dependents?", a: "No — it uses the standard deduction and the single or married brackets only, so it does not model dependents, credits, or Head of Household status. Dependents change your return mostly through credits rather than the tax brackets, and a credit moves your refund dollar for dollar: on the $75,000 default with $9,000 withheld the tool shows a $1,330 refund and a $5,000 refundable credit would raise it to $6,330. Claiming a dependent can also make you eligible for Head of Household, which carries a larger standard deduction and wider brackets than single — run the numbers with a preparer if that applies to you." },
     ],
     related: ["tax-calculator", "salary-after-tax-calculator", "tax-bracket-calculator"],
   },
