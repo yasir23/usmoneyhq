@@ -596,8 +596,25 @@ def scan_site(site, rules, offline=None):
     return findings, meta, pages
 
 
+DUP_SIMILARITY_FLOOR = 0.75
+
+
+def content_similarity(a: str, b: str) -> float:
+    """Jaccard similarity of visible-text word sets."""
+    ta = set(re.findall(r"[a-z0-9]+", text_of(a).lower()))
+    tb = set(re.findall(r"[a-z0-9]+", text_of(b).lower()))
+    if not ta or not tb:
+        return 0.0
+    return len(ta & tb) / len(ta | tb)
+
+
 def scan_cross_domain(primary_pages, other_site, other_pages):
-    """A path serving real content on both domains, each self-canonicalising."""
+    """The same path carrying the SAME content on both domains.
+
+    Comparing paths alone is not evidence: two unrelated businesses legitimately
+    both have /contact. Only actual textual overlap is duplicate content, so the
+    comparison is on visible text, not on the URL.
+    """
     out = []
     for p in sorted(set(primary_pages) & set(other_pages)):
         a, b = primary_pages[p], other_pages[p]
@@ -605,11 +622,14 @@ def scan_cross_domain(primary_pages, other_site, other_pages):
         # shell on one domain is a soft-404 and is reported as CATCH_ALL.
         if a.get("words", 0) < SHELL_WORD_CEILING or b.get("words", 0) < SHELL_WORD_CEILING:
             continue
+        sim = content_similarity(a.get("html", ""), b.get("html", ""))
+        if sim < DUP_SIMILARITY_FLOOR:
+            continue
         ca, cb = canonical_of(a.get("html", "")), canonical_of(b.get("html", ""))
         if ca and cb and ca != cb:
             out.append(band("HIGH", "DUP_CONTENT", "cross-domain",
-                            f"{p}: live on both domains, each self-canonicalising "
-                            f"({ca} | {cb})", p))
+                            f"{p}: {sim:.0%} identical text live on both domains, each "
+                            f"self-canonicalising ({ca} | {cb})", p))
     return out
 
 
@@ -773,6 +793,30 @@ def selftest() -> int:
        detect_dead(S, "/p", 0)[0]["check"], "UNREACHABLE")
     ck("404 is DEAD_URL", detect_dead(S, "/p", 404)[0]["check"], "DEAD_URL")
     ck("200 is silent", detect_dead(S, "/p", 200), [])
+
+    # 15. DUP_CONTENT must compare CONTENT, not paths. Two unrelated businesses
+    #     both having /contact is not duplicate content, and flagging it put two
+    #     permanent false HIGHs on the board.
+    #     NOTE: the fixture uses a realistic vocabulary. A 5-word fixture made a
+    #     2-token difference swing Jaccard below the floor, which tested the
+    #     fixture's tininess rather than the detector.
+    base = " ".join(f"token{i}" for i in range(200))
+    same = f"<html><body>{base}</body></html>"
+    other = "<html><body>" + " ".join(f"other{i}" for i in range(200)) + "</body></html>"
+    pa_html = same.replace("<body>", '<body><link rel="canonical" href="https://a.com/contact">')
+    pb_html = same.replace("<body>", '<body><link rel="canonical" href="https://b.com/contact">')
+
+    ck("identical text scores high", content_similarity(same, same) > 0.99, True)
+    ck("unrelated text scores low", content_similarity(same, other) < 0.1, True)
+    ck("near-identical text stays high",
+       content_similarity(pa_html, pb_html) >= DUP_SIMILARITY_FLOOR, True)
+
+    pa = {"/contact": {"status": 200, "words": 500, "html": pa_html}}
+    pb = {"/contact": {"status": 200, "words": 500, "html": pb_html}}
+    ck("same path + same text fires", len(scan_cross_domain(pa, "b", pb)), 1)
+    pc = {"/contact": {"status": 200, "words": 500, "html": other.replace(
+        "<body>", '<body><link rel="canonical" href="https://b.com/contact">')}}
+    ck("same path + different text is silent", scan_cross_domain(pa, "b", pc), [])
 
     passed = sum(1 for _, ok, _, _ in checks if ok)
     for label, ok, got, want in checks:
