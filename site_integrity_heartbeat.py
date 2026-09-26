@@ -76,9 +76,17 @@ CORE_PAGES = {
     ],
 }
 
-# Pages that must carry a source register with dates (YMYL).
+# Pages that must carry authoritative source links WITH dates (YMYL).
+# The register page is where the agencies are named; a page that links to the
+# register inherits its sourcing and only needs a visible review date.
 SOURCE_PAGES = {
-    "https://usmoneyhq.com": ["/methodology", "/about"],
+    "https://usmoneyhq.com": ["/methodology"],
+    "https://sealofaudit.com": [],
+}
+
+# Pages that must show a visible review date but need not repeat the register.
+DATED_PAGES = {
+    "https://usmoneyhq.com": ["/about"],
     "https://sealofaudit.com": ["/about"],
 }
 
@@ -272,12 +280,31 @@ def band(sev: str, check: str, site: str, detail: str, url: str = "") -> dict:
     return {"severity": sev, "check": check, "site": site, "detail": detail, "url": url}
 
 
+# A corrections log MUST be able to name the wrong figure it fixed. Without this
+# guard the scanner flags the log that documents the fix — a mention scored as a
+# claim, which is the same failure as scoring an import as a send.
+CORRECTION_MARKERS = re.compile(
+    r"\b(?:previously|no\s+longer|were\s+using|was\s+using|used\s+to|"
+    r"replaced|corrected|correction|fixed|removed|stopped|retired|"
+    r"deprecated|had\s+been)\b", re.I)
+
+
+def sentence_around(txt: str, pos: int) -> str:
+    starts = [txt.rfind(c, 0, pos) for c in ".!?"]
+    start = max(starts) + 1 if max(starts) >= 0 else 0
+    ends = [txt.find(c, pos) for c in ".!?"]
+    ends = [e for e in ends if e != -1]
+    end = min(ends) if ends else len(txt)
+    return txt[start:end]
+
+
 def detect_banned_claims(site, path, html, rules):
     """One finding per defect, not one per matching rule.
 
-    The rules overlap by design ("5% flat national estimate" also matches the
-    broader "flat national estimate"), so matches are deduped by SPAN — an
-    overlapping match is the same defect already reported.
+    Rules overlap by design ("5% flat national estimate" also matches the broader
+    "flat national estimate"), so matches are deduped by SPAN — an overlapping
+    match is the same defect already reported. Matches inside a sentence that is
+    describing a past error are skipped: that is a mention, not a claim.
     """
     out = []
     txt = text_of(html)
@@ -286,6 +313,8 @@ def detect_banned_claims(site, path, html, rules):
         for m in re.finditer(pattern, txt, re.I):
             s, e = m.span()
             if any(not (e <= ts or s >= te) for ts, te in taken):
+                continue
+            if CORRECTION_MARKERS.search(sentence_around(txt, s)):
                 continue
             taken.append((s, e))
             out.append(band("HIGH", "UNSUPPORTED_CLAIM", site,
@@ -356,26 +385,40 @@ def detect_thin(site, path, html):
     return []
 
 
+DATE_RE = re.compile(
+    r"\b(?:effective|updated|last\s+reviewed|as\s+of|current\s+as\s+of)\b"
+    r"[^.]{0,40}?(?:19|20)\d{2}", re.I)
+
+
+def authoritative_hosts(html: str) -> set:
+    hosts = {re.sub(r"^www\.", "", h.lower())
+             for h in re.findall(r"https?://([a-z0-9.\-]+)", html, re.I)}
+    # lstrip("www.") would eat leading w/./ chars from hosts like www2.*; strip
+    # the literal prefix instead.
+    return {h for h in hosts if any(h.endswith(a) for a in AUTHORITATIVE_HOSTS)}
+
+
 def detect_missing_sources(site, path, html):
+    """A register page must name the agencies it relies on."""
     if not html:
         return []
-    txt = text_of(html)
-    hosts = set(re.findall(r"https?://([a-z0-9.\-]+)", html, re.I))
-    hosts = {h.lower().lstrip("www.") for h in hosts}
-    hits = {h for h in hosts if any(h.endswith(a) for a in AUTHORITATIVE_HOSTS)}
-    dated = bool(re.search(
-        r"\b(?:effective|updated|last\s+reviewed|as\s+of|current\s+as\s+of)\b"
-        r"[^.]{0,40}?(?:19|20)\d{2}", txt, re.I))
-    out = []
+    hits = authoritative_hosts(html)
     if len(hits) < 3:
-        out.append(band("HIGH", "MISSING_SOURCES", site,
-                        f"{path}: only {len(hits)} authoritative source link(s) "
-                        f"({sorted(hits) or 'none'}) — AdSense E-E-A-T gap",
-                        site + path))
-    if not dated:
-        out.append(band("MED", "MISSING_SOURCES", site,
-                        f"{path}: no visible effective/updated date", site + path))
-    return out
+        return [band("HIGH", "MISSING_SOURCES", site,
+                     f"{path}: only {len(hits)} authoritative source link(s) "
+                     f"({sorted(hits) or 'none'}) — AdSense E-E-A-T gap",
+                     site + path)]
+    return []
+
+
+def detect_missing_date(site, path, html):
+    """A page that inherits the register still needs a visible review date."""
+    if not html:
+        return []
+    if DATE_RE.search(text_of(html)):
+        return []
+    return [band("MED", "MISSING_DATE", site,
+                 f"{path}: no visible effective/updated date", site + path)]
 
 
 def detect_canonical(site, path, html):
@@ -537,6 +580,10 @@ def scan_site(site, rules, offline=None):
             rec = pages.get(sp_path)
             if rec and rec.get("status") == 200 and rec.get("words", 0) >= SHELL_WORD_CEILING:
                 findings += detect_missing_sources(site, sp_path, rec.get("html", ""))
+        for dp_path in DATED_PAGES.get(site, []):
+            rec = pages.get(dp_path)
+            if rec and rec.get("status") == 200 and rec.get("words", 0) >= SHELL_WORD_CEILING:
+                findings += detect_missing_date(site, dp_path, rec.get("html", ""))
 
     findings += detect_frozen_lastmod(site, lastmods)
     findings += detect_inventory_drift(site, len(listed_paths), indexable, hint)
@@ -618,8 +665,33 @@ def selftest() -> int:
     ck("thin fires", len(detect_thin(S, "/p", THIN_PAGE)), 1)
     ck("banned claim fires once, not per overlapping rule",
        len(detect_banned_claims(S, "/p", CLAIM_PAGE, rules)), 1)
+
+    # 2b. MENTION vs CLAIM — a corrections log must be able to name the wrong
+    #     figure it fixed. This exact sentence is live on /about and tripped the
+    #     scanner until the correction-sentence guard was added.
+    CORRECTION_PAGE = """<html><head><meta name="robots" content="index"></head><body>""" + \
+        ("word " * 600) + (
+        "State salary calculators were using a single flat national estimate "
+        "for state income tax. Replaced with each state's own rate schedule."
+        "</body></html>")
+    ck("correction log naming the old claim is silent",
+       detect_banned_claims(S, "/p", CORRECTION_PAGE, rules), [])
+    # ...but a live claim in a plain sentence must still fire.
+    LIVE_CLAIM = """<html><head><meta name="robots" content="index"></head><body>""" + \
+        ("word " * 600) + "This tool uses a 5% flat national estimate. </body></html>"
+    ck("plain live claim still fires",
+       len(detect_banned_claims(S, "/p", LIVE_CLAIM, rules)), 1)
     ck("dead url fires", len(detect_dead(S, "/p", 500)), 1)
-    ck("missing sources fires", len(detect_missing_sources(S, "/x", NOSOURCE_PAGE)), 2)
+    ck("missing sources fires", len(detect_missing_sources(S, "/x", NOSOURCE_PAGE)), 1)
+    ck("missing date fires", len(detect_missing_date(S, "/x", NOSOURCE_PAGE)), 1)
+    ck("sourced page is silent",
+       detect_missing_sources(S, "/x", GOOD_PAGE.replace(
+           "<body>", '<body><a href="https://www.irs.gov/x">a</a>'
+                     '<a href="https://www.ssa.gov/y">b</a>'
+                     '<a href="https://www.bls.gov/z">c</a>')), [])
+    ck("dated page is silent",
+       detect_missing_date(S, "/x", GOOD_PAGE.replace(
+           "<body>", "<body>Last reviewed: 26 September 2026. ")), [])
 
     # 3. REGRESSION — "noindex" contains "index"; substring matching made every
     #    legitimate single-tag noindex page look self-contradicting.
