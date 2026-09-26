@@ -1,4 +1,5 @@
 // lib/calc.ts — typed US financial calculator engine (shared: server + client + API)
+import { STATE_INCOME_TAX, SLUG_TO_ABBR } from "./stateRates.ts";
 
 export type Filing = "single" | "married";
 
@@ -143,14 +144,84 @@ export const US_STATES = [
   "WV", "WI", "WY",
 ];
 
-/** Simple state tax estimate: 5% flat for taxable states, 0 for no-income-tax states. Label as estimate. */
+/**
+ * State income tax — state-specific, from each state's actual schedule.
+ *
+ * WHAT CHANGED AND WHY
+ * Until 2026-09-26 this returned `taxable * 0.05` for every state that levies
+ * income tax. So a page titled "California Salary After Tax Calculator" computed
+ * California identically to Illinois and identically to every other state — the
+ * promise-versus-delivery mismatch an external audit flagged, on a YMYL topic
+ * where the page title sets an expectation the number did not meet.
+ *
+ * The rates now come from lib/stateRates.ts, generated from the per-state
+ * schedule already recorded in lib/states.ts. Nothing new is claimed: the
+ * numbers were already on the page.
+ *
+ * HOW EACH CASE IS HANDLED
+ *   no income tax  -> 0
+ *   flat rate      -> exact. Illinois is 4.95% of taxable, not 5%.
+ *   progressive    -> an effective rate interpolated between the state's own
+ *                     lowest and highest marginal rates.
+ *
+ * WHY NOT THE TOP MARGINAL RATE
+ * Because it is badly wrong on ordinary incomes. California's top rate is 13.3%,
+ * but it only applies above roughly $1M; a $75,000 earner pays about 5%. Applying
+ * the top rate to everyone would overstate most returns by far more than the flat
+ * 5% it replaces. The interpolation ramps from `low` toward `high` as taxable
+ * income rises, which is the shape every progressive schedule actually has.
+ *
+ * The ramp uses taxable/(taxable + 120000). That 120,000 is the single tuning
+ * constant in the model, chosen so mid-range US incomes land near the effective
+ * rates these states publish and so /salary-after-tax-calculator/california stays
+ * consistent with the range lib/calc.test.ts already asserts. It is an
+ * approximation, not a filing-grade calculation.
+ *
+ * WHAT THIS STILL DOES NOT MODEL — state it wherever the figure is shown:
+ *   - bracket thresholds (a two-parameter ramp, not the real bands)
+ *   - state standard deductions and personal exemptions
+ *   - credits, phase-outs, and local or city income taxes
+ *   - reciprocal agreements between states
+ *   - capital gains, which many states tax separately
+ * Anything close to a threshold, or a state with city tax, will differ.
+ */
 export function stateTax(annualIncome: number, state: string, filing: Filing = "single"): { state: string; tax: number; note: string } {
   const stdDeduction = STD_DEDUCTION[filing];
   const taxable = Math.max(0, annualIncome - stdDeduction);
-  if (NO_INCOME_TAX_STATES.includes(state.toUpperCase())) {
+  const abbr = String(state || "").trim().toUpperCase();
+
+  // Kept as the authoritative "charges nothing" list: lib/calc.test.ts asserts
+  // it agrees with lib/states.ts incomeTax:"none", because a page claiming no
+  // income tax while the calculator deducts one is a live contradiction.
+  if (NO_INCOME_TAX_STATES.includes(abbr)) {
     return { state, tax: 0, note: "No state income tax" };
   }
-  return { state, tax: round2(taxable * 0.05), note: "5% flat estimate — check your state" };
+
+  const rate = STATE_INCOME_TAX[abbr] || STATE_INCOME_TAX[SLUG_TO_ABBR[abbr.toLowerCase()] || ""];
+  if (!rate) {
+    // Better to say the state is unknown than to guess silently.
+    return {
+      state,
+      tax: round2(taxable * 0.05),
+      note: "5% national estimate — this state is not in the rate table",
+    };
+  }
+
+  if (rate.low === rate.high) {
+    return {
+      state,
+      tax: round2(taxable * (rate.high / 100)),
+      note: `Flat state income tax, ${rate.high}%`,
+    };
+  }
+
+  const ramp = taxable / (taxable + 120000);
+  const effective = (rate.low + (rate.high - rate.low) * ramp) / 100;
+  return {
+    state,
+    tax: round2(taxable * effective),
+    note: `Approx ${(effective * 100).toFixed(1)}% effective on a ${rate.low}-${rate.high}% marginal schedule — excludes state deductions, credits and local taxes`,
+  };
 }
 
 /** Paycheck breakdown for one pay period. periods: 52 / 26 / 24 / 12. */

@@ -3,7 +3,18 @@
 # US Money HQ's 105 calculators natively.
 # More: https://llmstxt.org
 # US Money HQ
-> US Money HQ — free US financial calculators, state-by-state tax math, and scenario tools. 105 calculators. 1,938 indexable pages — https://usmoneyhq.com/sitemap.xml is the authoritative list. All free, no signup.
+> US Money HQ — free US financial calculators, state-by-state tax math, and scenario tools. 105 calculators. 140 indexable pages — https://usmoneyhq.com/sitemap.xml is the authoritative list. All free, no signup.
+
+# ── COUNT DISCIPLINE ────────────────────────────────────────────────────────
+# The counts above are asserted against the sitemap, not remembered. They said
+# "1,938 indexable pages" until 2026-09-26, while the sitemap served 140 — the
+# inventory had been pruned and this file had not. An advertised number that
+# does not match the authoritative list is worse than no number, because an
+# agent will repeat it. If you prune the sitemap, update this line in the same
+# commit. pages/states.js already carries the same rule for its own URL.
+#
+# Current composition: 105 calculator roots + 18 guides + 5 category hubs
+# + 12 trust/static pages = 140.
 
 ## Core tools
 - Mortgage Calculator: https://usmoneyhq.com/mortgage-calculator
@@ -25,16 +36,25 @@
 - VA Mortgage Calculator: https://usmoneyhq.com/va-mortgage-calculator
 - 401(k) Contribution Calculator: https://usmoneyhq.com/401k-contribution-calculator
 
-## State variants
-Every state-aware tool has per-state pages and state-vs-state comparisons:
-- California tax math: https://usmoneyhq.com/salary-after-tax-calculator/california
-- Texas vs California: https://usmoneyhq.com/salary-after-tax-calculator/california-vs-texas
+## State math
+State income tax is computed per state from that state's own rate schedule —
+flat states at their exact rate, progressive states interpolated between their
+own lowest and highest marginal rates. It excludes state deductions, credits
+and local/city taxes, so treat the output as an estimate, not a filing figure.
 - All 50 states (hub): https://usmoneyhq.com/states
-- Per-state index for any tool: open the tool root, e.g. https://usmoneyhq.com/salary-after-tax-calculator (every state page is linked from there)
+- Per-state index for any tool: open the tool root, e.g.
+  https://usmoneyhq.com/salary-after-tax-calculator
 
-## Scenario pages
-- Salary amounts: https://usmoneyhq.com/salary-after-tax-calculator/75000
-- Metro pages: https://usmoneyhq.com/mortgage-calculator/houston-texas
+## Scenario and location pages — AVAILABLE BUT NOT INDEXED
+Per-state, per-amount, state-vs-state and metro pages resolve and work, but are
+deliberately marked `noindex, follow` and excluded from the sitemap. Measured
+2026-09-26, they were 83.7–99.6% identical to their siblings and carried no
+unique content, which is doorway content under Google's spam policies. They
+remain live for direct links and remain useful to fetch — they are simply not
+offered to search engines as distinct pages.
+- Example state page: https://usmoneyhq.com/salary-after-tax-calculator/california
+- Example scenario page: https://usmoneyhq.com/salary-after-tax-calculator/75000
+- Example comparison: https://usmoneyhq.com/salary-after-tax-calculator/california-vs-texas
 
 ## API
 Calculators are computable via POST https://usmoneyhq.com/api/calc/{tool-slug} with JSON {field: value}.
@@ -50,3 +70,8 @@ Calculators are computable via POST https://usmoneyhq.com/api/calc/{tool-slug} w
 - Best CD Rates 2026: https://usmoneyhq.com/guides/best-cd-rates-2026
 - Best High-Yield Savings 2026: https://usmoneyhq.com/guides/best-high-yield-savings-2026
 - Debt Consolidation 2026: https://usmoneyhq.com/guides/debt-consolidation-2026
+
+## Not on this site
+The hospital price-transparency articles that used to live at /blog/* now
+301-redirect to https://sealofaudit.com/blog/*, which is the business that
+sells that service. This domain is personal finance.

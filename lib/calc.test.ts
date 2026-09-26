@@ -113,6 +113,8 @@ import {
 // The state data layer. Imported so the consistency guard below can compare what
 // the PAGE claims about a state against what the CALCULATOR charges for it.
 import { STATES as STATES_ALL } from "./states.ts";
+import { STATE_INCOME_TAX, SLUG_TO_ABBR } from "./stateRates.ts";
+import { readFileSync } from "node:fs";
 
 // $300k @ 6.5% / 30yr (360 mo) -> ~$1,896.20/mo (known value)
 const p = monthlyPayment(300000, 6.5, 360);
@@ -891,3 +893,88 @@ console.log("ALL PHASE 9 CALC TESTS PASS");
 }
 
 console.log("ALL BALLOON TESTS PASS");
+
+// === State-specific income tax (added 2026-09-26) =========================
+//
+// stateTax() previously applied a flat 5% to every income-tax state, so a page
+// titled "California Salary After Tax Calculator" computed California the same
+// as Illinois and the same as everywhere else — an external audit flagged the
+// promise-versus-delivery gap on a YMYL topic. It now uses each state's real
+// schedule via lib/stateRates.ts, generated from lib/states.ts.
+//
+// These pin the properties that make the model defensible. They fail loudly if
+// the generated table ever drifts from the page data.
+{
+  // 1. The generated table must agree with the note the PAGE shows the reader.
+  //    A mismatch means the page quotes one range while the calculator uses
+  //    another — the same class of contradiction the no-income-tax guard above
+  //    exists to catch.
+  for (const s of STATES_ALL) {
+    const rate = STATE_INCOME_TAX[s.abbr];
+    assert.ok(rate, `stateRates.ts is missing ${s.abbr} (${s.slug})`);
+    if (s.incomeTax === "none") {
+      assert.strictEqual(rate.low, 0, `${s.abbr} page says none but rate.low=${rate.low}`);
+      assert.strictEqual(rate.high, 0, `${s.abbr} page says none but rate.high=${rate.high}`);
+    } else {
+      const nums = (s.incomeTaxNote.match(/\d+(?:\.\d+)?/g) || []).map(Number);
+      assert.ok(nums.length >= 1, `${s.abbr} note carries no rate: ${s.incomeTaxNote}`);
+      assert.strictEqual(rate.low, Math.min(...nums), `${s.abbr} low ${rate.low} != "${s.incomeTaxNote}"`);
+      assert.strictEqual(rate.high, Math.max(...nums), `${s.abbr} high ${rate.high} != "${s.incomeTaxNote}"`);
+    }
+    assert.strictEqual(SLUG_TO_ABBR[s.slug], s.abbr, `slug map wrong for ${s.slug}`);
+  }
+
+  // 2. No-income-tax states charge nothing.
+  for (const abbr of NO_INCOME_TAX_STATES) {
+    assert.strictEqual(stateTax(75000, abbr).tax, 0, `${abbr} should charge 0`);
+  }
+
+  // 3. Flat states use their EXACT rate, not 5%.
+  const ilTaxable = 100000 - STD_DEDUCTION.single;
+  const il = stateTax(100000, "IL");
+  assert.ok(Math.abs(il.tax - ilTaxable * 0.0495) < 0.05, `IL ${il.tax} should be 4.95% of ${ilTaxable}`);
+  assert.notStrictEqual(il.tax, round2(ilTaxable * 0.05), "IL must not still use the flat 5%");
+
+  // 4. A progressive state's effective rate sits between its own endpoints.
+  //    California's top rate is 13.3% but applies only above roughly $1M, so
+  //    charging it at $75k would be a far worse error than the 5% replaced.
+  const ca75 = stateTax(75000, "CA");
+  const caEff = (ca75.tax / (75000 - STD_DEDUCTION.single)) * 100;
+  assert.ok(caEff >= 1 && caEff <= 13.3, `CA effective ${caEff.toFixed(2)}% outside 1-13.3%`);
+  assert.ok(caEff < 8, `CA effective ${caEff.toFixed(2)}% implausibly high at $75k`);
+
+  // 5. Monotonic: earning more never lowers the effective rate.
+  let prev = 0;
+  for (const inc of [30000, 60000, 100000, 200000, 500000, 1000000]) {
+    const eff = (stateTax(inc, "CA").tax / Math.max(1, inc - STD_DEDUCTION.single)) * 100;
+    assert.ok(eff >= prev - 1e-9, `CA effective fell from ${prev} to ${eff} at ${inc}`);
+    prev = eff;
+  }
+
+  // 6. "State-specific" must mean states differ from one another.
+  const charges = ["CA", "TX", "IL", "OR", "FL", "NY", "WA", "CO"].map((a) => stateTax(120000, a).tax);
+  assert.ok(new Set(charges).size >= 5, `expected varied charges, got ${JSON.stringify(charges)}`);
+  assert.ok(charges[1] === 0 && charges[4] === 0 && charges[6] === 0, "TX, FL and WA must all be 0");
+
+  // 7. A slug works as well as an abbreviation.
+  assert.strictEqual(stateTax(75000, "california").tax, ca75.tax, "slug lookup must match abbr lookup");
+
+  // 8. No page may still describe the state line as a flat 5% national estimate.
+  //    The calculator no longer does that, so a page saying so contradicts the
+  //    number printed beside it. This is the same failure mode as the Oregon /
+  //    Montana guard above, in the opposite direction: there the page promised
+  //    less than the calculator did, here it promised something untrue.
+  //
+  //    It shipped once already — six hardcoded strings survived the change to
+  //    stateTax() and the first rebuild still rendered "5% flat national
+  //    estimate" beside a state-specific figure.
+  for (const rel of ["components/ToolPageShell.tsx", "lib/tools.ts"]) {
+    const src = readFileSync(new URL(`../${rel}`, import.meta.url), "utf8");
+    assert.ok(
+      !/5% flat|flat national estimate|flat state estimate/i.test(src),
+      `${rel} still describes the state tax line as a flat 5% national estimate`,
+    );
+  }
+
+  console.log(`STATE TAX TESTS PASS (CA $75k = $${ca75.tax}, IL $100k = $${il.tax})`);
+}

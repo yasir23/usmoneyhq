@@ -9,6 +9,7 @@ import { getState, getComparisonPair, STATES, STATE_AWARE_TOOLS, pairsForState, 
 import { AMOUNT_TOOLS, allowedAmounts, allowedAges, AGE_TOOLS, ageFromSlug, fmtAmount, amountFromSlug } from "../lib/amounts";
 import { getMetro, metrosForState, type Metro } from "../lib/metros";
 import { VARIANT_PAGES_INDEXED } from "../lib/indexing";
+import { TOOL_CONTENT } from "../lib/toolContent";
 import { federalTax, fica, stateTax, monthlyPayment } from "../lib/calc";
 
 /**
@@ -373,12 +374,14 @@ export default function ToolPageShell({ slug, stateSlug, amountSlug, metroSlug, 
             <div className="row"><span>{state.name}&apos;s actual income tax</span><b>{state.incomeTaxNote}</b></div>
             <div className="row"><span>Avg. property tax rate</span><b>{state.propTaxPct}% of home value</b></div>
             <div className="row"><span>Avg. combined sales tax</span><b>{state.salesTax}%</b></div>
-            <div className="row"><span>Used by the calculator above</span><b>5% flat national estimate</b></div>
+            <div className="row"><span>Used by the calculator above</span><b>{state.incomeTax === "none" ? "No state income tax" : state.incomeTaxNote}</b></div>
             <p className="note">
-              The state tax figure this calculator produces is a flat 5% national estimate for
-              every state with an income tax — it does <b>not</b> model {state.name}&apos;s actual
-              schedule ({state.incomeTaxNote.toLowerCase()}). It can differ materially from what
-              you owe. Confirm with the state revenue authority before relying on it.
+              The state tax figure above is computed from {state.name}&apos;s own rate schedule
+              ({state.incomeTaxNote.toLowerCase()}) — flat-rate states at their exact rate,
+              progressive states interpolated across their marginal range. It does <b>not</b> model
+              {state.name}&apos;s bracket thresholds, deductions, credits or local and city taxes, so
+              it can differ from what you owe. Confirm with the state revenue authority before
+              relying on it.
             </p>
           </div>
         )}
@@ -386,17 +389,21 @@ export default function ToolPageShell({ slug, stateSlug, amountSlug, metroSlug, 
         {state && !pair && (
           <p className="note estimate-basis">
             <b>Estimate basis:</b> federal tax uses 2026 brackets and the standard deduction;
-            FICA uses the 2026 wage base; the state line is a 5% flat national estimate, or 0 in
-            the nine states with no income tax. This is an estimate, not tax advice.
+            FICA uses the 2026 wage base; state tax uses each state&apos;s own rate schedule — exact
+            for flat-rate states, interpolated across the marginal range for progressive ones — and
+            0 in the nine states with no income tax. Excludes state deductions, credits and local
+            taxes. This is an estimate, not tax advice.
           </p>
         )}
 
         {pair && (
           <p className="note estimate-basis">
-            <b>Estimate basis:</b> the state tax line is a flat 5% national estimate, so it does
-            not reflect either state&apos;s real schedule — {pair[0].name}: {pair[0].incomeTaxNote.toLowerCase()};
-            {" "}{pair[1].name}: {pair[1].incomeTaxNote.toLowerCase()}. A genuine two-state take-home
-            comparison will usually differ by more than this shows. This is an estimate, not tax advice.
+            <b>Estimate basis:</b> each side uses its own state&apos;s rate schedule —{" "}
+            {pair[0].name}: {pair[0].incomeTaxNote.toLowerCase()};{" "}
+            {pair[1].name}: {pair[1].incomeTaxNote.toLowerCase()}. A progressive schedule is
+            interpolated across its marginal range rather than charged at a flat rate, and neither
+            line includes state deductions, credits or local taxes, so a real two-state comparison
+            will still differ from this. This is an estimate, not tax advice.
           </p>
         )}
 
@@ -456,7 +463,7 @@ export default function ToolPageShell({ slug, stateSlug, amountSlug, metroSlug, 
         {state && (
           <div className="seo">
             <h2>{state.name}-specific notes for this calculator</h2>
-            <p>{state.name} has {state.incomeTaxNote.toLowerCase()} and an average effective property tax rate of {state.propTaxPct}% of home value (combined sales tax ~{state.salesTax}%). The state income tax shown above uses a 5% flat national estimate rather than {state.name}&apos;s bracket schedule, so treat the result as a starting point — local rates and exemptions can change the real figure materially.</p>
+            <p>{state.name} has {state.incomeTaxNote.toLowerCase()} and an average effective property tax rate of {state.propTaxPct}% of home value (combined sales tax ~{state.salesTax}%). The state income tax shown above is computed from that schedule — flat-rate states at their exact rate, progressive states interpolated across their marginal range — but it does not include {state.name}&apos;s bracket thresholds, deductions, credits or local taxes, so treat the result as a starting point.</p>
             {stateExtras.length > 0 && (
               <>
                 <h3>More {state.name} calculators</h3>
@@ -513,6 +520,59 @@ export default function ToolPageShell({ slug, stateSlug, amountSlug, metroSlug, 
             ))}
           </div>
         )}
+
+        {/* Deep content for the core tools.
+        
+            Rendered on the BASE tool page only. Variant pages are noindexed
+            (lib/indexing.ts), so adding ~1,500 words to 770 pages that are
+            deliberately kept out of the index would buy nothing and would make
+            the doorways bigger rather than fewer. The depth belongs where it
+            can be found and read.
+        
+            Source: lib/toolContent.ts. Measured before this existed:
+            /mortgage-calculator shipped 452 words, which is not "substantial
+            unique value" by the standard AdSense quoted. */}
+        {!isVariant && TOOL_CONTENT[slug] && (() => {
+          const c = TOOL_CONTENT[slug];
+          return (
+            <div className="seo" style={{ marginTop: 28 }}>
+              <p>{c.intro}</p>
+
+              <h2>How this calculator works</h2>
+              {c.mechanics.map((m) => (
+                <div key={m.title} style={{ marginBottom: 14 }}>
+                  <h3 style={{ marginBottom: 4 }}>{m.title}</h3>
+                  <p style={{ marginTop: 0 }}>{m.body}</p>
+                </div>
+              ))}
+
+              <h2>{c.example.title}</h2>
+              <p>{c.example.setup}</p>
+              <table style={{ width: "100%", borderCollapse: "collapse", margin: "12px 0" }}>
+                <tbody>
+                  {c.example.rows.map((r) => (
+                    <tr key={r.label} style={{ borderBottom: "1px solid rgba(0,0,0,0.08)" }}>
+                      <td style={{ padding: "8px 8px 8px 0", fontWeight: 600 }}>{r.label}</td>
+                      <td style={{ padding: "8px 8px", textAlign: "right", fontVariantNumeric: "tabular-nums" }}>
+                        {r.value}
+                      </td>
+                      <td style={{ padding: "8px 0", opacity: 0.65, fontSize: "0.9em" }}>{r.note}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+              <p>{c.example.conclusion}</p>
+
+              <h2>Common mistakes</h2>
+              {c.mistakes.map((m) => (
+                <div key={m.title} style={{ marginBottom: 14 }}>
+                  <h3 style={{ marginBottom: 4 }}>{m.title}</h3>
+                  <p style={{ marginTop: 0 }}>{m.body}</p>
+                </div>
+              ))}
+            </div>
+          );
+        })()}
 
         <AdSlot id="bottom" />
 

@@ -318,7 +318,7 @@ export const TOOLS: ToolDef[] = [
     faq: [
       { q: "Which states have no income tax?", a: `Alaska, Florida, Nevada, New Hampshire, South Dakota, Tennessee, Texas, Washington, and Wyoming do not impose a state income tax: ${NO_INCOME_TAX_STATES.join(", ")}.` },
       { q: "Why does my actual paycheck differ?", a: "Employers also deduct 401(k) contributions, health insurance premiums, and other benefits. This calculator shows a clean estimate before those deductions." },
-      { q: "What tax brackets are used?", a: `The calculator uses ${TAX_YEAR} federal brackets with the standard deduction ($16,100 single / $32,200 married filing jointly) and a 5% flat state estimate.` },
+      { q: "What tax brackets are used?", a: `The calculator uses ${TAX_YEAR} federal brackets with the standard deduction ($16,100 single / $32,200 married filing jointly). State income tax is computed from each state's own rate schedule: flat-rate states at their exact rate, progressive states interpolated across their marginal range. It excludes state bracket thresholds, deductions, credits and local or city income taxes, so treat the state line as an estimate.` },
     ],
     related: ["paycheck-calculator", "mortgage-calculator", "dti-calculator"],
   },
