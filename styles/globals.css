@@ -419,6 +419,35 @@ h3 {
   max-width: 72ch;
 }
 
+/* Source register lists (/methodology primary sources). An unstyled list on the
+   page that is meant to demonstrate sourcing quality defeats its own purpose. */
+.seo h3 {
+  font-size: 1.0625rem;
+  margin: 22px 0 8px;
+}
+
+.seo ul {
+  margin: 0 0 14px;
+  padding-left: 22px;
+  max-width: 72ch;
+}
+
+.seo li {
+  color: var(--muted);
+  line-height: 1.65;
+  margin-bottom: 8px;
+}
+
+.seo li a {
+  color: var(--primary);
+}
+
+/* Small muted provenance line, e.g. "Last reviewed: ..." */
+.muted {
+  color: var(--muted);
+  font-size: 0.9375rem;
+}
+
 /* ---------- Tables (amortization etc.) ---------- */
 .table-wrap {
   overflow-x: auto;
