@@ -7,7 +7,8 @@ import ToolClient from "./ToolClient";
 import { getTool, SITE_URL, SITE_NAME, TOOLS } from "../lib/tools";
 import { getState, getComparisonPair, STATES, STATE_AWARE_TOOLS, pairsForState, type StateData } from "../lib/states";
 import { AMOUNT_TOOLS, allowedAmounts, allowedAges, AGE_TOOLS, ageFromSlug, fmtAmount, amountFromSlug } from "../lib/amounts";
-import { getMetro, metrosForState, type Metro, METRO_VARIANTS_INDEXED } from "../lib/metros";
+import { getMetro, metrosForState, type Metro } from "../lib/metros";
+import { VARIANT_PAGES_INDEXED } from "../lib/indexing";
 import { federalTax, fica, stateTax, monthlyPayment } from "../lib/calc";
 
 /**
@@ -115,6 +116,23 @@ export function serpDesc(text: string): string {
 
 export default function ToolPageShell({ slug, stateSlug, amountSlug, metroSlug, ageSlug, country }: { slug: string; stateSlug?: string; amountSlug?: string; metroSlug?: string; ageSlug?: string; country?: string }) {
   const isUS = (country || "").toUpperCase() === "US";
+
+  // Is this page a variant of a base tool, rather than a tool in its own right?
+  //
+  // Every variant shape — state, comparison pair, amount scenario, age
+  // scenario, amount x state, metro — is a permutation of the base tool with a
+  // word or number swapped, so they are one class and get one decision.
+  //
+  // Detected from the SLUGS, not from the resolved objects. A comparison page
+  // arrives as stateSlug="california-vs-texas", which getState() cannot resolve,
+  // so `state` is undefined even though the page is unmistakably a variant. The
+  // old conditions (`amount && state`, `metro`) missed both comparison pages
+  // and single-dimension variants entirely.
+  //
+  // Measured 2026-09-26: these pages run 83.7-99.6% identical to their siblings
+  // and share 19 of about 21 numeric tokens. See lib/indexing.ts.
+  const isVariant = Boolean(stateSlug || amountSlug || metroSlug || ageSlug);
+
   const tool = getTool(slug);
   const pair: [StateData, StateData] | null = stateSlug && stateSlug.includes("-vs-") ? getComparisonPair(stateSlug) : null;
   const metro: Metro | undefined = metroSlug ? getMetro(metroSlug) : undefined;
@@ -282,19 +300,24 @@ export default function ToolPageShell({ slug, stateSlug, amountSlug, metroSlug, 
         <title>{pageTitle}</title>
         <meta name="description" content={pageDesc} />
         <link rel="canonical" href={url} />
-        {/* Amount x state combos are near-duplicate permutations of the state and
-            amount pages (measured 2026-09-18: 96-98% identical text, 261-384 words,
-            zero inbound internal links). noindex keeps them usable as deep links
-            while removing them from the index, so they stop cannibalising the
-            canonical /{tool}/{amount} and /{tool}/{state} pages. */}
-        {amount && state && <meta name="robots" content="noindex, follow" />}
-        {/* Metro (city) pages: a metro page IS its parent state page with the
-            city name swapped into the title/desc/H1 — measured 2026-09-22, two
-            cities in one state share 34 numeric tokens with ZERO unique to
-            either, 99.2% identical text. Same defect as the amount x state case
-            above and excluded on the same reasoning. See lib/metros.ts for the
-            full measurement and how to reverse it. */}
-        {metro && !METRO_VARIANTS_INDEXED && <meta name="robots" content="noindex, follow" />}
+        {/* Variant pages are noindexed while VARIANT_PAGES_INDEXED is false.
+        
+            Every shape is one class: a state page, a comparison pair, an amount
+            or age scenario, an amount x state combo, and a metro page are all
+            the base tool with a word or number swapped. Measured 2026-09-26,
+            they run 83.7-99.6% identical to their siblings and share 19 of
+            about 21 numeric tokens — /mortgage-calculator/100000 and /150000
+            are identical in byte length.
+
+            This is the fix for the AdSense "Low value content" rejection:
+            916 sitemap URLs were 84% such permutations.
+
+            noindex, follow — not noindex, nofollow. The URLs stay live, useful
+            as deep links, and their internal links still pass signal; they just
+            stop being offered as distinct content. Flipping the flag back in
+            lib/indexing.ts restores indexing, but only after the templates
+            carry genuinely per-page data. */}
+        {isVariant && !VARIANT_PAGES_INDEXED && <meta name="robots" content="noindex, follow" />}
         <meta property="og:type" content="website" />
         <meta property="og:title" content={pageTitle} />
         <meta property="og:description" content={pageDesc} />

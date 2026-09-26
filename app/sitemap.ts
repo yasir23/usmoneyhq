@@ -3,6 +3,7 @@ import { SITE_URL, TOOLS } from "@/lib/tools";
 import { STATES, STATE_AWARE_TOOLS, getComparisonPairs } from "@/lib/states";
 import { AMOUNT_TOOLS, allowedAmounts, AGE_TOOLS, allowedAges } from "@/lib/amounts";
 import { METROS, METRO_VARIANTS_INDEXED } from "@/lib/metros";
+import { VARIANT_PAGES_INDEXED } from "@/lib/indexing";
 import { contentDate } from "@/lib/content-dates";
 
 /**
@@ -101,16 +102,27 @@ export default function sitemap(): MetadataRoute.Sitemap {
   // users; ToolPageShell marks them noindex so they leave the index and stop
   // diluting the site's quality signal. Re-adding them requires per-page unique
   // content, not a sitemap entry.
-  for (const slug of Object.keys(AMOUNT_TOOLS)) {
-    for (const amt of allowedAmounts(slug) || []) {
-      pages.push({ url: `${SITE_URL}/${slug}/${amt}`, lastModified: amountDate, changeFrequency: "monthly", priority: 0.6 });
+  // amount scenario pages: amount-config tools x allowed amounts
+  //
+  // EXCLUDED while VARIANT_PAGES_INDEXED is false — measured 2026-09-26.
+  // /mortgage-calculator/100000 and /150000 are 99.6% identical text and
+  // IDENTICAL in byte length; 19 of their 21 numbers are shared. These are the
+  // pages AdSense called "low value content". See lib/indexing.ts.
+  if (VARIANT_PAGES_INDEXED) {
+    for (const slug of Object.keys(AMOUNT_TOOLS)) {
+      for (const amt of allowedAmounts(slug) || []) {
+        pages.push({ url: `${SITE_URL}/${slug}/${amt}`, lastModified: amountDate, changeFrequency: "monthly", priority: 0.6 });
+      }
     }
   }
 
-  // age scenario pages: age-config tools x 9 ages
-  for (const slug of Object.keys(AGE_TOOLS)) {
-    for (const a of allowedAges(slug) || []) {
-      pages.push({ url: `${SITE_URL}/${slug}/${a}`, lastModified: toolDate, changeFrequency: "monthly", priority: 0.6 });
+  // age scenario pages: age-config tools x 9 ages. Same class as the amount
+  // pages above and excluded on the same reasoning.
+  if (VARIANT_PAGES_INDEXED) {
+    for (const slug of Object.keys(AGE_TOOLS)) {
+      for (const a of allowedAges(slug) || []) {
+        pages.push({ url: `${SITE_URL}/${slug}/${a}`, lastModified: toolDate, changeFrequency: "monthly", priority: 0.6 });
+      }
     }
   }
 
@@ -133,27 +145,44 @@ export default function sitemap(): MetadataRoute.Sitemap {
   }
 
   // state variants: state-aware tools x 50 states
-  for (const slug of STATE_AWARE_TOOLS) {
-    for (const s of STATES) {
-      pages.push({
-        url: `${SITE_URL}/${slug}/${s.slug}`,
-        lastModified: stateDate,
-        changeFrequency: "monthly",
-        priority: 0.7,
-      });
+  //
+  // EXCLUDED while VARIANT_PAGES_INDEXED is false — measured 2026-09-26. This
+  // is the largest cohort: 7 tools x 50 states = 350 URLs, 38% of the sitemap.
+  // /mortgage-calculator/florida vs /ohio are 83.7% identical text with 19 of
+  // 21 numbers shared — the page differs from its sibling by about three
+  // figures set in 4,200 characters of shared boilerplate, and those figures
+  // are estimates rather than that state's published rate tables. Keeping 350
+  // such pages is exactly the shape AdSense rejected the site for.
+  if (VARIANT_PAGES_INDEXED) {
+    for (const slug of STATE_AWARE_TOOLS) {
+      for (const s of STATES) {
+        pages.push({
+          url: `${SITE_URL}/${slug}/${s.slug}`,
+          lastModified: stateDate,
+          changeFrequency: "monthly",
+          priority: 0.7,
+        });
+      }
     }
   }
 
   // state-vs-state comparisons: state-aware tools x 45 top-state pairs
-  const pairs = getComparisonPairs();
-  for (const slug of STATE_AWARE_TOOLS) {
-    for (const [a, b] of pairs) {
-      pages.push({
-        url: `${SITE_URL}/${slug}/${a.slug}-vs-${b.slug}`,
-        lastModified: stateDate,
-        changeFrequency: "monthly",
-        priority: 0.6,
-      });
+  //
+  // EXCLUDED while VARIANT_PAGES_INDEXED is false — measured 2026-09-26.
+  // ca-vs-tx and fl-vs-ny are 92.9% identical and identical in byte length
+  // (17,351 both). A comparison is two state pages side by side, so it adds no
+  // information neither state page already carries.
+  if (VARIANT_PAGES_INDEXED) {
+    const pairs = getComparisonPairs();
+    for (const slug of STATE_AWARE_TOOLS) {
+      for (const [a, b] of pairs) {
+        pages.push({
+          url: `${SITE_URL}/${slug}/${a.slug}-vs-${b.slug}`,
+          lastModified: stateDate,
+          changeFrequency: "monthly",
+          priority: 0.6,
+        });
+      }
     }
   }
 

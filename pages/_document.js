@@ -48,6 +48,15 @@ export default class SiteDocument extends Document {
               />
             </>
           )}
+          {/* AdSense site-ownership verification.
+              This meta tag is what satisfies AdSense's "Verify site ownership"
+              step. The loader script below is NOT a substitute for it: the
+              script only serves ads, so with the script present and this tag
+              absent the dashboard still shows ownership as unverified —
+              exactly the state the account was in on 2026-09-26. */}
+          {ADSENSE_ACTIVE && (
+            <meta name="google-adsense-account" content={ADSENSE_PUB_ID} />
+          )}
           {/* Google AdSense loader — only loads once lib/ads.ts has a real publisher ID */}
           {ADSENSE_ACTIVE && (
             <script
