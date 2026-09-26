@@ -5,6 +5,46 @@ const nextConfig = {
   reactStrictMode: true,
   images: { unoptimized: true },
   output: "standalone",
+
+  /**
+   * The hospital price-transparency blog does not belong on this domain.
+   *
+   * usmoneyhq.com is a personal-finance calculator site. It was also hosting 20
+   * CMS hospital-compliance articles plus a /blog hub — verified live
+   * 2026-09-26. The individual posts already canonicalised to sealofaudit.com,
+   * but the HUB self-canonicalised to usmoneyhq.com/blog while listing all 20,
+   * so the domain still presented hospital-compliance content as its own.
+   *
+   * That is the topical mismatch the sitemap's own comment describes as
+   * "drag[ging] a personal-finance domain's quality signal toward organic
+   * search for hospital price-transparency terms it has no business ranking
+   * for" — and AdSense had just rejected the site for low value content.
+   *
+   * 301s (Next emits 308 for permanent:true; equivalent for search engines)
+   * move the content to the domain that sells the service, which is where any
+   * accumulated signal should consolidate anyway. sealofaudit.com/blog returns
+   * 200 and hosts the same slugs.
+   *
+   * redirects() is evaluated BEFORE filesystem routes, so this wins over
+   * pages/blog/* without deleting them.
+   */
+  async redirects() {
+    return [
+      { source: "/blog", destination: "https://sealofaudit.com/blog", permanent: true },
+      {
+        source: "/blog/:slug",
+        destination: "https://sealofaudit.com/blog/:slug",
+        permanent: true,
+      },
+      // Trailing-slash form, which the header rules above also declare.
+      {
+        source: "/blog/:slug/",
+        destination: "https://sealofaudit.com/blog/:slug",
+        permanent: true,
+      },
+    ];
+  },
+
   async headers() {
     return [
       // Static assets — immutable, cache 1 year (browser + edge)
