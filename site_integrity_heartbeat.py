@@ -346,10 +346,18 @@ def detect_frozen_lastmod(site, lastmods):
     top, n = counts.most_common(1)[0]
     frac = n / len(lastmods)
     if frac >= LASTMOD_UNIFORMITY_LIMIT:
+        # Severity LOW, not MED: uniformity is a SIGNAL, not proof. On
+        # usmoneyhq.com 119/140 URLs legitimately share 2026-09-26 because one
+        # content push that day changed the tax engine, the tool registry and
+        # the editorial pages together. The dates are git-verified by
+        # scripts/check_content_dates.py. Reporting that as a defect trains the
+        # operator to ignore this check, which is worse than not having it.
         out.append(band(
-            "MED", "FROZEN_LASTMOD", site,
+            "LOW", "UNIFORM_LASTMOD", site,
             f"{n}/{len(lastmods)} ({frac:.0%}) sitemap lastmod values are identical "
-            f"({top}) — dates are synthetic, not a maintenance signal",
+            f"({top}). Uniformity is not proof of synthetic dates — confirm against "
+            f"real content history before changing anything, and never spread dates "
+            f"apart just to look varied",
             site + "/sitemap.xml"))
     return out
 
@@ -723,8 +731,11 @@ def selftest() -> int:
     ck("robots_state: bare noindex", robots_state(["noindex, follow"]), (False, True))
     ck("robots_state: both", robots_state(["index", "noindex"]), (True, True))
 
-    # 4. FROZEN_LASTMOD must need real uniformity, not a small sample.
+    # 4. UNIFORM_LASTMOD must need real uniformity, not a small sample, and it
+    #    used to report a false MED on a site whose dates were git-verified.
     ck("frozen lastmod fires", len(detect_frozen_lastmod(S, ["2026-09-18"] * 20)), 1)
+    ck("uniform lastmod is LOW not MED",
+       detect_frozen_lastmod(S, ["2026-09-18"] * 20)[0]["severity"], "LOW")
     variants = [f"2026-09-{d:02d}" for d in range(1, 21)]
     ck("varied lastmod silent", detect_frozen_lastmod(S, variants), [])
     ck("tiny sample silent", detect_frozen_lastmod(S, ["2026-09-18"] * 3), [])
@@ -913,6 +924,20 @@ def main() -> int:
                         print(f"      {host}: {x['detail']}")
                     if len(items) > 3:
                         print(f"      ... +{len(items) - 3} more")
+                print()
+            # LOW must still be printed. It is deliberately non-urgent, but a
+            # finding that is computed and then dropped from the output is a lie
+            # of omission — the operator cannot see that the check even ran.
+            low = [x for x in all_findings if x["severity"] == "LOW"]
+            if low:
+                lowcount: dict = {}
+                for x in low:
+                    lowcount.setdefault(x["check"], []).append(x)
+                print(f"LOW ({len(low)}) — signals, verify before acting")
+                for cname, items in sorted(lowcount.items(), key=lambda kv: -len(kv[1])):
+                    host = items[0]["site"].replace("https://", "")
+                    print(f"  {cname} × {len(items)}  ({host})")
+                    print(f"      {items[0]['detail'][:150]}")
                 print()
             for site, m in metas.items():
                 host = site.replace("https://", "")
