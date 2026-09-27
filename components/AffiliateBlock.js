@@ -71,7 +71,7 @@ export default function AffiliateBlock({ slug, isUS = false, compact = false }) 
           </a>
         </div>
       ))}
-      <p style={{ fontSize: 11, color: "#999", marginTop: 10, marginBottom: 0 }}>{AFFILIATE_DISCLOSURE}</p>
+      <p style={{ fontSize: 12.5, color: "#555", marginTop: 12, marginBottom: 0, lineHeight: 1.5 }}>{AFFILIATE_DISCLOSURE}</p>
     </div>
   );
 }

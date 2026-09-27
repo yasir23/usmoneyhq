@@ -59,11 +59,35 @@ export const AFFILIATE_OFFERS: AffiliateOffer[] = [
     program: "shopify",
     payout: "$25-150 / full-price signup",
     live: true,
-    tools: [],
+    // ── TARGETED 2026-09-27. This was `tools: []`, which means ALL 105 tools —
+    // so the one live offer rendered "Start the online store you've been
+    // planning" on due-date-calculator, concrete-calculator and
+    // heart-rate-calculator. It was the only offer with a tracked link, so on
+    // every page whose visitor had no commercial intent, this was the entire
+    // affiliate block.
+    //
+    // That is the shape Google's thin-affiliation guidance penalises: a
+    // commercial module that has nothing to do with the page's purpose, on a
+    // YMYL site. An offer earns its page space by answering the question the
+    // reader already arrived with, or it should not be there. A reader who came
+    // to size a due date is not buying store software, and showing them so
+    // costs trust on a page they came to for a number.
+    //
+    // Scope: business-metric tools (where a store owner genuinely uses the
+    // number), income tools (where the side-income case is real), and
+    // budgeting tools (where the reader is already deciding what to spend on).
+    tools: [
+      // business metrics a seller actually computes
+      "break-even-calculator", "margin-calculator", "markup-calculator",
+      "commission-calculator", "roi-calculator", "self-employment-tax-calculator",
+      "discount-calculator", "sales-tax-calculator",
+      // income / side-hustle intent
+      "take-home-pay-calculator", "hourly-to-salary-calculator",
+      "salary-to-hourly-calculator", "overtime-calculator",
+      // money planning, not money shopping
+      "budget-calculator", "savings-goal-calculator", "emergency-fund-calculator",
+    ],
     subId: "usmoneyhq-web",
-    // Known facts only. approvedOn and lastReviewed are left blank because
-    // nobody recorded them — complianceGaps() surfaces that rather than a
-    // plausible-looking date being invented here.
     network: "impact",
     payoutEvent: "signup",
   },
@@ -88,7 +112,7 @@ export const AFFILIATE_OFFERS: AffiliateOffer[] = [
     payout: "$20-100+ per qualified lead (pay-per-lead)",
     live: false,
     apply: "impact.com -> Discover -> search 'LendingTree' (account already approved on Impact)",
-    tools: ["mortgage-calculator", "refinance-calculator", "heloc-calculator", "home-affordability-calculator", "fha-mortgage-calculator", "va-mortgage-calculator", "closing-costs-calculator", "mortgage-payoff-calculator"],
+    tools: ["mortgage-calculator", "refinance-calculator", "heloc-calculator", "home-equity-calculator", "home-affordability-calculator", "fha-mortgage-calculator", "va-mortgage-calculator", "closing-costs-calculator", "amortization-schedule-calculator"],
   },
   {
     id: "sofi-personal-loan",
@@ -110,7 +134,7 @@ export const AFFILIATE_OFFERS: AffiliateOffer[] = [
     payout: "$20-60 / qualified lead",
     live: false,
     apply: "impact.com -> Discover -> 'Policygenius' (also EverQuote / SelectQuote for the same slot)",
-    tools: ["life-insurance-calculator", "how-long-will-my-money-last-calculator", "net-worth-calculator", "deductible-calculator"],
+    tools: ["life-insurance-needs-calculator", "how-long-will-my-money-last-calculator", "net-worth-calculator"],
   },
   {
     id: "turbotax-filing",
@@ -121,7 +145,7 @@ export const AFFILIATE_OFFERS: AffiliateOffer[] = [
     payout: "$5-30 / filing (peaks Jan-Apr)",
     live: false,
     apply: "Impact -> Intuit (off-season approvals reported slower); H&R Block + TaxSlayer as backups",
-    tools: ["salary-after-tax-calculator", "take-home-pay-calculator", "self-employment-tax-calculator", "paycheck-calculator", "salary-percentile-calculator", "capital-gains-tax-calculator"],
+    tools: ["salary-after-tax-calculator", "take-home-pay-calculator", "self-employment-tax-calculator", "paycheck-calculator", "salary-percentile-calculator", "capital-gains-calculator", "tax-bracket-calculator", "tax-refund-calculator"],
   },
   {
     id: "webull-invest",
@@ -132,7 +156,7 @@ export const AFFILIATE_OFFERS: AffiliateOffer[] = [
     payout: "$50-350 / funded account (CPA — the largest payout here)",
     live: false,
     apply: "Webull / Robinhood / M1 partner programs. Verify US onboarding + state eligibility before activating.",
-    tools: ["retirement-calculator", "401k-calculator", "401k-contribution-calculator", "compound-interest-calculator", "investment-calculator", "roth-ira-calculator", "net-worth-calculator", "roi-calculator", "rule-of-72-calculator", "dividend-calculator"],
+    tools: ["retirement-calculator", "401k-calculator", "401k-contribution-calculator", "compound-interest-calculator", "investment-calculator", "retirement-age-calculator", "net-worth-calculator", "roi-calculator", "rule-of-72-calculator", "dividend-calculator"],
   },
   {
     id: "credit-karma",
@@ -143,7 +167,7 @@ export const AFFILIATE_OFFERS: AffiliateOffer[] = [
     payout: "$8-40 / qualified signup",
     live: false,
     apply: "Credit Karma / Experian partner programs",
-    tools: ["credit-card-payoff-calculator", "debt-to-income-calculator", "auto-loan-calculator", "personal-loan-calculator"],
+    tools: ["credit-card-payoff-calculator", "dti-calculator", "auto-loan-calculator", "personal-loan-calculator"],
   },
 
   // ─── RETAINED SLOTS, NOT LIVE (no tracked link, low relevance to finance intent)

@@ -1,10 +1,25 @@
 import Head from "next/head";
 import { SITE_URL, SITE_NAME } from "../lib/tools";
 import { WHOP_SHOP_URL, WHOP_PRO_URL, WHOP_DATA_PACK_URL, WHOP_BUNDLE_URL } from "../lib/whop";
+import { siteCounts } from "../lib/site-counts";
 
-/** /premium — Whop-powered premium tier: Pro membership, data packs, webmaster bundle. */
+/**
+ * /premium — Whop-powered premium tier: Pro membership, data packs, webmaster bundle.
+ *
+ * COUNT DISCIPLINE (fixed 2026-09-27)
+ * This page asserted "Ad-free across all 733 pages" and "All 54 embeddable
+ * calculator widgets". Neither was true: the sitemap publishes 140 pages, and
+ * the widget endpoint serves every one of the 105 tools. Both numbers were
+ * surviving stale values from earlier generations of the site.
+ *
+ * They are now DERIVED via lib/site-counts.ts, which reads the same source the
+ * sitemap is built from. A subscriber is being asked to pay for a stated
+ * quantity, so that quantity has to be unable to drift — a hardcoded number
+ * cannot fail loudly when the inventory changes underneath it.
+ */
 export default function PremiumPage() {
   const shopReady = !!WHOP_SHOP_URL;
+  const counts = siteCounts();
 
   const btn = (href, label) =>
     href ? (
@@ -35,7 +50,7 @@ export default function PremiumPage() {
             <h2>US Money HQ Pro</h2>
             <p className="price">$9/mo or $49/yr</p>
             <ul>
-              <li>Ad-free across all 733 pages</li>
+              <li>Ad-free across all {counts.pages} pages</li>
               <li>Advanced tools: full rent-vs-buy scenarios, tax optimizer, amortization tables</li>
               <li>Export results to CSV / PDF</li>
               <li>Save and compare scenarios</li>
@@ -60,7 +75,7 @@ export default function PremiumPage() {
             <h2>Webmaster Bundle</h2>
             <p className="price">$29 one-time</p>
             <ul>
-              <li>All 54 embeddable calculator widgets</li>
+              <li>All {counts.widgets} embeddable calculator widgets</li>
               <li>Your branding on every widget</li>
               <li>Priority support + custom field requests</li>
               <li>Commercial license for client sites</li>
@@ -71,7 +86,33 @@ export default function PremiumPage() {
 
         <div className="seo">
           <h2>Earn 30% recurring commission</h2>
-          <p>Every premium sale referred by you pays 30% — recurring for as long as the customer stays subscribed. Join the Whop affiliate program after checkout opens: <a href={WHOP_SHOP_URL || "https://whop.com"} target="_blank" rel="noopener">{WHOP_SHOP_URL ? "visit our Whop shop" : "whop.com"}</a>, open the product, and grab your affiliate link.</p>
+          {/*
+            FIXED 2026-09-27. This paragraph used to link out to https://whop.com
+            — the platform's generic homepage — whenever WHOP_SHOP_URL was unset,
+            under a heading promising 30% recurring commission. Two problems:
+            a reader would reasonably read that link as THE way to join the
+            program, and it earned nothing for anyone if clicked. It also
+            carried rel="noopener" only, unlike every real buy button on this
+            page, which carries rel="noopener sponsored".
+            Now there is no outbound link until a real shop exists, so the page
+            cannot point a reader at a destination that does not serve them.
+          */}
+          {shopReady ? (
+            <p>
+              Every premium sale referred by you pays 30% — recurring for as long as the customer
+              stays subscribed. Visit{" "}
+              <a href={WHOP_SHOP_URL} target="_blank" rel="noopener sponsored">our Whop shop</a>,
+              open the product, and grab your affiliate link.
+            </p>
+          ) : (
+            <p>
+              When checkout opens, every premium sale you refer will pay 30% — recurring for as long
+              as the customer stays subscribed. The affiliate program opens with the shop. Email{" "}
+              <a href="mailto:hello@usmoneyhq.com?subject=Affiliate%20program">hello@usmoneyhq.com</a>{" "}
+              with the subject &ldquo;Affiliate program&rdquo; and we will send your link the day it
+              goes live.
+            </p>
+          )}
           <h2>Why pay?</h2>
           <p>US Money HQ runs on advertising and premium support. Your subscription removes the ads, unlocks the power tools, and directly funds the free calculators. No data is ever sold.</p>
         </div>

@@ -6,6 +6,7 @@ import {
   NETWORK_STACK, VERTICALS_30DAY_TEST, AFFILIATE_DISCLOSURE,
   expectedRevenuePerVisitor, rankOffers, complianceGaps,
 } from "../lib/affiliates.ts";
+import { TOOLS } from "../lib/tools.ts";
 
 let fails = 0;
 let warns = 0;
@@ -50,7 +51,52 @@ const expectMap = {
 for (const [offerId, toolSlug] of Object.entries(expectMap)) {
   const o = byId[offerId];
   check(`${offerId} covers ${toolSlug}`, Boolean(o && o.tools && o.tools.includes(toolSlug)),
-        o ? (o.tools || []).join(",") : "missing");
+        o ? (o.tools || []).join(", ") : "missing");
+}
+
+// ── 4b. EVERY DECLARED SLUG MUST EXIST ────────────────────────────────────────
+// Added 2026-09-27. Section 4 above samples FOUR slugs; the registry declared
+// roughly fifty across all offers. Six of the unsampled ones did not exist:
+//   mortgage-payoff-calculator, life-insurance-calculator, deductible-calculator,
+//   capital-gains-tax-calculator, roth-ira-calculator, debt-to-income-calculator
+// The real pages are amortization-schedule-calculator, life-insurance-needs-
+// calculator, capital-gains-calculator and dti-calculator; two had no equivalent
+// at all and were removed.
+//
+// All six were dormant because those offers are live:false, so nothing was
+// broken in front of a reader. The damage was deferred: activating any of those
+// offers is a one-line change (paste a tracked URL, set live:true), and at that
+// moment the offer would silently render on fewer pages than intended — a
+// failure that looks like success, on the offers that matter most.
+//
+// A sample check cannot see this. This one is exhaustive.
+console.log("\n4b. EVERY DECLARED TOOL SLUG MUST EXIST");
+const realSlugs = new Set(TOOLS.map((t) => t.slug));
+let declared = 0;
+let brokenSlugs = 0;
+for (const o of AFFILIATE_OFFERS) {
+  for (const s of o.tools || []) {
+    declared++;
+    if (!realSlugs.has(s)) {
+      brokenSlugs++;
+      check(`'${o.id}' targets a real page: ${s}`, false, "no such tool");
+    }
+  }
+}
+check(`all ${declared} declared slugs resolve to real pages`, brokenSlugs === 0,
+      `${brokenSlugs} broken`);
+
+// ── 4c. THE BLOCK MUST NOT APPEAR WHERE IT HAS NOTHING TO SAY ─────────────────
+// An offer with `tools: []` means EVERY tool. Shopify was set that way, so the
+// one live offer rendered "Start the online store you've been planning" on
+// due-date-calculator, concrete-calculator and heart-rate-calculator. Warn rather
+// than fail: an all-tools offer is legitimate for something genuinely universal
+// (a credit-score link), which nothing here is today.
+console.log("\n4c. NO LIVE OFFER SHOULD BLANKET EVERY TOOL WITHOUT JUSTIFICATION");
+for (const o of LIVE_OFFERS) {
+  const blanket = !o.tools || o.tools.length === 0;
+  warn(`live '${o.id}' is scoped to specific tools`, !blanket,
+       "renders on all 105 tools — justify or scope it");
 }
 
 // ── 5. COMPLIANCE LINT on everything a reader actually sees ───────────────────
