@@ -281,4 +281,235 @@ export const TOOL_CONTENT: Record<string, ToolContent> = {
       },
     ],
   },
+
+  "cd-calculator": {
+    intro:
+      "A CD quote is a yield, not an interest rate, and the two are not interchangeable. Enter an APY into a formula that expects a nominal rate and you compound the compounding — the answer comes out slightly too high, in your favour, which is the kind of error that never gets double-checked.",
+    mechanics: [
+      {
+        title: "APY already includes the compounding",
+        body: "APY stands for annual percentage yield. By definition it is the total return over one year with compounding already folded in, which is exactly why a bank advertises it rather than a nominal rate. So one year at 4.5% APY grows a deposit by precisely 1.045 — no monthly step is needed, because the monthly step is what produced the 4.5% in the first place.",
+      },
+      {
+        title: "Part-year terms use a fractional power",
+        body: "A six-month term at 4.5% APY does not earn half of 4.5%. It earns 1.045^(6/12) - 1, about 2.23%, because the yield is a compounded annual figure and half a year is half a year of compounded growth. Dividing the APY by two is the common shortcut and it is close, but it is not the same number.",
+      },
+      {
+        title: "What is not modelled",
+        body: "Early-withdrawal penalties, the fact that many CDs renew automatically at whatever rate is then on offer, and tax on the interest. Interest on a CD is generally taxable in the year it is credited, even if the term runs past that year, so the maturity value is not the same as what you keep.",
+      },
+    ],
+    example: {
+      title: "Worked example: $25,000 at 4.5% APY for 12 months",
+      setup:
+        "Deposit $25,000. Quoted APY 4.5%. Term 12 months, so the growth factor is 1.045 over the full year.",
+      rows: [
+        { label: "Maturity value", value: "$26,125.00", note: "25000 x 1.045" },
+        { label: "Interest earned", value: "$1,125.00", note: "26125 - 25000" },
+        { label: "Effective return", value: "4.5%", note: "the quoted APY, by definition" },
+      ],
+      conclusion:
+        "The whole calculation is one multiplication, because the compounding is already inside the APY. Treating 4.5% as a monthly-compounded nominal rate instead would give $26,148.50 — $23.50 more, and wrong.",
+    },
+    mistakes: [
+      {
+        title: "Compounding an APY as if it were a nominal rate",
+        body: "Take 4.5%, divide by 12, compound for twelve months, and you have applied compounding twice: once when the bank calculated the yield and once in your own arithmetic. On $25,000 that is a $23.50 overstatement, and it scales with the deposit.",
+      },
+      {
+        title: "Comparing a CD APY to a savings account's nominal rate",
+        body: "An APY and a nominal rate with the same number are not the same deal. 4.5% APY beats 4.5% nominal compounded monthly, because the APY figure has already banked the monthly compounding. Compare APY to APY.",
+      },
+      {
+        title: "Assuming the maturity value is what you keep",
+        body: "Interest credited during the term is generally taxable that year. The maturity figure is the balance before tax, and for a deposit large enough for the interest to matter, the after-tax difference is real.",
+      },
+    ],
+  },
+
+  "roi-calculator": {
+    intro:
+      "A 25% return sounds like a 25% return until you ask over how long. The same gain is excellent over one year, respectable over three, and worse than a savings account over fifteen — which is why total return and annualised return have to be read together.",
+    mechanics: [
+      {
+        title: "Total return is the simple ratio",
+        body: "ROI is gain divided by what you put in: invest $10,000, end with $12,500, and the gain is $2,500 on $10,000, so 25%. It compares the endpoints and ignores everything that happened between them, including how long the money was committed.",
+      },
+      {
+        title: "Annualising is what makes returns comparable",
+        body: "To put a return on the same footing as any other, you annualise it: (end / start)^(1 / years) - 1. The exponent is what makes it a rate rather than a total. A 25% total gain over three years is 1.25^(1/3) - 1, which is about 7.72% a year.",
+      },
+      {
+        title: "What ROI cannot tell you",
+        body: "It has no view on risk, on how long the capital was tied up beyond the annualisation, on cash flows in and out during the period, or on tax and fees. It is a comparison of two numbers, and it is honest about being only that.",
+      },
+    ],
+    example: {
+      title: "Worked example: $10,000 becomes $12,500 over 3 years",
+      setup:
+        "Investment $10,000. Gain $2,500. Holding period 3 years. The annualised figure applies the same growth rate to each year, which is what makes it comparable to a quoted rate elsewhere.",
+      rows: [
+        { label: "Total gain", value: "$2,500.00", note: "12500 - 10000" },
+        { label: "ROI", value: "25.00%", note: "2500 / 10000" },
+        { label: "Annualised return", value: "7.72%", note: "1.25^(1/3) - 1, displayed rounded" },
+        { label: "Exact annualised rate", value: "7.7217%", note: "10000 x 1.077217^3 = 12500.00" },
+      ],
+      conclusion:
+        "The 25% headline and the 7.72% annualised return describe the same outcome. If the same $2,500 gain had taken one year, the annualised figure would also be 25% — the annualisation is what separates the two cases, and the total return cannot.",
+    },
+    mistakes: [
+      {
+        title: "Comparing annualised returns to total returns",
+        body: "A 25% total over three years and a 25% annual return differ by a factor of about three in outcome. Putting them side by side without annualising one of them reverses which is the better result.",
+      },
+      {
+        title: "Adding contributions to the gain instead of to the basis",
+        body: "If you invested $10,000 and later added $5,000, the denominator is not $10,000. Money added partway through also was not invested for the whole period, so a simple ROI on total contributions overstates the return.",
+      },
+      {
+        title: "Ignoring the holding period when the term is short",
+        body: "A 10% gain in three months annualises to roughly 46%. That number is arithmetically correct and often misleading, because a short run is not evidence of a repeatable rate. Annualising amplifies short periods in both directions.",
+      },
+    ],
+  },
+
+  "emergency-fund-calculator": {
+    intro:
+      "The size of an emergency fund is not a number anyone can hand you — it is your monthly essential spending multiplied by how long you think it would take to replace your income. Change either input and the answer moves, which is why the useful question is which of the two you should be changing.",
+    mechanics: [
+      {
+        title: "It is a multiplication, not a rule",
+        body: "Target equals essential monthly expenses multiplied by the number of months of cover you want. There is no data in the calculation at all — no interest, no inflation, no market return. The entire answer is your two inputs, which is why the number is only as good as they are.",
+      },
+      {
+        title: "Which expenses count",
+        body: "The input should be what you must pay to keep living: housing, food, utilities, transport, insurance, minimum debt payments. Discretionary spending does not need covering during a gap, and including it inflates the target enough that people abandon the goal. Excluding debt minimums does the opposite and understates it.",
+      },
+      {
+        title: "Why the months multiplier varies so much",
+        body: "A household with one income and specialised skills needs more months than one with two incomes in transferable work. The range typically cited runs from three months to twelve. It is a judgement about how long a search would take, not a figure that a calculator can derive for you.",
+      },
+    ],
+    example: {
+      title: "Worked example: $3,500 a month, 6 months of cover",
+      setup:
+        "Essential monthly expenses $3,500. Chosen cover 6 months. Nothing else enters the calculation.",
+      rows: [
+        { label: "Emergency fund target", value: "$21,000.00", note: "3500 x 6" },
+        { label: "Months covered", value: "6", note: "the second input, carried through" },
+        { label: "At 3 months of cover instead", value: "$10,500.00", note: "3500 x 3" },
+        { label: "At 12 months of cover", value: "$42,000.00", note: "3500 x 12" },
+      ],
+      conclusion:
+        "The target is linear in both inputs, so doubling the months doubles the number. That is why the honest answer to \"how much should I have\" is a range driven by the cover you want, not a single figure — and why $10,500 and $42,000 are both defensible for the same household.",
+    },
+    mistakes: [
+      {
+        title: "Budgeting from income instead of expenses",
+        body: "The fund replaces spending, not earnings. Someone earning $6,000 and spending $3,500 needs to cover $3,500 a month; sizing from income overstates the target by about 70% and makes the goal look unachievable.",
+      },
+      {
+        title: "Leaving out irregular costs",
+        body: "Insurance premiums paid annually, car maintenance and property tax are essential and easy to omit because they do not appear in a normal month. Divide each by twelve and add it, or the monthly figure is too low in exactly the month it matters.",
+      },
+      {
+        title: "Counting the fund as an investment",
+        body: "A fund held in something that can fall is not a fund. The purpose is availability on a bad day, which caps the return you should be chasing. Its job is to stop one bad month becoming debt, and that is a real return even though it does not appear in the percentage.",
+      },
+    ],
+  },
+
+  "break-even-calculator": {
+    intro:
+      "Break-even is the point where contribution covers fixed cost, and the number that matters is not revenue — it is how many units of contribution you need. That distinction decides whether a business is viable more often than the price does.",
+    mechanics: [
+      {
+        title: "Contribution per unit",
+        body: "Price minus variable cost. Sell something for $25 that costs $10 to make and deliver, and each sale contributes $15 toward fixed costs. Variable cost is the part that only exists because the sale happened; fixed cost is the part that exists either way.",
+      },
+      {
+        title: "Dividing fixed cost by contribution",
+        body: "Units to break even equals total fixed cost divided by contribution per unit. Since you cannot sell a fraction of a unit, the answer rounds up — and that rounding is not cosmetic, because the last unit is the one that tips the business from loss to zero.",
+      },
+      {
+        title: "What break-even does not mean",
+        body: "Hitting it means profit is zero, not that the business is healthy. It says nothing about whether you can sell that many units, whether demand exists at that price, or whether fixed costs stay fixed as volume rises. It is a threshold, not a forecast.",
+      },
+    ],
+    example: {
+      title: "Worked example: $50,000 fixed costs, $25 price, $10 variable cost",
+      setup:
+        "Fixed costs $50,000. Selling price $25 per unit. Variable cost $10 per unit. Contribution per unit is therefore $15, and every unit beyond the break-even point adds $15 to profit.",
+      rows: [
+        { label: "Contribution per unit", value: "$15.00", note: "25 - 10" },
+        { label: "Units to break even", value: "3334", note: "50000 / 15 = 3333.33, rounded up" },
+        { label: "Revenue at break-even", value: "$83,350.00", note: "3334 x 25" },
+        { label: "Profit at 3333 units", value: "-$5.00", note: "3333 x 15 = 49995, so 5 short of fixed cost" },
+        { label: "Profit at 4000 units", value: "$10,000.00", note: "(4000 - 3333.33) x 15" },
+      ],
+      conclusion:
+        "The business breaks even at 3,334 units and $83,350 of revenue. Rounding down to 3,333 leaves it a few dollars short — the fractional unit is the difference between a loss and zero, which is why the tool rounds up rather than to nearest.",
+    },
+    mistakes: [
+      {
+        title: "Using gross revenue as the contribution",
+        body: "Fixed costs are not covered by the full selling price, only by the margin left after variable cost. Dividing $50,000 by the $25 price gives 2,000 units — about 40% fewer than the true figure, and a break-even that never breaks even.",
+      },
+      {
+        title: "Treating a step-fixed cost as fixed",
+        body: "Hiring another shift, renting more space or adding a machine moves fixed cost in steps. The break-even you calculate is valid only up to the volume where the next step happens — beyond that, the whole calculation has a different answer.",
+      },
+      {
+        title: "Reading break-even as the target",
+        body: "Break-even is where profit is zero. A plan whose goal is break-even is a plan to work for nothing. The useful number is break-even plus the profit you need, in units.",
+      },
+    ],
+  },
+
+  "401k-calculator": {
+    intro:
+      "The employer match is the part of a 401(k) where the return is immediate and unrelated to markets. Getting it right is mostly about one threshold — the cap — and understanding that contributions above it do nothing to the match.",
+    mechanics: [
+      {
+        title: "The match has a cap, and the cap is a percentage of salary",
+        body: "Employers typically match a percentage of what you contribute, but only up to a set percentage of your salary. On an $85,000 salary with a 6% cap, the employer will match contributions on the first $5,100 a year — $425 a month. That threshold is the number worth knowing.",
+      },
+      {
+        title: "Below the cap, above the cap, and in between",
+        body: "Contribute less than $425 a month and you leave matched money on the table. Contribute exactly $425 and you capture all of it. Contribute more and the extra still grows tax-deferred, but it earns no additional match — the calculator shows the monthly total the match produces, not a limit on what you may contribute.",
+      },
+      {
+        title: "What the projection assumes",
+        body: "A constant annual return, compounded monthly, with the same contribution every month for the whole period. Real returns vary and the order matters: the same average return delivered as early losses rather than early gains produces a lower balance. The projection is a straight line through a path that will not be straight.",
+      },
+    ],
+    example: {
+      title: "Worked example: $25,000 balance, $500 a month, 6% cap, 25 years",
+      setup:
+        "Current balance $25,000. Contribution $500 a month. Employer matches 100% of contributions up to 6% of an $85,000 salary. Assumed return 7% a year compounded monthly, for 25 years (300 months).",
+      rows: [
+        { label: "Max matched contribution", value: "$425.00/mo", note: "85000 x 0.06 / 12" },
+        { label: "Employer match per month", value: "$425.00", note: "contribution exceeds the cap, so the full cap is matched" },
+        { label: "Monthly total going in", value: "$925.00", note: "500 + 425" },
+        { label: "Projected balance in 25 years", value: "$892,451.77", note: "engine output: 300 monthly periods at 7%/12 on a 25,000 start" },
+        { label: "Of which employer match", value: "$127,500", note: "425 x 300, before any growth on it" },
+      ],
+      conclusion:
+        "Contributing $500 captures the entire $425 match, because the cap is set by salary rather than by contribution. The match alone adds $127,500 of contributions over 25 years, before the growth it earns — which is why the cap, not the contribution rate, is the number to check first.",
+    },
+    mistakes: [
+      {
+        title: "Reading the cap as a percentage of your contribution",
+        body: "A 6% cap is 6% of salary, not 6% of what you pay in. Treating it as a share of the contribution understates the monthly match and makes the threshold look far higher than it is.",
+      },
+      {
+        title: "Assuming the match continues above the cap",
+        body: "Contributions beyond the capped amount receive no further match. They still grow tax-deferred, but the immediate return from the match stops at the threshold — which is why the two halves of a contribution decision are usually separate questions.",
+      },
+      {
+        title: "Projecting a constant return as if it were certain",
+        body: "The balance assumes the same 7% every month for 25 years. Markets do not deliver that, and the sequence of returns changes the answer: two portfolios with identical average returns end with different balances if one has its bad years early. Read the figure as a model, not a forecast.",
+      },
+    ],
+  },
 };

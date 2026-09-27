@@ -7,6 +7,7 @@ it. These are the exact inputs used in the worked examples, recomputed
 independently.
 """
 from decimal import Decimal, getcontext, ROUND_HALF_UP
+import math
 
 getcontext().prec = 28
 
@@ -108,6 +109,66 @@ check("22% APR quoted monthly is 1.83%",
       f"{(Decimal('0.22') / 12 * 100).quantize(Decimal('0.01'))}%", "1.83%")
 check("6.2% + 1.45% = 7.65% FICA (below the wage base)",
       f"{Decimal('6.2') + Decimal('1.45')}%", "7.65%")
+
+# --- cd-calculator ---------------------------------------------------------
+# The whole point of the CD fix: an APY is a yield, so one year is a single
+# multiplication. These reproduce the definition, not the implementation.
+print("\ncd: APY already includes the compounding")
+
+
+def fmoney(x):
+    """Money from a float, matching the engine (which computes in float64).
+
+    Sign goes before the currency symbol, as the content writes it: -$5.00, not
+    $-5.00. The first version of this helper produced the latter and reported a
+    content failure that was really its own formatting bug.
+    """
+    return ("-$" if x < 0 else "$") + f"{abs(x):,.2f}"
+
+
+cd_1y = 25000 * (1 + 4.5 / 100)
+check("25,000 at 4.5% APY for 12 months is $26,125.00", fmoney(cd_1y), "$26,125.00")
+check("interest is $1,125.00", fmoney(cd_1y - 25000), "$1,125.00")
+check("6 months is $25,556.31", fmoney(25000 * 1.045 ** 0.5), "$25,556.31")
+check("3 months is $25,276.62", fmoney(25000 * 1.045 ** 0.25), "$25,276.62")
+old_cd = 25000 * (1 + 4.5 / 100 / 12) ** 12
+check("the superseded formula returned $26,148.50", fmoney(old_cd), "$26,148.50")
+check("so it overstated the return by $23.50", fmoney(old_cd - cd_1y), "$23.50")
+
+# --- roi-calculator --------------------------------------------------------
+print("\nroi: total return versus annualised")
+check("2,500 on 10,000 is 25.00%", f"{2500 / 10000 * 100:.2f}%", "25.00%")
+ann = (12500 / 10000) ** (1 / 3) - 1
+check("annualised over 3 years is 7.72%", f"{ann * 100:.2f}%", "7.72%")
+check("the exact rate is 7.7217%", f"{ann * 100:.4f}%", "7.7217%")
+
+# --- emergency-fund-calculator --------------------------------------------
+print("\nemergency fund: target is linear in both inputs")
+check("3,500 x 6 months is $21,000.00", fmoney(3500 * 6), "$21,000.00")
+check("3,500 x 3 months is $10,500.00", fmoney(3500 * 3), "$10,500.00")
+check("3,500 x 12 months is $42,000.00", fmoney(3500 * 12), "$42,000.00")
+
+# --- break-even-calculator ------------------------------------------------
+print("\nbreak-even: contribution per unit, then round up")
+contrib = 25 - 10
+check("contribution per unit is $15.00", fmoney(contrib), "$15.00")
+raw_units = 50000 / contrib
+check("raw break-even is 3333.33 units", f"{raw_units:.2f}", "3333.33")
+check("rounded up it is 3334 units", f"{math.ceil(raw_units)}", "3334")
+check("revenue at break-even is $83,350.00", fmoney(3334 * 25), "$83,350.00")
+check("3,333 units leaves a $5.00 loss", fmoney(3333 * 15 - 50000), "-$5.00")
+check("4,000 units gives $10,000.00", fmoney((4000 - raw_units) * 15), "$10,000.00")
+
+# --- 401k-calculator ------------------------------------------------------
+print("\n401k: the cap is a percentage of salary, not of the contribution")
+check("6% of 85,000 is $5,100 a year", fmoney(85000 * 0.06), "$5,100.00")
+check("which is $425.00 a month", fmoney(85000 * 0.06 / 12), "$425.00")
+check("500 + 425 is $925.00", fmoney(500 + 425), "$925.00")
+check("the match adds $127,500 over 300 months", fmoney(425 * 300), "$127,500.00")
+_r = 0.07 / 12
+_n = 300
+_fv = 25000 * (1 + _r) ** _n + 925 * (((1 + _r) ** _n - 1) / _r)
+check("projected balance is $892,451.77", fmoney(_fv), "$892,451.77")
 
 print("\n" + "=" * 68)
 failed = checks.count(False)

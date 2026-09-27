@@ -577,12 +577,24 @@ export function compoundInterest(principal: number, rate: number, years: number,
   };
 }
 
-/** CD maturity: principal, APY, months, compounding per year. */
-export function cdMaturity(principal: number, apy: number, months: number, compoundsPerYear = 12) {
+/**
+ * CD maturity from a quoted APY.
+ *
+ * APY (annual percentage yield) is BY DEFINITION the effective annual return with
+ * compounding already baked in — that is precisely why a bank quotes a yield
+ * rather than a nominal rate. So one year of growth is exactly (1 + apy/100), and
+ * a part-year term is (1 + apy/100)^(months/12).
+ *
+ * The previous version computed apy/100/12 and compounded that monthly, which
+ * counts compounding twice: $25,000 at a quoted 4.5% APY for 12 months returned
+ * $26,148.50 instead of $26,125.00. The old test allowed anything between $25,500
+ * and $27,000, so it never caught it. Overstating a return on a financial page is
+ * the exact defect class that matters here, so the formula now follows the
+ * definition of the thing being quoted.
+ */
+export function cdMaturity(principal: number, apy: number, months: number) {
   const years = months / 12;
-  const r = apy / 100 / compoundsPerYear;
-  const n = compoundsPerYear * years;
-  const maturity = principal * Math.pow(1 + r, n);
+  const maturity = principal * Math.pow(1 + apy / 100, years);
   return { maturity: round2(maturity), interest: round2(maturity - principal), apy, months };
 }
 

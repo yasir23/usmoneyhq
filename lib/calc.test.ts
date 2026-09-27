@@ -344,9 +344,25 @@ const ci = compoundInterest(10000, 7, 20, 12, 200);
 assert.ok(ci.futureValue > 130000 && ci.futureValue < 160000, `ci ${ci.futureValue}`);
 assert.ok(ci.interestEarned > 0);
 
-// cd: $25k @ 4.5% 12mo -> ~$26,148
-const cd = cdMaturity(25000, 4.5, 12, 12);
-assert.ok(cd.maturity > 25500 && cd.maturity < 27000, `cd ${cd.maturity}`);
+// cd: the input is a quoted APY, and APY already includes compounding, so one
+// full year is exactly principal x (1 + apy). The previous formula divided the
+// APY by 12 and compounded monthly, counting compounding twice and returning
+// 26,148.50 — an overstatement of 23.50 on 25,000. The old assertion accepted
+// anything from 25,500 to 27,000, so it passed either answer and never caught it.
+// These values are hardcoded from the definition, not from the implementation.
+const cd = cdMaturity(25000, 4.5, 12);
+assert.ok(Math.abs(cd.maturity - 26125.0) < 0.01, `cd ${cd.maturity}`);
+assert.ok(Math.abs(cd.interest - 1125.0) < 0.01, `cd interest ${cd.interest}`);
+
+// part-year terms take a fractional power: 25,000 x 1.045^(1/2) = 25,556.31
+const cd6 = cdMaturity(25000, 4.5, 6);
+assert.ok(Math.abs(cd6.maturity - 25556.31) < 0.01, `cd6 ${cd6.maturity}`);
+const cd3 = cdMaturity(25000, 4.5, 3);
+assert.ok(Math.abs(cd3.maturity - 25276.62) < 0.01, `cd3 ${cd3.maturity}`);
+
+// multi-year: 10,000 x 1.05^2 = 11,025.00
+const cd24 = cdMaturity(10000, 5, 24);
+assert.ok(Math.abs(cd24.maturity - 11025.0) < 0.01, `cd24 ${cd24.maturity}`);
 
 // overtime: $25/hr, 40 reg + 5 at 1.5x -> regular 1000, ot 187.5, total 1187.5
 const ot = overtimePay(25, 40, 5, 0);

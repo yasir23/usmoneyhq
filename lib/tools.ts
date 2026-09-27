@@ -1337,7 +1337,7 @@ export const TOOLS: ToolDef[] = [
       const principal = Number(v.principal) || 0;
       const apy = Number(v.apy) || 0;
       const months = Number(v.months) || 12;
-      const r = cdMaturity(principal, apy, months, 12);
+      const r = cdMaturity(principal, apy, months);
       return [
         moneyRow("Maturity value", r.maturity, true),
         moneyRow("Interest earned", r.interest),
