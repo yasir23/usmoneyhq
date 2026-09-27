@@ -1343,12 +1343,12 @@ export const TOOLS: ToolDef[] = [
         moneyRow("Interest earned", r.interest),
       ];
     },
-    note: "Assumes interest compounds monthly and no early withdrawal penalty.",
+    note: "Assumes the quoted APY is credited in full over the term and no early withdrawal penalty. APY already includes compounding, so a 12-month term grows by exactly the quoted percentage.",
     faq: [
       { q: "What is a CD?", a: "A certificate of deposit locks your money for a fixed term in exchange for a guaranteed interest rate, typically higher than a savings account." },
       { q: "Are CD rates worth it?", a: "CDs offer a guaranteed return with FDIC insurance. Compare APYs across banks — online banks often pay 2-3x branch rates." },
       { q: "What are CD rates in 2026?", a: "Short-term CDs (6-12 months) are tracking the Fed's rate path, generally 3-4% APY in 2026. Longer terms (2-5 years) pay similar or slightly less when the market expects cuts. Always lock the best APY you can find — rates differ by 1%+ between banks." },
-      { q: "APY vs interest rate — what's the difference?", a: "APY (annual percentage yield) already includes compounding; the stated interest rate does not. At 4.5% APY with monthly compounding, $10,000 earns $459.40 over 12 months — the same as a ~4.41% nominal rate that compounds monthly. Always compare APYs when shopping CDs, because APY reflects what you actually earn." },
+      { q: "APY vs interest rate — what's the difference?", a: "APY (annual percentage yield) already includes compounding; the stated interest rate does not. At 4.5% APY, $10,000 earns $450.00 over 12 months — the same as a ~4.41% nominal rate compounded monthly. Always compare APYs when shopping CDs, because APY reflects what you actually earn." },
     ],
     related: ["compound-interest-calculator", "retirement-calculator", "savings-goal-calculator"],
   },

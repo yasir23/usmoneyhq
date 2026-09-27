@@ -135,6 +135,13 @@ old_cd = 25000 * (1 + 4.5 / 100 / 12) ** 12
 check("the superseded formula returned $26,148.50", fmoney(old_cd), "$26,148.50")
 check("so it overstated the return by $23.50", fmoney(old_cd - cd_1y), "$23.50")
 
+# The CD FAQ quoted 459.40 for 10,000 at 4.5% — the same double-compounded
+# figure. Under the corrected reading the annual interest is 450.00.
+check("10,000 at 4.5% APY earns $450.00 for the year",
+      fmoney(10000 * 1.045 - 10000), "$450.00")
+_nom = ((1.045 ** (1 / 12)) - 1) * 12 * 100
+check("the APY-equivalent nominal monthly rate is ~4.41%", f"{_nom:.2f}%", "4.41%")
+
 # --- roi-calculator --------------------------------------------------------
 print("\nroi: total return versus annualised")
 check("2,500 on 10,000 is 25.00%", f"{2500 / 10000 * 100:.2f}%", "25.00%")
