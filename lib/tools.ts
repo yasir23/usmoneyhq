@@ -35,6 +35,9 @@ import {
   compoundInterest,
   cdMaturity,
   overtimePay,
+  overtimeDeduction,
+  marginalRate,
+  STD_DEDUCTION,
   tipCalc,
   amortizedPayment,
   savingsGoal,
@@ -684,20 +687,22 @@ export const TOOLS: ToolDef[] = [
   },
   {
     slug: "credit-card-payoff-calculator",
-    title: "Credit Card Payoff Calculator 2026 — Minimum vs Fixed Payment | US Money HQ",
+    title: "Credit Card Payoff Calculator 2026 — Minimum, Fixed & Extra Payments | US Money HQ",
     shortTitle: "Credit Card Payoff Calculator",
-    description: "Free US credit card payoff calculator: see how long minimum payments take vs a fixed payment, and the total interest each path costs.",
+    description: "Free US credit card payoff calculator: see how long minimum payments take vs a fixed payment, add an extra monthly payment, and compare the total interest each path costs.",
     h1: "Credit Card Payoff Calculator",
-    sub: "See the true cost of minimum payments versus a fixed monthly payment.",
+    sub: "See the true cost of minimum payments versus a fixed monthly payment — and what an extra payment each month saves.",
     fields: [
       { key: "balance", label: "Credit card balance (USD)", type: "number", default: 8000, min: 0, step: 100, inputMode: "numeric" },
       { key: "apr", label: "APR (%)", type: "number", default: 22, min: 0, step: 0.01, inputMode: "decimal" },
       { key: "fixedPayment", label: "Your fixed monthly payment (USD)", type: "number", default: 250, min: 1, step: 10, inputMode: "numeric" },
+      { key: "extra", label: "Extra payment per month (USD)", type: "number", default: 0, min: 0, step: 10, inputMode: "numeric" },
     ],
     compute: (v) => {
       const balance = Number(v.balance) || 0;
       const apr = Number(v.apr) || 0;
       const fixed = Number(v.fixedPayment) || 0;
+      const extra = Number(v.extra) || 0;
       const min = creditCardMinPayment(balance, apr);
       const fix = debtPayoff(balance, apr, fixed, 0);
       // A 2% minimum against a >=24% APR is at or below the monthly interest, so
@@ -705,7 +710,7 @@ export const TOOLS: ToolDef[] = [
       // payoff date that does not exist (and "interest saved" against a
       // never-ending path is a 50-year accrual, not a saving).
       const minYears = (min.months / 12).toFixed(1);
-      return [
+      const rows: ResultRow[] = [
         {
           label: "Payoff time (minimum)",
           value: min.paidOff
@@ -723,11 +728,22 @@ export const TOOLS: ToolDef[] = [
           ? moneyRow("Interest saved", Math.max(0, min.totalInterest - fix.totalInterest))
           : moneyRow("Owed after 50 years of minimums", min.finalBalance),
       ];
+      if (extra > 0) {
+        const withExtra = debtPayoff(balance, apr, fixed, extra);
+        rows.push(
+          { label: `Payoff time (+${money(extra)}/mo)`, value: `${withExtra.months} months` },
+          moneyRow(`Interest (+${money(extra)}/mo)`, withExtra.totalInterest),
+          moneyRow("Interest saved by the extra", Math.max(0, fix.totalInterest - withExtra.totalInterest)),
+          { label: "Months sooner", value: `${Math.max(0, fix.months - withExtra.months)}` }
+        );
+      }
+      return rows;
     },
-    note: "Assumes a 2% minimum (min $25). Where the minimum does not cover the interest the balance never clears — raise the payment to make progress. Rates and payments can change.",
+    note: "Assumes a 2% minimum (min $25) and the fixed payment held steady. Where the minimum does not cover the interest the balance never clears — raise the payment to make progress. Extra payments go straight to principal and are applied until the balance is zero. Rates and payments can change.",
     faq: [
       { q: "Why do minimum payments take so long?", a: "The minimum mostly covers interest, so the balance shrinks slowly — and above roughly 24% APR a 2% minimum does not even cover the monthly interest, so the balance stops falling and starts growing. Pay more than the minimum: every extra dollar goes straight at the principal." },
       { q: "What is the best payoff strategy?", a: "Pay the highest-APR card first (avalanche) to minimize interest, or the smallest balance first (snowball) for motivation. Either beats the minimum." },
+      { q: "How much difference does an extra $100 a month make?", a: "Set the extra-payment field to see it on your own balance. On $8,000 at 22% APR with a $250 payment, the card takes 49 months and costs $4,158 of interest — $11,158 paid in total. Adding $100 a month clears it in 30 months and cuts the interest to $2,463, so the extra saves about $1,695 and 19 months. The extra is applied to principal before the next month's interest is charged, so it also shrinks the interest on every following month." },
     ],
     related: ["debt-payoff-calculator", "auto-loan-calculator", "dti-calculator"],
   },
@@ -799,11 +815,14 @@ export const TOOLS: ToolDef[] = [
         moneyRow("Material cost (est.)", r.cost),
       ];
     },
-    note: "Add 5-10% for waste. Price varies by region and mix.",
+    note: "Add 5-10% for waste. Price varies by region and mix. This calculator sizes SLABS (length x width x thickness); for a round column or post hole use the formula in the questions below.",
     faq: [
       { q: "How many bags of concrete do I need?", a: "A 60 lb bag covers about 0.45 cubic feet; an 80 lb bag about 0.6 cubic feet. Divide your total cubic feet by those numbers and round up." },
       { q: "How thick should a slab be?", a: "Patios and walkways: 4 inches. Driveways: 4-6 inches. Heavy structures: 6+ inches with rebar or wire mesh." },
       { q: "How much cement and ballast do I need?", a: "A common mix is 1 part cement to 4-5 parts ballast by volume. For 1 cubic yard of concrete, that's roughly 5-6 bags of 94 lb Portland cement plus 1 ton of ballast. Ready-mix is usually cheaper for pours over half a yard." },
+      { q: "How much concrete for a round column or Sonotube?", a: "A round shape is pi x radius squared x height, all in feet, divided by 27 for cubic yards. A 12 inch tube is 1 ft across, so the radius is 0.5 ft: 3.1416 x 0.25 = 0.79 sq ft of area, and at 4 ft tall that is 3.14 cubic feet — 0.12 cubic yards, or seven 60 lb bags (six if you buy 80 lb). Round the bag count up, never down, and add 5-10% for spillage. A 10 inch tube 3 ft tall is 1.64 cu ft, about four 60 lb bags." },
+      { q: "How many bags of concrete for fence posts or a deck post hole?", a: "Same cylinder formula: a hole 9 inches across (0.75 ft, radius 0.375 ft) and 3 ft deep holds 3.1416 x 0.1406 x 3 = 1.33 cubic feet — about three 60 lb bags, or three 80 lb bags. A 12 inch hole 3 ft deep is 2.36 cu ft, about six 60 lb bags. Set the post, then pour and tamp; fast-setting mixes go in dry and take water from the ground." },
+      { q: "How many bags of concrete are in a cubic yard?", a: "A cubic yard is 27 cubic feet, so it takes 60 bags of 60 lb concrete (60 x 0.45 cu ft) or 45 bags of 80 lb (45 x 0.6 cu ft). Above roughly half a yard, ready-mix delivered by truck is usually cheaper and far less work than mixing 30+ bags by hand." },
     ],
     related: ["mortgage-calculator", "heloc-calculator", "dti-calculator"],
   },
@@ -1354,36 +1373,63 @@ export const TOOLS: ToolDef[] = [
   },
   {
     slug: "overtime-calculator",
-    title: "Overtime Calculator 2026 — Time and a Half & No Tax on Overtime | US Money HQ",
+    title: "Overtime Calculator 2026 — Time and a Half & Overtime Tax Deduction | US Money HQ",
     shortTitle: "Overtime Calculator",
-    description: "Free overtime calculator: time-and-a-half (1.5x) and double-time (2x) pay, plus the 2026 no-tax-on-overtime deduction (up to $12,500).",
+    description: "Free overtime calculator: time-and-a-half (1.5x) and double-time (2x) pay, plus the 2026 no-tax-on-overtime deduction (IRC 225, up to $12,500) and what it saves you.",
     h1: "Overtime Calculator",
-    sub: "Estimate your paycheck with overtime at 1.5x and 2x your regular rate — and see the new overtime tax deduction.",
+    sub: "Estimate overtime pay at 1.5x and 2x — then see your 2026 overtime tax deduction and what it is worth.",
     fields: [
       { key: "rate", label: "Regular hourly rate (USD)", type: "number", default: 25, min: 0, step: 0.5, inputMode: "decimal" },
       { key: "regularHours", label: "Regular hours", type: "number", default: 40, min: 0, step: 0.5, inputMode: "decimal" },
       { key: "ot1x", label: "Overtime hours (1.5x)", type: "number", default: 5, min: 0, step: 0.5, inputMode: "decimal" },
       { key: "ot2x", label: "Double-time hours (2x)", type: "number", default: 0, min: 0, step: 0.5, inputMode: "decimal" },
+      { key: "weeks", label: "Weeks worked per year", type: "number", default: 52, min: 1, max: 52, step: 1, inputMode: "numeric" },
+      {
+        key: "filing",
+        label: "Filing status",
+        type: "select",
+        default: "single",
+        options: [
+          { value: "single", label: "Single" },
+          { value: "married", label: "Married filing jointly" },
+        ],
+      },
+      { key: "magi", label: "Annual income (modified AGI, for the phase-out)", type: "number", default: 60000, min: 0, step: 1000, inputMode: "numeric" },
     ],
     compute: (v) => {
       const rate = Number(v.rate) || 0;
       const reg = Number(v.regularHours) || 0;
       const ot1 = Number(v.ot1x) || 0;
       const ot2 = Number(v.ot2x) || 0;
+      const weeks = Number(v.weeks) || 52;
+      const filing = String(v.filing) === "married" ? "married" : "single";
+      const magi = Number(v.magi) || 0;
       const r = overtimePay(rate, reg, ot1, ot2);
-      return [
-        moneyRow("Regular pay", r.regular),
-        moneyRow("Overtime pay", r.overtime),
-        moneyRow("Total pay", r.total, true),
+      // IRC 225 counts the FLSA premium only — 0.5x per overtime hour, not the
+      // whole 1.5x check — annualised over the weeks worked.
+      const ded = overtimeDeduction(r.premium * weeks, filing, magi);
+      const bracket = marginalRate(Math.max(0, magi - STD_DEDUCTION[filing]), filing);
+      const rows: ResultRow[] = [
+        moneyRow("Regular pay (weekly)", r.regular),
+        moneyRow("Overtime pay (weekly)", r.overtime),
+        moneyRow("Total pay (weekly)", r.total, true),
+        moneyRow("Qualified OT premium / year", ded.premium),
+        moneyRow(`${TAX_YEAR} overtime deduction`, ded.deduction),
+        moneyRow(`Federal tax saved at ${bracket}%`, (ded.deduction * bracket) / 100),
       ];
+      if (ded.reduction > 0) {
+        rows.push({ label: "Phase-out reduction", value: money(ded.reduction) });
+      }
+      return rows;
     },
-    note: "FLSA requires 1.5x after 40 hours/week; double-time depends on state/employer. Since 2025 the OBBBA (IRC section 225) also makes the overtime premium deductible up to $12,500 ($25,000 joint), through 2028.",
+    note: "FLSA requires 1.5x after 40 hours/week; double-time depends on state/employer. The 2026 overtime deduction (OBBBA / IRC section 225) above uses the FLSA premium only — 0.5x per overtime hour, annualised over the weeks you work — capped at $12,500 ($25,000 joint) and phased out above $150,000 ($300,000 joint) of modified AGI. Federal income tax only; state treatment varies.",
     faq: [
       { q: "When does overtime start?", a: "Under federal law (FLSA), nonexempt employees earn 1.5x for hours over 40 in a workweek. Some states have daily overtime rules." },
       { q: "What is double time?", a: "Some states or contracts pay 2x for certain hours (e.g., over 12 in a day, or working a 7th consecutive day)." },
       { q: "Is overtime taxed at a higher rate?", a: "No — overtime is not taxed at a special higher rate. It is ordinary income taxed at your marginal rate, so heavy overtime can push part of your pay into the next bracket and raise withholding, which is why the net check can look smaller than hours x 1.5 x rate suggests. What changed in 2025 is a new deduction, not a new rate: part of the overtime premium is now subtracted from taxable income. See the two questions below." },
-      { q: "Is there really no tax on overtime in 2026?", a: "Partly. The One Big Beautiful Bill Act added IRC section 225, a deduction for qualified overtime compensation of up to $12,500 ($25,000 on a joint return) for tax years 2025 through 2028, available whether or not you itemize. Because it is a deduction and not an exemption, the benefit equals the deductible amount times your marginal rate — about $715 on $3,250 of overtime at 22%, not $3,250. Only the FLSA-required premium above your regular rate counts, so at time-and-a-half just the extra 0.5x is deductible, not the whole overtime check. It phases out by $100 for every $1,000 of modified AGI above $150,000 ($300,000 joint) and disappears entirely at $275,000 ($550,000 joint). You must be a non-exempt employee, married filers must file jointly, and the return needs a Social Security number." },
-      { q: "How much of my overtime pay is deductible?", a: "Only the premium above your regular rate. At $25 an hour with 5 overtime hours a week, the premium is $12.50 an hour: $62.50 a week, or $3,250 a year — all of it under the $12,500 cap and worth roughly $715 of tax at a 22% marginal rate. For those same 5 weekly overtime hours the full annual overtime pay is $9,750, but only the $3,250 premium counts. Reaching the $12,500 cap takes about 1,000 overtime hours a year at $25 an hour (19 a week), 833 hours at $30, or 625 hours at $40." },
+      { q: "Is there really no tax on overtime in 2026?", a: "Partly. The One Big Beautiful Bill Act added IRC section 225, a deduction for qualified overtime compensation of up to $12,500 ($25,000 on a joint return) for tax years 2025 through 2028, available whether or not you itemize. Because it is a deduction and not an exemption, the benefit equals the deductible amount times your marginal rate — about $390 on $3,250 of overtime at a 12% marginal rate, or $715 at 22%, never the full $3,250. Only the FLSA-required premium above your regular rate counts, so at time-and-a-half just the extra 0.5x is deductible, not the whole overtime check. It phases out by $100 for every $1,000 of modified AGI above $150,000 ($300,000 joint) and disappears entirely at $275,000 ($550,000 joint). You must be a non-exempt employee, married filers must file jointly, and the return needs a Social Security number." },
+      { q: "How much of my overtime pay is deductible?", a: "Only the premium above your regular rate. At $25 an hour with 5 overtime hours a week, the premium is $12.50 an hour: $62.50 a week, or $3,250 a year — all of it under the $12,500 cap and worth roughly $390 of federal tax at a 12% marginal rate, or $715 at 22%. For those same 5 weekly overtime hours the full annual overtime pay is $9,750, but only the $3,250 premium counts. Reaching the $12,500 cap takes about 1,000 overtime hours a year at $25 an hour (19 a week), 833 hours at $30, or 625 hours at $40." },
+      { q: "Do I get the overtime deduction in my paycheck or at tax time?", a: "At tax time. IRC section 225 is a deduction claimed on your return — the 2026 return you file in early 2027 — so your employer's withholding does not change and your weekly or biweekly check looks the same. The benefit arrives as a larger refund or a smaller balance due. If you would rather see the money during the year, you can lower your withholding on Form W-4, but only if you are confident you qualify (non-exempt employee, married filing jointly if married, modified AGI below the phase-out) — otherwise you will owe it back in April." },
     ],
     related: ["paycheck-calculator", "salary-after-tax-calculator", "tax-calculator"],
   },

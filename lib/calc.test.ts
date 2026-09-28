@@ -40,6 +40,7 @@ import {
   compoundInterest,
   cdMaturity,
   overtimePay,
+  overtimeDeduction,
   tipCalc,
   amortizedPayment,
   savingsGoal,
@@ -1036,4 +1037,65 @@ console.log("ALL BALLOON TESTS PASS");
   }
 
   console.log(`STATE TAX TESTS PASS (CA $75k = $${ca75.tax}, IL $100k = $${il.tax})`);
+}
+
+// === IRC 225 overtime deduction + credit-card extra payments + round concrete ===
+// (SEO-agent pass, 2026-09-28. Every figure printed on the overtime, credit-card
+// and concrete pages is recomputed here, so a page that quotes a number the
+// engine no longer returns fails the build instead of shipping.)
+{
+  // --- Overtime: the page's headline example, $25/hr with 5 OT hours a week ---
+  const ot = overtimePay(25, 40, 5, 0);
+  assert.strictEqual(ot.premium, 62.5, `weekly FLSA premium ${ot.premium}`);
+  assert.strictEqual(ot.premium * 52, 3250, "annual qualified OT premium must be $3,250");
+  assert.strictEqual(ot.overtime * 52, 9750, "full annual OT pay must be $9,750");
+
+  // The benefit is a deduction x marginal rate, NOT the deduction itself.
+  const d = overtimeDeduction(3250, "single", 60000);
+  assert.strictEqual(d.deduction, 3250, "under the cap, the whole premium is deductible");
+  assert.strictEqual(d.reduction, 0, "no phase-out below $150,000");
+  assert.strictEqual(marginalRate(60000 - STD_DEDUCTION.single, "single"), 12, "12% bracket at $60k");
+  assert.strictEqual(Math.round((d.deduction * 12) / 100), 390, "tax saved at 12% must be $390");
+  assert.strictEqual(Math.round((d.deduction * 22) / 100), 715, "and $715 at a 22% marginal rate");
+
+  // Caps differ by filing status.
+  assert.strictEqual(overtimeDeduction(999999, "single", 0).deduction, 12500, "single cap $12,500");
+  assert.strictEqual(overtimeDeduction(999999, "married", 0).deduction, 25000, "joint cap $25,000");
+  assert.strictEqual(overtimeDeduction(999999, "married", 120000).deduction, 25000, "joint threshold is $300,000");
+
+  // Phase-out: $100 per $1,000 over the threshold; zero at $275k / $550k.
+  assert.strictEqual(overtimeDeduction(20000, "single", 150000).deduction, 12500, "no reduction at the threshold");
+  assert.strictEqual(overtimeDeduction(20000, "single", 200000).deduction, 7500, "$50k over = $5,000 off the cap");
+  assert.strictEqual(overtimeDeduction(20000, "single", 275000).deduction, 0, "gone at $275,000 single");
+  assert.strictEqual(overtimeDeduction(30000, "married", 550000).deduction, 0, "gone at $550,000 joint");
+  assert.strictEqual(overtimeDeduction(0, "single", 0).deduction, 0, "no premium, no deduction");
+
+  // Only the FLSA half-premium counts — a 2x hour deducts 0.5x, never 1.0x.
+  assert.strictEqual(overtimePay(20, 40, 0, 5).premium, 50, "5 double-time hours at $20 = $50 premium");
+  assert.strictEqual(overtimePay(20, 40, 0, 5).overtime, 200, "the same hours PAY $200");
+
+  // --- Credit card: an extra payment must shorten the term AND cut interest ---
+  const ccBase = debtPayoff(8000, 22, 250, 0);
+  const ccExtra = debtPayoff(8000, 22, 250, 100);
+  assert.strictEqual(ccBase.months, 49, `base payoff ${ccBase.months} months`);
+  assert.strictEqual(ccExtra.months, 30, `with $100 extra ${ccExtra.months} months`);
+  assert.strictEqual(ccBase.months - ccExtra.months, 19, "19 months sooner");
+  assert.strictEqual(Math.round(ccBase.totalInterest - ccExtra.totalInterest), 1695, "interest saved ~$1,695");
+  assert.ok(ccExtra.totalInterest < ccBase.totalInterest, "extra payments must reduce interest");
+  assert.ok(ccExtra.months < ccBase.months, "extra payments must shorten the term");
+  assert.strictEqual(debtPayoff(8000, 22, 250, 0).months, ccBase.months, "extra=0 must change nothing");
+
+  // --- Concrete: the round-column / post-hole figures in the FAQ ---
+  // Bag yields are the same constants concreteNeeds() uses: 0.45 and 0.6 cu ft.
+  const cyl = (diaIn: number, heightFt: number) => Math.PI * (diaIn / 24) ** 2 * heightFt;
+  assert.ok(Math.abs(cyl(12, 4) - 3.1416) < 0.01, `12in x 4ft = ${cyl(12, 4)} cu ft`);
+  assert.strictEqual(Math.ceil(cyl(12, 4) / 0.45), 7, "12in x 4ft = seven 60 lb bags");
+  assert.strictEqual(Math.ceil(cyl(12, 4) / 0.6), 6, "12in x 4ft = six 80 lb bags");
+  assert.strictEqual(Math.ceil(cyl(10, 3) / 0.45), 4, "10in x 3ft = four 60 lb bags");
+  assert.strictEqual(Math.ceil(cyl(9, 3) / 0.45), 3, "9in x 3ft = three 60 lb bags");
+  assert.strictEqual(Math.ceil(cyl(12, 3) / 0.45), 6, "12in x 3ft = six 60 lb bags");
+  assert.strictEqual(Math.ceil(27 / 0.45), 60, "a cubic yard is 60 x 60 lb bags");
+  assert.strictEqual(Math.ceil(27 / 0.6), 45, "a cubic yard is 45 x 80 lb bags");
+
+  console.log("ALL OVERTIME / CREDIT-CARD / CONCRETE CONTENT TESTS PASS");
 }

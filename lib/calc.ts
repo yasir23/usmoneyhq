@@ -627,12 +627,51 @@ export function cdMaturity(principal: number, apy: number, months: number) {
   return { maturity: round2(maturity), interest: round2(maturity - principal), apy, months };
 }
 
-/** Overtime pay: regular rate x hours; 1.5x and 2x overtime hours. */
+/** Overtime pay: regular rate x hours; 1.5x and 2x overtime hours.
+ *  `premium` is the part of the overtime pay that sits ABOVE the regular rate
+ *  (the FLSA-required 0.5x per overtime hour). It is returned separately
+ *  because that — not the whole overtime check — is what IRC section 225 lets
+ *  you deduct, so the overtime calculator can print the real deductible amount.
+ */
 export function overtimePay(rate: number, regularHours: number, ot1xHours: number, ot2xHours: number) {
   const regular = rate * regularHours;
   const ot1x = rate * 1.5 * ot1xHours;
   const ot2x = rate * 2 * ot2xHours;
-  return { regular: round2(regular), overtime: round2(ot1x + ot2x), total: round2(regular + ot1x + ot2x) };
+  const premium = rate * 0.5 * (ot1xHours + ot2xHours);
+  return {
+    regular: round2(regular),
+    overtime: round2(ot1x + ot2x),
+    total: round2(regular + ot1x + ot2x),
+    premium: round2(premium),
+  };
+}
+
+/**
+ * IRC section 225 "no tax on overtime" deduction (the OBBBA, tax years 2025-2028).
+ *
+ * `premiumAnnual` is the qualified overtime compensation for the year — only the
+ * FLSA-required premium above the regular rate counts, so at time-and-a-half that
+ * is 0.5x per overtime hour, never the whole overtime check. Capped at $12,500
+ * single / $25,000 married filing jointly, reduced by $100 for each $1,000 (or
+ * fraction) of modified AGI above $150,000 / $300,000 (so it reaches zero at
+ * $275,000 / $550,000). It is a deduction, not an exclusion: the cash benefit is
+ * the deduction times the marginal rate.
+ */
+export function overtimeDeduction(premiumAnnual: number, filing: Filing = "single", magi = 0) {
+  const cap = filing === "married" ? 25000 : 12500;
+  const threshold = filing === "married" ? 300000 : 150000;
+  const excess = Math.max(0, magi - threshold);
+  const reduction = Math.min(cap, Math.ceil(excess / 1000) * 100);
+  const allowedCap = Math.max(0, cap - reduction);
+  const qualified = Math.max(0, premiumAnnual);
+  const deduction = Math.min(qualified, allowedCap);
+  return {
+    cap,
+    reduction: round2(reduction),
+    allowedCap: round2(allowedCap),
+    premium: round2(qualified),
+    deduction: round2(deduction),
+  };
 }
 
 /** Tip: bill, tip %, split between N people. */
