@@ -560,16 +560,45 @@ export function percentageCalc(mode: "of" | "iswhat" | "change", a: number, b: n
   return { value: round2(a !== 0 ? ((b - a) / a) * 100 : 0), label: `% change ${a} → ${b}` };
 }
 
-/** Compound interest with optional monthly contribution. */
+/**
+ * Compound interest with an optional MONTHLY contribution.
+ *
+ * The contribution is monthly — the field says so — while `compoundsPerYear`
+ * controls only how often interest is credited. Those are two different clocks,
+ * and the previous version ran them as one: it applied the monthly contribution
+ * once per COMPOUNDING period and multiplied `totalContributions` by the number
+ * of compounding periods. At the default (monthly) that is accidentally right,
+ * because periods and months coincide. At every other setting it is wrong:
+ *
+ *   $10,000 at 7% for 20 years, contributing $200/month
+ *   compounds=1   -> claimed $14,000 contributed (actual $58,000)
+ *   compounds=365 -> claimed $1,470,000 contributed and a $3,226,116.05 future
+ *                    value, by treating the $200 as a DAILY deposit
+ *
+ * So the model is: convert the nominal rate to ONE effective monthly rate,
+ * which is the rate that reproduces the requested compounding over a year,
+ * then run principal and contributions on that single monthly timeline.
+ *
+ *   monthlyRate = (1 + rate/100/periods) ^ (periods/12) - 1
+ *
+ * The monthly case is unchanged by construction ((1 + rate/1200)^1 - 1 is the
+ * same number), which is the check that this is a fix and not a new model.
+ * Overstating a return on a financial page is the defect class that matters
+ * most here, and a wrong answer is worse than a thin page.
+ */
 export function compoundInterest(principal: number, rate: number, years: number, compoundsPerYear: number, monthlyContribution = 0) {
-  const r = rate / 100 / compoundsPerYear;
-  const n = compoundsPerYear * years;
-  const base = principal * Math.pow(1 + r, n);
-  const contrib = monthlyContribution > 0
-    ? monthlyContribution * ((Math.pow(1 + r, n) - 1) / r)
-    : 0;
+  const periods = compoundsPerYear > 0 ? compoundsPerYear : 12;
+  const months = years * 12;
+  const monthlyRate = Math.pow(1 + rate / 100 / periods, periods / 12) - 1;
+  const growth = Math.pow(1 + monthlyRate, months);
+  const base = principal * growth;
+  // A zero rate makes (growth - 1)/monthlyRate a 0/0 NaN, not a zero. With no
+  // growth the contributions simply accumulate at face value.
+  const contrib = monthlyRate === 0
+    ? monthlyContribution * months
+    : monthlyContribution * ((growth - 1) / monthlyRate);
   const future = base + contrib;
-  const totalContributions = principal + monthlyContribution * n;
+  const totalContributions = principal + monthlyContribution * months;
   return {
     futureValue: round2(future),
     totalContributions: round2(totalContributions),

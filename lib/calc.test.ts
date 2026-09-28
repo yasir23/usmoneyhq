@@ -339,10 +339,53 @@ assert.ok(Math.abs(percentageCalc("of", 15, 200).value - 30) < 0.01);
 assert.ok(Math.abs(percentageCalc("iswhat", 30, 200).value - 15) < 0.01);
 assert.ok(Math.abs(percentageCalc("change", 100, 150).value - 50) < 0.01);
 
-// compound interest: $10k @ 7% / 20y monthly compounding, $200/mo -> ~$144.5k
+// compound interest: contributions are MONTHLY, so total contributions are
+// principal + contribution x 12 x years for EVERY compounding option. The old
+// code multiplied them by the number of COMPOUNDING periods instead, so
+// "Annually" claimed $14,000 contributed on $10,000 + $200/mo over 20 years and
+// "Daily" claimed $1,470,000 with a $3,226,116.05 future value. The old
+// assertion was a loose 130k-160k range on the monthly case alone, so it never
+// exercised the other three options and passed the broken engine.
+// Figures below are derived from the definition, not read back from the code.
 const ci = compoundInterest(10000, 7, 20, 12, 200);
-assert.ok(ci.futureValue > 130000 && ci.futureValue < 160000, `ci ${ci.futureValue}`);
-assert.ok(ci.interestEarned > 0);
+assert.ok(Math.abs(ci.futureValue - 144572.72) < 0.05, `ci monthly ${ci.futureValue}`);
+assert.ok(Math.abs(ci.totalContributions - 58000) < 0.01, `ci contrib ${ci.totalContributions}`);
+assert.ok(Math.abs(ci.interestEarned - 86572.72) < 0.05, `ci interest ${ci.interestEarned}`);
+
+// The contribution clock is monthly whatever the compounding clock says.
+for (const c of [1, 4, 12, 365]) {
+  const r = compoundInterest(10000, 7, 20, c, 200);
+  assert.ok(Math.abs(r.totalContributions - 58000) < 0.01,
+    `contributions at compounds=${c} -> ${r.totalContributions}`);
+}
+assert.ok(Math.abs(compoundInterest(10000, 7, 20, 1, 200).futureValue - 140204.12) < 0.05);
+assert.ok(Math.abs(compoundInterest(10000, 7, 20, 4, 200).futureValue - 143739.17) < 0.05);
+assert.ok(Math.abs(compoundInterest(10000, 7, 20, 365, 200).futureValue - 144982.48) < 0.05);
+
+// More frequent compounding is worth more, but only marginally — never a
+// different order of magnitude. Ordering alone is not enough (the broken engine
+// was also ordered), so the gap is bounded from both ends.
+const ciAnn = compoundInterest(10000, 7, 20, 1, 200).futureValue;
+const ciQtr = compoundInterest(10000, 7, 20, 4, 200).futureValue;
+const ciMon = compoundInterest(10000, 7, 20, 12, 200).futureValue;
+const ciDay = compoundInterest(10000, 7, 20, 365, 200).futureValue;
+assert.ok(ciAnn < ciQtr && ciQtr < ciMon && ciMon < ciDay,
+  `compounding order ${ciAnn} ${ciQtr} ${ciMon} ${ciDay}`);
+assert.ok(ciDay - ciAnn > 4000 && ciDay - ciAnn < 6000,
+  `daily-annual spread ${(ciDay - ciAnn).toFixed(2)} should be about 4778`);
+
+// Interest can never exceed the future value, and a zero rate must not NaN.
+for (const c of [1, 4, 12, 365]) {
+  const r = compoundInterest(10000, 7, 20, c, 200);
+  assert.ok(r.interestEarned < r.futureValue, `interest < FV at compounds=${c}`);
+  assert.ok(Number.isFinite(r.futureValue), `finite FV at compounds=${c}`);
+}
+const ciZero = compoundInterest(10000, 0, 10, 12, 100);
+assert.ok(Math.abs(ciZero.futureValue - 22000) < 0.01, `zero-rate FV ${ciZero.futureValue}`);
+assert.ok(Math.abs(ciZero.interestEarned) < 0.01, `zero-rate interest ${ciZero.interestEarned}`);
+
+// No contribution: plain compounding, unaffected by the monthly timeline.
+assert.ok(Math.abs(compoundInterest(10000, 7, 20, 1, 0).futureValue - 38696.84) < 0.05);
 
 // cd: the input is a quoted APY, and APY already includes compounding, so one
 // full year is exactly principal x (1 + apy). The previous formula divided the
