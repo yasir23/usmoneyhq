@@ -148,6 +148,26 @@ TOPICS = [
         "title": "$75,000 a year is $36.06 an hour",
         "script": "Seventy five thousand dollars a year. Break it down. That is thirty six dollars and six cents an hour, one thousand four hundred and forty two dollars a week, and six thousand two hundred and fifty dollars a month gross. Salaried roles do not pay overtime, which is exactly why the hourly figure matters when you compare two offers. The salary to hourly calculator at US Money HQ converts any salary in seconds. Free, no sign up.",
     },
+    {
+        "id": "va-loan-400k",
+        "title": "A $400,000 VA loan: zero down, no PMI",
+        "script": "The VA loan is the only major mortgage with no down payment and no monthly mortgage insurance. On a four hundred thousand dollar home, the funding fee is two point one five percent, eighty six hundred dollars, and it is financed. So you borrow four hundred and eight thousand six hundred, and at six and a half percent for thirty years the principal and interest is two thousand five hundred and eighty two dollars a month. Now compare an FHA loan: three and a half percent down, fourteen thousand dollars at closing, plus one hundred and seventy six dollars of mortgage insurance every single month for the life of the loan. That is over sixty three thousand dollars. The VA mortgage calculator at US Money HQ shows your funding fee and payment instantly. Free.",
+    },
+    {
+        "id": "auto-loan-35k",
+        "title": "A $35,000 car loan: the real monthly",
+        "script": "Thirty five thousand dollar car, five thousand down, seven percent for sixty months. You finance thirty thousand dollars at five hundred and ninety four dollars a month. Over the five years you pay five thousand six hundred and forty two dollars in interest, so the car really costs forty thousand six hundred and forty two. That is one hundred and eighty eight dollars of interest for every thousand dollars you borrow. Shorten the term, or find one point off the rate, and that number moves fast. The auto loan calculator at US Money HQ shows the payment, the interest, and the total cost before you sign. Free.",
+    },
+    {
+        "id": "credit-card-minimum",
+        "title": "The minimum payment never clears it",
+        "script": "A five thousand dollar credit card at twenty two percent APR. If you only ever pay the minimum, here is what actually happens. Fifty years later you still owe eighteen hundred and thirty seven dollars, and you have handed over thirty four thousand seven hundred and eighty three dollars in interest. The minimum was never designed to clear the balance. Fix the payment at two hundred dollars instead, and the same debt is gone in thirty four months for seventeen hundred and fifty dollars of interest. That is thirty three thousand dollars of difference. The credit card payoff calculator at US Money HQ shows your exact payoff date and the interest you avoid. Free.",
+    },
+    {
+        "id": "compound-10k-200",
+        "title": "$10k plus $200 a month at 7%",
+        "script": "Ten thousand dollars up front, then two hundred dollars a month, at seven percent compounded monthly. After twenty years that is one hundred and forty four thousand five hundred and seventy two dollars. You put in fifty eight thousand. Compounding added eighty six thousand on top, more than you contributed, and the gap keeps widening every year. That is why year one matters more than year ten. The compound interest calculator at US Money HQ shows the growth year by year. Free, in your browser.",
+    },
 ]
 
 
