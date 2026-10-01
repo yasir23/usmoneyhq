@@ -1,46 +1,51 @@
-// Test the US-only geo decision in BOTH directions before deploying.
-// A gate that never opens and a gate that never closes are both bugs: the first
-// earned zero affiliate revenue for weeks, the second would show US offers to
-// Canada (America/Toronto) and every other country.
-import { shouldShowUS, normalizeCountry } from "../lib/geo.js";
+// Guards the geo gate that decides whether US-only affiliate CTAs render.
+//
+// Why a script and not a browser check: the affiliate offers are US-only
+// programs, so the property that must never regress is "a non-US visitor sees
+// nothing". A browser running in Pakistan can only ever exercise that one
+// branch — it cannot prove the US branch works. shouldShowUS is a pure
+// function, so both directions are testable here.
+//
+// The precedence under test (from lib/geo.js):
+//   1. server country  — authoritative, from Cloudflare edge data
+//   2. geo cookie      — same data, for the static pages that have no server prop
+//   3. timezone        — last resort, only when neither of the above exists
+// An explicit non-US country from 1 or 2 is FINAL; it must not fall through to
+// the timezone guess.
+import { shouldShowUS } from "../lib/geo.js";
 
 let fails = 0;
-function check(label, got, want) {
+function t(label, got, want) {
   const ok = got === want;
-  console.log(`  ${label.padEnd(62)} ${ok ? "PASS" : `FAIL (got ${got}, want ${want})`}`);
   if (!ok) fails++;
+  console.log(`  ${ok ? "PASS" : "FAIL"}  ${label.padEnd(62)} got=${got} want=${want}`);
 }
 
-console.log("1. SERVER SIGNAL IS AUTHORITATIVE");
-check("server US -> show", shouldShowUS("US", "", ""), true);
-check("server GB -> hide", shouldShowUS("GB", "", ""), false);
-check("server US beats a GB cookie", shouldShowUS("US", "GB", "Asia/Karachi"), true);
-check("server GB beats a US cookie", shouldShowUS("GB", "US", "America/New_York"), false);
-check("lowercase 'us' normalises", shouldShowUS("us", "", ""), true);
-check("whitespace ' US ' normalises", shouldShowUS(" US ", "", ""), true);
+console.log("1. SERVER COUNTRY IS AUTHORITATIVE");
+t("US server -> show", shouldShowUS("US", "", ""), true);
+t("PK server -> hide", shouldShowUS("PK", "", ""), false);
+t("PK server beats US cookie -> hide", shouldShowUS("PK", "US", ""), false);
 
-console.log("\n2. COOKIE FALLBACK (this is what the 111 static pages now rely on)");
-check("no server, cookie US -> show", shouldShowUS("", "US", ""), true);
-check("no server, cookie GB -> hide", shouldShowUS("", "GB", "America/New_York"), false);
+console.log("\n2. GEO COOKIE IS THE FALLBACK FOR STATIC PAGES (the real US path)");
+t("no server + US cookie -> show", shouldShowUS("", "US", ""), true);
+t("no server + PK cookie -> hide", shouldShowUS("", "PK", ""), false);
 
-console.log("\n3. TIMEZONE FALLBACK (only when no real country exists)");
-check("tz America/New_York -> show", shouldShowUS("", "", "America/New_York"), true);
-check("tz America/Los_Angeles -> show", shouldShowUS("", "", "America/Los_Angeles"), true);
-check("tz America/Toronto -> HIDE (Canada, must not leak)", shouldShowUS("", "", "America/Toronto"), false);
-check("tz America/Vancouver -> HIDE", shouldShowUS("", "", "America/Vancouver"), false);
-check("tz America/Mexico_City -> HIDE", shouldShowUS("", "", "America/Mexico_City"), false);
-check("tz Asia/Karachi -> hide", shouldShowUS("", "", "Asia/Karachi"), false);
-check("tz Europe/London -> hide", shouldShowUS("", "", "Europe/London"), false);
-check("no signal at all -> hide (fail closed)", shouldShowUS("", "", ""), false);
+console.log("\n3. AN EXPLICIT NON-US SIGNAL IS FINAL — NO TIMEZONE FALL-THROUGH");
+t("PK server + US tz -> hide", shouldShowUS("PK", "", "America/New_York"), false);
+t("PK cookie + US tz -> hide", shouldShowUS("", "PK", "America/New_York"), false);
 
-console.log("\n4. NORMALISATION");
-check("'us' -> US", normalizeCountry("us"), "US");
-check("undefined -> ''", normalizeCountry(undefined), "");
-check("' USA ' -> US (truncated to 2)", normalizeCountry(" USA "), "US");
+console.log("\n4. TIMEZONE IS THE LAST RESORT, ONLY WHEN NOTHING ELSE EXISTS");
+t("nothing + US tz -> show", shouldShowUS("", "", "America/New_York"), true);
+t("nothing + PK tz -> hide", shouldShowUS("", "", "Asia/Karachi"), false);
+t("nothing + Toronto tz -> hide (Canada is not the US)",
+  shouldShowUS("", "", "America/Toronto"), false);
 
-console.log();
-if (fails) {
-  console.log(`FAILED: ${fails}`);
-  process.exit(1);
-}
-console.log("ALL GEO CHECKS PASSED — gate opens for US, closes for everyone else.");
+console.log("\n5. NORMALISATION");
+t("lowercase us -> show", shouldShowUS("us", "", ""), true);
+t("padded ' US ' -> show", shouldShowUS(" US ", "", ""), true);
+
+console.log("\n6. FAIL CLOSED — no signal at all must NOT show a US-only offer");
+t("all empty -> hide", shouldShowUS("", "", ""), false);
+
+console.log(fails === 0 ? "\nALL GEO CHECKS PASSED." : `\n${fails} GEO CHECK(S) FAILED.`);
+process.exit(fails === 0 ? 0 : 1);

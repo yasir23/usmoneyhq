@@ -674,8 +674,7 @@ export function overtimeDeduction(premiumAnnual: number, filing: Filing = "singl
   };
 }
 
-/** Tip: bill, tip %, split between N people. */
-export function tipCalc(bill: number, tipPct: number, split: number) {
+/** Tip: bill, tip %, split between N people. */export function tipCalc(bill: number, tipPct: number, split: number) {
   const tip = bill * (tipPct / 100);
   const total = bill + tip;
   return { tip: round2(tip), total: round2(total), perPerson: round2(total / Math.max(1, split)) };

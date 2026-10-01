@@ -512,4 +512,195 @@ export const TOOL_CONTENT: Record<string, ToolContent> = {
       },
     ],
   },
+
+  "dti-calculator": {
+    intro:
+      "A debt-to-income ratio is the one number a lender works out about you without seeing your credit score, your savings or your job title. It compares what you already owe each month with what you earn before tax, and it decides whether the rest of your application is read at all.",
+    mechanics: [
+      {
+        title: "Front-end and back-end answer different questions",
+        body: "The front-end ratio divides your housing payment by your gross monthly income. The back-end ratio divides housing PLUS every other minimum debt payment by that same income. The front-end measures the house; the back-end measures you. Underwriting leans on the back-end, because a borrower with a modest house and three car loans is a worse risk than the ratio on the house alone suggests.",
+      },
+      {
+        title: "The denominator is gross income, not take-home pay",
+        body: "Lenders start from income before tax and payroll deductions. A ratio you build from your net pay uses a number that is typically 20-30% smaller, so it overstates the ratio and makes an approvable file look unapprovable. Variable income is treated just as carefully: overtime, commission and bonus are averaged, usually over two years, and counted only where they are likely to continue.",
+      },
+      {
+        title: "Which debts count, and which do not",
+        body: "Minimum payments on credit cards, car loans, student loans, personal loans and court-ordered child support all count. Groceries, utilities, phone bills, insurance held outside escrow and subscription services do not. Deferred student loans are the awkward case: many lenders impute a payment rather than accept the reported zero.",
+      },
+    ],
+    example: {
+      title: "Worked example: $8,000 of income, $1,800 housing, $700 of other debt",
+      setup:
+        "Gross monthly income $8,000. Housing payment $1,800, counted the way a lender counts it — principal, interest, taxes and insurance. Other minimum debt payments $700. Every figure below is the calculator's own output for those three inputs.",
+      rows: [
+        { label: "Gross monthly income", value: "$8,000", note: "the denominator" },
+        { label: "Housing payment", value: "$1,800", note: "front-end numerator" },
+        { label: "Other minimum debt", value: "$700", note: "added only to the back-end" },
+        { label: "Front-end DTI", value: "22.5%", note: "1800 / 8000" },
+        { label: "Back-end DTI", value: "31.25%", note: "2500 / 8000" },
+        { label: "Mortgage qualification", value: "Likely ✓", note: "the calculator's verdict" },
+      ],
+      conclusion:
+        "Both ratios sit under the 28/36 guideline and the back-end is comfortably below the 43% ceiling most conventional loans are written to. The two ratios are 8.75 points apart: the same $700 of car and card payments is entirely invisible to the front-end number, which is why a good front-end ratio on its own says very little.",
+    },
+    mistakes: [
+      {
+        title: "Building the ratio from take-home pay",
+        body: "Run the same $2,500 of debt against a net figure of $6,400 instead of $8,000 gross and the back-end ratio rises above 39% — 2,500 divided by 6,400 — while the debt itself is unchanged. Nothing about the borrower moved; only the denominator did. Lenders use gross.",
+      },
+      {
+        title: "Assuming a good front-end ratio is enough",
+        body: "At $8,000 of income with a $2,880 housing payment the front-end ratio is exactly 36%, which reads as acceptable in isolation. Add $700 of other debt and the back-end reaches 44.75% — past the 43% line — and the calculator returns a borderline verdict. The housing payment is only part of what is measured.",
+      },
+      {
+        title: "Treating 43% as a target rather than a ceiling",
+        body: "43% is roughly where conventional underwriting stops, not where it aims, and two files at the same back-end ratio are not equal. A borrower at $8,000 with a $1,800 housing payment and $1,700 of card and car debt shows 22.5% front-end and 43.75% back-end: the housing leg is sustainable and the revolving debt is the part they can actually fix.",
+      },
+    ],
+  },
+
+  "personal-loan-calculator": {
+    intro:
+      "A personal loan is unsecured, which means the lender's only protection is the interest rate. That is why the same $15,000 costs wildly different amounts at different credit scores, and why the term you choose moves the total more than the rate you negotiate.",
+    mechanics: [
+      {
+        title: "The payment is an amortising payment, not a flat charge",
+        body: "Each monthly payment covers the interest that accrued on the outstanding balance and applies whatever is left over to the balance itself. Early payments are therefore mostly interest; the split shifts toward principal as the balance falls. The arithmetic is the same amortisation formula a mortgage uses — only the term is shorter and the rate is higher.",
+      },
+      {
+        title: "Term is the bigger lever",
+        body: "Stretching the term lowers the payment because the principal is spread over more months, but interest then accrues for longer on a larger average balance. On a $15,000 loan at 11.5% the payment falls by about a third when the term goes from 36 to 60 months, while the total interest rises by roughly 70%. The payment is the visible number; the total cost is the real one.",
+      },
+      {
+        title: "The APR includes the fee; the rate does not",
+        body: "Origination fees are commonly 1-8% of the amount borrowed and are baked into the APR rather than the rate. That means a 10% loan with a large fee can carry a higher APR than an 11% loan with none. Compare APRs, then ask what the fee is and whether it is deducted from the proceeds.",
+      },
+    ],
+    example: {
+      title: "Worked example: $15,000 at 11.5% over 36 months",
+      setup:
+        "Loan amount $15,000. Annual rate 11.5%, so the monthly rate is 0.115 / 12 = 0.00958333. Term 36 months. The 60-month comparison uses the identical loan and rate — only the term changes.",
+      rows: [
+        { label: "Loan amount", value: "$15,000.00", note: "principal" },
+        { label: "Monthly payment", value: "$494.64", note: "36-month term" },
+        { label: "Total interest", value: "$2,807.04", note: "494.64 x 36 - 15,000" },
+        { label: "Total cost", value: "$17,807.04", note: "494.64 x 36" },
+        { label: "Payment over 60 months", value: "$329.89", note: "about a third lower" },
+        { label: "Interest over 60 months", value: "$4,793.35", note: "about 70% higher" },
+      ],
+      conclusion:
+        "You repay $17,807.04 on a $15,000 loan — 18.7% more than you borrowed. Moving to 60 months cuts the monthly payment by a third but raises the interest to $4,793.35 — about $1,986 more than the shorter term. The 60-month loan feels cheaper every month and is more expensive overall.",
+    },
+    mistakes: [
+      {
+        title: "Comparing the payment instead of the total cost",
+        body: "$329.89 looks better than $494.64 on a monthly budget, but the longer loan costs about $1,986 more in interest for nothing except the right to pay later. If the shorter payment is genuinely unaffordable, the honest question is whether the loan amount is too large — not whether the term can be stretched.",
+      },
+      {
+        title: "Budgeting for the rate you want rather than the rate you qualify for",
+        body: "Personal loan APRs span roughly 6% to 36%. On the same $15,000 over 36 months, 22% instead of 11.5% raises the payment to $572.86 and the total interest to $5,622.84 — just over double, for identical terms. The rate is set by credit, not by negotiation, so comparing several lenders matters more than talking one down.",
+      },
+      {
+        title: "Consolidating credit cards and then using them again",
+        body: "The saving here comes from the APR gap, and it only survives if the cards stay at zero. Once they carry a balance again you are servicing the loan and the cards at the same time, and the fixed payment you took on has removed the flexibility you would have had without it.",
+      },
+    ],
+  },
+
+  "fha-mortgage-calculator": {
+    intro:
+      "An FHA loan lets you buy with 3.5% down, and it charges for that privilege twice — once up front and once every month. Comparing the FHA note rate with a conventional one without the mortgage insurance is the most common way this loan gets mispriced by borrowers.",
+    mechanics: [
+      {
+        title: "Two mortgage insurance charges, not one",
+        body: "There is an upfront premium of 1.75% of the base loan amount, and an annual premium charged monthly. The upfront premium is normally financed rather than paid in cash, which means it joins the balance and you pay interest on it for the whole term. The annual premium is a separate line in the payment, not part of principal and interest.",
+      },
+      {
+        title: "How the payment is assembled",
+        body: "The base loan is the price minus the down payment. The upfront premium is 1.75% of that base. The amortised payment is then calculated on base plus upfront premium. The monthly mortgage insurance is charged separately, on the base loan. What leaves your account is principal and interest plus that monthly premium, before property tax and homeowners insurance, which this calculator does not model.",
+      },
+      {
+        title: "Why the insurance does not go away",
+        body: "On a loan with less than 10% down the annual premium runs for the life of the loan. That is the sharpest difference from conventional PMI, which must be cancelled automatically once the loan reaches 78% of the original value. The only exit from FHA insurance is to refinance into a conventional loan once there is enough equity to qualify.",
+      },
+    ],
+    example: {
+      title: "Worked example: $300,000 at 3.5% down, 6.8%, 30 years",
+      setup:
+        "Home price $300,000. Down payment 3.5% = $10,500, so the base loan is $289,500. Annual rate 6.8%, so the monthly rate is 0.068 / 12. The upfront premium is financed into the loan.",
+      rows: [
+        { label: "Down payment (3.5%)", value: "$10,500.00", note: "300,000 x 0.035" },
+        { label: "Base loan amount", value: "$289,500.00", note: "300,000 - 10,500" },
+        { label: "Upfront MIP (1.75%)", value: "$5,066.25", note: "289,500 x 0.0175, financed" },
+        { label: "Principal + interest", value: "$1,920.35", note: "on 294,566.25 over 360 months" },
+        { label: "Annual MIP (monthly)", value: "$132.69", note: "289,500 x 0.0055 / 12" },
+        { label: "Total monthly payment", value: "$2,053.04", note: "principal, interest and MIP" },
+      ],
+      conclusion:
+        "The balance actually amortised is $294,566.25 — $5,066.25 more than the house-minus-down figure most buyers budget for. Financing the upfront premium costs $33.03 a month and $11,890.14 over the 360 months, so paying it in cash is worth $11,890 of interest. The monthly insurance alone is $132.69, and across the term that is $47,767.50 on a loan where it does not stop.",
+    },
+    mistakes: [
+      {
+        title: "Budgeting the base loan rather than the financed balance",
+        body: "The 1.75% upfront premium is usually rolled into the loan. Principal and interest on $294,566.25 is $1,920.35 a month; on the $289,500 base it would be $1,887.32. The $33.03 difference is the price of not paying the premium in cash, and over 30 years it compounds to $11,890.14.",
+      },
+      {
+        title: "Assuming the mortgage insurance will cancel like PMI",
+        body: "It will not. Below 10% down the annual premium is charged for the life of the loan, and it is not removed at 78% or 80% loan-to-value the way conventional private mortgage insurance is. Refinancing out of the FHA loan is the mechanism, and that has its own closing costs.",
+      },
+      {
+        title: "Reading the monthly premium as fixed for the whole term",
+        body: "This calculator holds the premium constant at 0.55% of the original base loan, which is close to the first years and slightly conservative later: FHA recalculates the annual premium each year on the outstanding balance, so it drifts down as the loan is paid off. Treat the monthly figure as an upper bound rather than a constant.",
+      },
+    ],
+  },
+
+  "401k-contribution-calculator": {
+    intro:
+      "The 401(k) decision most people get wrong is not whether to save — it is saving just below the employer match. A 4% match against a 3% contribution leaves a quarter of the free money unclaimed, and the deferral cap quietly decides how much of the rest you are allowed to shelter.",
+    mechanics: [
+      {
+        title: "The match is a percentage of salary, capped by what you put in",
+        body: "The employer rate applies to your salary, not to your contribution, and it is limited by how much you defer. A 4% match on $90,000 is $3,600 — but only if you contribute at least 4% yourself. Contribute 3% and the match is capped at your own $2,700; contribute 10% and the match is still $3,600. The first few percent of salary therefore carry a return no investment can match.",
+      },
+      {
+        title: "The deferral limit is on your money, not the employer's",
+        body: "Elective deferrals are capped at $24,500 for anyone under 50 in 2026, and the employer match sits outside that cap. At a high salary the percentage stops being the controlling number: 12% of $250,000 is $30,000, but only $24,500 can be deferred. Above that point the cap, not your chosen rate, sets the contribution.",
+      },
+      {
+        title: "What the projection assumes",
+        body: "The balance grows at 7% a year compounded monthly, with contributions added monthly until age 65. It does not model fund fees, salary growth, or the fact that the deferral limit changes over time. A fund fee is taken out of the return before you see it, so an expense ratio of 1% is a straight cut to the assumed 7% — over 30 years that is the difference between a large balance and a much larger one.",
+      },
+    ],
+    example: {
+      title: "Worked example: $90,000 salary, 8% contribution, 4% match, age 35",
+      setup:
+        "Salary $90,000. You elect 8%. The employer matches 4% of salary. Current balance $20,000, age 35, so 30 years of contributions. The balance compounds at 7% a year with monthly contributions.",
+      rows: [
+        { label: "Your annual contribution", value: "$7,200.00", note: "90,000 x 8%" },
+        { label: "Employer match (annual)", value: "$3,600.00", note: "90,000 x 4%, fully collected" },
+        { label: "Total annual (you + match)", value: "$10,800.00", note: "you keep the whole match" },
+        { label: "Contribution rate of salary", value: "12.0%", note: "10,800 / 90,000" },
+        { label: "Projected balance at 65", value: "$1,260,303.85", note: "7% a year, monthly compounding" },
+      ],
+      conclusion:
+        "The $3,600 match is half of what you put in — an immediate 50% return before any investment performance, which is why the first 4% of salary is the highest-return contribution available to you. Elect 3% instead and the match is capped at your own $2,700 rather than the full $3,600, and the projection falls to $711,316.90: $548,986.95 less at 65 for $4,500 less contributed a year, before tax.",
+    },
+    mistakes: [
+      {
+        title: "Contributing below the match rate",
+        body: "At 3% against a 4% match the employer's contribution is capped at your own $2,700, so $900 of the available match is simply forfeited every year. That is the one part of the account that costs you nothing to collect, and it is lost silently — there is no statement line for money that was never contributed.",
+      },
+      {
+        title: "Reading the match as a share of your contribution",
+        body: "A 4% match means 4% of salary, not 4% of what you defer. On $7,200 of deferrals a 4%-of-contribution reading would predict a $288 match; the figure is $3,600. The two interpretations differ by more than twelve times, and the mistake runs in the direction that makes saving look less valuable than it is.",
+      },
+      {
+        title: "Treating a percentage as a plan at high income",
+        body: "At $250,000, electing 12% implies $30,000 of deferrals, but the elective deferral limit stops it at $24,500. The percentage is no longer the controlling number, and a 5% match adds $12,500 on top for a combined 14.8% of salary — worth checking against the separate combined limit if you are also making after-tax contributions.",
+      },
+    ],
+  },
 };

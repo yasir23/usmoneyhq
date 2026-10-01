@@ -177,6 +177,137 @@ _n = 300
 _fv = 25000 * (1 + _r) ** _n + 925 * (((1 + _r) ** _n - 1) / _r)
 check("projected balance is $892,451.77", fmoney(_fv), "$892,451.77")
 
+# --- dti-calculator -------------------------------------------------------
+# The ratio is debt / gross income, and the front-end numerator is a subset of
+# the back-end one. Derived here from the definition, not from lib/calc.ts.
+print("\ndti: the ratio is debt over gross monthly income")
+
+
+def dti_back(income, housing, other):
+    return (housing + other) / income * 100
+
+
+check("31.25% back-end on 2,500 / 8,000",
+      f"{dti_back(8000, 1800, 700):.2f}%", "31.25%")
+check("22.50% front-end on 1,800 / 8,000",
+      f"{1800 / 8000 * 100:.2f}%", "22.50%")
+check("the two ratios are 8.75 points apart",
+      f"{dti_back(8000, 1800, 700) - 1800 / 8000 * 100:.2f}", "8.75")
+check("a net denominator pushes it above 39%",
+      f"{dti_back(6400, 1800, 700):.4f}%", "39.0625%")
+check("front-end is exactly 36% at 2,880 of housing",
+      f"{2880 / 8000 * 100:.2f}%", "36.00%")
+check("but the back-end is 44.75%",
+      f"{dti_back(8000, 2880, 700):.2f}%", "44.75%")
+check("1,700 of other debt gives 43.75% back-end",
+      f"{dti_back(8000, 1800, 1700):.2f}%", "43.75%")
+check("...while that front-end stays at 22.50%",
+      f"{1800 / 8000 * 100:.2f}%", "22.50%")
+
+# --- personal-loan-calculator --------------------------------------------
+# Uses float64 and the engine's own formula shape (lib/tools.ts
+# monthlyPaymentSafe) rather than exact Decimal: the published table multiplies
+# the UNROUNDED payment by the term, so an exact-Decimal recomputation differs by
+# a cent and reports a failure on content that matches the calculator.
+print("\npersonal loan: the term moves the total more than the rate")
+
+
+def pmt(principal, rate_pct, term_months):
+    r = rate_pct / 100 / 12
+    p = (1 + r) ** term_months
+    return principal * r * p / (p - 1)
+
+
+p36f = pmt(15000, 11.5, 36)
+i36f = p36f * 36 - 15000
+check("36-month payment is $494.64", fmoney(p36f), "$494.64")
+check("total interest is $2,807.04", fmoney(i36f), "$2,807.04")
+check("total cost is $17,807.04", fmoney(p36f * 36), "$17,807.04")
+p60f = pmt(15000, 11.5, 60)
+i60f = p60f * 60 - 15000
+check("60-month payment is $329.89", fmoney(p60f), "$329.89")
+check("60-month interest is $4,793.35", fmoney(i60f), "$4,793.35")
+check("the long term costs about $1,986 more", f"{i60f - i36f:,.0f}", "1,986")
+check("the payment falls by about a third",
+      f"{(1 - p60f / p36f) * 100:.1f}%", "33.3%")
+check("and the interest rises by about 70%",
+      f"{(i60f / i36f - 1) * 100:.1f}%", "70.8%")
+check("the total cost is 18.7% above the principal",
+      f"{(p36f * 36 / 15000 - 1) * 100:.1f}%", "18.7%")
+p22f = pmt(15000, 22, 36)
+check("at 22% the payment is $572.86", fmoney(p22f), "$572.86")
+check("and the interest is $5,622.84", fmoney(p22f * 36 - 15000), "$5,622.84")
+check("that is just over double the 11.5% interest",
+      f"{(p22f * 36 - 15000) / i36f:.3f}", "2.003")
+
+# --- fha-mortgage-calculator ---------------------------------------------
+print("\nfha: the upfront premium is financed, the annual one never stops")
+fha_price = Decimal(300000)
+fha_down = fha_price * Decimal("3.5") / 100
+fha_base = fha_price - fha_down
+fha_ufmip = fha_base * Decimal("0.0175")
+fha_loan = fha_base + fha_ufmip
+check("down payment is $10,500.00", money(fha_down), "$10,500.00")
+check("base loan is $289,500.00", money(fha_base), "$289,500.00")
+check("upfront MIP is $5,066.25", money(fha_ufmip), "$5,066.25")
+check("the amortised balance is $294,566.25", money(fha_loan), "$294,566.25")
+fha_pi = payment(fha_loan, Decimal("0.068"), 30)
+fha_pi_base = payment(fha_base, Decimal("0.068"), 30)
+check("principal + interest is $1,920.35", money(fha_pi), "$1,920.35")
+check("on the base alone it would be $1,887.32", money(fha_pi_base), "$1,887.32")
+check("financing the premium costs $33.03 a month",
+      money(fha_pi - fha_pi_base), "$33.03")
+check("which is $11,890.14 over 360 months",
+      money((fha_pi - fha_pi_base) * 360), "$11,890.14")
+fha_mip = fha_base * Decimal("0.0055") / 12
+check("monthly MIP is $132.69", money(fha_mip), "$132.69")
+check("principal, interest and MIP is $2,053.04", money(fha_pi + fha_mip), "$2,053.04")
+check("the MIP is $47,767.50 across 360 months", money(fha_mip * 360), "$47,767.50")
+
+# --- 401k-contribution-calculator ----------------------------------------
+# Reproduces the engine's own monthly loop rather than a closed form: the
+# published balance is the loop's output, so the check must walk the same steps.
+print("\n401k contribution: the match is a share of SALARY, capped by your own")
+
+
+def k401_plan(salary, pct, match_pct, current, age, rate=0.07):
+    yours = min(salary * pct / 100, 24500)
+    match = min(salary * match_pct / 100, yours)
+    monthly = (yours + match) / 12
+    bal = float(current)
+    r = rate / 12
+    for _ in range((65 - age) * 12):
+        bal = bal * (1 + r) + monthly
+    return yours, match, bal
+
+
+# NOTE: this is deliberately not called `contrib` — the break-even section above
+# already binds that name to a number, and shadowing it makes the file's own
+# static analysis report the earlier lines as type errors.
+_y, _m, _b = k401_plan(90000, 8, 4, 20000, 35)
+check("8% of 90,000 is $7,200.00", fmoney(_y), "$7,200.00")
+check("the 4% match is $3,600.00", fmoney(_m), "$3,600.00")
+check("together $10,800.00", fmoney(_y + _m), "$10,800.00")
+check("which is 12.0% of salary", f"{(_y + _m) / 90000 * 100:.1f}%", "12.0%")
+check("projected balance is $1,260,303.85", fmoney(_b), "$1,260,303.85")
+_y3, _m3, _b3 = k401_plan(90000, 3, 4, 20000, 35)
+check("at 3% the match is capped at $2,700.00", fmoney(_m3), "$2,700.00")
+check("so $900.00 of match is forfeited", fmoney(_m - _m3), "$900.00")
+check("the projection falls to $711,316.90", fmoney(_b3), "$711,316.90")
+check("a difference of $548,986.95", fmoney(_b - _b3), "$548,986.95")
+check("for $4,500.00 less contributed a year", fmoney(_y - _y3), "$4,500.00")
+check("4% misread as a share of 7,200 would be $288.00", fmoney(7200 * 0.04), "$288.00")
+check("but 4% of salary is $3,600.00", fmoney(90000 * 0.04), "$3,600.00")
+check("a quarter of a 4% match is forfeited at 3%",
+      f"{(_m - _m3) / _m * 100:.0f}%", "25%")
+check("12% of 250,000 would be $30,000.00", fmoney(250000 * 0.12), "$30,000.00")
+_y250, _m250, _b250 = k401_plan(250000, 12, 5, 100000, 45)
+check("the deferral stops at $24,500.00", fmoney(_y250), "$24,500.00")
+check("the 5% match adds $12,500.00", fmoney(_m250), "$12,500.00")
+check("a combined 14.8% of salary",
+      f"{(_y250 + _m250) / 250000 * 100:.1f}%", "14.8%")
+check("projected balance is $2,010,064.42", fmoney(_b250), "$2,010,064.42")
+
 print("\n" + "=" * 68)
 failed = checks.count(False)
 print(f"  {len(checks) - failed} passed, {failed} failed")

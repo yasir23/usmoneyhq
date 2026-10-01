@@ -23,9 +23,9 @@ Long-tail (autocomplete):
 - mortgage calculator california 2026
 - va mortgage calculator 2026
 - abn mortgage calculator 2026
-- mortgage calculator netherlands 2026
-- mortgage rate calculator 2026
 - mortgage calculator uk 2026
+- mortgage rate calculator 2026
+- mortgage calculator netherlands 2026
 
 ## auto-loan-calculator
 
@@ -39,8 +39,8 @@ Long-tail (autocomplete):
 - auto loan calculator pakwheels
 - auto loan calculator texas
 - auto loan calculator canada
-- auto loan calculator with extra payments
 - auto loan calculator payment
+- auto loan calculator with extra payments
 - auto loan calculator 2026
 - auto loan rates 2026
 - car loan calculator 2026 malaysia
@@ -57,15 +57,15 @@ Long-tail (autocomplete):
 Short-tail: salary after tax calculator | take home pay calculator
 Long-tail (autocomplete):
 - salary after tax calculator
-- salary after tax calculator pakistan
 - salary after tax calculator uk
 - salary after tax calculator ireland
 - salary after tax calculator australia
 - salary after tax calculator ontario
-- salary after tax calculator india
 - salary after tax calculator california
-- salary after tax calculator south africa
+- salary after tax calculator india
 - salary after tax calculator bc
+- salary after tax calculator south africa
+- salary after tax calculator quebec
 - salary after tax calculator 2026
 - salary income tax calculator 2026 27
 - salary income tax calculator 2026
@@ -83,24 +83,24 @@ Short-tail: paycheck calculator | paycheck tax calculator
 Long-tail (autocomplete):
 - paycheck calculator
 - paycheck calculator federal employee
-- paycheck calculator illinois
 - paycheck calculator texas
 - paycheck calculator california
 - paycheck calculator florida
 - paycheck calculator pa
+- paycheck calculator illinois
 - paycheck calculator nc
 - paycheck calculator nyc
 - paycheck calculator ohio
 - paycheck calculator 2026
-- paycheck calculator 2026 california
 - paycheck calculator 2026 with taxes
+- paycheck calculator 2026 california
 - paycheck calculator 2026 texas
 - pay calculator 2026
 - pay calculator 2026 australia
 - pay calculator 2026 27
 - pay calculator 2026 military
-- pay calculator 2026 nsw
 - pay calculator 2026 pakistan
+- pay calculator 2026 nsw
 
 ## debt-payoff-calculator
 
@@ -108,14 +108,14 @@ Short-tail: debt payoff calculator | debt repayment calculator
 Long-tail (autocomplete):
 - debt payoff calculator
 - debt payoff calculator excel
-- debt payoff calculator dave ramsey
+- debt payoff calculator ramsey
 - debt payoff calculator with extra payments
-- debt payoff calculator ramit
 - debt payoff calculator free
+- debt payoff calculator ramit
 - debt payoff calculator snowball
 - debt payoff calculator google sheets
 - debt payoff calculator app
-- debt payoff calculator spreadsheet
+- debt payoff calculator canada
 - help debt repayment calculator 2026
 - hecs debt repayment calculator 2026
 - calculate debt payoff date
@@ -138,15 +138,15 @@ Long-tail (autocomplete):
 - debt to income ratio calculator for car loan
 - debt to income ratio calculator for mortgage approval
 - debt to income ratio calculator free
-- debt to income ratio calculator australia
 - debt to income ratio calculator india
-- debt to income ratio calculator philippines
+- debt to income ratio calculator to buy a house
+- debt to income ratio calculator nerdwallet
 - how much debt to income ratio calculator
 - how much house can i afford debt to income ratio calculator
 - what is a good debt-to-income ratio calculator
-- how to figure debt to ratio income
 - free debt to income ratio calculator uk
 - free debt to income ratio calculator australia
+- debt to income ratio to buy a house calculator free
 - free mortgage debt to income ratio calculator
 - how to calculate debt to income ratio with credit cards
 - debt to income ratio calculator after taxes
@@ -163,8 +163,8 @@ Long-tail (autocomplete):
 - pmi calculator florida
 - pmi calculator conventional mortgage
 - pmi calculator conventional
-- pmi calculator for conventional loans
 - how much is pmi calculator
+- how is pmi percentage calculated
 - mortgage payment calculator 2026
 - pmi rates 2026
 - mortgage insurance rates 2026
@@ -181,25 +181,25 @@ Long-tail (autocomplete):
 Short-tail: heloc calculator | home equity line of credit calculator
 Long-tail (autocomplete):
 - heloc calculator
-- heloc calculator free
 - heloc calculator payment
+- heloc calculator free
 - heloc calculator canada
+- heloc calculator monthly payment
 - heloc calculator with extra payments
 - heloc calculator interest only
 - heloc calculator utah
-- heloc calculator monthly payment
-- heloc calculator ontario
 - heloc calculator without personal information
+- heloc calculator ontario
 - heloc calculator how much can i borrow
 - heloc calculator how much can i get
 - how much heloc calculator
 - how to calculate heloc amount
 - how to figure out heloc amount
 - heloc calculator freedom mortgage
-- heloc calculator free california
 - home equity loan calculator free
 - home equity loan calculator freedom mortgage
 - heloc payment calculator free
+- heloc payoff calculator free
 
 ## refinance-calculator
 
@@ -211,12 +211,13 @@ Long-tail (autocomplete):
 - refinance calculator auto
 - refinance calculator free
 - refinance calculator with cash out
-- refinance calculator auto loan
 - refinance calculator car loan
-- refinance calculator how much can i borrow
+- refinance calculator auto loan
 - refinance calculator australia
+- refinance calculator how much can i borrow
 - mortgage calculator 2026
 - loan calculator 2026
+- 20 year refinance rates chart
 - mortgage calculator how much can i borrow
 - mortgage calculator how much can i afford
 - mortgage calculator how much can i borrow uk
@@ -224,7 +225,6 @@ Long-tail (autocomplete):
 - mortgage calculator how much house can i afford
 - loan calculator how much can i borrow
 - mortgage calculator how much
-- mortgage calculator how much borrow
 
 ## retirement-calculator
 
@@ -235,8 +235,8 @@ Long-tail (autocomplete):
 - retirement calculator sindh government
 - retirement calculator government
 - retirement calculator age
-- retirement calculator punjab government
 - retirement calculator formula
+- retirement calculator punjab government
 - retirement calculator federal government
 - retirement calculator 401k
 - retirement calculator canada
@@ -264,6 +264,7 @@ Long-tail (autocomplete):
 - tax calculator 2026-27 pakistan
 - tax calculator 2025
 - tax calculator 2024-25
+- tax calculator 26-27
 - tax calculator 2026 pakistan
 - tax calculator 2026 to 2027
 - tax calculator 2026-27 salary
@@ -273,7 +274,6 @@ Long-tail (autocomplete):
 - tax calculator 2026-27 fbr
 - tax calculator how much will i get back
 - tax calculator how much will i pay
-- tax calculator how much to pay
 - tax calculator how much tax should i pay
 
 ## credit-card-payoff-calculator
@@ -285,10 +285,10 @@ Long-tail (autocomplete):
 - credit card payoff calculator with extra payments
 - credit card payoff calculator weekly payments
 - credit card payoff calculator with amortization
-- credit card payoff calculator credit karma
 - credit card payoff calculator with interest
+- credit card payoff calculator credit karma
 - credit card payoff calculator google sheets
-- credit card payoff calculator with amortization schedule
+- credit card payoff calculator snowball
 - credit card payoff calculator discover
 - credit card payoff calculator free
 - credit card debt calculator free
@@ -306,15 +306,15 @@ Long-tail (autocomplete):
 Short-tail: child support calculator | child support estimate calculator
 Long-tail (autocomplete):
 - child support calculator
-- child support calculator ontario
 - child support calculator texas
 - child support calculator alberta
 - child support calculator bc
 - child support calculator florida
 - child support calculator indiana
 - child support calculator california
-- child support calculator australia
 - child support calculator pa
+- child support calculator australia
+- child support calculator nc
 - child support calculator 2026
 - child support calculator 2026 ontario
 - child support calculator 2026 alberta
@@ -331,15 +331,15 @@ Long-tail (autocomplete):
 Short-tail: concrete calculator | concrete yard calculator
 Long-tail (autocomplete):
 - concrete calculator
-- concrete calculator app
-- concrete calculator cement sand aggregate
 - concrete calculator formula
+- concrete calculator cement sand aggregate
+- concrete calculator app
 - concrete calculator square feet
+- concrete calculator formula in meters
 - concrete calculator yards
 - concrete calculator bags
 - concrete calculator uk
 - concrete calculator for slab
-- concrete calculator price
 - concrete calculator how much concrete do i need
 - concrete calculator how much ballast
 - concrete calculator how much
@@ -359,14 +359,15 @@ Long-tail (autocomplete):
 - tdee calculator free
 - tdee calculator to lose weight
 - tdee calculator kg
-- tdee calculator app
 - tdee calculator net
+- tdee calculator app
 - tdee calculator to gain weight
 - tdee calculator for weight loss
 - tdee calculator nhs
 - tdee calculator online
 - tdee calculator 2026
 - bmr calculator 2026
+- macro calculator 2026
 - best tdee calculator 2026
 - what's my tdee calculator
 - how accurate is a tdee calculator
@@ -374,7 +375,6 @@ Long-tail (autocomplete):
 - how to calculate tdee
 - tdee calculator how much to lose weight
 - tdee calculator how much protein
-- is the tdee calculator accurate
 
 ## water-intake-calculator
 
@@ -388,8 +388,8 @@ Long-tail (autocomplete):
 - water intake calculator uk
 - water intake calculator kg
 - water intake calculator australia
-- water intake calculator with creatine
 - water intake calculator based on weight
+- water intake calculator with creatine
 - how much water intake calculator
 - how much water intake daily calculator
 - how much water should i drink calculator
@@ -406,15 +406,15 @@ Long-tail (autocomplete):
 Short-tail: sleep calculator | what time should i go to bed
 Long-tail (autocomplete):
 - sleep calculator
-- sleep calculator by age
 - sleep calculator website
 - sleep calculator cycle
+- sleep calculator by age
+- sleep calculator hours
 - sleep calculator women
 - sleep calculator for kids
 - sleep calculator app
 - sleep calculator uk
 - sleep calculator time
-- sleep calculator nap
 - sleep calculator how much sleep did i get
 - sleep calculator how much sleep do i need
 - sleep calculator how much sleep did i get by age
@@ -436,10 +436,10 @@ Long-tail (autocomplete):
 - body fat calculator caliper
 - body fat calculator machine
 - body fat calculator navy method
+- body fat calculator by picture
 - body fat calculator army
 - body fat calculator uk
 - body fat calculator navy
-- body fat calculator with measurements
 - body fat calculator 2026
 - army body fat calculator 2026
 - army body fat calculator 2026 pdf
@@ -458,12 +458,12 @@ Long-tail (autocomplete):
 - paint calculator
 - paint calculator online
 - paint calculator square feet
+- paint calculator for walls
 - paint calculator dulux
 - paint calculator m2
-- paint calculator for walls
-- paint calculator square meter
+- paint calculator interior
 - paint calculator exterior
-- paint calculator bunnings
+- paint calculator square meter
 - paint calculator home depot
 - paint calculator how much do i need
 - how much paint calculator
@@ -484,44 +484,44 @@ Long-tail (autocomplete):
 - mulch calculator yards
 - mulch calculator bags
 - mulch calculator lowes
-- mulch calculator by square feet
+- mulch calculator square feet
 - mulch calculator home depot
-- mulch calculator cubic yards
 - mulch calculator m2
 - mulch calculator circle
-- mulch calculator app
+- mulch calculator cubic yards
+- mulch calculator uk
 - mulch calculator how much mulch do i need
-- mulch calculator how many bags
 - how much mulch calculator
 - calculator for how much mulch i need
 - how to calculate how many bags of mulch you need
 - free mulch calculator
-- free mulch calculator square feet
 - free mulch calculator lowes
+- free mulch calculator square feet
 - free mulch calculator yards
 - how to calculate how much mulch i need
+- formula for mulch coverage
 
 ## salary-percentile-calculator
 
 Short-tail: salary percentile calculator | income percentile calculator
 Long-tail (autocomplete):
 - salary percentile calculator by age
-- salary percentile calculator uk
 - salary percentile calculator canada
 - salary percentile calculator australia
-- salary percentile calculator us
-- salary percentile calculator ireland
+- salary percentile calculator uk
 - salary percentile calculator singapore
 - salary percentile calculator by state
 - salary percentile calculator by city
 - salary percentile calculator india
+- salary percentile calculator ireland
+- salary percentile calculator 2025
 
 ## home-affordability-calculator
 
 Short-tail: how much house can i afford | home affordability calculator
 Long-tail (autocomplete):
-- how much house can i afford calculator
 - how much house can i afford
+- how much house can i afford calculator
 - how much house can i afford with 100k salary
 - how much house can i afford with 200k salary
 - how much house can i afford with 150k salary
@@ -537,9 +537,9 @@ Long-tail (autocomplete):
 - how much house can you afford on a 50k salary
 - how much house can i afford free calculator
 - how much house can i afford free
-- how much mortgage can i afford free calculator
 - how much home can i afford free calculator
-- how much mortgage can i afford free
+- how much house can i afford google calculator free
+- how much mortgage can i afford free calculator
 
 ## gpa-calculator
 
@@ -553,33 +553,33 @@ Long-tail (autocomplete):
 - gpa calculator online
 - gpa calculator from percentage
 - gpa calculator university
-- gpa calculator nust
 - gpa calculator uos
+- gpa calculator umt
 - gpa calculator 2026
 - hsc gpa calculator 2026
 - ssc gpa calculator 2026
 - uog gpa calculator 2026
 - dakhil gpa calculator 2026
-- numl gpa calculator 2026
 - ssc gpa calculator 2026 science
+- numl gpa calculator 2026
 - ssc gpa calculator 2026 bd
-- ssc gpa calculator 2026 online
 - alim gpa calculator 2026
+- ssc gpa calculator 2026 online
 
 ## due-date-calculator
 
 Short-tail: due date calculator | pregnancy due date calculator
 Long-tail (autocomplete):
 - due date calculator
-- due date calculator by lmp
 - due date calculator pregnancy
-- due date calculator from conception
+- due date calculator by lmp
 - due date calculator babycenter
-- due date calculator with weeks
+- due date calculator from conception
 - due date calculator ivf
-- due date calculator twins
-- due date calculator flo
+- due date calculator with weeks
 - due date calculator by ultrasound
+- due date calculator flo
+- due date calculator twins
 - due date calculator 2026
 - chinese due date calculator 2026
 - tax due date 2026 calculator
@@ -601,13 +601,12 @@ Long-tail (autocomplete):
 - final grade calculator college
 - final grade calculator with points
 - final grade calculator uni
-- final grade calculator rogerhub
 - final grade calculator uoft
+- final grade calculator rogerhub
 - final grade calculator high school
 - final grade calculator soup
+- cuet final score calculator 2026
 - final grade calculator free
-- final grade calculator formula
-- final grade equation
 - final grade formula
 - is final grade calculator accurate
 
@@ -618,13 +617,13 @@ Long-tail (autocomplete):
 - percentage calculator
 - percentage calculator of marks
 - percentage calculator formula
+- percentage calculator online
 - percentage calculator money
 - percentage calculator of cgpa
 - percentage calculator in excel
-- percentage calculator extension
 - percentage calculator formula in excel
-- percentage calculator pakistan
-- percentage calculator from gpa
+- percentage calculator extension
+- percentage calculator kaise nikale
 - percentage calculator 2026
 - rates calculator 2026
 - ignou percentage calculator 2026
@@ -632,9 +631,9 @@ Long-tail (autocomplete):
 - sslc percentage calculator 2026
 - tax percentage calculator 2026
 - gds percentage calculator 2026
+- icse percentage calculator 2026
 - cbse percentage calculator 2026
 - isc percentage calculation 2026
-- va disability percentage calculator 2026
 
 ## compound-interest-calculator
 
@@ -644,12 +643,12 @@ Long-tail (autocomplete):
 - compound interest calculator pakistan
 - compound interest calculator sbi
 - compound interest calculator pkr
+- compound interest calculator monthly
 - compound interest calculator daily
-- compound interest calculator online
-- compound interest calculator with tax
-- compound interest calculator formula
 - compound interest calculator with tax deduction
 - compound interest calculator uk
+- compound interest calculator with tax
+- compound interest calculator formula
 - compound interest calculator 2026
 - compound interest calculator online in india 2026
 - what is compound interest calculator
@@ -668,8 +667,8 @@ Long-tail (autocomplete):
 - cd calculator
 - cd calculator apy
 - cd calculator bankrate
-- cd calculator interest
 - cd calculator rate
+- cd calculator interest
 - cd calculator nerdwallet
 - cd calculator free
 - cd calculator chase
@@ -692,14 +691,14 @@ Short-tail: overtime calculator | time and a half calculator
 Long-tail (autocomplete):
 - overtime calculator
 - overtime calculator ksa
-- overtime calculator usa
 - overtime calculator pakistan
 - overtime calculator california
-- overtime calculator uk
-- overtime calculator texas
-- overtime calculator malaysia
 - overtime calculator philippines
+- overtime calculator texas
 - overtime calculator with taxes
+- overtime calculator uk
+- overtime calculator malaysia
+- overtime calculator bi weekly
 - overtime calculator 2026
 - overtime rates 2026
 - overtime tax calculator 2026
@@ -720,11 +719,11 @@ Long-tail (autocomplete):
 - tip calculator formula
 - tip calculator google
 - tip calculator app
+- tip calculator free
 - tip calculator texas
 - tip calculator iphone
 - tip calculator nyc
-- tip calculator ny
-- tip calculator canada
+- tip calculator ontario
 - tip calculator 2026
 - gratuity calculator 2026
 - gratuity calculator 2026 india
@@ -746,8 +745,8 @@ Long-tail (autocomplete):
 - student loan calculator payoff
 - student loan calculator payment
 - student loan calculator interest
-- student loan calculator india
 - student loan calculator nz
+- student loan calculator india
 - student loan calculator bc
 - student loan calculator canada
 - student loan calculator 2026
@@ -768,13 +767,13 @@ Long-tail (autocomplete):
 - loan calculator
 - loan calculator pakistan
 - loan calculator hbl
-- loan calculator meezan bank
 - loan calculator bank alfalah
 - loan calculator nbp
-- loan calculator personal
 - loan calculator ubl
+- loan calculator personal
+- loan calculator meezan bank
+- loan calculator apna ghar scheme
 - loan calculator online
-- loan calculator car
 - loan calculator 2026
 - mortgage calculator 2026
 - finance calculator 2026
@@ -794,12 +793,12 @@ Long-tail (autocomplete):
 - savings calculator with interest
 - savings calculator uk
 - savings calculator compound interest
-- savings calculator for retirement
 - savings calculator australia
+- savings calculator for retirement
 - savings calculator with withdrawals
 - savings calculator canada
 - savings calculator nz
-- savings calculator compound
+- savings calculator goal
 - mp2 savings calculator 2026
 - rrsp savings calculator 2026
 - tax saving calculator 2026
@@ -821,8 +820,8 @@ Long-tail (autocomplete):
 - net worth calculator india
 - net worth calculator dave ramsey
 - net worth calculator australia
-- net worth calculator app
 - net worth calculator growth
+- net worth calculator app
 - net worth calculator free
 - net worth calculator money guy
 - net worth calculator 2026
@@ -843,12 +842,12 @@ Long-tail (autocomplete):
 - hourly to salary calculator
 - hourly to salary calculator bc
 - hourly to salary calculator with taxes
-- hourly to salary calculator ontario
 - hourly to salary calculator california
+- hourly to salary calculator ontario
 - hourly to salary calculator canada
-- hourly to salary calculator texas
-- hourly to salary calculator nyc
 - hourly to salary calculator alberta
+- hourly to salary calculator nyc
+- hourly to salary calculator texas
 - hourly to salary calculator with overtime
 - hourly paycheck calculator 2026
 - hourly wage calculator 2026
@@ -871,10 +870,10 @@ Long-tail (autocomplete):
 - gas cost calculator canada
 - gas cost calculator bc
 - gas cost calculator ontario
-- gas cost calculator commute
 - gas cost calculator uk
 - gas cost calculator trip canada
 - gas cost calculator trip usa
+- gas cost calculator for uhaul truck
 - fuel cost calculator 2026
 - gas price estimate 2026
 - how much money spent on gas calculator
@@ -890,7 +889,6 @@ Long-tail (autocomplete):
 
 Short-tail: square footage calculator | square feet calculator
 Long-tail (autocomplete):
-- square footage calculator
 - square footage calculator feet and inches
 - square footage calculator with inches
 - square footage calculator for flooring
@@ -898,8 +896,9 @@ Long-tail (autocomplete):
 - square footage calculator tile
 - square footage calculator multiple rooms
 - square footage calculator google maps
-- square footage calculator uk
+- square footage calculator canada
 - square footage calculator irregular shape
+- square footage calculator uk
 - how much square footage calculator
 - how is square footage calculated
 - how is sq footage calculated
@@ -917,14 +916,14 @@ Short-tail: electricity cost calculator | appliance electricity calculator
 Long-tail (autocomplete):
 - electricity cost calculator
 - electricity cost calculator kwh
-- electricity cost calculator uk
 - electricity cost calculator ontario
+- electricity cost calculator uk
 - electricity cost calculator india
 - electricity cost calculator philippines
 - electricity cost calculator south africa
 - electricity cost calculator kwh uk
+- electricity cost calculator victoria
 - electricity cost calculator watts
-- electricity cost calculator ireland
 - electricity bill calculator 2026
 - tn electricity bill calculator 2026
 - tamil nadu electricity bill calculator 2026
@@ -941,9 +940,9 @@ Long-tail (autocomplete):
 Short-tail: bmi calculator | body mass index calculator
 Long-tail (autocomplete):
 - bmi calculator
-- bmi calculator male
 - bmi calculator in kg and feet
-- bmi calculator women
+- bmi calculator male
+- bmi calculator female
 - bmi calculator kg with age
 - bmi calculator kg
 - bmi calculator pakistan
@@ -954,7 +953,7 @@ Long-tail (autocomplete):
 - bmi calculator 2026 female
 - bmi calculator 2026 male
 - bmi chart 2026
-- bmi chart 2026 female
+- bmi chart 2026 women
 - bmi chart 2026 male
 - obesity chart 2026
 - body mass index chart 2026
@@ -969,7 +968,7 @@ Long-tail (autocomplete):
 - simple interest calculator by date
 - simple interest calculator monthly
 - simple interest calculator loan
-- simple interest calculator days
+- simple interest calculator in days
 - simple interest calculator india
 - simple interest calculator emi
 - simple interest calculator formula
@@ -1003,8 +1002,8 @@ Long-tail (autocomplete):
 - budget calculator 2026 ireland
 - budget calculator 2026 gov uk
 - budget calculator 2026 malta
-- budget 2026 calculator pwc
 - budget 2026 calculator singapore
+- budget 2026 calculator pwc
 - budget 2026 calculator uk
 - budget 2026 calculator australia
 - budget calculator how much rent can i afford
@@ -1020,8 +1019,8 @@ Long-tail (autocomplete):
 - discount calculator online
 - discount calculator pakistan
 - discount calculator formula
-- discount calculator percentage
 - discount calculator rupees
+- discount calculator percentage
 - discount calculator uk
 - discount calculator with tax
 - discount calculator india
@@ -1032,8 +1031,8 @@ Long-tail (autocomplete):
 - discount calculator free
 - discount calculator free download for pc
 - discount calculator online free
-- simple discount calculator free
 - discount calculator app free
+- simple discount calculator free
 - build a discount calculator freecodecamp
 
 ## sales-tax-calculator
@@ -1044,9 +1043,9 @@ Long-tail (autocomplete):
 - sales tax calculator pakistan
 - sales tax calculator usa
 - sales tax calculator 2026
+- sales tax calculator by zip code
 - sales tax calculator missouri
 - sales tax calculator texas
-- sales tax calculator by zip code
 - sales tax calculator quebec
 - sales tax calculator california
 - sales tax calculator ontario
@@ -1055,8 +1054,8 @@ Long-tail (autocomplete):
 - sales tax calculator 2026 florida
 - sales tax calculator 2026 nj
 - sales tax calculator 2026 ohio
-- sales tax calculator 2026 nyc
 - sales tax calculator 2026 nc
+- sales tax calculator 2026 nyc
 - sales tax calculator 2026 ny
 - sales tax rate 2026
 - how much sales tax calculator
@@ -1070,10 +1069,10 @@ Long-tail (autocomplete):
 - inflation calculator pkr
 - inflation calculator usd
 - inflation calculator uk
-- inflation calculator us
-- inflation calculator by year
 - inflation calculator india
+- inflation calculator by year
 - inflation calculator canada
+- inflation calculator us
 - inflation calculator australia
 - inflation calculator 2026
 - inflation value 2026
@@ -1083,7 +1082,7 @@ Long-tail (autocomplete):
 - inflation calculator canada 2026
 - us inflation calculator 2026
 - inflation calculator australia 2026
-- salary inflation calculator 2026
+- inflation salary calculator 2026
 - inflation calculator 2025 to 2026
 
 ## miles-per-gallon-calculator
@@ -1091,7 +1090,6 @@ Long-tail (autocomplete):
 Short-tail: mpg calculator | miles per gallon calculator
 Long-tail (autocomplete):
 - mpg calculator
-- mpg calculator salary
 - mpg calculator uk
 - mpg calculator cost
 - mpg calculator km
@@ -1100,6 +1098,7 @@ Long-tail (autocomplete):
 - mpg calculator canada
 - mpg calculator trip
 - mpg calculator app
+- mpg calculator by reg
 - gas mileage calculator 2026
 - mpg calculator for bigger tires
 - mpg comparison calculator
@@ -1116,24 +1115,24 @@ Short-tail: rent vs buy calculator | rent vs buy a house
 Long-tail (autocomplete):
 - rent vs buy calculator
 - rent vs buy calculator canada
-- rent vs buy calculator nyc
 - rent vs buy calculator nyt
+- rent vs buy calculator nyc
 - rent vs buy calculator uk
 - rent vs buy calculator india
 - rent vs buy calculator bay area
-- rent vs buy calculator california
 - rent vs buy calculator by location
+- rent vs buy calculator california
 - rent vs buy calculator 2026
 - calculator for rent vs buy
 - rent vs owning calculator
+- cost of renting vs owning calculator
 - rent vs buy calculator free
 - nyt rent vs buy calculator free
 - ny times rent vs buy calculator free
 - nyt rent or buy calculator free
-- nyt rent vs buy calculator reddit free
+- best free rent vs buy calculator
 - how much should i spend on rent calculator
 - rent vs buy formula
-- how much to spend on rent calculator
 
 ## 401k-calculator
 
@@ -1143,12 +1142,12 @@ Long-tail (autocomplete):
 - 401k calculator with match
 - 401k calculator bankrate
 - 401k calculator over time
-- 401k calculator fidelity
 - 401k calculator for retirement
+- 401k calculator fidelity
 - 401k calculator by age
-- 401k calculator growth
 - 401k calculator payout
-- 401k calculator withdrawal
+- 401k calculator growth
+- 401k calculator ramsey
 - 401k calculator 2026
 - retirement calculator 2026
 - solo 401k calculator 2026
@@ -1167,13 +1166,13 @@ Long-tail (autocomplete):
 - emergency fund calculator
 - emergency fund calculator india
 - emergency fund calculator philippines
-- emergency fund calculator uk
-- emergency fund calculator nz
-- emergency fund calculator dave ramsey
 - emergency fund calculator ramsey
+- emergency fund calculator nz
+- emergency fund calculator australia
+- emergency fund calculator dave ramsey
 - emergency fund calculator canada
 - emergency fund calculator reddit
-- emergency fund calculator ireland
+- emergency fund calculator uk
 - emergency fund calculator how much will protect you nerdwallet
 - how much emergency fund calculator
 - how much should i have in my emergency fund calculator
@@ -1188,25 +1187,25 @@ Long-tail (autocomplete):
 Short-tail: closing costs calculator | home closing cost calculator
 Long-tail (autocomplete):
 - closing costs calculator
-- closing costs calculator for buyer
 - closing costs calculator ontario
+- closing costs calculator for buyer
 - closing costs calculator for seller
 - closing costs calculator toronto
 - closing costs calculator bc
-- closing costs calculator texas
 - closing costs calculator bc buyer
 - closing costs calculator bc seller
+- closing costs calculator texas
 - closing costs calculator florida
 - how much closing costs calculator
 - closing cost calculator free
 - alberta closing costs calculator free
-- wisconsin closing costs calculator free
-- florida closing costs calculator free
 - ohio seller closing costs calculator free
 - south carolina closing costs calculator free
 - free closing costs calculator for buyer
 - free closing costs calculator for seller
-- seller closing costs virginia calculator free
+- pennsylvania closing costs calculator with taxes
+- alabama closing costs calculator with taxes
+- mortgage calculator with closing costs and taxes
 
 ## car-affordability-calculator
 
@@ -1214,14 +1213,14 @@ Short-tail: car affordability calculator | how much car can i afford
 Long-tail (autocomplete):
 - car affordability calculator
 - car affordability calculator based on income
-- car affordability calculator canada
 - car affordability calculator india
+- car affordability calculator canada
 - car affordability calculator based on salary
 - car affordability calculator south africa
 - car affordability calculator income
+- car affordability calculator reddit
 - car affordability calculator money guy
 - car affordability calculator malaysia
-- car affordability calculator reddit
 - car loan calculator 2026
 - car loan calculator 2026 malaysia
 - car payment calculator 2026
@@ -1248,15 +1247,15 @@ Long-tail (autocomplete):
 - dividend calculator india
 - dividend calculator australia
 - dividend calculator 2026
+- dividend calculator 2026/27
 - dividend calculator 2026 27
 - dividend tax calculator 2026 27
 - lloyds dividend calculator 2026
 - dividend tax calculator 2026
 - schd dividend calculator 2026
 - mp2 dividend calculator 2026
-- lloyds dividend calculator 2026 gov
 - lloyds dividend calculator 2026 free
-- lloyds dividend calculator 2026 gov free
+- lloyds dividend calculator 2026 gov
 
 ## property-tax-calculator
 
@@ -1269,8 +1268,8 @@ Long-tail (autocomplete):
 - property tax calculator punjab pakistan
 - property tax calculator punjab
 - property tax calculator faisalabad
-- property tax calculator islamabad
 - property tax calculator pakistan
+- property tax calculator islamabad
 - property tax calculator kpk
 - property tax calculator 2026-27
 - property tax calculator 2026
@@ -1288,15 +1287,15 @@ Long-tail (autocomplete):
 Short-tail: capital gains tax calculator | capital gains calculator
 Long-tail (autocomplete):
 - capital gains tax calculator
-- capital gains tax calculator pakistan
 - capital gains tax calculator australia
 - capital gains tax calculator on sale of property
 - capital gains tax calculator uk
-- capital gains tax calculator on sale of primary residence
 - capital gains tax calculator on sale of rental property
+- capital gains tax calculator on sale of property in india
+- capital gains tax calculator on sale of primary residence
 - capital gains tax calculator shares
 - capital gains tax calculator qld
-- capital gains tax calculator on sale of property in india
+- capital gains tax calculator south africa
 - capital gains tax calculator 2026
 - capital gains tax calculator 2026/27
 - capital gains tax calculator 2026 california
@@ -1315,23 +1314,23 @@ Long-tail (autocomplete):
 - salary to hourly calculator
 - salary to hourly calculator bc
 - salary to hourly calculator uk
-- salary to hourly calculator ontario
 - salary to hourly calculator indeed
+- salary to hourly calculator ontario
 - salary to hourly calculator california
 - salary to hourly calculator alberta
 - salary to hourly calculator texas
 - salary to hourly calculator nc
-- salary to hourly calculator after taxes
+- salary to hourly calculator utah
 - salary to hourly calculator free
 - how do i calculate hourly rate from salary
 - how do you figure hourly rate from annual salary
 - how do i calculate annual salary to hourly rate
 - how much do i make hourly based on salary
 - salary to hourly calculator with taxes
+- salary to hourly calculator after taxes
 - salary to hourly calculator before taxes
 - hourly wage to salary calculator with taxes
 - hourly to salary calculator with taxes texas
-- hourly to salary calculator with taxes california
 
 ## amortization-schedule-calculator
 
@@ -1344,9 +1343,9 @@ Long-tail (autocomplete):
 - amortization calculator with extra payments
 - amortization calculator canada
 - amortization calculator with balloon payment
-- amortization calculator for loan
+- amortization calculator loan
 - amortization calculator car
-- amortization calculator india
+- amortization calculator excel
 - loan calculator 2026
 - amortization schedule 2026
 - what is a 5 year loan with 20 year amortization
@@ -1364,14 +1363,14 @@ Short-tail: roi calculator | return on investment calculator
 Long-tail (autocomplete):
 - roi calculator
 - roi calculator psx
-- roi calculator pkr
 - roi calculator sarmaaya
 - roi calculator formula
 - roi calculator ebay
-- roi calculator crypto
 - roi calculator excel
-- roi calculator online
-- roi calculator for loan
+- roi calculator pkr
+- roi calculator in loan
+- roi calculator india
+- roi calculator real estate
 - how much roi calculator
 - what is roi calculator
 - how do you calculate your roi
@@ -1389,9 +1388,9 @@ Short-tail: markup calculator | markup percentage calculator
 Long-tail (autocomplete):
 - markup calculator
 - markup calculator on loan
+- markup calculator online
 - markup calculator on loan in pakistan
 - markup calculator excel
-- markup calculator online
 - markup calculator app
 - markup calculator uk
 - markup calculator formula
@@ -1403,6 +1402,7 @@ Long-tail (autocomplete):
 - profit calculator free
 - what is the formula to calculate markup
 - markup calculator with tax
+- adding markup calculator
 - how do i calculate sales tax on a calculator
 
 ## margin-calculator
@@ -1412,13 +1412,13 @@ Long-tail (autocomplete):
 - margin calculator
 - margin calculator forex
 - margin calculator fundednext
-- margin calculator for gold
-- margin calculator formula
 - margin calculator gft
+- margin calculator formula
+- margin calculator for gold
+- margin calculator xauusd
+- margin calculator online
 - margin calculator trading
 - margin calculator zerodha
-- margin calculator uk
-- margin calculator omni
 - how much margin calculator
 - what is my margin calculator
 - margin calculator free
@@ -1436,13 +1436,13 @@ Short-tail: 529 calculator | college savings calculator
 Long-tail (autocomplete):
 - 529 calculator
 - 529 calculator growth
-- 529 calculator ny
+- 529 calculator nerdwallet
 - 529 calculator by age
+- 529 calculator ny
 - 529 calculator ohio
 - 529 calculator fidelity
 - 529 calculator pa
-- 529 calculator california
-- 529 calculator nj
+- 529 calculator virginia
 - 529 calculator ramsey
 - 529 calculator how much will i have
 - 529 calculator how much to save
@@ -1465,8 +1465,8 @@ Long-tail (autocomplete):
 - home equity calculator australia
 - home equity calculator rbc
 - home equity calculator uk
-- home equity calculator over time
 - home equity calculator loan
+- home equity calculator over time
 - home equity calculator how much can i borrow
 - home equity loan calculator how much can i borrow
 - home equity line of credit calculator how much can i borrow
@@ -1486,12 +1486,12 @@ Long-tail (autocomplete):
 - tax bracket calculator 2026
 - tax bracket calculator ontario
 - tax bracket calculator south africa
-- tax bracket calculator 2025
 - tax bracket calculator australia
-- tax bracket calculator canada
+- tax bracket calculator 2025
 - tax bracket calculator 2026 married jointly
-- tax bracket calculator nz
+- tax bracket calculator canada
 - tax bracket calculator california
+- tax bracket calculator philippines
 - tax bracket calculator 2026 single
 - tax rate calculator 2026
 - tax table calculator 2026
@@ -1511,12 +1511,12 @@ Long-tail (autocomplete):
 - investment calculator pakistan
 - investment calculator meezan
 - investment calculator pkr
-- investment calculator formula
 - investment calculator meezan bank
+- investment calculator formula
+- investment calculator with increasing contributions
+- investment calculator psx
 - investment calculator uk
 - investment calculator canada
-- investment calculator dave ramsey
-- investment calculator india
 - investment calculator 2026
 - epf investment calculator 2026
 - nedbank investment calculator 2026
@@ -1541,7 +1541,7 @@ Long-tail (autocomplete):
 - rule of 72t
 - rule of 72 explained
 - rule of 72 meaning
-- rule of 72 retirement
+- rule of 72 compound interest
 
 ## salary-raise-calculator
 
@@ -1549,8 +1549,8 @@ Short-tail: salary raise calculator | pay raise calculator
 Long-tail (autocomplete):
 - salary raise calculator
 - salary raise calculator over time
-- salary raise calculator uk
 - salary raise calculator over years
+- salary raise calculator uk
 - salary raise calculator percentage
 - salary raise calculator with taxes
 - salary raise calculator yearly
@@ -1580,8 +1580,8 @@ Long-tail (autocomplete):
 - 401k contribution calculator to max out 2026
 - 401k contribution calculator to max out with employer match
 - 401k contribution calculator 2026
-- 401k contribution calculator roth vs traditional
 - 401k contribution calculator with employer match
+- 401k contribution calculator roth vs traditional
 - solo 401k contribution calculator 2026
 - 401k max contribution calculator 2026
 - 401k contribution limits 2026 calculator
@@ -1599,29 +1599,39 @@ Short-tail: break even calculator | break even point calculator
 Long-tail (autocomplete):
 - break even calculator
 - break even calculator for social security
-- break even calculator mortgage
 - break even calculator for pension
+- break even calculator mortgage
 - break even calculator supercoach
 - break even calculator mortgage points
 - break even calculator trading
 - break even calculator online
+- break even calculator for ss
 - break even calculator home sale
-- break even calculator sbi
+- social security break even calculator 2026
+- how do you calculate the break even point
+- how is break even calculated
+- how much to break even calculator
 - break even analysis free template
 - break even roas calculator free
-- social security break even calculator free
 - break even analysis ppt free download
+- social security break even calculator free
 - break even analysis pdf free download
-- break even analysis ppt free download pdf
 - social security break even calculator free online
-- free break even calculator
-- social security break even calculator excel spreadsheet free
-- free social security break even calculator by age
 
 ## calorie-deficit-calculator
 
 Short-tail: calorie deficit calculator | how many calories to lose weight
 Long-tail (autocomplete):
+- calorie deficit calculator
+- calorie deficit calculator for weight loss
+- calorie deficit calculator nhs
+- calorie deficit calculator women
+- calorie deficit calculator uk
+- calorie deficit calculator tdee
+- calorie deficit calculator nz
+- calorie deficit calculator australia
+- calorie deficit calculator free app
+- calorie deficit calculator app
 - calorie deficit calculator 2026
 - how many calories deficit calculator
 - what is calorie deficit calculator
@@ -1631,31 +1641,22 @@ Long-tail (autocomplete):
 - how much weight loss calorie deficit calculator
 - what is my calorie deficit calculator
 - how many calories do i need to be in a deficit calculator
-- calorie deficit calculator free app
 - calorie deficit calculator free online
-- calorie deficit calculator free uk
-- calorie deficit calculator free no sign up
-- calorie deficit calculator free for weight loss
-- calorie deficit calculator free reddit
-- calorie deficit calculator free australia
-- calorie deficit calculator free no email
-- calorie deficit calculator free women
-- calorie deficit calculator free nz
 
 ## carpet-calculator
 
 Short-tail: carpet calculator | how much carpet do i need
 Long-tail (autocomplete):
 - carpet calculator
-- carpet calculator uk
 - carpet calculator cost
+- carpet calculator uk
 - carpet calculator square feet
 - carpet calculator for stairs
 - carpet calculator nz
 - carpet calculator in feet
 - carpet calculator lowes
-- carpet calculator home depot
 - carpet calculator in meters
+- carpet calculator app
 - how much carpet calculator
 - how much carpet do i need calculator
 - how is carpet calculated
@@ -1665,7 +1666,7 @@ Long-tail (autocomplete):
 - free carpet calculator in meters
 - free carpet calculator square feet
 - free carpet calculator in feet
-- free carpet calculator
+- free carpet calculator in feet uk
 
 ## commission-calculator
 
@@ -1676,11 +1677,11 @@ Long-tail (autocomplete):
 - commission calculator bc
 - commission calculator tax
 - commission calculator uk
-- commission calculator nz
-- commission calculator south africa
 - commission calculator india
 - commission calculator app
+- commission calculator online
 - commission calculator alberta
+- commission calculator south africa
 - daraz commission calculator 2026
 - 8th pay commission calculator 2026
 - pay commission 2026 calculator
@@ -1702,10 +1703,10 @@ Long-tail (autocomplete):
 - construction cost calculator zameen
 - construction cost calculator lahore
 - construction cost calculator islamabad
+- construction cost calculator faisalabad
 - construction cost calculator india
 - construction cost calculator bangalore
 - construction cost calculator osrs
-- construction cost calculator for home
 - construction cost calculator 2026
 - house construction cost calculator 2026
 - construction cost estimate philippines 2026
@@ -1725,8 +1726,8 @@ Long-tail (autocomplete):
 - date calculator online
 - date calculator age
 - date calculator between two dates
-- date calculator islamic
 - date calculator days
+- date calculator islamic
 - date calculator today
 - date calculator in months
 - date calculator pakistan
@@ -1734,12 +1735,12 @@ Long-tail (autocomplete):
 - date calculator 2026 tamil
 - date calculator 2026 august
 - date calculator 2026 july
-- date calculator 2026 june
 - date calculator 2026 calendar
 - date calculator 2026 april
 - date calculator 2026 pdf
 - date calculator 2026 may
 - date calculator 2026 march
+- date calculator 2026 june
 - date calculator how many days
 
 ## debt-snowball-calculator
@@ -1750,11 +1751,11 @@ Long-tail (autocomplete):
 - debt snowball calculator spreadsheet
 - debt snowball calculator free
 - debt snowball calculator excel
-- debt snowball calculator uk
 - debt snowball calculator app
 - debt snowball calculator google sheets
-- debt snowball calculator with amortization
 - debt snowball calculator excel free download
+- debt snowball calculator uk
+- debt snowball calculator with amortization
 - debt snowball calculator spreadsheet free
 - debt snowball calculator free excel
 - debt snowball calculator free download
@@ -1769,18 +1770,17 @@ Long-tail (autocomplete):
 Short-tail: drywall calculator | how much drywall do i need
 Long-tail (autocomplete):
 - drywall calculator
-- drywall calculator for walls
 - drywall calculator walls and ceiling
+- drywall calculator for walls
+- drywall calculator square feet
 - drywall calculator for ceiling
 - drywall calculator canada
-- drywall calculator app
+- drywall calculator home depot
 - drywall calculator for room
-- drywall calculator south africa
-- drywall calculator lowes
-- drywall calculator including ceiling
+- drywall calculator for whole house
+- drywall calculator app
 - how much drywall calculator
 - how to calculate how much drywall i need
-- drywall calculator cost
 - drywall calculator free
 - plasterboard calculator free
 - free drywall calculator ceiling
@@ -1800,7 +1800,7 @@ Long-tail (autocomplete):
 - escrow calculator california
 - escrow calculator chase
 - escrow analysis calculator
-- escrow fees calculator
+- escrow fee calculator
 - escrow payment calculator
 - free escrow calculator
 - how to calculate escrow payment
@@ -1814,13 +1814,13 @@ Short-tail: fence calculator | how much fence do i need
 Long-tail (autocomplete):
 - fence calculator
 - fence calculator lowes
+- fence calculator home depot
 - fence calculator canada
 - fence calculator uk
-- fence calculator home depot
 - fence calculator cost
 - fence calculator wood
+- fence calculator b&q
 - fence calculator app
-- fence calculator tool
 - fence calculator nz
 - how much fence calculator
 - how to calculate how much fence i need
@@ -1831,7 +1831,7 @@ Long-tail (autocomplete):
 - wooden fence calculator free
 - bunnings fence calculator free
 - menards fence calculator free app
-- tornado fencing calculator free
+- chain link fence calculator free
 
 ## fha-mortgage-calculator
 
@@ -1839,14 +1839,14 @@ Short-tail: fha loan calculator | fha mortgage calculator
 Long-tail (autocomplete):
 - fha loan calculator
 - fha loan calculator free
+- fha loan calculator with closing costs
 - fha loan calculator texas
 - fha loan calculator florida
 - fha loan calculator california
 - fha loan calculator ohio
-- fha loan calculator with pmi
-- fha loan calculator income
 - fha loan calculator pa
-- fha loan calculator zillow
+- fha loan calculator income
+- fha loan calculator with pmi
 - home loan calculator 2026
 - sbi home loan calculator 2026
 - lic home loan calculator 2026
@@ -1867,21 +1867,21 @@ Long-tail (autocomplete):
 - gravel calculator yards
 - gravel calculator uk
 - gravel calculator for driveway
+- gravel calculator square feet
+- gravel calculator m2
 - gravel calculator 57
 - gravel calculator app
-- gravel calculator m2
 - gravel calculator m3
-- gravel calculator australia
 - aggregate calculator 2026
 - 1/4 per foot calculator
 - how much gravel calculator
 - calculator for how much gravel i need
 - how to figure out how much gravel i need
-- aggregate calculator free
 - longwater gravel calculator free
 - gravel calculator uk free
 - gravel grid calculator free
 - wickes gravel calculator free
+- self binding gravel calculator free
 
 ## heart-rate-calculator
 
@@ -1891,10 +1891,10 @@ Long-tail (autocomplete):
 - heart rate calculator by age
 - heart rate calculator zones
 - heart rate calculator ecg
-- heart rate calculator for running
 - heart rate calculator tap
-- heart rate calculator for exercise
+- heart rate calculator for running
 - heart rate calculator to burn fat
+- heart rate calculator for exercise
 - heart rate calculator online
 - heart rate calculator zone 2
 - heart rate calculator free
@@ -1930,24 +1930,24 @@ Short-tail: how long will my money last calculator | retirement withdrawal calcu
 Long-tail (autocomplete):
 - how long will my money last calculator
 - how long will my money last calculator retirement
+- how long will my money last calculator mutual of omaha
 - how long will my money last calculator fidelity
+- how long will my money last calculator canada
 - how long will my money last calculator with taxes
 - how long will my money last calculator bankrate
-- how long will my money last calculator mutual of omaha
 - how long will my money last calculator nerdwallet
-- how long will my money last calculator uk
 - how long will my money last calculator retirement savings
-- how long will my money last calculator with inflation
+- how long will my money last calculator uk
 - how much will my money last calculator
 - how long will my cash last calculator
 - how long will my money last calculator free
 - how long will my money last in retirement calculator free
 - how long will my money last in retirement calculator free online
 - how long will my money last with social security calculator free
+- how long will my money last calculator with inflation
 - how long will my savings last calculator with taxes
 - how long will my retirement money last calculator with taxes
 - how long will retirement savings last calculator with taxes
-- how long will my money last in retirement calculator
 
 ## investment-property-calculator
 
@@ -1959,10 +1959,10 @@ Long-tail (autocomplete):
 - investment property calculator free
 - investment property calculator excel
 - investment property calculator spreadsheet
+- investment property calculator tax
 - investment property calculator canada
-- investment property calculator australia excel
-- investment property calculator repayments
 - investment property calculator qld
+- investment property calculator excel spreadsheet
 - how much tax for investment property calculator
 - can i afford an investment property calculator
 - how much can i borrow for investment property calculator
@@ -1983,8 +1983,8 @@ Long-tail (autocomplete):
 - lease vs buy calculator excel
 - lease vs buy calculator for business
 - lease vs buy calculator canada
-- lease vs buy calculator equipment
 - lease vs buy calculator reddit
+- lease vs buy calculator equipment
 - lease vs buy calculator uk
 - lease or buy calculator
 - rental vs buy calculator
@@ -1993,6 +1993,7 @@ Long-tail (autocomplete):
 
 Short-tail: life insurance calculator | how much life insurance do i need
 Long-tail (autocomplete):
+- life insurance calculator
 - life insurance calculator pakistan
 - life insurance calculator by age
 - life insurance calculator monthly payment
@@ -2002,7 +2003,6 @@ Long-tail (autocomplete):
 - life insurance calculator canada
 - life insurance calculator australia
 - life insurance calculator free
-- life insurance calculator nepal
 - postal life insurance calculator 2026
 - ogb life insurance rates 2026
 - life insurance calculation formula
@@ -2024,9 +2024,9 @@ Long-tail (autocomplete):
 - loan comparison calculator excel
 - loan comparison calculator with extra payments
 - loan comparison calculator bangladesh weblab
+- loan comparison calculator australia
 - loan comparison calculator car
 - loan comparison calculator uk
-- loan comparison calculator australia
 - loan comparison calculator calculate stuff
 
 ## mileage-reimbursement-calculator
@@ -2037,12 +2037,12 @@ Long-tail (autocomplete):
 - mileage reimbursement calculator 2026
 - mileage reimbursement calculator irs
 - mileage reimbursement calculator texas
-- mileage reimbursement calculator for work
 - mileage reimbursement calculator 2025
-- mileage reimbursement calculator california
-- mileage reimbursement calculator map
 - mileage reimbursement calculator canada
+- mileage reimbursement calculator map
+- mileage reimbursement calculator california
 - mileage reimbursement calculator excel
+- mileage reimbursement calculator for work
 - mileage rate calculator 2026
 - mileage reimbursement 2026 calculator california
 - irs mileage reimbursement calculator 2026
@@ -2059,13 +2059,13 @@ Long-tail (autocomplete):
 Short-tail: mortgage points calculator | should i buy mortgage points
 Long-tail (autocomplete):
 - mortgage points calculator
-- mortgage points calculator comparison
 - mortgage points calculator break-even
+- mortgage points calculator comparison
 - mortgage points calculator excel
 - mortgage points calculator nerdwallet
 - mortgage points calculator reddit
-- mortgage points calculator canada
 - mortgage points calculator uk
+- mortgage points calculator canada
 - loan points calculator
 - mortgage discount points calculator
 - free mortgage points calculator
@@ -2077,8 +2077,8 @@ Short-tail: moving cost calculator | how much will moving cost
 Long-tail (autocomplete):
 - moving cost calculator
 - moving cost calculator free
-- moving cost calculator rightmove
 - moving cost calculator uk
+- moving cost calculator rightmove
 - moving cost calculator no email
 - moving cost calculator canada
 - moving cost calculator scotland
@@ -2107,8 +2107,8 @@ Long-tail (autocomplete):
 - percentage change calculator skills you need
 - percentage change calculator soup
 - percentage change calculator excel formula
-- percentage change calculator questions
 - percentage change calculator omni
+- percentage change calculator corbettmaths
 - how much percentage change calculator
 - what percentage change calculator
 - percentage increase calculator free
@@ -2130,14 +2130,14 @@ Long-tail (autocomplete):
 - personal loan calculator bank al habib
 - personal loan calculator 2026
 - sbi personal loan calculator 2026
-- hbl personal loan calculator 2026
 - bob personal loan calculator 2026
+- hbl personal loan calculator 2026
 - hdfc personal loan calculator 2026
 - personal loan emi calculator 2026
 - icici personal loan calculator 2026
+- boc personal loan calculator 2026
 - canara bank personal loan calculator 2026
 - gcb personal loan chart 2026
-- gcb personal loan chart 2026 pdf download
 
 ## price-per-square-foot-calculator
 
@@ -2151,8 +2151,8 @@ Long-tail (autocomplete):
 - price per square foot calculator flooring
 - price per square foot calculator construction
 - price per square foot calculator lease
-- price per square foot calculator london
-- price per square foot calculator house
+- price per square feet calculator
+- price per square feet calculator malaysia
 - free concrete calculator price per square foot
 - price per square foot calculator
 - average price per square foot calculator
@@ -2166,11 +2166,11 @@ Long-tail (autocomplete):
 - retirement age calculator india
 - retirement age calculator uk
 - retirement age calculator government
+- retirement age calculator australia
+- retirement age calculator canada
 - retirement age calculator online
 - retirement age calculator formula
-- retirement age calculator canada
-- retirement age calculator australia
-- retirement age calculator for central government employees
+- retirement age calculator by date of joining
 - retirement age 2026 calculator
 - age pension calculator 2026
 - full retirement age 2026 calculator
@@ -2189,21 +2189,21 @@ Long-tail (autocomplete):
 - rmd calculator
 - rmd calculator 2026
 - rmd calculator table
-- rmd calculator schwab
 - rmd calculator by age
-- rmd calculator 2025
-- rmd calculator 2026 table
+- rmd calculator schwab
 - rmd calculator 2027
+- rmd calculator 2026 table
+- rmd calculator 2025
 - rmd calculator for inherited ira
 - rmd calculator aarp
 - rmd calculator 2026 table pdf
-- rmd calculator 2026 inherited ira
+- rmd calculator 2026 for inherited ira
 - rmd calculator 2026 aarp
 - rmd calculator 2026 fidelity
-- rmd calculator 2026 irs
 - rmd calculator 2026 schwab
+- rmd calculator 2026 irs
 - rmd calculator 2026 chart
-- rmd calculator 2026 vanguard
+- rmd calculator 2026 finra
 - how much rmd calculator
 - what is rmd calculator
 
@@ -2234,11 +2234,11 @@ Long-tail (autocomplete):
 - savings rate calculator
 - savings rate calculator uk
 - savings rate calculator fire
-- savings rate calculator monthly
 - savings rate calculator retirement
+- savings rate calculator monthly
 - savings rate calculator bankrate
-- savings rate calculator comparison
 - savings rate calculator money guy
+- savings rate calculator comparison
 - savings interest calculator
 - savings interest calculator uk
 - savings interest calculator with tax
@@ -2254,9 +2254,9 @@ Long-tail (autocomplete):
 - self employment tax calculator california
 - self employment tax calculator texas
 - self employment tax calculator with deductions
-- self employment tax calculator ontario
 - self employment tax calculator 1099
 - self employment tax calculator free
+- self employment tax calculator state and federal
 - self employed tax calculator 2026 27
 - self employment tax estimator 2026
 - estimated self employment tax calculator 2026
@@ -2274,14 +2274,14 @@ Short-tail: social security calculator | social security benefits calculator
 Long-tail (autocomplete):
 - social security calculator
 - social security calculator 2026
+- social security calculator by age
 - social security calculator for retirement
 - social security calculator estimate
-- social security calculator by age
 - social security calculator for early retirement
 - social security calculator break even
-- social security calculator belize
+- social security calculator 62 vs 67
 - social security calculator for spousal benefits
-- social security calculator for married couples
+- social security calculator belize
 - social security calculator 2026 aarp
 - social security calculator 2026 retirement
 - social security tax calculator 2026
@@ -2299,14 +2299,14 @@ Short-tail: sod calculator | how much sod do i need
 Long-tail (autocomplete):
 - sod calculator
 - sod calculator map
-- sod calculator cost
 - sod calculator square feet
+- sod calculator cost
 - sod calculator lowe's
 - sod calculator winnipeg
-- sod calculator home depot
 - sod calculator by address
 - sod calculator app
-- sod calculator wow
+- sod calculator home depot
+- sod calculator canada
 - how much sod calculator
 - how to figure sod amount
 - how to figure out how much sod i need
@@ -2314,7 +2314,6 @@ Long-tail (autocomplete):
 - how do you determine how much sod you need
 - free sod calculator square feet
 - free sod calculator
-- free sod calculator home depot
 - how much sod can 1 person lay in a day
 
 ## stock-profit-calculator
@@ -2325,20 +2324,20 @@ Long-tail (autocomplete):
 - stock profit calculator india
 - stock profit calculator uk
 - stock profit calculator app
+- stock profit calculator percentage
 - stock profit calculator zerodha
 - stock profit calculator — fidelity bank
 - stock profit calculator intraday
-- stock profit calculator by date
-- stock profit calculator percentage
 - stock profit calculator with leverage
+- stock profit calculator canada
 - how much profit stock calculator
 - how to calculate stock profit calculator
-- how do you calculate the profit of a stock
 - stock profit calculator free
 - stock margin calculator free
 - how to calculate stock profit
 - stock profit calculator with tax
 - stock profit calculator after tax
+- how much are taxes on stock profits
 
 ## take-home-pay-calculator
 
@@ -2346,11 +2345,11 @@ Short-tail: take home pay calculator | salary take home calculator
 Long-tail (autocomplete):
 - take home pay calculator
 - take home pay calculator uk
-- take home pay calculator usa
+- take home pay calculator excel
 - take home pay calculator scotland
 - take home pay calculator australia
-- take home pay calculator ontario
 - take home pay calculator ireland
+- take home pay calculator ontario
 - take home pay calculator california
 - take home pay calculator texas
 - take home pay calculator nz
@@ -2359,34 +2358,34 @@ Long-tail (autocomplete):
 - take home pay calculator 2026/27
 - take home pay calculator 2026 ontario
 - take home pay calculator 2026 27 gov uk
+- take home pay calculator 2026 usa
 - take home salary calculator 2026
 - nhs take home pay calculator 2026
 - nhs take home pay calculator 2026 27
 - take home pay calculator scotland 2026
-- take home pay calculator ireland 2026
 
 ## tax-refund-calculator
 
 Short-tail: tax refund calculator | income tax refund calculator
 Long-tail (autocomplete):
-- tax refund calculator 2025 to 2026
 - tax refund calculator
 - tax refund calculator 2026
 - tax refund calculator australia
-- tax refund calculator nz
-- tax refund calculator australia 2026
-- tax refund calculator 2026 with dependents
 - tax refund calculator 2027
+- tax refund calculator 2026 with dependents
+- tax refund calculator australia 2026
 - tax refund calculator 2025
 - tax refund calculator ontario
+- tax refund calculator hmrc
+- tax refund calculator ato
 - tax refund calculator 2026 irs
 - tax refund calculator 2026 australia
 - tax refund calculator 2026-27
 - tax refund calculator 2026 with dependents free
 - tax refund calculator 2026 south africa
-- tax refund calculator 2026 nsw
 - tax refund calculator 2026 uk
-- tax refund calculator 2026 california
+- tax refund calculator 2026 nsw
+- tax refund calculator 2026 with overtime
 - tax refund taiwan how much calculator
 - how much tax refund calculator
 
@@ -2396,14 +2395,14 @@ Short-tail: tile calculator | how much tile do i need
 Long-tail (autocomplete):
 - tile calculator
 - tile calculator square feet
-- tile calculator in square meters
 - tile calculator in meters
+- tile calculator in square meters
 - tile calculator formula
 - tile calculator for bathroom
 - tile calculator square feet in pakistan
 - tile calculator floor
 - tile calculator m2
-- tile calculator shower
+- tile calculator uk
 - how much tile calculator
 - how many tiles per m2 calculator
 - how many square feet tile calculator
@@ -2420,8 +2419,8 @@ Long-tail (autocomplete):
 Short-tail: time duration calculator | hours calculator
 Long-tail (autocomplete):
 - time duration calculator
-- time duration calculator hours
 - time duration calculator online
+- time duration calculator hours
 - time duration calculator between two dates
 - time duration calculator with breaks
 - time duration calculator add
@@ -2441,23 +2440,23 @@ Long-tail (autocomplete):
 
 Short-tail: topsoil calculator | how much topsoil do i need
 Long-tail (autocomplete):
-- topsoil calculator
 - topsoil calculator uk
+- topsoil calculator square feet
+- topsoil calculator for grass
+- topsoil calculator yards
 - topsoil calculator m2
 - topsoil calculator in litres
-- topsoil calculator for grass
 - topsoil calculator tons
 - topsoil calculator for turf
-- topsoil calculator yards
-- topsoil calculator square feet
+- topsoil calculator for raised beds
 - topsoil calculator for lawn
 - mulch calculator how much mulch do i need
 - how much topsoil calculator
-- calculator for how much topsoil i need
 - how much topsoil do i need calculator
 - how to figure how much top soil i need
 - how to calculate how much topsoil i will need
 - topsoil calculator uk free
+- topsoil calculator in litres free
 - can you get free topsoil
 - how to get free soil
 - calculate topsoil required
@@ -2470,20 +2469,20 @@ Long-tail (autocomplete):
 - va loan calculator free
 - va loan calculator mortgage
 - va loan calculator zillow
-- va loan calculator texas
-- va loan calculator google
 - va loan calculator navy federal
+- va loan calculator google
 - va loan calculator usaa
 - va loan calculator how much can i afford
 - va loan calculator monthly payment
+- va loan calculator reddit
 - va loan calculator 2026
 - va loan rates 2026
 - va payment calculator 2026
 - home loan calculator 2026
 - va mortgage calculator 2026
 - va loan rates 2026 predictions
-- home loan rates 2026
 - va payment rates 2026
+- home loan rates 2026
 - va mortgage rates 2026
 - va mortgage rates 2026 predictions
 
@@ -2496,18 +2495,18 @@ Long-tail (autocomplete):
 - wallpaper calculator with repeat
 - wallpaper calculator in inches
 - wallpaper calculator tool
-- wallpaper calculator with pattern repeat
 - wallpaper calculator square feet
+- wallpaper calculator with pattern repeat
 - wallpaper calculator cm
 - wallpaper calculator free
-- wallpaper calculator for one wall
+- wallpaper calculator nz
 - wallpaper calculator how many rolls
 - how much wallpaper calculator
 - calculator for how much wallpaper i need
 - calculate wallpaper amount
 - how much wallpaper do i need calculator
 - desktop calculator free download
+- desktop calculator free
 - best wallpaper calculator free
 - thibaut wallpaper calculator free
-- sanderson wallpaper calculator free
 - wallpaper calculator uk free
