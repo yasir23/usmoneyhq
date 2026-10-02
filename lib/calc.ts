@@ -1013,7 +1013,12 @@ export function debtSnowball(debts: { name: string; balance: number; apr: number
   return { months: month, years, remMonths: month % 12, totalInterest: Math.round(totalInterest * 100) / 100 };
 }
 
-/** Social Security rough monthly benefit (PIA approximation) — clearly labeled estimate. */
+/** Social Security rough monthly benefit (PIA approximation) — clearly labeled estimate.
+ *  Claiming-age adjustment is the statutory rule (assumes full retirement age 67): a permanent
+ *  reduction of 5/9 of 1% per month for the first 36 months before FRA, then 5/12 of 1% per
+ *  month — so age 62 pays 70% of PIA and age 65 about 86.7%. Delayed credits add 8% per year
+ *  from FRA to 70, capping at 124%. breakEvenAge is the simple cumulative cross-over versus
+ *  claiming at FRA (no discounting; null when claiming at FRA). */
 export function socialSecurityEstimate(ageNow: number, retireAge: number, annualIncome: number) {
   const aime = annualIncome / 12;
   // 2026 bend points
@@ -1021,8 +1026,19 @@ export function socialSecurityEstimate(ageNow: number, retireAge: number, annual
   const bend2 = Math.max(0, Math.min(aime, 7078) - 1174) * 0.32;
   const bend3 = Math.max(0, aime - 7078) * 0.15;
   const pia = bend1 + bend2 + bend3;
-  const factor = retireAge < 67 ? 1 - (67 - retireAge) * 5 / 900 : retireAge > 70 ? 1.32 : retireAge > 67 ? 1 + (retireAge - 67) * 8 / 100 : 1;
-  return { monthly: Math.round(pia * factor), annual: Math.round(pia * factor * 12), pia: Math.round(pia) };
+  const fra = 67;
+  let factor: number;
+  if (retireAge < fra) {
+    const monthsEarly = Math.max(0, (fra - retireAge) * 12);
+    const reductionPct = Math.min(36, monthsEarly) * (5 / 9) + Math.max(0, monthsEarly - 36) * (5 / 12);
+    factor = 1 - reductionPct / 100;
+  } else if (retireAge >= 70) {
+    factor = 1.24;
+  } else {
+    factor = 1 + (retireAge - fra) * 0.08;
+  }
+  const breakEvenAge = retireAge === fra ? null : Math.round(((factor * retireAge - fra) / (factor - 1)) * 10) / 10;
+  return { monthly: Math.round(pia * factor), annual: Math.round(pia * factor * 12), pia: Math.round(pia), factor: Math.round(factor * 1000) / 1000, breakEvenAge };
 }
 
 /** Car lease vs buy over lease term. */

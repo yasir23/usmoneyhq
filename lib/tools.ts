@@ -2303,9 +2303,9 @@ export const TOOLS: ToolDef[] = [
   },
   {
     slug: "social-security-calculator",
-    title: "Social Security Calculator 2026 — Benefit Estimate | US Money HQ",
+    title: "Social Security Calculator 2026 — Benefit & Break-Even Age | US Money HQ",
     shortTitle: "Social Security Calculator",
-    description: "Free Social Security calculator: estimate your monthly retirement benefit based on income and claiming age.",
+    description: "Free Social Security calculator: estimate your monthly retirement benefit by claiming age, and see the break-even age between claiming at 62, 67, or 70.",
     h1: "Social Security Calculator",
     sub: "Your estimated monthly benefit — clearly an estimate.",
     fields: [
@@ -2314,12 +2314,22 @@ export const TOOLS: ToolDef[] = [
       { key: "retireAge", label: "Claiming age", type: "select", default: 67, options: [{ value: 62, label: "62 (early)" }, { value: 65, label: "65" }, { value: 67, label: "67 (full retirement)" }, { value: 70, label: "70 (delayed)" }] },
     ],
     compute: (v) => {
-      const r = socialSecurityEstimate(Number(v.age) || 45, Number(v.retireAge) || 67, Number(v.income) || 0);
-      return [moneyRow("Est. monthly benefit", r.monthly, true), moneyRow("Est. annual benefit", r.annual), moneyRow("PIA (full retirement age)", r.pia)];
+      const retireAge = Number(v.retireAge) || 67;
+      const income = Number(v.income) || 0;
+      const r = socialSecurityEstimate(Number(v.age) || 45, retireAge, income);
+      const rows: ResultRow[] = [moneyRow("Est. monthly benefit", r.monthly, true), moneyRow("Est. annual benefit", r.annual), moneyRow("PIA (full retirement age)", r.pia)];
+      if (r.breakEvenAge !== null) {
+        rows.push({ label: "Break-even vs claiming at 67", value: "~" + r.breakEvenAge });
+      } else {
+        rows.push({ label: "Break-even: claim 62 vs 67", value: "~" + socialSecurityEstimate(45, 62, income).breakEvenAge });
+      }
+      return rows;
     },
-    note: "Rough estimate using 2026 bend points and today's income. Actual benefits use your 35 highest-earning years — check ssa.gov for your real statement.",
+    note: "Rough estimate using 2026 bend points and today's income, assuming a full retirement age of 67. The break-even age is a simple cumulative cross-over — it ignores discounting, and cost-of-living raises apply to both claims. Actual benefits use your 35 highest-earning years — check ssa.gov for your real statement.",
     faq: [
       { q: "When should I claim Social Security?", a: "Full retirement age is 67 for anyone born after 1960. Claiming at 62 cuts benefits ~30% permanently; waiting to 70 adds ~8% per year. The right choice depends on your health, savings, and lifespan expectations." },
+      { q: "Should I claim at 62 or 67?", a: "Claiming at 62 pays 70% of your full retirement age benefit; claiming at 67 pays 100% (age 65 pays about 86.7%). The cut is permanent and applies to future cost-of-living raises too, because they are added to the smaller base. Claiming at 67 wins on total dollars if you live past roughly age 78-79; claiming at 62 wins if you do not, or if you need the cash flow sooner." },
+      { q: "What is the break-even age for Social Security?", a: "It is the age at which the total dollars from claiming early catch up to — then fall behind — the total from waiting. On a simple cumulative basis (no discounting; inflation lifts both claims similarly) claiming at 62 breaks even against 67 at about age 78-79, claiming at 65 breaks even at about 80, and delaying to 70 breaks even against claiming at 67 at about 82-83. Live beyond that age and waiting wins on total dollars; live shorter and the early claim collected more. This calculator returns your own break-even age with the results." },
       { q: "Is my benefit taxed?", a: "Up to 85% of Social Security benefits can be taxed if your combined income exceeds $25k (single) or $32k (married). About 40% of beneficiaries owe tax on some portion." },
     ],
     related: ["retirement-calculator", "401k-calculator", "investment-calculator"],

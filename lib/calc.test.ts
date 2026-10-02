@@ -714,6 +714,16 @@ console.log("ALL KEYWORD-IMPL TESTS PASS");
   assert.ok(r.monthly > 2500 && r.monthly < 2800, "$75k income PIA ~$2,681");
   const early = socialSecurityEstimate(45, 62, 75000);
   assert.ok(early.monthly < r.monthly, "claiming early reduces benefit");
+  // Statutory claiming-age factors: 5/9% per month for the first 36 months early, 5/12% beyond.
+  assert.strictEqual(early.factor, 0.7, "claiming at 62 pays 70% of the FRA benefit");
+  assert.strictEqual(socialSecurityEstimate(45, 65, 75000).factor, 0.867, "claiming at 65 pays ~86.7%");
+  assert.strictEqual(r.factor, 1, "claiming at FRA pays 100%");
+  assert.strictEqual(socialSecurityEstimate(45, 70, 75000).factor, 1.24, "delayed credits cap at +24% at 70");
+  // Simple cumulative break-even vs claiming at 67.
+  assert.strictEqual(early.breakEvenAge, 78.7, "62-vs-67 break-even ~78.7");
+  assert.strictEqual(socialSecurityEstimate(45, 65, 75000).breakEvenAge, 80, "65-vs-67 break-even = 80");
+  assert.strictEqual(socialSecurityEstimate(45, 70, 75000).breakEvenAge, 82.5, "70-vs-67 break-even = 82.5");
+  assert.strictEqual(r.breakEvenAge, null, "no break-even when claiming at FRA");
 }
 {
   const r = debtSnowball([{ name: "A", balance: 1500, apr: 22, min: 60 }, { name: "B", balance: 5000, apr: 18, min: 150 }, { name: "C", balance: 12000, apr: 7, min: 250 }], 700, "snowball");
