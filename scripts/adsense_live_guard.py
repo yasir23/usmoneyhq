@@ -24,14 +24,25 @@ hardcodes the value it is guarding drifts with it, and the previous version of t
 check did exactly that.
 
 OUTPUT CONTRACT (cron watchdog)
-  clean  -> no stdout, exit 0            (nothing to report, stay quiet)
-  drift  -> explanation on stdout, exit 0 (delivered verbatim as the alert)
-  broken -> exit non-zero                 (guard itself failed; page someone)
+  clean  -> no stdout, exit 0             (nothing to report, stay quiet)
+  drift  -> explanation on stdout, exit 1 (message delivered, and the run is
+                                           marked failed so it is visible in
+                                           `cronjob list` even when no messaging
+                                           channel is connected)
+
+Exit 1 on drift is deliberate. The first version exited 0 with a message, which
+relies entirely on a delivery channel existing -- and on this machine none is
+connected, so a real drift would have been written to a log nobody reads. A
+non-zero exit marks the run itself as failed, which is visible regardless of
+delivery, and is the only signal that survives when push notification is down.
 
 Run:      python3 scripts/adsense_live_guard.py
 Self-test: python3 scripts/adsense_live_guard.py --selftest
+
+Domains can be overridden for testing with ADSENSE_GUARD_DOMAINS (comma-separated).
 """
 
+import os
 import re
 import sys
 import urllib.error
@@ -41,7 +52,15 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 ADS_TS = ROOT / "lib" / "ads.ts"
 
-DOMAINS = ["usmoneyhq.com", "www.usmoneyhq.com"]
+# Overridable so the drift path can be exercised against a host that is genuinely
+# broken, instead of asserting that a detector detects by reading its own code.
+DOMAINS = [
+    d.strip()
+    for d in os.environ.get(
+        "ADSENSE_GUARD_DOMAINS", "usmoneyhq.com,www.usmoneyhq.com"
+    ).split(",")
+    if d.strip()
+]
 GOOGLE_CERT = "f08c47fec0942fa0"
 
 UA_ADS = "AdsBot-Google (+http://www.google.com/adsbot.html)"
@@ -250,7 +269,8 @@ def main() -> int:
         "DNS change. Nothing to change in the AdSense dashboard.\n"
         "Diagnose with: python3 scripts/adsense_crawler_check.py"
     )
-    return 0
+    # Non-zero so the run is marked failed and is visible even with no delivery channel.
+    return 1
 
 
 if __name__ == "__main__":
