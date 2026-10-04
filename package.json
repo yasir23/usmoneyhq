@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "verify:adsense": "node scripts/adsense_verify.mjs",
+    "build": "node scripts/adsense_verify.mjs && next build",
     "start": "next start",
     "test": "node lib/calc.test.ts"
   },

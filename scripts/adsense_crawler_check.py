@@ -10,8 +10,19 @@ If either is blocked by robots.txt or answered differently by the server, ads.tx
 reads as "Not found" even though the file is present and byte-perfect. That is the
 one remaining explanation for a correct file showing as missing.
 """
+import re
+import sys
 import urllib.error
 import urllib.request
+from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from adsense_live_guard import expected_line  # noqa: E402
+
+# Derived, never typed in. This line used to hardcode the publisher id, which is
+# the same drift class the guard exists to catch: a check that stores its own copy
+# of the value it checks stops detecting the day that value legitimately changes.
+_, EXPECTED = expected_line()
 
 UA = {
     "AdsBot-Google": "AdsBot-Google (+http://www.google.com/adsbot.html)",
@@ -56,7 +67,6 @@ st, ct, robots = get("https://usmoneyhq.com/robots.txt", "default")
 blocked = []
 for agent in ("AdsBot-Google", "Mediapartners-Google", "Googlebot"):
     # find a UA block for this agent and look for a Disallow: / inside it
-    import re
     m = re.search(rf"User-agent:\s*{re.escape(agent)}\s*\n((?:\s*[A-Za-z-]+:.*\n)*)", robots, re.I)
     if m and re.search(r"Disallow:\s*/\s*$", m.group(1), re.M):
         blocked.append(agent)
