@@ -11,6 +11,27 @@ import { getMetro, metrosForState, type Metro } from "../lib/metros";
 import { VARIANT_PAGES_INDEXED } from "../lib/indexing";
 import { TOOL_CONTENT } from "../lib/toolContent";
 import { federalTax, fica, stateTax, monthlyPayment } from "../lib/calc";
+import { contentDate } from "../lib/content-dates";
+
+/**
+ * The review date shown on every calculator page.
+ *
+ * Derived from lib/content-dates.ts rather than typed into copy, for the same reason
+ * the sitemap's lastmod is: a date written by hand in a template goes stale silently
+ * and then asserts something false. It is the authoritative date for the whole
+ * `tools` group, so it changes when the formulas or FAQ copy change.
+ *
+ * Formatted with UTC getters and a literal month table, NOT toLocaleDateString. This
+ * runs both at build time in Node and again in the browser on hydration, and a locale
+ * or timezone difference between the two produces a hydration mismatch — the kind of
+ * bug that only shows up in production.
+ */
+const REVIEWED_ON = (() => {
+  const d = contentDate("tools");
+  const months = ["January", "February", "March", "April", "May", "June",
+    "July", "August", "September", "October", "November", "December"];
+  return `${d.getUTCDate()} ${months[d.getUTCMonth()]} ${d.getUTCFullYear()}`;
+})();
 
 /**
  * ToolPageShell — shared page shell for every calculator (pages router).
@@ -576,7 +597,21 @@ export default function ToolPageShell({ slug, stateSlug, amountSlug, metroSlug, 
 
         <AdSlot id="bottom" />
 
+        <NextStep slug={slug} stateSlug={state?.slug} />
+
         <RelatedTools current={slug} stateSlug={state?.slug} />
+
+        {/* A page-level review date and a route to correct it. The audit's E-E-A-T
+            recommendation also asked for a NAMED reviewer; that is deliberately not
+            done here. This site has no finance professional on staff, and inventing a
+            credentialed byline is fabricating the exact signal the recommendation is
+            trying to earn. A real date and a real correction path are honest; a fake
+            name is not. */}
+        <p className="note last-reviewed">
+          Last reviewed {REVIEWED_ON} against its sources. Formulas, sources and known
+          exclusions are on the <Link href="/methodology">methodology page</Link> — if
+          something here is wrong, <Link href="/contact">tell us</Link>.
+        </p>
 
         {isUS && <AffiliateBlock slug={slug} isUS />}
 
@@ -751,5 +786,164 @@ function NotFoundShell() {
         <p><Link href="/">Browse all calculators</Link></p>
       </main>
     </>
+  );
+}
+
+/**
+ * NEXT STEP — one curated continuation, deliberately not another related-links grid.
+ *
+ * A growth audit found tool pages ending in a wall of similar calculators rather than
+ * answering "what do I do with this number". Related tools answer "what else is
+ * here"; a next step answers "what does this result imply", which is a different
+ * question and the one that produces a second page view with intent behind it.
+ *
+ * The chains run in the direction a real decision runs — salary to payslip, payslip
+ * to what happens if it stops, loan to what it does to your borrowing capacity —
+ * rather than grouping tools by topic.
+ *
+ * GUARDED ON PURPOSE. A target that does not resolve in the registry renders
+ * NOTHING. Six nonexistent slugs once shipped in the affiliate offers because
+ * nothing checked a hand-typed slug against the registry, and a link to a 404 from
+ * a calculator page is worse than no link: it sends the visitor away from the
+ * answer they just got.
+ */
+const NEXT_STEPS: Record<string, { to: string; label: string; why: string }> = {
+  "salary-after-tax-calculator": {
+    to: "paycheck-calculator",
+    label: "See it per payslip",
+    why: "An annual figure and a take-home payslip are not the same number — withholding, pay frequency and pre-tax deductions each move it.",
+  },
+  "paycheck-calculator": {
+    to: "emergency-fund-calculator",
+    label: "Then ask what happens if it stops",
+    why: "An emergency fund is measured in months of the take-home figure you just calculated, not in months of salary.",
+  },
+  "mortgage-calculator": {
+    to: "home-affordability-calculator",
+    label: "Start from what you can afford",
+    why: "Working forwards from a house price tells you the payment. Working backwards from your income tells you which prices were ever realistic.",
+  },
+  "home-affordability-calculator": {
+    to: "mortgage-calculator",
+    label: "Turn the budget into a payment",
+    why: "Your affordable price becomes useful once you see the monthly payment, the interest total, and how much of the early years is interest.",
+  },
+  "dti-calculator": {
+    to: "home-affordability-calculator",
+    label: "Check what the ratio allows",
+    why: "Lenders cap debt-to-income rather than price, so the ratio is what actually sets your ceiling.",
+  },
+  "auto-loan-calculator": {
+    to: "dti-calculator",
+    label: "See what it does to your borrowing capacity",
+    why: "A car payment is not just a car payment — it consumes debt-to-income headroom a mortgage would need.",
+  },
+  "personal-loan-calculator": {
+    to: "dti-calculator",
+    label: "Check the effect on your ratios",
+    why: "An unsecured loan is counted against you at the same time as a mortgage application.",
+  },
+  "student-loan-calculator": {
+    to: "debt-payoff-calculator",
+    label: "Plan the payoff",
+    why: "Minimums are a schedule, not a plan. The payoff view shows what an extra payment actually removes.",
+  },
+  "debt-payoff-calculator": {
+    to: "debt-snowball-calculator",
+    label: "Decide which debt first",
+    why: "When several balances compete for the same spare cash, the ordering changes the finish date.",
+  },
+  "debt-snowball-calculator": {
+    to: "credit-card-payoff-calculator",
+    label: "Zero in on the highest rate",
+    why: "The smallest balance and the highest rate rarely point at the same debt, and the interest bill depends on which you pick.",
+  },
+  "credit-card-payoff-calculator": {
+    to: "debt-payoff-calculator",
+    label: "Fold it into the whole picture",
+    why: "Clearing one card is easier once you see its share of everything you owe.",
+  },
+  "tax-calculator": {
+    to: "self-employment-tax-calculator",
+    label: "If you work for yourself",
+    why: "Self-employment tax is the employee and employer halves together, which is why it surprises people who came from a salary.",
+  },
+  "self-employment-tax-calculator": {
+    to: "salary-after-tax-calculator",
+    label: "Compare it to a salary",
+    why: "The honest comparison is against what an equivalent salary would have left you, not against the gross contract figure.",
+  },
+  "capital-gains-calculator": {
+    to: "tax-calculator",
+    label: "Add it to your taxable income",
+    why: "Capital gains are stacked on top of ordinary income, so the rate depends on your brackets rather than the gain alone.",
+  },
+  "401k-calculator": {
+    to: "401k-contribution-calculator",
+    label: "Pick the contribution rate",
+    why: "The employer match is the highest-return money available, and it is capped by the rate you elect, not by what you can afford.",
+  },
+  "401k-contribution-calculator": {
+    to: "retirement-calculator",
+    label: "Project it to retirement",
+    why: "A contribution rate is only meaningful once it is projected forward at a stated return.",
+  },
+  "retirement-calculator": {
+    to: "rmd-calculator",
+    label: "Then the withdrawal rules",
+    why: "Accumulating is the first half. Required minimum distributions are the part that is not optional.",
+  },
+  "rmd-calculator": {
+    to: "social-security-calculator",
+    label: "And the other income stream",
+    why: "Required distributions and Social Security interact — the timing of one affects the taxation of the other.",
+  },
+  "social-security-calculator": {
+    to: "retirement-calculator",
+    label: "Put it together",
+    why: "The benefit is one leg. Whether it covers your spending is a question about your whole balance and withdrawal rate.",
+  },
+  "compound-interest-calculator": {
+    to: "savings-goal-calculator",
+    label: "Point it at a target",
+    why: "Compounding is abstract until it is solving for a specific amount by a specific date.",
+  },
+  "savings-goal-calculator": {
+    to: "cd-calculator",
+    label: "Where the money sits",
+    why: "A goal with a fixed date suits a fixed rate far better than a variable one.",
+  },
+  "cd-calculator": {
+    to: "compound-interest-calculator",
+    label: "See what compounding adds",
+    why: "The CD quote is the rate. What it produces over the term is the compounding.",
+  },
+  "emergency-fund-calculator": {
+    to: "savings-goal-calculator",
+    label: "Turn it into a savings plan",
+    why: "A target number without a monthly figure is a wish; the goal view gives you the contribution.",
+  },
+  "closing-costs-calculator": {
+    to: "mortgage-calculator",
+    label: "Add the loan it belongs to",
+    why: "Closing costs are cash at signing, separate from the payment — both have to fit in the same budget.",
+  },
+};
+
+function NextStep({ slug, stateSlug }: { slug: string; stateSlug?: string }) {
+  const step = NEXT_STEPS[slug];
+  if (!step) return null;
+  const target = getTool(step.to);
+  if (!target) return null; // never send a visitor to a slug the registry lacks
+  const toState = Boolean(stateSlug) && STATE_AWARE_TOOLS.includes(step.to);
+  const href = toState ? `/${step.to}/${stateSlug}` : `/${step.to}`;
+  return (
+    <aside className="next-step" aria-label="Next step">
+      <h2>Next step</h2>
+      <Link href={href}>
+        {step.label}: {target.shortTitle} &rarr;
+      </Link>
+      <p className="note">{step.why}</p>
+    </aside>
   );
 }
