@@ -703,4 +703,572 @@ export const TOOL_CONTENT: Record<string, ToolContent> = {
       },
     ],
   },
+
+  "percentage-calculator": {
+    intro:
+      "A percentage question is really three different questions, and mixing them up is the most common arithmetic error there is. Finding a share of a number, finding what share one number is of another, and applying a change all use the same symbol, and none of them use the same operation.",
+    mechanics: [
+      {
+        title: "Three questions, three operations",
+        body: "Finding 18% of 250 multiplies: 250 x 0.18. Finding what percent 45 is of 250 divides: 45 / 250. Raising 250 by 18% multiplies by 1.18, which is the original plus the increase; lowering it multiplies by 0.82, which is the original less the increase. The sign is notation, not an instruction — the operation comes from the sentence around it.",
+      },
+      {
+        title: "A percentage without a base means nothing",
+        body: "In 18% of 250 the base is 250. Every percentage is meaningless until the base is named: 10% of 250 is 25, while 10% of 2,500 is 250, a tenfold difference from the same percentage. Reporting that drops the base, such as prices rose 10%, is only interpretable because the base is understood to be the previous price.",
+      },
+      {
+        title: "Percentage points are not percent",
+        body: "A move from 4% to 6% is a rise of two percentage points, but it is a 50% increase, because 2 / 4 = 0.5. The same event described the two ways differs by a factor of twenty-five in the number quoted. Financial reporting keeps them separate for exactly this reason, and conflating them is a common way a small change is made to sound large.",
+      },
+    ],
+    example: {
+      title: "Worked example: one base, 250",
+      setup:
+        "Base 250. All three questions are asked of the same number so the operations can be compared directly rather than across different examples.",
+      rows: [
+        { label: "18% of 250", value: "$45.00", note: "250 x 0.18" },
+        { label: "45 as a share of 250", value: "18.0%", note: "45 / 250 = 0.18" },
+        { label: "250 raised by 18%", value: "$295.00", note: "250 x 1.18, or 250 + 45" },
+        { label: "250 lowered by 18%", value: "$205.00", note: "250 x 0.82, or 250 - 45" },
+        { label: "295 lowered by 18% (the round trip)", value: "$241.90", note: "295 x 0.82" },
+      ],
+      conclusion:
+        "Raising by 18% and then lowering by 18% does not return you to 250: it lands on 241.90, a net fall of 8.10 or 3.24%. The second move is computed on 295, not on the original 250, so the two percentages act on different bases. The same asymmetry means a 25% loss needs a 33.33% gain to recover, because from 75 the missing 25 is 25 / 75 of what remains.",
+    },
+    mistakes: [
+      {
+        title: "Applying the percentage to the wrong base",
+        body: "To raise a number by 18% you multiply the number by 1.18. Adding 18% of the increase, or applying 18% to a figure that has already been changed, compounds an error that grows with the size of the move. The base is the value before the change, always.",
+      },
+      {
+        title: "Subtracting after adding instead of multiplying once",
+        body: "To lower 250 by 18% the single operation is 250 x 0.82 = 205.00. Computing 250 - 45 gives the same answer here, which is why the shortcut feels safe, but it breaks the moment the change is applied more than once or the base itself moves.",
+      },
+      {
+        title: "Reading a percentage-point move as a percentage change",
+        body: "An interest rate going from 4% to 6% is not a 2% increase. It is a rise of two percentage points and an increase of 50%. The two readings differ by a factor of twenty-five, and the gap widens as the base shrinks, so it is largest precisely where it matters most.",
+      },
+    ],
+  },
+
+  "percentage-change-calculator": {
+    intro:
+      "A percentage change compares two values against the value you started from, not the value you ended at. That single choice is why a fall and a rise of the same size do not cancel out, and why a 50% drop needs a 100% gain to undo.",
+    mechanics: [
+      {
+        title: "The denominator is the starting value",
+        body: "From 80 to 92 the change is (92 - 80) / 80 = 12 / 80 = 15.0%. From 120 to 90 it is (90 - 120) / 120 = -30 / 120 = -25.0%. Dividing by the finishing value instead is a different measure entirely, and the size of the error depends on which direction the change went, so it does not cancel out across a series.",
+      },
+      {
+        title: "Why equal and opposite changes do not cancel",
+        body: "120 down 25% is 90. From 90, a 25% rise is 112.50, giving a net change of (112.50 - 120) / 120 = -6.25%. Each percentage is applied to whatever the value currently is, and after a fall that base is smaller, so the recovery move operates on less and recovers less.",
+      },
+      {
+        title: "The recovery gain is always the larger number",
+        body: "Undoing a fall of p requires a gain of p / (1 - p). A 25% fall needs 0.25 / 0.75 = 33.33%. A 50% fall needs 0.50 / 0.50 = 100%. A 75% fall needs 0.75 / 0.25 = 300%. The relationship is not linear and it becomes brutal at the extremes, which is the arithmetic behind the observation that losses are easier to make than to reverse.",
+      },
+    ],
+    example: {
+      title: "Worked example: 80 to 92, and 120 to 90",
+      setup:
+        "Both changes are measured against the starting value, then the second is run as a round trip to show the asymmetry.",
+      rows: [
+        { label: "80 to 92, absolute change", value: "+12", note: "92 - 80" },
+        { label: "80 to 92, percentage change", value: "+15.0%", note: "12 / 80" },
+        { label: "120 to 90, absolute change", value: "-30", note: "90 - 120" },
+        { label: "120 to 90, percentage change", value: "-25.0%", note: "-30 / 120" },
+        { label: "90 back up 25%, to", value: "$112.50", note: "90 x 1.25" },
+        { label: "Net after the round trip", value: "-6.25%", note: "(112.50 - 120) / 120" },
+      ],
+      conclusion:
+        "The round trip loses 6.25% because the +25% is charged on 90 rather than on 120. To actually get back to 120 from 90 requires a gain of 30 / 90 = 33.33%, not 25%. The same arithmetic underlies why a 20% portfolio loss needs a 25% gain, and a 50% loss needs 100%.",
+    },
+    mistakes: [
+      {
+        title: "Dividing by the finishing value",
+        body: "Using the new value as the denominator gives (92 - 80) / 92 = 13.04% instead of the correct 15.0%. The error is small for small changes, which is what makes it survive review, and it grows quickly: for a doubling, the wrong method reports 50% where the change is 100%.",
+      },
+      {
+        title: "Assuming a rise and a fall of the same size cancel",
+        body: "They do not, and the residual is not rounding. A 10% fall followed by a 10% rise leaves you 1% down; a 25% fall followed by a 25% rise leaves you 6.25% down. The gap widens with the size of the swing, so it matters most in volatile series.",
+      },
+      {
+        title: "Comparing percentage changes across different bases",
+        body: "A rise from 1% to 2% is a 100% increase, and so is a rise from 1,000 to 2,000. Stated as percentage changes the two look identical, which is why rates that start near zero should be reported in percentage points instead. This is arithmetic, not a presentational preference.",
+      },
+    ],
+  },
+
+  "margin-calculator": {
+    intro:
+      "Margin is profit measured against the selling price. It answers what share of each dollar of revenue you keep, which is why it can never reach 100% — and why a 40% margin and a 40% markup are two different prices for the same item.",
+    mechanics: [
+      {
+        title: "Margin divides by price",
+        body: "Margin = (price - cost) / price. At a cost of 60 and a price of 100 the gross profit is 40 and the margin is 40 / 100 = 40.0%. The denominator is the revenue, so the result reads as the fraction of each sale you retain rather than the fraction you added on top.",
+      },
+      {
+        title: "Why it cannot exceed 100%",
+        body: "The numerator is a part of the denominator, so the ratio is bounded at 100% by construction. As cost approaches zero the margin approaches 100% without ever reaching it, and as cost rises above price the margin turns negative. A margin above 100% is not a good result, it is a sign the two figures were mixed up.",
+      },
+      {
+        title: "Margins cannot be averaged across products",
+        body: "A 50% margin on a 10 dollar item and a 10% margin on a 1,000 dollar item average to 30% if you take the simple mean, but the true blended margin is total profit over total revenue: (5 + 100) / (10 + 1,000) = 105 / 1,010 = 10.4%. The simple average overstates it by nearly three times because it gives the small sale the same weight as the large one.",
+      },
+    ],
+    example: {
+      title: "Worked example: cost 60, price 100",
+      setup:
+        "One sale, described both as a margin and as a markup, so the difference between the two measures is visible on identical inputs.",
+      rows: [
+        { label: "Gross profit", value: "$40.00", note: "100 - 60" },
+        { label: "Margin", value: "40.0%", note: "40 / 100 — measured against price" },
+        { label: "Markup", value: "66.67%", note: "40 / 60 — measured against cost" },
+        { label: "Cost as a share of price", value: "60.0%", note: "60 / 100" },
+        { label: "Margin plus cost share", value: "100.0%", note: "40.0 + 60.0" },
+      ],
+      conclusion:
+        "Margin and the cost share of price always sum to 100%, because together they describe the whole of the selling price. Markup has no such ceiling and is the larger number: 66.67% against 40.0%. To convert markup to margin, use margin = markup / (1 + markup): 0.6667 / 1.6667 = 40.0%.",
+    },
+    mistakes: [
+      {
+        title: "Substituting markup for margin",
+        body: "Adding 40% to a cost of 60 gives 84.00, which is a 28.57% margin — not 40%. The gap widens as the percentage rises, so the error is largest on the most profitable lines. To hit a 40% margin the price is 60 / 0.60 = 100.00, which is a 66.67% markup.",
+      },
+      {
+        title: "Averaging margins across products of different prices",
+        body: "As the mechanics above show, a 50% margin on a 10 dollar sale and a 10% margin on a 1,000 dollar sale give a simple average of 30% against a true blended margin of 10.4%. Weight by revenue, not by product count, or the average will describe a business that does not exist.",
+      },
+      {
+        title: "Reading gross margin as the profit left over",
+        body: "Gross margin covers the cost of the goods only. Operating expenses, payment processing, returns, and any marketplace fee sit below it. A 40% gross margin on a sale with a 15% platform fee and 3% processing is closer to 22% before a single overhead, and treating the gross figure as take-home is how a profitable-looking product is not.",
+      },
+    ],
+  },
+
+  "markup-calculator": {
+    intro:
+      "Markup is profit measured against cost. It answers how much you add on top of what you paid, which is the number a buyer needs, and it is always the larger of the two percentages describing the same sale.",
+    mechanics: [
+      {
+        title: "Markup divides by cost",
+        body: "Markup = (price - cost) / cost. At a cost of 60 and a price of 100 the gross profit is 40 and the markup is 40 / 60 = 66.67%. Because the denominator is the cost rather than the revenue, the result is not bounded at 100% — the same item can carry a 200% markup and still be profitable to sell.",
+      },
+      {
+        title: "Converting between markup and margin",
+        body: "The two are related by margin = markup / (1 + markup) and markup = margin / (1 - margin). A 40% margin is 0.40 / 0.60 = 66.67% markup. A 50% markup is 0.50 / 1.50 = 33.33% margin. Both directions work on the same underlying sale, so a conversion that does not round-trip means one of the inputs was wrong.",
+      },
+      {
+        title: "They converge only at small numbers",
+        body: "At a 10% markup the margin is 0.10 / 1.10 = 9.09%, a gap of under one point. At 50% the gap is nearly seventeen points, and at 100% markup the margin is 50%. The two measures are close exactly where the numbers are small, which is why someone who works only in low-margin categories can use them interchangeably for years and be caught out the first time they price something with real margin in it.",
+      },
+    ],
+    example: {
+      title: "Worked example: cost 60, 40% markup",
+      setup:
+        "A 40% markup is applied to a cost of 60, then the resulting margin is measured on the price produced.",
+      rows: [
+        { label: "Markup amount", value: "$24.00", note: "60 x 0.40" },
+        { label: "Price", value: "$84.00", note: "60 x 1.40" },
+        { label: "Gross profit at that price", value: "$24.00", note: "84 - 60" },
+        { label: "Resulting margin", value: "28.57%", note: "24 / 84" },
+        { label: "Price needed for a 40% margin", value: "$100.00", note: "60 / (1 - 0.40)" },
+      ],
+      conclusion:
+        "A 40% markup produces a 28.57% margin, roughly eleven points below the number on the label. To reach a 40% margin the price must be 60 / 0.60 = 100.00, which is a 66.67% markup. The gap between 28.57% and 40% is not an edge case; it is the ordinary difference between the two measures at a mid-range percentage.",
+    },
+    mistakes: [
+      {
+        title: "Applying a margin target as a markup",
+        body: "To achieve a stated margin, divide cost by (1 - margin) rather than multiplying by (1 + margin). On a cost of 60, a 40% margin needs 100.00 while a 40% markup gives 84.00 — a 16 dollar shortfall per unit that compounds across every sale and is invisible in a report that only tracks markup.",
+      },
+      {
+        title: "Marking up an already marked-up figure",
+        body: "Applying 40% twice to 60 gives 117.60, not 108.00, because the second application multiplies rather than adds. 60 x 1.40 x 1.40 = 117.60 against 60 x 1.80 = 108.00. Sequential percentage increases compound, which is useful when the increases are genuinely successive and wrong when they were meant to be summed.",
+      },
+      {
+        title: "Comparing markups across businesses with different cost bases",
+        body: "A 100% markup on a service with almost no marginal cost and a 100% markup on a physical product with shipping, storage and returns are not comparable outcomes. Markup describes the pricing rule, not the profitability, and two businesses can run identical markups with very different margins once the costs below the gross line are counted.",
+      },
+    ],
+  },
+
+  "rule-of-72-calculator": {
+    intro:
+      "The rule of 72 estimates how long money takes to double by dividing 72 by the percentage rate. It is an approximation with a known and predictable error, and knowing where it drifts is what separates using it from trusting it.",
+    mechanics: [
+      {
+        title: "Where the number comes from",
+        body: "Doubling requires (1 + r)^t = 2, so the exact answer is t = ln(2) / ln(1 + r). The rule replaces that with 72 / r, because ln(2) is about 0.693 and ln(1 + r) behaves like r for small rates. The numerator is 72 rather than 69.3 because 72 divides evenly by 2, 3, 4, 6, 8, 9 and 12, which makes it usable without a calculator. The convenience costs accuracy.",
+      },
+      {
+        title: "How accurate it actually is",
+        body: "At 6% the rule gives 12.00 years against an exact 11.90, an error of 0.10 years. At 8% it gives 9.00 against 9.01, an error of 0.01. At 12% it gives 6.00 against 6.12, an error of 0.12. The rule is most accurate near 8% and increasingly understates the time required as the rate rises, so it errs in the direction of optimism at high rates.",
+      },
+      {
+        title: "What it does not model",
+        body: "The rule assumes a single lump sum compounding at a constant rate with nothing added or removed. It ignores contributions, withdrawals, taxes on gains, fees, and any change in the rate. A portfolio that doubles on the rule of 72 while charging 1% a year has not doubled in the time the rule predicts, because the fee reduces the rate the rule is being applied to.",
+      },
+    ],
+    example: {
+      title: "Worked example: the rule against the exact result",
+      setup:
+        "Three rates, each compared against t = ln(2) / ln(1 + r). The exact figures are computed, not recalled.",
+      rows: [
+        { label: "At 6%: rule of 72", value: "12.00 years", note: "72 / 6" },
+        { label: "At 6%: exact", value: "11.90 years", note: "ln2 / ln(1.06)" },
+        { label: "At 8%: rule of 72", value: "9.00 years", note: "72 / 8" },
+        { label: "At 8%: exact", value: "9.01 years", note: "ln2 / ln(1.08)" },
+        { label: "At 12%: rule of 72", value: "6.00 years", note: "72 / 12" },
+        { label: "At 12%: exact", value: "6.12 years", note: "ln2 / ln(1.12)" },
+      ],
+      conclusion:
+        "The rule is very good at 8%, off by four days a decade at 6%, and off by about six weeks at 12%. The error always runs the same way as rates rise — the rule says the money doubles sooner than it will. For a rough sanity check that is fine; for comparing two specific rates it is better to compute both exactly, because the approximation error is larger than the difference between many rate pairs.",
+    },
+    mistakes: [
+      {
+        title: "Using it at high rates",
+        body: "The approximation degrades as the rate rises. At 20% the rule gives 3.6 years against an exact 3.80, an error of over two months. At 36% the rule gives 2.0 years against 2.25, a quarter of a year. High-rate scenarios are exactly where people reach for the shortcut, and they are where it is worst.",
+      },
+      {
+        title: "Applying it to contributions rather than a lump sum",
+        body: "The rule describes a fixed balance growing at a fixed rate. A regular contribution schedule does not double on that schedule, because most of the money has not been invested for the full period. A monthly saver reaches a doubled balance sooner than a lump sum would, and the rule cannot express the difference.",
+      },
+      {
+        title: "Reading the answer as a projection rather than an illustration",
+        body: "The rule converts a rate into a time, and both numbers are assumptions. It assumes the rate is constant and realised, which no market guarantees. Treating the output as a forecast rather than a way to build intuition about compounding is the mistake; the arithmetic is sound, the assumption is not a fact.",
+      },
+    ],
+  },
+
+  "commission-calculator": {
+    intro:
+      "Commission is a percentage of a sale, but the sale is rarely the only number in the calculation. Splits, thresholds, tiers and whether the rate applies before or after costs all change the payout while leaving the headline percentage untouched.",
+    mechanics: [
+      {
+        title: "The base is whatever the agreement says",
+        body: "The same 6% can be computed on gross sale price, net of returns, net of fees, or on margin. On a 320,000 sale a 6% rate is 19,200 on the gross figure; on a net figure that is 10% lower the same rate pays 17,280. The percentage is the visible number and the base is the one that moves the result, which is why the base is what a commission agreement is really about.",
+      },
+      {
+        title: "Tiers are usually marginal, not retroactive",
+        body: "A plan that pays 5% to 200,000 and 8% above it does not necessarily pay 8% on everything once the threshold is crossed. Under a marginal structure the first 200,000 earns 5% and only the excess earns 8%, so a 300,000 total pays 10,000 + 8,000 = 18,000 rather than 24,000. Under a retroactive structure it pays 24,000. The difference on one deal is 6,000, and the two designs are frequently described with identical wording.",
+      },
+      {
+        title: "Splits apply after the rate, not before",
+        body: "A 60/40 split of a 6% commission on 320,000 gives you 19,200 x 0.60 = 11,520. Computing the split first and then the rate gives a different number if the two percentages are applied to different bases in between. Order matters whenever a step in the chain changes the base.",
+      },
+    ],
+    example: {
+      title: "Worked example: a 320,000 sale at two rates",
+      setup:
+        "The same sale priced at 6.0% and 5.5%, to show what a half-point change is worth in currency rather than in percentage.",
+      rows: [
+        { label: "320,000 at 6.0%", value: "$19,200.00", note: "320,000 x 0.06" },
+        { label: "320,000 at 5.5%", value: "$17,600.00", note: "320,000 x 0.055" },
+        { label: "Difference", value: "$1,600.00", note: "0.5% of 320,000" },
+        { label: "The same half point on a 32,000 sale", value: "$160.00", note: "0.5% of 32,000" },
+        { label: "Your 60% share of the 6% case", value: "$11,520.00", note: "19,200 x 0.60" },
+      ],
+      conclusion:
+        "Half a percentage point is worth 1,600 on this sale and 160 on a tenth of it. The rate looks small and the base decides whether that is trivial or material, which is why commission negotiations that stay at the level of the percentage miss the part that matters. Under a marginal tier structure the same 300,000 in sales could pay 18,000 or 24,000 depending on a word in the plan document.",
+    },
+    mistakes: [
+      {
+        title: "Assuming a tier rate applies to the whole amount",
+        body: "Marginal and retroactive tiers differ enormously, as the mechanics above show: 18,000 against 24,000 on the same 300,000 of sales. Confirm which structure the plan uses before modelling, because the two are often described the same way in conversation and defined differently in writing.",
+      },
+      {
+        title: "Measuring commission against gross rather than net",
+        body: "Returns, discounts and chargebacks reduce the amount actually collected. A 6% rate on a 320,000 gross sale that sees 12% returned pays on 281,600 if the agreement nets returns, which is 16,896 rather than 19,200. Whether the agreement nets them is the question, and the answer is in the contract rather than the plan summary.",
+      },
+      {
+        title: "Comparing rates without comparing bases",
+        body: "A 10% rate on a small base can pay less than 4% on a large one. The rate is the visible term and the base is the material one, so a comparison that lines up two percentages without lining up the amounts they are applied to will rank them incorrectly.",
+      },
+    ],
+  },
+
+  "savings-rate-calculator": {
+    intro:
+      "A savings rate is the share of income you do not spend, and it is the input that most determines how quickly saving stops being a constraint. It is also easy to compute against the wrong income, which makes a good rate look mediocre or the reverse.",
+    mechanics: [
+      {
+        title: "Which income goes in the denominator",
+        body: "Saving 780 a month out of 5,200 of take-home pay is 780 / 5,200 = 15.0%. Measured against a 6,500 gross salary the same 780 is 12.0%, and against a 5,200 net figure it is 15.0%. Both are defensible and they are not interchangeable, so a rate quoted without its base cannot be compared to another rate. Investment guidance usually means gross; personal tracking usually means take-home.",
+      },
+      {
+        title: "Why the rate compounds faster than the amount",
+        body: "An amount is fixed and a rate scales with income. If income rises 5% and the rate holds at 15%, contributions rise 5% too, without a decision being made. If the rate also rises to 20%, the increase is the income growth compounded with the rate change. This is why a rate is a policy and an amount is a number that needs revisiting.",
+      },
+      {
+        title: "Windfalls distort a single month",
+        body: "A tax refund, a bonus, or a month with no travel can push a calculated rate far above what the household actually sustains. Measuring one month at a time and averaging them gives equal weight to the unusual month and the ordinary ones. Annualising, or excluding known one-offs, produces a rate that can be planned against rather than admired.",
+      },
+    ],
+    example: {
+      title: "Worked example: 5,200 of take-home, 780 saved",
+      setup:
+        "Monthly figures used throughout, then annualised so the difference between two rates is visible in currency.",
+      rows: [
+        { label: "Monthly savings rate", value: "15.0%", note: "780 / 5,200" },
+        { label: "Annual saved at 15%", value: "$9,360.00", note: "780 x 12" },
+        { label: "Monthly saving needed for 20%", value: "$1,040.00", note: "5,200 x 0.20" },
+        { label: "Annual saved at 20%", value: "$12,480.00", note: "1,040 x 12" },
+        { label: "Extra per year from that 5 points", value: "$3,120.00", note: "12,480 - 9,360" },
+      ],
+      conclusion:
+        "Moving from 15% to 20% adds 3,120 a year at constant income, which is 31,200 of contributions over a decade before any growth. The useful way to read the rate is against income rather than against the balance, because it is the only one of the two that the household controls directly every month.",
+    },
+    mistakes: [
+      {
+        title: "Using gross income as the denominator without saying so",
+        body: "The same dollar amount produces two different rates against gross and net pay, and the gap is the whole tax and deduction wedge — often 25% or more. Because both numbers are called the savings rate, a household comparing itself to a published figure needs to know which base that figure used.",
+      },
+      {
+        title: "Counting a windfall month as the rate",
+        body: "A three-paycheck month or a refund month can double the apparent rate. If that month is treated as the baseline, the following months look like failure even when nothing changed. Exclude known one-offs or annualise, and say which you did.",
+      },
+      {
+        title: "Treating the rate as the goal rather than the mechanism",
+        body: "A rate is a way of allocating income, and a very high rate maintained for three months is worth less than a moderate one maintained for three years. The arithmetic rewards persistence over intensity, because the rate applies to every month it survives and to none of the months it does not.",
+      },
+    ],
+  },
+
+  "inflation-calculator": {
+    intro:
+      "Inflation is a rate of change applied to a base, so the same 3% produces very different results depending on the horizon. This is what turns a 100 dollar purchase into 134, and what makes a future salary figure smaller than it looks.",
+    mechanics: [
+      {
+        title: "It compounds, it does not add",
+        body: "3% a year for ten years is 1.03 raised to the tenth power, which is 1.3439, so 100 becomes 134.39 rather than 130.00. The extra 4.39 is inflation charged on the inflation already added. Over twenty years the factor is 1.8061 and over thirty it is 2.4273, so the same 3% more than triples the effect over a longer horizon.",
+      },
+      {
+        title: "Running it backwards",
+        body: "Dividing by the factor converts a future amount into today's money: 100 / 1.3439 = 74.41, so a 2036 hundred dollars buys what 74.41 buys in 2026. This direction is the one that matters for planning, because salaries, pensions and fixed payments are all stated in future currency and all need converting before they can be compared.",
+      },
+      {
+        title: "Real and nominal",
+        body: "A nominal return is the headline number; a real return is what remains after inflation. A 5% return against 3% inflation is a real 1.94%, computed as 1.05 / 1.03 - 1, not as 5 - 3 = 2. Subtracting gives 2.0% where the exact figure is 1.94%, and the gap widens as both numbers grow — at 12% against 8% the subtraction reads 4.00% where the true real return is 3.70%.",
+      },
+    ],
+    example: {
+      title: "Worked example: 3% over ten years",
+      setup:
+        "A 3% annual rate compounded over ten years, with the reverse conversion showing what a future amount is worth today.",
+      rows: [
+        { label: "Ten-year factor", value: "1.3439", note: "1.03^10" },
+        { label: "100 today becomes", value: "$134.39", note: "100 x 1.3439" },
+        { label: "1,000 today becomes", value: "$1,343.92", note: "1,000 x 1.3439" },
+        { label: "100 in ten years is worth today", value: "$74.41", note: "100 / 1.3439" },
+        { label: "Thirty-year factor", value: "2.4273", note: "1.03^30" },
+      ],
+      conclusion:
+        "Additive arithmetic predicts 130.00 after ten years and the correct figure is 134.39; after thirty years it predicts 190.00 against an actual 242.73. The error is 52.73 in the longer case, and it is entirely the compounding of inflation on inflation. Any projection that multiplies the rate by the years rather than raising the factor will understate the result, always in the same direction.",
+    },
+    mistakes: [
+      {
+        title: "Multiplying the rate by the number of years",
+        body: "3% for 30 years is not 90%. It is 1.03^30 - 1 = 142.73%. The linear estimate understates the effect by more than half, and the understatement grows with the horizon, so it is worst exactly on the retirement and pension questions where people rely on it.",
+      },
+      {
+        title: "Applying one national rate to a specific basket",
+        body: "A headline index tracks an average basket with weights that are not your weights. A household spending heavily on rent, tuition or healthcare can face a materially different rate from one spending on electronics and apparel, in either direction. The index is the right tool for comparing across time in aggregate and the wrong one for predicting a particular budget.",
+      },
+      {
+        title: "Subtracting inflation from a return instead of dividing",
+        body: "The approximation is close at small numbers and drifts at large ones: 12% against 8% gives 4.00% by subtraction against a true 3.70%. On a long-horizon projection the difference compounds. Use (1 + nominal) / (1 + inflation) - 1 whenever both figures are known.",
+      },
+    ],
+  },
+
+  "square-footage-calculator": {
+    intro:
+      "Area is length times width, and most errors in square footage come from units rather than arithmetic — inches that were never converted, or a measurement taken in one place and applied to a whole room that is not that shape.",
+    mechanics: [
+      {
+        title: "Area scales with the square of the linear factor",
+        body: "One square foot is 144 square inches and one square yard is 9 square feet, so converting between them uses 144 and 9 rather than 12 and 3. A 12 by 15 foot room is 180 square feet, which is 180 / 9 = 20 square yards and 180 x 144 = 25,920 square inches. Dividing by 3 instead of 9 is the single most common conversion error and it produces an answer three times too large.",
+      },
+      {
+        title: "Perimeter is not area",
+        body: "A 12 by 15 room has an area of 180 square feet and a perimeter of 2 x (12 + 15) = 54 feet. Baseboard, trim and fencing are bought by the linear foot; flooring, paint and sod are bought by the square foot. The two numbers describe the same room and cannot be substituted for one another, and a room with a large perimeter and a small area needs more of a linear product than its area suggests.",
+      },
+      {
+        title: "Waste allowance is multiplicative, not additive",
+        body: "Ordering 10% extra means multiplying by 1.10. On 180 square feet that adds 18, giving 198. On 2,000 square feet the same 10% adds 200. A fixed addition would be wrong at both sizes, which is why allowances are stated as percentages — and why the percentage should reflect the number of cuts and the pattern match rather than being applied as a default.",
+      },
+    ],
+    example: {
+      title: "Worked example: a 12 by 15 foot room",
+      setup:
+        "One rectangle measured four ways, so the unit conversions can be checked against each other.",
+      rows: [
+        { label: "Area", value: "180.00 sq ft", note: "12 x 15" },
+        { label: "In square yards", value: "20.00 sq yd", note: "180 / 9" },
+        { label: "Perimeter", value: "54 ft", note: "2 x (12 + 15)" },
+        { label: "With 10% waste", value: "198.00 sq ft", note: "180 x 1.10" },
+        { label: "In square inches", value: "25,920", note: "180 x 144" },
+      ],
+      conclusion:
+        "The same room is 180 square feet, 20 square yards and 25,920 square inches, and all three are correct. Which one is useful depends on the material: flooring is usually priced per square foot, carpet per square yard, and small quantities in plans per square inch. Converting after the order is placed is where the three-times errors come from.",
+    },
+    mistakes: [
+      {
+        title: "Mixing inches and feet in one multiplication",
+        body: "A 144 by 18 inch surface is not 2,592 square feet. Converting first gives 12 by 1.5 feet = 18 square feet. The arithmetic is identical in both cases and only the units differ, which is why the error survives a calculator check: the number on screen is right for the numbers entered.",
+      },
+      {
+        title: "Dividing by 3 rather than 9 for square yards",
+        body: "Three feet make a yard, but nine square feet make a square yard. Dividing an area by 3 reports 60 square yards where the answer is 20, an overstatement of three times that will be ordered as material and paid for. This is the most expensive of the common conversion errors because the excess is physical.",
+      },
+      {
+        title: "Measuring one bay and multiplying by the count",
+        body: "Rooms are rarely identical, closets and doorways remove area, and an L-shaped space is not a rectangle with a larger number. Multiplying an average by a count produces a figure that is plausible and wrong in a direction that depends on the shape, so it can be either over or under with no way to tell from the result.",
+      },
+    ],
+  },
+
+  "gravel-calculator": {
+    intro:
+      "Gravel is sold by volume or by weight, and the two are linked by a bulk density that varies with the type of stone. Getting from a footprint to tonnes takes three conversions, and skipping any one of them is how an order comes up short.",
+    mechanics: [
+      {
+        title: "Area to volume requires the depth in feet",
+        body: "Volume is area times depth, and the depth must be in the same unit as the area for the multiplication to mean anything. Three inches is 3 / 12 = 0.25 feet. A 600 square foot driveway at that depth takes 600 x 0.25 = 150 cubic feet. Leaving the depth in inches produces a figure twelve times too large.",
+      },
+      {
+        title: "Cubic feet to cubic yards divides by 27",
+        body: "A cubic yard is 3 x 3 x 3 = 27 cubic feet, not 3. So 150 cubic feet is 150 / 27 = 5.556 cubic yards. Dividing by 3 instead would give 50 cubic yards, roughly nine times the material actually needed, which is the most expensive form this error takes.",
+      },
+      {
+        title: "Cubic yards to tonnes depends on the stone",
+        body: "Bulk density for common crushed stone runs about 1.35 to 1.45 short tons per cubic yard, with pea gravel near the lower end and some crushed limestone above it. At 1.4, 5.556 cubic yards is 7.78 tonnes. Moisture raises the figure, because the water is weighed along with the stone. The supplier's own density figure should be used rather than an average, because a 0.05 difference in density moves this order by nearly 0.3 tonnes.",
+      },
+    ],
+    example: {
+      title: "Worked example: 20 by 30 feet at 3 inches deep",
+      setup:
+        "A driveway-shaped rectangle at a common depth, converted step by step through all three stages.",
+      rows: [
+        { label: "Area", value: "600.00 sq ft", note: "20 x 30" },
+        { label: "Depth in feet", value: "0.25 ft", note: "3 / 12" },
+        { label: "Volume", value: "150.00 cu ft", note: "600 x 0.25" },
+        { label: "Volume in cubic yards", value: "5.556 cu yd", note: "150 / 27" },
+        { label: "Weight at 1.4 t/yd³", value: "7.78 tons", note: "5.556 x 1.4" },
+        { label: "Weight at 1.35 t/yd³", value: "7.50 tons", note: "5.556 x 1.35" },
+      ],
+      conclusion:
+        "The order is 7.78 tons at 1.4 tons per cubic yard and 7.50 at 1.35 — a 0.28 ton swing from density alone, on the same measured volume. Since the volume calculation is exact and the density is not, the uncertainty in this job lives entirely in the last step. Ask the supplier for their figure rather than applying an average.",
+    },
+    mistakes: [
+      {
+        title: "Leaving the depth in inches",
+        body: "Multiplying a square footage by a depth in inches gives a volume twelve times too large. Three inches is 0.25 feet and it is easy to type 3 into the depth field when the area is already in feet, so this error is produced by the interface as much as by the arithmetic.",
+      },
+      {
+        title: "Dividing cubic feet by 3 to reach cubic yards",
+        body: "A cubic yard is 27 cubic feet. Dividing 150 by 3 gives 50 cubic yards where the answer is 5.556, an order of magnitude wrong in the expensive direction. The 3 in the conversion is a length, and the conversion needs a volume, which is why the factor is cubed.",
+      },
+      {
+        title: "Assuming one density across different stone",
+        body: "Crushed stone, pea gravel, river rock and decomposed granite do not weigh the same per cubic yard, and the difference is enough to matter on any delivery. Weight also rises with moisture, so the same volume of the same stone weighs more after rain. Density is the one input that cannot be measured from the site plan.",
+      },
+    ],
+  },
+
+  "topsoil-calculator": {
+    intro:
+      "Topsoil is ordered by volume, usually in cubic yards, and the depth that matters is the settled depth you want rather than the loose depth it arrives at. Screened topsoil settles, so a skim coat ordered at exact volume often finishes thin.",
+    mechanics: [
+      {
+        title: "Depth in feet, then area times depth",
+        body: "Two inches is 2 / 12 = 0.1667 feet. A 300 square foot bed at that depth takes 300 x 0.1667 = 50.00 cubic feet. Working in inches throughout and converting at the end is equivalent, provided the conversion is applied once; applying it at both ends is how a figure ends up twelve times out.",
+      },
+      {
+        title: "Cubic feet to cubic yards is a divide by 27",
+        body: "50 cubic feet is 50 / 27 = 1.852 cubic yards. This is a small delivery, and it is the point at which bulk usually becomes cheaper than bags: 50 cubic feet is 25 bags at 2 cubic feet each, which is 25 separate units to move and open. Below about one cubic yard, bagged product is often the reasonable choice.",
+      },
+      {
+        title: "Settling and shrinkage change the order",
+        body: "Loose screened topsoil settles after watering and rain, and a blend with compost settles further as the organic fraction breaks down. The practical effect is that ordering the exact calculated volume produces a finished depth below the target. The size of the effect depends on the mix and how it is placed, so the allowance should be a stated percentage rather than a guess, and it belongs in the order rather than in the arithmetic.",
+      },
+    ],
+    example: {
+      title: "Worked example: 300 square feet at 2 inches",
+      setup:
+        "A garden bed at a common depth, converted to both bulk and bagged quantities so the two can be compared.",
+      rows: [
+        { label: "Depth in feet", value: "0.1667 ft", note: "2 / 12" },
+        { label: "Volume", value: "50.00 cu ft", note: "300 x 0.1667" },
+        { label: "Volume in cubic yards", value: "1.852 cu yd", note: "50 / 27" },
+        { label: "Bagged equivalent at 2 cu ft", value: "25.0 bags", note: "50 / 2" },
+        { label: "3 inches instead of 2", value: "75.00 cu ft", note: "300 x 0.25" },
+      ],
+      conclusion:
+        "The volume is 1.85 cubic yards, or 25 bags. At 3 inches the same bed takes 75 cubic feet, or 2.78 cubic yards — a third more material for one extra inch. Depth is the input with the largest effect on this order and it is also the one people estimate rather than measure, which is why the allowance for settling belongs on top of a depth that was actually chosen.",
+    },
+    mistakes: [
+      {
+        title: "Ordering the target depth without an allowance for settling",
+        body: "Screened topsoil and compost blends settle after watering. Ordering exactly the calculated volume lands the finished surface below the intended level, and topping up later costs a second delivery at the same minimum charge. Decide the allowance as a percentage and state it, so the order is deliberate rather than short.",
+      },
+      {
+        title: "Converting cubic feet to cubic yards with 3",
+        body: "The factor is 27, because a cubic yard is three feet in each of three dimensions. Using 3 on a 50 cubic foot order gives 16.7 cubic yards against a correct 1.85, an error of nine times that will be delivered and invoiced. This conversion is wrong far more often than the area calculation it follows.",
+      },
+      {
+        title: "Adding bagged and bulk quantities as if they were the same unit",
+        body: "A bag stated at 2 cubic feet is 0.0741 cubic yards, so 25 bags make 1.85 cubic yards. Adding 25 to a bulk figure of 1.85 as though both were counts produces a meaningless total. Convert to one unit before combining, and be explicit about which unit the order is in.",
+      },
+    ],
+  },
+
+  "mulch-calculator": {
+    intro:
+      "Mulch depth is a choice rather than a measurement, and the two common errors are going too deep and measuring the bed as a rectangle when it is not. Depth above roughly four inches can hold moisture against stems instead of conserving it, so more is not better.",
+    mechanics: [
+      {
+        title: "Three inches is the usual standard",
+        body: "Three inches is 3 / 12 = 0.25 feet. A 400 square foot bed at that depth takes 400 x 0.25 = 100.00 cubic feet, which is 100 / 27 = 3.704 cubic yards. The depth is the input with the largest effect and the one most often chosen by eye, so a half inch of error on a large bed is a meaningful quantity of material.",
+      },
+      {
+        title: "Beds are rarely rectangles",
+        body: "Curved borders, trees inside the bed, and paths through it all remove area. A rectangle measured across the widest points overstates a bed with rounded ends by the area outside the curve. Splitting an irregular bed into two or three approximate shapes and adding them is more accurate than one bounding rectangle, and it is also easier to check against the plan.",
+      },
+      {
+        title: "Depth reduces what you buy next year",
+        body: "Mulch decomposes, so an annual top-up restores a depth rather than adding one. If the existing layer is still an inch deep, topping back to three inches is two inches of new material, not three. Ordering the full depth every year over-applies, which is the one direction of error that can harm the planting it was meant to protect.",
+      },
+    ],
+    example: {
+      title: "Worked example: 400 square feet at 3 inches",
+      setup:
+        "A single bed at the standard depth, then the same bed at 2 inches to show what the depth decision costs.",
+      rows: [
+        { label: "Depth in feet", value: "0.25 ft", note: "3 / 12" },
+        { label: "Volume at 3 inches", value: "100.00 cu ft", note: "400 x 0.25" },
+        { label: "In cubic yards", value: "3.704 cu yd", note: "100 / 27" },
+        { label: "Bags at 2 cu ft", value: "50", note: "100 / 2" },
+        { label: "Volume at 2 inches", value: "66.67 cu ft", note: "400 x 0.1667" },
+        { label: "In cubic yards at 2 inches", value: "2.469 cu yd", note: "66.67 / 27" },
+      ],
+      conclusion:
+        "Dropping from 3 inches to 2 cuts the order from 3.70 cubic yards to 2.47, a third less material for a depth still within the range usually recommended. Since the correct depth is a judgement about the planting rather than a fixed rule, deciding it deliberately rather than defaulting to the deepest option is what makes the quantity right.",
+    },
+    mistakes: [
+      {
+        title: "Measuring a curved or irregular bed as a rectangle",
+        body: "A bounding rectangle includes every area the bed does not occupy. On a bed with rounded ends the overstatement can be substantial, and it is systematic rather than random — a rectangle always overstates an irregular shape, never understates it. Break the bed into shapes that match it instead.",
+      },
+      {
+        title: "Topping up to full depth every year",
+        body: "Existing mulch still counts toward the depth. If an inch remains and the target is three, the order is two inches. Applying three on top of an inch gives four, which is above the range usually recommended and can hold moisture against stems and crowns. Measure the existing layer before ordering.",
+      },
+      {
+        title: "Confusing the cubic feet on the bag with the cubic yards in the order",
+        body: "A 2 cubic foot bag is 0.0741 cubic yards, so 50 bags are 3.70 cubic yards. Quoting 50 against 3.70 as though they were comparable units makes a bulk delivery look larger than the bags it replaces when the two are the same quantity. Convert to one unit first, then compare price.",
+      },
+    ],
+  },
 };
