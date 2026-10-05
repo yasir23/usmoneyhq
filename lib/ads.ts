@@ -1,6 +1,31 @@
 // lib/ads.ts — SINGLE SOURCE OF TRUTH for AdSense.
-// Publisher ID (AdSense dashboard): pub-2473684818960461
-// Ad code uses the ca-pub- prefix with the same numeric ID.
+//
+// ACCOUNT IDENTITY — recorded 2026-10-05 so this is never re-litigated.
+// The account that owns usmoneyhq.com, and the only one this site serves:
+//
+//     yasirkhalily44@gmail.com   ->   pub-2473684818960461
+//     (Chrome profile "Profile 1"; the account was created via AdSense signup
+//      on 2026-09-26 and added the site the same day)
+//
+// A SECOND AdSense account exists on this machine and is NOT involved:
+//
+//     infotech2353@gmail.com
+//     (Chrome profile "Default"; last used 2026-08-28, never opened a
+//      site-management page, and adsense.google.com history under it never
+//      references usmoneyhq.com)
+//
+// Its publisher id is deliberately NOT written here. scripts/adsense_verify.mjs
+// scans the tree and refuses to build when any publisher id disagrees with
+// ADSENSE_PUB_ID — including one cited in a comment. It caught this very note
+// when the id was spelled out, which is the behaviour we want, so the comment
+// yields rather than the rule. The id is recorded in the operating notes.
+//
+// Why this note exists: a persistent "Not found" in the ads.txt column looked
+// like an account mismatch, and disproving it required reading two Chrome
+// profiles' history databases. ads.txt and the owning account agree. If
+// "Not found" reappears, DO NOT re-derive this — re-deriving is what the note is
+// for. A "Not found" here is a Google-side crawl or pending review, not a defect
+// in this repository.
 export const ADSENSE_PUB_ID = "ca-pub-2473684818960461";
 export const ADSENSE_ACTIVE = !ADSENSE_PUB_ID.includes("XXX");
 
