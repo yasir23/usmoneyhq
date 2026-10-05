@@ -3,7 +3,7 @@
 # US Money HQ's 105 calculators natively.
 # More: https://llmstxt.org
 # US Money HQ
-> US Money HQ — free US financial calculators, state-by-state tax math, and scenario tools. 105 calculators. 140 indexable pages — https://usmoneyhq.com/sitemap.xml is the authoritative list. All free, no signup.
+> US Money HQ — free US financial calculators, state-by-state tax math, and scenario tools. 105 calculators. 139 indexable pages — https://usmoneyhq.com/sitemap.xml is the authoritative list. All free, no signup.
 
 # ── COUNT DISCIPLINE ────────────────────────────────────────────────────────
 # The counts above are asserted against the sitemap, not remembered. They said

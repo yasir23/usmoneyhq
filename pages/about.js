@@ -29,7 +29,7 @@ export default function About() {
           <h2>Corrections</h2>
           <p>When we find a material error we fix it and record it here rather than quietly editing the page.</p>
           <ul>
-            <li><strong>September 2026</strong> — State salary calculators were using a single flat national estimate for state income tax. Replaced with each state&apos;s own published rate schedule, so a state page now computes with that state&apos;s actual rules rather than a national average.</li>
+            <li><strong>September 2026</strong> — State salary calculators were using a single flat national estimate for state income tax. Replaced with each state&apos;s own marginal range — flat-rate states at their exact published rate, progressive states interpolated between their own lowest and highest marginal rates. That is materially more specific than the flat estimate it replaced, but it still excludes state bracket thresholds, deductions, credits and local and city taxes, so a state figure can differ from what you owe.</li>
             <li><strong>September 2026</strong> — Automatically generated city and metro permutations of calculator pages were removed from the search index. They differed from their parent page by a few words and added no information.</li>
             <li><strong>September 2026</strong> — Removed a site-wide indexing directive that conflicted with the per-page rules, which had caused some pages to carry contradictory instructions to search engines.</li>
           </ul>

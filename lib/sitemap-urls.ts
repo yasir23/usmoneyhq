@@ -37,7 +37,14 @@ export function buildSitemap() {
     { url: `${SITE_URL}/methodology`, lastModified: siteDate, changeFrequency: "yearly", priority: 0.4 },
     { url: `${SITE_URL}/states`, lastModified: siteDate, changeFrequency: "monthly", priority: 0.8 },
     { url: `${SITE_URL}/developers`, lastModified: siteDate, changeFrequency: "monthly", priority: 0.5 },
-    { url: `${SITE_URL}/llms.txt`, lastModified: siteDate, changeFrequency: "monthly", priority: 0.3 },
+    // llms.txt is deliberately NOT listed here, though it was until 2026-10-05.
+    // A sitemap asks a search engine to index a URL, and llms.txt is a text/plain
+    // discovery file rather than a page: it can never rank, so listing it spends a
+    // slot and asks Google to index something whose whole purpose is to be read by
+    // agents instead. AI crawlers find it by convention at the site root, so no
+    // discovery is lost. If this is ever re-added, drop the count in public/llms.txt
+    // to match in the same commit — that file states the sitemap's size and its own
+    // rule says to update it alongside.
     { url: `${SITE_URL}/contact`, lastModified: siteDate, changeFrequency: "yearly", priority: 0.3 },
     { url: `${SITE_URL}/privacy-policy`, lastModified: legalDate, changeFrequency: "yearly", priority: 0.2 },
     { url: `${SITE_URL}/terms`, lastModified: legalDate, changeFrequency: "yearly", priority: 0.2 },
