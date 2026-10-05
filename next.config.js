@@ -42,6 +42,35 @@ const nextConfig = {
         destination: "https://sealofaudit.com/blog/:slug",
         permanent: true,
       },
+
+      /**
+       * Host consolidation: www -> apex.
+       *
+       * Both hosts served HTTP 200 through the same Next runtime (verified
+       * 2026-10-06). The canonical tag on www already pointed at the apex URL,
+       * so Google could consolidate the signals — but a 200 on both hosts still
+       * splits crawl budget and reporting, and Search Console's page export
+       * showed 164 rows / 5,719 impressions on www against 388 rows / 19,429 on
+       * the apex (22.7% of impressions). The same page appeared twice in the
+       * report, with different positions, which is exactly the noise a 301
+       * removes.
+       *
+       * A canonical tag is a hint; a 301 is a directive. This is why the audit
+       * ranked it the priority technical action, and it is the one finding here
+       * that was a live defect rather than a historical artifact.
+       *
+       * Deliberately LAST in this array: the /blog rules above match on path
+       * only, so a www /blog URL reaches sealofaudit.com in one hop, while every
+       * other www path falls through to this rule and lands on the apex. Putting
+       * this first would turn every www /blog hit into a two-hop chain
+       * (www -> apex -> sealofaudit).
+       */
+      {
+        source: "/:path*",
+        has: [{ type: "host", value: "www.usmoneyhq.com" }],
+        destination: "https://usmoneyhq.com/:path*",
+        permanent: true,
+      },
     ];
   },
 

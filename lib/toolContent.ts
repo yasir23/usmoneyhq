@@ -1271,4 +1271,270 @@ export const TOOL_CONTENT: Record<string, ToolContent> = {
       },
     ],
   },
+
+  /**
+   * ── ADDED 2026-10-06 ──────────────────────────────────────────────────────
+   * Source: a Search Console performance export for usmoneyhq.com (27 Aug -
+   * 3 Oct 2026). These five pages were already receiving organic impressions
+   * while sitting at 277-332 words, i.e. under this file's own 450-word floor:
+   *
+   *   /savings-bonds-calculator     277 words   446 impressions, avg pos 35.7
+   *   /pmi-calculator               325 words   639 impressions, avg pos 65.3
+   *   /loan-comparison-calculator   285 words   229 impressions, avg pos 45.3
+   *   /529-calculator               330 words   303 impressions, avg pos 63.6
+   *   /closing-costs-calculator     332 words   253 impressions, avg pos 87.5
+   *
+   * Every impression is demand Google is already routing here. Improving a page
+   * that ranks at position 35 costs nothing in new authority and is worth more
+   * than a new page that starts at zero, which is why these were chosen ahead of
+   * any new topic.
+   *
+   * Figures in the worked examples were COMPUTED, not recalled, and each is
+   * reproducible from the inputs stated in its own `setup`. Illustrative rates
+   * (the 0.60% PMI rate, the 6% 529 return, 6.5% mortgage) are labelled as
+   * assumptions in the text rather than presented as current market quotes.
+   */
+
+  "savings-bonds-calculator": {
+    intro:
+      "A savings bond has two values and it is easy to read the wrong one. The face value is what the bond says; the redemption value is what Treasury will actually pay you today, and between purchase and maturity those two numbers can differ by a factor of two.",
+    mechanics: [
+      {
+        title: "EE bonds double in 20 years, whatever the coupon says",
+        body: "An electronic EE bond is bought at face value and earns a fixed rate set on the day you buy it. Separately, Treasury guarantees the bond will be worth at least twice what you paid by the 20-year mark. If the fixed rate is high enough the bond gets there on its own; if it is lower, Treasury applies a one-time adjustment at year 20 to make up the difference. That guarantee is equivalent to an annual rate of 2^(1/20) - 1 = 3.5265%, so a $10,000 bond is worth $20,000 at 20 years regardless of the coupon it was issued at.",
+      },
+      {
+        title: "I bonds use a two-part rate with a cross term",
+        body: "An I bond's composite rate is the fixed rate plus twice the semiannual inflation rate, plus the product of the two. That last term is tiny and almost always dropped. Take a 1.30% fixed rate and 1.50% semiannual inflation: adding the first two gives 4.30%, and the cross term adds 0.013 x 0.015, which is 0.0195 percentage points — so the true composite is 4.3195%. The inflation half is reset every six months from the new figure; the fixed half never changes for the life of the bond, which is why two I bonds bought six months apart can pay different rates on the same principal.",
+      },
+      {
+        title: "Accrual, penalties and tax",
+        body: "Interest accrues every month and compounds semiannually. The bond cannot be redeemed at all in the first twelve months, and redeeming between one and five years costs the last three months of interest. After five years there is no penalty. Interest is exempt from state and local income tax, is taxable at the federal level, and the federal tax can generally be deferred until you redeem. So the holding period matters twice: once for the penalty and once for the deferral.",
+      },
+    ],
+    example: {
+      title: "Worked example: a $10,000 EE bond held 20 years",
+      setup:
+        "Purchase price $10,000, bought electronically at face value. The fixed rate set on the issue date is assumed to be below the doubling threshold, so the 20-year guarantee is what determines the value at maturity.",
+      rows: [
+        { label: "Purchase price", value: "$10,000.00", note: "electronic EE bonds are bought at face value" },
+        { label: "Guaranteed value at 20 years", value: "$20,000.00", note: "2 x purchase price" },
+        { label: "Implied annual rate of the guarantee", value: "3.5265%", note: "2^(1/20) - 1 = 0.035265" },
+        { label: "Check on the guarantee", value: "$20,000.00", note: "10000 x 1.035265^20" },
+        { label: "Forfeited if redeemed at 18 months", value: "$88.16", note: "3 months of interest: 10000 x 0.035265 / 4" },
+      ],
+      conclusion:
+        "The doubling guarantee is why a low-coupon EE bond is not simply a poor bond: it is a promise to reach twice the purchase price by year 20, and the arithmetic of that promise is a 3.5265% annual rate. Redeem at 18 months and you hand back about $88 of interest on a $10,000 bond — a small sum, but it is the difference between the bond's accrued value and what actually arrives.",
+    },
+    mistakes: [
+      {
+        title: "Reading the face value as the current value",
+        body: "Paper EE bonds were sold at half of face value, so a paper bond with a $100 face cost $50 and reaches $100 at maturity. Enter the face value printed on an old certificate and the calculator will overstate what it is worth, because for those issues the purchase price was the smaller number.",
+      },
+      {
+        title: "Judging an EE bond by its coupon alone",
+        body: "The fixed rate and the doubling guarantee are separate mechanisms. A bond issued below 3.5265% still doubles at 20 years, because Treasury adjusts the value at the end rather than paying the shortfall along the way. Comparing the coupon to a savings account rate therefore understates the bond.",
+      },
+      {
+        title: "Redeeming inside five years and expecting the full rate",
+        body: "Between 12 months and five years, redemption forfeits the last three months of interest. The amount is small, but it means the effective return on any hold shorter than five years is always below the stated rate.",
+      },
+    ],
+  },
+
+  "pmi-calculator": {
+    intro:
+      "PMI is charged on the loan you originally took, not the balance you have left. That one fact is why the premium does not shrink as you pay the mortgage down, and why the date it ends is a calculable month rather than a feeling.",
+    mechanics: [
+      {
+        title: "The rate applies to the original loan amount",
+        body: "Private mortgage insurance is charged on conventional loans with a down payment below 20%. The annual premium is a percentage of the original loan amount — commonly somewhere between 0.3% and 1.5%, set by credit score, loan-to-value and the insurer — divided by twelve and collected monthly. Because the base is the original loan, the premium stays flat while the balance falls. On a $360,000 loan at 0.60%, the premium is $2,160 a year, or $180 a month, in the first year and in the tenth.",
+      },
+      {
+        title: "It ends at 80% on request, 78% automatically",
+        body: "Under the Homeowners Protection Act, on a conventional loan you may ask the servicer to cancel PMI once the balance reaches 80% of the home's original value, with a good payment history. Automatic termination follows at 78% of original value, on the original amortisation schedule. Both thresholds are measured against the value at purchase, so a rising market does not shorten the clock and a falling one does not extend it. Note the contrast with FHA loans, where the insurance is an upfront charge plus an annual one and, on most loans with less than 10% down, runs for the life of the loan.",
+      },
+      {
+        title: "What the calculator cannot know",
+        body: "The rate is a private-market price, not a published schedule, so it varies by lender, insurer, credit band and loan type. It is also paid in different ways — monthly by the borrower, upfront as a single premium, or absorbed into a higher interest rate. The calculator estimates a monthly cost from the inputs you give it; the figure that binds is the one on the Loan Estimate.",
+      },
+    ],
+    example: {
+      title: "Worked example: $400,000 home, 10% down, PMI at 0.60%",
+      setup:
+        "Purchase price $400,000. Down payment 10% = $40,000, so the loan is $360,000 and the initial loan-to-value is 90%. Assumed annual PMI rate 0.60% of the original loan amount, which is an assumption and not a quote. Mortgage rate 6.5% over 360 months.",
+      rows: [
+        { label: "Loan amount", value: "$360,000.00", note: "400000 - 40000" },
+        { label: "Loan-to-value at origination", value: "90%", note: "360000 / 400000" },
+        { label: "Annual PMI premium", value: "$2,160.00", note: "0.006 x 360000" },
+        { label: "Monthly PMI", value: "$180.00", note: "2160 / 12" },
+        { label: "Principal and interest", value: "$2,275.44", note: "360000 at 6.5% over 360 months" },
+        { label: "Months to 80% of original value", value: "95 months (7.9 years)", note: "balance reaches $320,000 = 0.80 x 400000" },
+        { label: "Months to 78% of original value", value: "109 months (9.1 years)", note: "balance reaches $312,000 = 0.78 x 400000" },
+        { label: "PMI paid before the 80% threshold", value: "$17,100.00", note: "180 x 95" },
+      ],
+      conclusion:
+        "A 10% down payment on a $400,000 home means $180 a month for close to eight years before the balance reaches the 80% mark, and about nine years before automatic termination — roughly $17,100 of premium along the way. The schedule sets the clock, not the housing market: a borrower whose home appreciates has no earlier exit from PMI unless the servicer accepts a new appraisal.",
+    },
+    mistakes: [
+      {
+        title: "Assuming the premium falls as the balance falls",
+        body: "The rate is a percentage of the original loan amount, so paying the balance down does not reduce the monthly charge. It only brings the cancellation threshold closer. A borrower who expects PMI to taper is applying the logic of interest, which is charged on the outstanding balance, to insurance, which is not.",
+      },
+      {
+        title: "Measuring the 80% threshold against today's value",
+        body: "Cancellation and automatic termination on a conventional loan are measured against the home's original value. A market that rises 15% does not move the 80% line. A borrower wanting PMI removed sooner on the strength of appreciation usually has to request it with a new appraisal the servicer accepts — which is a different process from the automatic rules, and not one the servicer is obliged to grant.",
+      },
+      {
+        title: "Treating FHA mortgage insurance as PMI",
+        body: "FHA loans carry an upfront premium of 1.75% of the base loan amount, which is $6,300 on a $360,000 loan, plus an annual premium. On most loans with less than 10% down the annual premium lasts the life of the loan, and the 80%/78% cancellation rules that apply to conventional PMI do not apply to it. The two products are not the same calculation.",
+      },
+    ],
+  },
+
+  "loan-comparison-calculator": {
+    intro:
+      "Two loans with the same amount and the same rate can cost different sums, and the one with the lower payment is usually the more expensive. Comparing loans means comparing total cost, not the number that leaves your account each month.",
+    mechanics: [
+      {
+        title: "The payment is not the price",
+        body: "Stretching a term lowers the monthly payment and raises the total. On $25,000 at 7.00%, a 60-month loan costs $495.03 a month and $29,701.80 in total; the same amount over 72 months costs $426.23 a month and $30,688.21. The longer loan saves $68.80 every month and costs $986.41 more overall. Both statements are true at the same time, and only one of them appears in a monthly budget.",
+      },
+      {
+        title: "The rate and the APR are different numbers",
+        body: "The interest rate prices the money. The APR also folds in most of the fees the lender charges to make the loan, which is why it is usually the higher of the two and the only fair figure when two offers differ in fees rather than in rate. Compare APR against APR for the same amount and term. Across different terms it misleads, because a longer loan can show a competitive APR while costing more in total.",
+      },
+      {
+        title: "Rate sensitivity is larger than it feels",
+        body: "Because the balance is large and the term is long, a small rate difference compounds into a large sum. On a $250,000 loan over 360 months, 6.5% versus 7.0% — half a percentage point — is $83.09 a month and $29,911.02 in extra interest. A variable rate quoted below a fixed rate is not therefore cheaper: it is a different contract whose rate resets against an index, and the comparison has to be run at several future rates rather than the one advertised.",
+      },
+    ],
+    example: {
+      title: "Worked example: $25,000 at 7% over 60 versus 72 months",
+      setup:
+        "Same principal, same 7.00% annual rate, so the monthly rate is 0.07 / 12 = 0.00583333. Only the term differs.",
+      rows: [
+        { label: "60-month payment", value: "$495.03", note: "25000 x 0.00583333 / (1 - 1.00583333^-60)" },
+        { label: "60-month total paid", value: "$29,701.80", note: "495.03 x 60" },
+        { label: "60-month interest", value: "$4,701.80", note: "29701.80 - 25000" },
+        { label: "72-month payment", value: "$426.23", note: "25000 x 0.00583333 / (1 - 1.00583333^-72)" },
+        { label: "72-month total paid", value: "$30,688.21", note: "426.23 x 72" },
+        { label: "72-month interest", value: "$5,688.21", note: "30688.21 - 25000" },
+        { label: "Payment saved by the longer term", value: "$68.80/mo", note: "495.03 - 426.23" },
+        { label: "Extra total cost of the longer term", value: "$986.41", note: "30688.21 - 29701.80" },
+      ],
+      conclusion:
+        "The longer loan buys $68.80 a month of breathing room and charges $986.41 for it — 3.9% of the amount borrowed — for twelve additional months at an unchanged rate. That is why the longer term is the one usually offered first: it wins every comparison run on the monthly payment, and loses on every comparison run on total cost.",
+    },
+    mistakes: [
+      {
+        title: "Choosing the loan with the lowest payment",
+        body: "A lower payment achieved with a longer term increases what you pay, by $986.41 in the example above. Payment and total cost move in opposite directions when the term changes, so a decision made on payment alone is a decision made against total cost.",
+      },
+      {
+        title: "Comparing a fixed rate against an advertised variable rate",
+        body: "The variable figure is an introductory rate that applies for a defined period and then resets against an index. Setting it beside a fixed rate compares a known cost to an unknown one, and the value of the fixed loan is precisely that it does not move.",
+      },
+      {
+        title: "Comparing APR across different terms",
+        body: "APR is an annualised all-in figure, which makes it the right comparison when two offers share a term and differ in fees. Across different terms it hides the total, because a 72-month loan can show a competitive APR while costing more than a 60-month loan at the same APR. Match the term first, compare APR inside it, then confirm with total cost.",
+      },
+    ],
+  },
+
+  "529-calculator": {
+    intro:
+      "A 529 plan changes the tax treatment of an investment, not the investment itself. The growth is ordinary compounding; the reason to hold it in this account is what happens to the earnings when the money is spent on qualifying education.",
+    mechanics: [
+      {
+        title: "Contributions are not federally deductible — the growth is what is sheltered",
+        body: "Unlike a traditional IRA, money paid into a 529 plan is not deductible on a federal return. The benefit sits at the other end: earnings accumulate without an annual tax drag and, when withdrawn to pay qualified education expenses, come out free of federal income tax. Some states offer a deduction or credit against their own income tax for contributions, on terms that differ by state. The federal treatment and the state treatment are two separate questions and should be answered separately.",
+      },
+      {
+        title: "The arithmetic is the same as any annuity",
+        body: "Regular contributions growing at a fixed rate produce a future value of P x [(((1+r)^n) - 1) / r] x (1+r), where P is the periodic contribution, r the periodic rate and n the number of periods. The final factor of (1+r) accounts for contributions made at the start of each year rather than the end. Nothing about the account alters this formula. What the account alters is the tax on the result.",
+      },
+      {
+        title: "The penalty applies only to non-qualified withdrawals, and only to the earnings",
+        body: "A withdrawal not used for qualified expenses makes the earnings portion taxable and adds a 10% federal penalty on that portion; the contributions come out without either, because they were made from already-taxed money. That is the design: the tax benefit is conditional on the spending, which is why the account is not a general-purpose investment account with a bonus attached.",
+      },
+    ],
+    example: {
+      title: "Worked example: $2,500 a year for 18 years at 6%",
+      setup:
+        "Contribution $2,500 at the start of each year for 18 years. Assumed annual return 6.00%, so (1.06)^18 = 2.854339 and the annuity factor is (2.854339 - 1) / 0.06 = 30.90565. The return is an assumption; the tax treatment does not depend on it.",
+      rows: [
+        { label: "Total contributed", value: "$45,000.00", note: "2500 x 18" },
+        { label: "Value, contributions at start of year", value: "$81,899.98", note: "2500 x 30.90565 x 1.06" },
+        { label: "Value, contributions at end of year", value: "$77,264.13", note: "2500 x 30.90565" },
+        { label: "Growth on the start-of-year basis", value: "$36,899.98", note: "81899.98 - 45000" },
+        { label: "Growth as a share of the balance", value: "45.1%", note: "36899.98 / 81899.98" },
+      ],
+      conclusion:
+        "Eighteen years of $2,500 produces about $81,900, of which $36,900 — 45% of the balance — is growth rather than contributions. In a taxable account that growth is taxed as it arises and again as it is realised. In a 529 it is not taxed at all when the withdrawal pays qualified education expenses, so the shelter on this balance is worth the tax on $36,900. That is the whole of the tax argument for the account.",
+    },
+    mistakes: [
+      {
+        title: "Expecting a federal deduction",
+        body: "There is no federal deduction for a 529 contribution. The benefit is tax-free growth and tax-free qualified withdrawals. A state deduction may exist, and if it does it applies to that state's income tax only — not to the federal bill.",
+      },
+      {
+        title: "Contributing at the end of the year without noticing the cost",
+        body: "A contribution made at the start of the year compounds for twelve months longer than one made at the end. Over 18 years that timing difference is $4,635.85 on the same $45,000 of contributions — 81,899.98 against 77,264.13. The contributions are identical; only the date changed.",
+      },
+      {
+        title: "Withdrawing without matching the expense to the year",
+        body: "The tax-free treatment attaches to qualified expenses paid in the same period, not to the account in general. A withdrawal larger than the qualified expenses for that year makes the excess earnings taxable and subject to the 10% penalty, even when the money is ultimately spent on education — so a distribution taken in December for a January bill is treated differently from one taken in January.",
+      },
+    ],
+  },
+
+  "closing-costs-calculator": {
+    intro:
+      "Closing costs are not all costs. Part of that number is a prepayment of bills you would pay anyway, and part is the price of the loan. Separating the two is the difference between knowing what you are buying and knowing what you are setting aside.",
+    mechanics: [
+      {
+        title: "Roughly 2% to 5% of the price, but the range hides the composition",
+        body: "Closing costs are commonly estimated at 2% to 5% of the purchase price, which on a $400,000 home is $8,000 to $20,000. The range is wide because it bundles three unlike things: lender fees for making the loan, third-party fees for services the transaction requires, and prepaid items that are your own money funded in advance. A rule of thumb gives you a total; the Loan Estimate lists the components, which is the only way to see what can be shopped and what cannot.",
+      },
+      {
+        title: "Prepaid interest and escrow reserves are not fees",
+        body: "Prepaid interest covers the interest from the closing date to the end of that month, charged because the first regular payment is not due until the following month. At 6.5% on a $320,000 loan it accrues at $56.99 a day, so closing on the 15th costs about $854.79. Escrow reserves are several months of property tax and insurance collected up front and held to pay those bills when they fall due. Both are obligations you already owe. Neither is revenue to the lender, and neither reduces the price of the loan.",
+      },
+      {
+        title: "Cash to close is a larger number than closing costs",
+        body: "Cash to close is the down payment plus the closing costs plus any prepaid items and reserves. On a $400,000 home with 20% down, the down payment alone is $80,000; closing costs at 3% add $12,000; the cheque at settlement is therefore $92,000 — 23% of the purchase price — even though only part of that $12,000 is money the lender keeps. Reading the closing-cost figure as the cash required is among the more expensive small errors in a purchase.",
+      },
+    ],
+    example: {
+      title: "Worked example: $400,000 purchase, 20% down, 3% closing costs",
+      setup:
+        "Purchase price $400,000. Down payment 20% = $80,000. Closing costs assumed at 3% of the price. Loan $320,000 at 6.5%. Closing on the 15th of the month.",
+      rows: [
+        { label: "Down payment", value: "$80,000.00", note: "0.20 x 400000" },
+        { label: "Loan amount", value: "$320,000.00", note: "400000 - 80000" },
+        { label: "Closing costs at 3%", value: "$12,000.00", note: "0.03 x 400000" },
+        { label: "Cash to close", value: "$92,000.00", note: "80000 + 12000" },
+        { label: "Per-diem prepaid interest", value: "$56.99/day", note: "320000 x 0.065 / 365" },
+        { label: "Prepaid interest, 15 days", value: "$854.79", note: "56.99 x 15" },
+        { label: "Escrow reserves, 3 months of a $500 bill", value: "$1,500.00", note: "500 x 3" },
+      ],
+      conclusion:
+        "The $12,000 of closing costs contains $854.79 of prepaid interest and $1,500 of escrow — $2,354.79 that settles existing obligations rather than buying anything from the lender. Meanwhile the cash needed at settlement is $92,000, which is 23% of the purchase price rather than the 3% that gets quoted. Both numbers describe the same transaction, and they differ by a factor of nearly eight.",
+    },
+    mistakes: [
+      {
+        title: "Treating the closing-cost percentage as the cash needed",
+        body: "The quoted percentage excludes the down payment. On a 20%-down purchase it understates the cheque by a factor of nearly eight — 3% against 23% in the example above. Budget from cash to close, not from the closing-cost estimate.",
+      },
+      {
+        title: "Treating escrow reserves and prepaid interest as negotiable fees",
+        body: "They are not a charge for a service; they are money you owe, collected early. An estimate lowered by reducing them usually means a larger bill shortly after closing, because the taxes and insurance still have to be paid from somewhere.",
+      },
+      {
+        title: "Assuming every line is fixed",
+        body: "Some items can be shopped — title search and title insurance, the settlement agent, survey, pest inspection — and choosing your own provider for those is a real cost decision. Others cannot: recording fees and transfer taxes are set by the jurisdiction, and appraisal and credit report fees go to the parties that performed the work. The Loan Estimate marks which is which, which is why it is a better instrument than a percentage.",
+      },
+    ],
+  },
 };

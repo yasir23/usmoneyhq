@@ -54,6 +54,71 @@ def fetch(url):
         return 0, "", f"__ERROR__ {e}"
 
 
+class _NoRedirect(urllib.request.HTTPRedirectHandler):
+    """Refuse to follow redirects, so a 3xx is observable instead of transparent."""
+
+    def redirect_request(self, req, fp, code, msg, headers, newurl):
+        return None
+
+
+def fetch_no_redirect(url):
+    """Return (status, location) WITHOUT following redirects. Never raises."""
+    opener = urllib.request.build_opener(_NoRedirect)
+    try:
+        req = urllib.request.Request(url, headers=UA)
+        with opener.open(req, timeout=TIMEOUT) as r:
+            return r.status, (r.headers.get("Location") or "")
+    except urllib.error.HTTPError as e:
+        return e.code, (e.headers.get("Location") or "")
+    except Exception as e:
+        return 0, f"__ERROR__ {e}"
+
+
+# A host alias serving 200 alongside the canonical host duplicates every page
+# and splits crawl budget. Search Console's page export showed www carrying 164
+# rows / 5,719 impressions against the apex's 388 / 19,429 — the same pages
+# twice, at different positions. A canonical tag is a hint; a 301 is a
+# directive, and only the 301 removes the duplicate from the report.
+#
+# Declared per domain, and only for domains that want consolidation, so a
+# domain that deliberately serves its www alias is not flagged. Paths include
+# "/" plus one deep page: a host rule that works on the root but not on nested
+# routes is a real failure mode, and the root alone would not catch it.
+WWW_MUST_301 = {
+    "https://usmoneyhq.com": ["/", "/cd-calculator"],
+}
+
+
+def check_host_alias(base):
+    """Returns a list of failure strings for the www alias of `base`."""
+    fails = []
+    host = base.split("//", 1)[-1].rstrip("/")
+
+    for path in WWW_MUST_301.get(base, []):
+        st, loc = fetch_no_redirect(f"https://www.{host}{path}")
+        where = f"www.{host}{path}"
+
+        if st == 200:
+            fails.append(
+                f"{where} returns 200 — the alias host serves the canonical page "
+                f"(duplicate content; every page counts twice)"
+            )
+        elif st in (301, 308):
+            if not loc.startswith(base):
+                fails.append(f"{where} redirects to {loc or 'nowhere'}, not to {base}")
+            elif "//www." in loc:
+                fails.append(f"{where} redirects to another www host: {loc}")
+        elif st in (302, 307):
+            fails.append(
+                f"{where} uses a temporary redirect ({st}) — host consolidation "
+                f"needs a permanent 301/308 to pass authority"
+            )
+        else:
+            fails.append(f"{where} returned HTTP {st} (expected 301 to {base})")
+
+    return fails
+
+
 def check_domain(base, want):
     """Returns a list of failure strings. Empty list == healthy."""
     fails = []
@@ -106,6 +171,9 @@ def check_domain(base, want):
             fails.append("homepage has NO JSON-LD (AEO/GEO surface missing)")
         elif "@type" not in body:
             fails.append("JSON-LD present but contains no @type")
+
+    # ── host consolidation (www alias must not serve content) ───────────────
+    fails.extend(check_host_alias(base))
 
     return fails
 
