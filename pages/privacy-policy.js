@@ -24,6 +24,8 @@ export default function PrivacyPolicy() {
           <h2>Cookies and Advertising</h2>
           <p>We use Google AdSense to display advertisements. Google and its partners use cookies (including the DART cookie) to serve ads based on your prior visits to this and other websites. You may opt out of personalized advertising by visiting <a href="https://adssettings.google.com">Google Ads Settings</a>.</p>
           <p>Third-party vendors, including Google, use cookies to serve ads based on prior visits to this website or other websites.</p>
+          <p><strong>Google Analytics 4:</strong> We use Google Analytics 4 to measure page views and understand which calculators are used. It sets cookies and collects usage data such as the pages viewed, an approximate location derived from your IP address, and device type. We do not receive your name, email address, or contact details from it. You can opt out with the <a href="https://tools.google.com/dlpage/gaoptout">Google Analytics opt-out browser add-on</a>.</p>
+          <p><strong>Our own page counter:</strong> We also count page views through a counter on our own servers. It sets no cookies, stores no IP address, and does not attempt to identify you as an individual — it cannot tell two visitors apart and is not used to build any profile.</p>
 
           <h2>How We Use Information</h2>
           <p>We use aggregated data to understand traffic patterns, improve our tools, and display relevant advertising. We do not sell personal information.</p>

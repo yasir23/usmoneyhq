@@ -1,12 +1,18 @@
 // app/api/px/route.ts — first-party pageview + conversion beacon.
 //
 // WHY THIS EXISTS
-// GA4 is unwired (lib/analytics.ts has GA4_ID = ""), so the site has NO pageview
-// measurement at all. The strategy requires sessions, landing pages, source and
-// conversions before any optimisation decision is meaningful — you cannot run a
-// weekly cycle on no data. Cloudflare Web Analytics is the richer free option
-// and needs no code; this is the piece that works the moment it deploys, with
-// no account action and no third party.
+// Written when GA4 was unwired (lib/analytics.ts had GA4_ID = "") and the site
+// therefore had no pageview measurement at all. GA4 was connected on
+// 2026-10-06, so this is no longer the only measurement — but it is still the
+// only one that answers without a third party, does not depend on a Google tag
+// loading, and records a pageview on client-side route changes. Keep it for
+// those, and because a measurement that keeps working when the vendor changes
+// is the difference between owning your numbers and renting them.
+//
+// It is also worth being precise about what it does NOT give you: the country
+// comes from Cloudflare's edge header rather than an IP lookup, and no id is
+// stored, so distinctness is not measurable here. Read these rows as events,
+// never as unique users. GA4 is where unique users come from.
 //
 // SAME DURABILITY CONTRACT as /api/go: always one structured stdout line, which
 // Cloudflare Workers Logs and Logpush capture with no new infrastructure. If

@@ -119,6 +119,47 @@ def check_host_alias(base):
     return fails
 
 
+# A dead analytics tag is invisible from the outside. GA4 reports "no data
+# received from your website yet", which reads as "nobody visited" rather than
+# "the tag stopped rendering" — and that ambiguity is exactly what hid this
+# site's missing measurement until it was found by hand. Cloudflare showed
+# 100,925 pageviews the whole time; GA4 would have shown nothing, and nothing
+# looks like no traffic.
+#
+# Only domains that carry a tag are listed, so an untagged domain is not
+# flagged. The check asserts the id AND the loader: an id with no gtag.js
+# collects nothing, so presence of the string alone is not the contract.
+GA4_EXPECTED = {
+    "https://usmoneyhq.com": "G-9RQVWQHX9Y",
+}
+
+
+def check_ga4(base):
+    """Returns a list of failure strings for the GA4 tag on `base`."""
+    want = GA4_EXPECTED.get(base)
+    if not want:
+        return []
+
+    st, _ct, body = fetch(base)
+    if st != 200:
+        return [f"homepage HTTP {st} — cannot verify the GA4 tag"]
+
+    if want not in body:
+        return [
+            f"homepage does not carry the GA4 measurement id {want} — GA4 will "
+            f"report 'no data received', which looks like no traffic rather "
+            f"than a dead tag"
+        ]
+
+    if "googletagmanager.com/gtag/js" not in body:
+        return [
+            f"GA4 id {want} is in the HTML but the gtag.js loader is not — "
+            f"the id alone collects nothing"
+        ]
+
+    return []
+
+
 def check_domain(base, want):
     """Returns a list of failure strings. Empty list == healthy."""
     fails = []
@@ -174,6 +215,9 @@ def check_domain(base, want):
 
     # ── host consolidation (www alias must not serve content) ───────────────
     fails.extend(check_host_alias(base))
+
+    # ── analytics tag still rendering ───────────────────────────────────────
+    fails.extend(check_ga4(base))
 
     return fails
 
