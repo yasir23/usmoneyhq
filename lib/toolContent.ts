@@ -2121,4 +2121,1282 @@ export const TOOL_CONTENT: Record<string, ToolContent> = {
       },
     ],
   },
+
+  "loan-calculator": {
+    intro:
+      "A loan payment answers a question you did not ask. The useful question is what the money costs in total, and that number is set by the term as much as by the rate.",
+    mechanics: [
+      {
+        title: "One formula, four inputs",
+        body: "The payment is P x r / (1 - (1 + r)^-n), where P is the amount borrowed, r the monthly rate and n the number of payments. Notice what is not in it: fees, insurance or anything about you. The formula prices money over time and nothing else, which is why two borrowers with the same loan and the same rate pay the same amount.",
+      },
+      {
+        title: "Term is the expensive lever",
+        body: "Lowering the rate helps, but stretching the term costs more because you pay interest for longer on a balance that falls more slowly. A shorter term raises the payment and lowers the total, and the gap is usually larger than the gap between two advertised rates.",
+      },
+      {
+        title: "What the payment excludes",
+        body: "Origination fees, late charges and any required insurance sit outside the payment. A loan with the lowest payment is not automatically the cheapest loan, because the fee you paid at the start is not in the monthly figure at all.",
+      },
+    ],
+    example: {
+      title: "Worked example: $20,000 at 8% over 60 months",
+      setup:
+        "Amount borrowed $20,000. Annual rate 8%, so the monthly rate is 0.08 / 12 = 0.00666667. Term 60 months.",
+      rows: [
+        { label: "Monthly payment", value: "$405.53", note: "20000 x 0.00666667 / (1 - 1.00666667^-60)" },
+        { label: "Total paid", value: "$24,331.67", note: "405.53 x 60" },
+        { label: "Total interest", value: "$4,331.67", note: "24331.67 - 20000" },
+        { label: "Interest as a share of principal", value: "21.7%", note: "4331.67 / 20000" },
+      ],
+      conclusion:
+        "Borrowing $20,000 costs $4,331.67 in interest over five years — about 22% of the amount borrowed, or roughly 4.3 cents per dollar per year. The payment is the number you budget from; this is the number that tells you what the loan is.",
+    },
+    mistakes: [
+      {
+        title: "Choosing the offer with the lowest payment",
+        body: "The lowest payment usually comes from the longest term, and the longest term carries the most interest. Payment and total cost move in opposite directions whenever the term changes.",
+      },
+      {
+        title: "Comparing rates without comparing terms",
+        body: "A lower rate over a longer term can still cost more than a higher rate over a shorter one. Compare total cost across different terms, and rate only within the same term.",
+      },
+      {
+        title: "Leaving fees out of the comparison",
+        body: "Origination fees are real money paid at the start. A loan with a slightly lower rate and a large fee can cost more than a slightly higher rate with none.",
+      },
+    ],
+  },
+
+  "student-loan-calculator": {
+    intro:
+      "Student loans are unusual in offering a choice of term, and the choice is the whole cost. The same balance repaid over 25 years instead of 10 costs far more while feeling more affordable every month.",
+    mechanics: [
+      {
+        title: "The balance is not the cost",
+        body: "A student loan balance is what you borrowed; the cost is what you repay. Those two numbers can differ by more than the balance itself, and the difference is set almost entirely by the repayment term you select.",
+      },
+      {
+        title: "The term trade is stark",
+        body: "Extending a term lowers the payment and raises the total, and on student balances the total rises by more than most people expect — because the balance is large and the term is long. The monthly relief is immediate; the extra interest arrives slowly and is easy not to notice.",
+      },
+      {
+        title: "Capitalisation and deferment",
+        body: "Unpaid interest during a deferment or forbearance can be added to the principal, and interest then accrues on the larger balance. That single event can raise the cost of the loan more than any rate change, which is why keeping interest paid during a pause matters.",
+      },
+    ],
+    example: {
+      title: "Worked example: $35,000 at 6.5%, 10 years versus 25 years",
+      setup:
+        "Balance $35,000. Annual rate 6.5%, so the monthly rate is 0.00541667. Two terms compared with the rate held constant.",
+      rows: [
+        { label: "Payment over 10 years", value: "$397.42", note: "35000 at 6.5% over 120 months" },
+        { label: "Interest over 10 years", value: "$12,690.15", note: "397.42 x 120 - 35000" },
+        { label: "Payment over 25 years", value: "$236.32", note: "35000 at 6.5% over 300 months" },
+        { label: "Interest over 25 years", value: "$35,896.75", note: "236.32 x 300 - 35000" },
+        { label: "Monthly relief from the longer term", value: "$161.10", note: "397.42 - 236.32" },
+        { label: "Extra interest from the longer term", value: "$23,206.60", note: "35896.75 - 12690.15" },
+      ],
+      conclusion:
+        "The longer term saves $161.10 a month and costs $23,206.60 more — on a $35,000 balance, the extra interest is about two thirds of the amount borrowed. That is the trade in one line, and it is worth deciding deliberately rather than selecting the lower payment by default.",
+    },
+    mistakes: [
+      {
+        title: "Choosing the term by payment alone",
+        body: "The lowest payment is available on the longest term, which is also the most expensive. If the goal is minimising cost, the shortest affordable term wins.",
+      },
+      {
+        title: "Ignoring interest capitalisation during a pause",
+        body: "Deferment or forbearance does not stop interest on most loans. If it capitalises, the principal grows and every subsequent payment is calculated on a larger number.",
+      },
+      {
+        title: "Assuming extra payments are applied where you want",
+        body: "Unless directed, extra payments may be applied to future instalments rather than to principal. Confirm it is reducing principal, or the extra money does not shorten the loan.",
+      },
+    ],
+  },
+
+  "take-home-pay-calculator": {
+    intro:
+      "Gross pay is what the offer letter says. Take-home is what reaches the account, and the difference is not tax — it is tax plus payroll contributions, and the gap widens as income rises.",
+    mechanics: [
+      {
+        title: "Payroll contributions come off first",
+        body: "FICA is withheld at a statutory rate on wages, split between social security and Medicare. It applies from the first dollar, so it is a flat slice off the top rather than a progressive one, and it is why the very first hour of work is already taxed.",
+      },
+      {
+        title: "Income tax is progressive, so the rate is not one number",
+        body: "The rate that applies to your last dollar is not the rate that applies to all of them. Tax is calculated band by band, so the effective rate on total income is always below the marginal rate. Quoting one figure as your tax rate is the most common error in this calculation.",
+      },
+      {
+        title: "What else comes off",
+        body: "Pre-tax retirement contributions, health premiums and commuter benefits reduce taxable wages before income tax is calculated, which is why they cost less than their face value. Post-tax deductions such as Roth contributions and wage garnishments reduce take-home without reducing taxable income.",
+      },
+    ],
+    example: {
+      title: "Worked example: $60,000 gross with illustrative tax",
+      setup:
+        "Gross pay $60,000. FICA at the statutory 7.65% combined rate. Income tax taken as an assumed $9,000 — an illustration, not a bracket table, because rates and brackets change and this page does not quote them.",
+      rows: [
+        { label: "FICA at 7.65%", value: "$4,590.00", note: "60000 x 0.0765" },
+        { label: "Assumed income tax", value: "$9,000.00", note: "illustrative, not a bracket figure" },
+        { label: "Take-home for the year", value: "$46,410.00", note: "60000 - 4590 - 9000" },
+        { label: "Take-home per month", value: "$3,867.50", note: "46410 / 12" },
+        { label: "Total withheld as a share of gross", value: "22.7%", note: "13590 / 60000" },
+      ],
+      conclusion:
+        "On $60,000 the deductions come to 22.7% of gross, leaving $3,867.50 a month. The FICA slice is fixed at 7.65% for everyone earning wages; the income tax slice is the part that moves, and it is the part that makes comparing two salaries on gross alone unreliable.",
+    },
+    mistakes: [
+      {
+        title: "Treating your marginal rate as your average rate",
+        body: "The effective rate on total income is always lower than the rate on the last dollar, because the lower bands were taxed at lower rates. Budgeting as though every dollar is taxed at the marginal rate understates take-home.",
+      },
+      {
+        title: "Assuming a raise is worth its gross amount",
+        body: "A raise lands in your highest band, so the net increase is smaller than the gross increase. It is still an increase — the mechanism never reduces take-home — but it is not the headline number.",
+      },
+      {
+        title: "Ignoring pre-tax deductions when comparing offers",
+        body: "A higher salary with expensive health premiums and no retirement match can leave less in the account than a lower salary with generous pre-tax benefits. Compare net, not gross.",
+      },
+    ],
+  },
+
+  "property-tax-calculator": {
+    intro:
+      "Property tax is a percentage of someone else's opinion of your house, applied through a rate you did not set, and it changes without your consent. It is also the line item most likely to move an escrow payment.",
+    mechanics: [
+      {
+        title: "Mill rates are just per-thousand rates",
+        body: "A mill is one dollar of tax per thousand dollars of assessed value. A 22-mill rate on a $380,000 assessment is 380,000 x 22 / 1000 = $8,360. The arithmetic is small; the variable is the assessment, which is made by the county and can move independently of what your house would sell for.",
+      },
+      {
+        title: "Assessed value is not market value",
+        body: "Many jurisdictions assess at a fraction of market value, or on a cycle that lags the market by years. An assessment freeze, a cap on annual increases, or a homestead exemption all break the link between what the house is worth and what it is taxed on. That is why two neighbouring houses can carry very different bills.",
+      },
+      {
+        title: "Where the money goes and why it rises",
+        body: "The rate is the total of several levies — county, municipality, school district, and often special districts — each set by its own body. The bill rises when the total levy rises or when the assessed value rises, and the two can move in opposite directions in a single year.",
+      },
+    ],
+    example: {
+      title: "Worked example: $380,000 assessed value at 22 mills",
+      setup:
+        "Assessed value $380,000. Combined mill rate 22 mills, which is an assumed figure rather than a quoted rate — mill rates are set locally and vary widely.",
+      rows: [
+        { label: "One mill on this value", value: "$380.00", note: "380000 / 1000" },
+        { label: "Annual tax", value: "$8,360.00", note: "380000 x 22 / 1000" },
+        { label: "Monthly equivalent", value: "$696.67", note: "8360 / 12" },
+      ],
+      conclusion:
+        "The annual bill is $8,360, or $696.67 a month — one of the largest single line items in a housing budget after the mortgage itself, and unlike the mortgage it is never repaid. An increase of two mills on the same assessment adds $760 a year, which is why a reassessment year is worth checking rather than assuming.",
+    },
+    mistakes: [
+      {
+        title: "Using the purchase price as the assessed value",
+        body: "The two are set by different processes and often differ. The county's assessment is the number the tax is calculated on, and it is published.",
+      },
+      {
+        title: "Forgetting that escrow adjusts after a reassessment",
+        body: "When the assessment rises, the servicer raises the monthly escrow to cover it, and may also collect a shortage for the previous year. The payment can jump for two reasons at once.",
+      },
+      {
+        title: "Assuming the rate is fixed",
+        body: "Mill rates are set annually by each levying body. A rate can rise even when your own assessment does not.",
+      },
+    ],
+  },
+
+  "tax-refund-calculator": {
+    intro:
+      "A refund is not a reward. It is the difference between what was withheld from your pay and what you actually owed — money that sat with the government instead of with you for a year, earning nothing.",
+    mechanics: [
+      {
+        title: "Withholding versus liability",
+        body: "Your employer withholds an amount based on the form you filed, and your liability is what the tax return calculates. If withholding exceeded liability you get the difference back; if it fell short, you pay it. A refund is exactly that subtraction, not a payment from the government.",
+      },
+      {
+        title: "A large refund is an interest-free loan you made",
+        body: "Every dollar over-withheld was unavailable to you for up to twelve months. A $1,600 refund is $133.33 a month that could have been in an account earning something, so the correct target is a small refund or a small balance due, not a large one.",
+      },
+      {
+        title: "Why it swings between years",
+        body: "A second job, a bonus, a change in filing status, a new dependent, or a withdrawal from a retirement account can all move liability without moving withholding. A refund that changes by thousands between two similar years is usually one of those events rather than an error.",
+      },
+    ],
+    example: {
+      title: "Worked example: withholding against liability",
+      setup:
+        "Two scenarios with the same withholding of $12,000, differing only in the liability the return calculates.",
+      rows: [
+        { label: "Withheld", value: "$12,000.00", note: "the sum across the year" },
+        { label: "Liability in case A", value: "$10,400.00", note: "assumed" },
+        { label: "Refund in case A", value: "$1,600.00", note: "12000 - 10400" },
+        { label: "Liability in case B", value: "$13,000.00", note: "assumed" },
+        { label: "Balance owed in case B", value: "$1,000.00", note: "13000 - 12000" },
+        { label: "Monthly cost of the $1,600 over-withholding", value: "$133.33", note: "1600 / 12" },
+      ],
+      conclusion:
+        "Same withholding, two different outcomes, entirely from what the liability turns out to be. In case A you lent the government $1,600 across the year in monthly instalments of $133.33 and were repaid without interest. A refund is a symptom of an imprecise withholding form, not a sign the system worked.",
+    },
+    mistakes: [
+      {
+        title: "Treating the refund as free money",
+        body: "It is your own money, returned late. It was not a gain, and it earned nothing while it was held.",
+      },
+      {
+        title: "Filing a new withholding form to chase a bigger refund",
+        body: "Increasing withholding produces a larger refund and less take-home pay by exactly the same amount. Nothing is gained except the illusion of a windfall.",
+      },
+      {
+        title: "Assuming no refund means something went wrong",
+        body: "A small balance owed, or a small refund, is the accurate outcome. It means withholding matched liability, which is the goal.",
+      },
+    ],
+  },
+
+  "sales-tax-calculator": {
+    intro:
+      "Sales tax is charged on the price and not on the total, which sounds obvious until you need to work backwards from a receipt and extract the tax that is already inside the figure.",
+    mechanics: [
+      {
+        title: "Adding tax",
+        body: "Multiply the price by the rate and add it: $250 at 8.25% is $20.63 of tax on top of the $250, for a total of $270.63. The rate itself is a stack of overlapping jurisdictions — state, county, city and often a special district — which is why the combined rate at one address can differ from the rate a mile away.",
+      },
+      {
+        title: "Extracting tax from a gross figure",
+        body: "When the receipt shows only a total, dividing by 1 + rate gives the pre-tax price, and subtracting that from the total gives the tax. It is not the same as multiplying the total by the rate — that common mistake overstates the tax, because the rate was applied to a smaller number than the total.",
+      },
+      {
+        title: "What is taxed varies",
+        body: "Whether a given item is taxable at all depends on the jurisdiction: groceries, prescription medicine, clothing and digital goods are treated differently in different states, and some states have no sales tax at all. The rate is only half the answer; whether it applies is the other half.",
+      },
+    ],
+    example: {
+      title: "Worked example: $250 at 8.25%",
+      setup:
+        "Pre-tax price $250. Combined rate 8.25%, which is an assumed rate rather than a quoted one — combined rates are set locally.",
+      rows: [
+        { label: "Tax added", value: "$20.63", note: "250 x 0.0825" },
+        { label: "Total charged", value: "$270.63", note: "250 x 1.0825" },
+        { label: "Base price inside $270.63", value: "$250.00", note: "270.63 / 1.0825" },
+        { label: "Tax inside $270.63", value: "$20.63", note: "270.63 - 250.00" },
+        { label: "The wrong way to extract it", value: "$22.33", note: "270.63 x 0.0825 — overstates the tax" },
+      ],
+      conclusion:
+        "The correct extraction divides by 1.0825 and gets $250.00 and $20.63. Multiplying the total by the rate instead gives $22.33, which is $1.70 too high — because the tax was never charged on the total. The error is small on one purchase and systematic across a year of expenses.",
+    },
+    mistakes: [
+      {
+        title: "Multiplying the gross total by the rate to find the tax",
+        body: "The rate was applied to the pre-tax price, which is smaller than the total. Multiplication by the rate on the total always overstates the tax.",
+      },
+      {
+        title: "Assuming one rate applies everywhere in a state",
+        body: "County, city and district taxes stack on top of the state rate. The combined rate is address-specific.",
+      },
+      {
+        title: "Assuming the rate applies to everything",
+        body: "Exemptions for food, medicine and other categories mean the effective rate on a basket can be far below the headline rate.",
+      },
+    ],
+  },
+
+  "tax-bracket-calculator": {
+    intro:
+      "A tax bracket does not tax all your income. It taxes the income inside it, which is why moving into a higher bracket never reduces what you keep — and why your effective rate is always lower than your marginal rate.",
+    mechanics: [
+      {
+        title: "The brackets stack",
+        body: "Income is taxed in bands. The first band is taxed at the lowest rate, the next band at a higher rate, and so on, with each rate applying only to the income that falls inside that band. Your marginal rate is the rate on the last band you reach; your effective rate is total tax divided by total income, and it is always the smaller of the two.",
+      },
+      {
+        title: "A raise never lowers take-home",
+        body: "It is a persistent myth that earning slightly more can push you into a higher bracket and leave you worse off. It cannot happen under a band system, because only the income above the threshold is taxed at the higher rate. Earning more always leaves you with more, though the increase is smaller than the gross raise.",
+      },
+      {
+        title: "Why the illustration below is hypothetical",
+        body: "Tax rates and band boundaries change, vary by filing status, and interact with deductions, credits and other income. This page deliberately does not print a current bracket table, because a table that is quietly out of date is worse than none. The example below uses invented bands to show the mechanism; the calculator applies the figures you give it.",
+      },
+    ],
+    example: {
+      title: "Worked example: a hypothetical three-band system",
+      setup:
+        "Invented bands for illustration only: 10% on the first $20,000, 20% on the next $30,000, 30% above $50,000. Income $70,000. These figures are not a real tax schedule and are not presented as one.",
+      rows: [
+        { label: "Tax on the first $20,000", value: "$2,000.00", note: "20000 x 0.10" },
+        { label: "Tax on the next $30,000", value: "$6,000.00", note: "30000 x 0.20" },
+        { label: "Tax on the remaining $20,000", value: "$6,000.00", note: "20000 x 0.30" },
+        { label: "Total tax", value: "$14,000.00", note: "2000 + 6000 + 6000" },
+        { label: "Marginal rate", value: "30%", note: "the rate on the last dollar" },
+        { label: "Effective rate", value: "20.0%", note: "14000 / 70000" },
+        { label: "Tax on a further $1,000 of income", value: "$300.00", note: "1000 x 0.30 — and you keep $700" },
+      ],
+      conclusion:
+        "The income sits in the 30% band and pays an effective 20%. The second number is the one that describes the year; the first is the one that describes the next dollar. A further $1,000 is taxed at $300 and $700 is kept — the bracket raises the rate on the margin and never confiscates the whole increase.",
+    },
+    mistakes: [
+      {
+        title: "Applying the marginal rate to all income",
+        body: "That would give $21,000 here instead of $14,000. The lower bands are taxed at their own lower rates, and ignoring that overstates the bill by 50%.",
+      },
+      {
+        title: "Believing a raise can reduce take-home",
+        body: "Only the income above a threshold is taxed at the higher rate, so take-home always rises with a raise. The net increase is smaller than the gross increase, which is a different thing.",
+      },
+      {
+        title: "Reading an effective rate as a target to optimise",
+        body: "The effective rate is an output, not a lever. It falls when income falls, which is not a strategy. Deductions and credits are the levers.",
+      },
+    ],
+  },
+
+  "escrow-calculator": {
+    intro:
+      "Escrow is not a fee. It is your own money, collected monthly so that a large annual bill does not arrive all at once — and the monthly figure is recalculated every year against whatever the tax and insurance actually became.",
+    mechanics: [
+      {
+        title: "It is a monthly average of annual bills",
+        body: "Add the annual property tax to the annual insurance premium and divide by twelve. Tax of $6,000 and insurance of $1,800 gives $7,800 a year, or $650 a month. That amount is added to principal and interest to produce the payment you actually make.",
+      },
+      {
+        title: "The cushion, and why there is a shortage",
+        body: "Servicers typically hold a cushion of a couple of months of escrow on top of what is currently due, to cover a bill that arrives before enough has been collected. When the actual tax or premium comes in higher than estimated, the account runs short, and the servicer recovers the shortage by raising the monthly amount — which is why escrow jumps often look larger than the underlying bill.",
+      },
+      {
+        title: "The overage is yours",
+        body: "If the bills come in lower than estimated, the surplus belongs to you, not the servicer. It is either refunded or credited against future payments, and asking for the annual escrow statement is how you check which happened.",
+      },
+    ],
+    example: {
+      title: "Worked example: $6,000 tax and $1,800 insurance",
+      setup:
+        "Annual property tax $6,000, annual insurance $1,800. Principal and interest payment taken as $1,798.65 from a $300,000 loan at 6% over 30 years.",
+      rows: [
+        { label: "Annual escrow total", value: "$7,800.00", note: "6000 + 1800" },
+        { label: "Monthly escrow", value: "$650.00", note: "7800 / 12" },
+        { label: "Full monthly payment", value: "$2,448.65", note: "1798.65 + 650" },
+        { label: "Two-month cushion", value: "$1,300.00", note: "650 x 2" },
+        { label: "Monthly escrow if tax rises to $6,600", value: "$700.00", note: "(6600 + 1800) / 12" },
+        { label: "Increase when a $600 shortage is also spread", value: "$100.00", note: "50 for the rise + 50 for the shortage" },
+      ],
+      conclusion:
+        "A $600 rise in the tax bill raises escrow by $50 a month — but the payment rises by $100, because the same year's shortage is also recovered over twelve months. That doubling is the reason an escrow adjustment so often looks disproportionate to the bill behind it.",
+    },
+    mistakes: [
+      {
+        title: "Treating escrow as a lender charge",
+        body: "It is your money held to pay your bills. The lender does not keep it, and an overage is refunded or credited to you.",
+      },
+      {
+        title: "Budgeting from principal and interest alone",
+        body: "Tax and insurance commonly add a substantial amount on top. A payment quote that excludes escrow is not the payment.",
+      },
+      {
+        title: "Assuming the escrow figure is stable",
+        body: "It is recalculated annually against actual bills, and a reassessment or an insurance renewal can move it substantially in one cycle.",
+      },
+    ],
+  },
+
+  "va-mortgage-calculator": {
+    intro:
+      "A VA loan's advantage is not only the absence of a down payment — it is the absence of monthly mortgage insurance, which on a low-down-payment conventional loan is a real and permanent cost until the balance falls far enough.",
+    mechanics: [
+      {
+        title: "No monthly mortgage insurance",
+        body: "A conventional loan with a small down payment requires private mortgage insurance until the balance reaches roughly 80% of value. A VA loan does not carry that monthly charge at all. On a $308,800 loan at a 0.60% annual rate that is $154.40 a month, and it is the single largest structural difference between the two.",
+      },
+      {
+        title: "A funding fee instead, which can be financed",
+        body: "VA loans charge a one-time funding fee rather than monthly insurance. The percentage depends on your down payment and whether you have used the entitlement before, so it is not a single number — check the current schedule. The fee is typically added to the loan balance, which raises the payment slightly but avoids cash at closing.",
+      },
+      {
+        title: "What the comparison must include",
+        body: "Comparing a VA payment to a conventional payment is only fair if the conventional figure includes its mortgage insurance and both include the same taxes and insurance. A VA payment compared against a conventional principal-and-interest figure will always look worse, because the VA loan is borrowing more at zero down.",
+      },
+    ],
+    example: {
+      title: "Worked example: $320,000 at 0% down, VA versus conventional",
+      setup:
+        "Purchase price $320,000. VA: no down payment, funding fee taken as an illustrative 2.15% and financed. Conventional: 3.5% down and monthly mortgage insurance at an assumed 0.60% a year. Both at 6.5% over 360 months.",
+      rows: [
+        { label: "VA funding fee at 2.15%", value: "$6,880.00", note: "320000 x 0.0215 — illustrative, check the current schedule" },
+        { label: "VA loan amount", value: "$326,880.00", note: "320000 + 6880" },
+        { label: "VA monthly payment", value: "$2,066.10", note: "326880 at 6.5% over 360" },
+        { label: "Conventional loan at 3.5% down", value: "$308,800.00", note: "320000 x 0.965" },
+        { label: "Conventional payment", value: "$1,951.83", note: "308800 at 6.5% over 360" },
+        { label: "Monthly mortgage insurance at 0.60%", value: "$154.40", note: "308800 x 0.006 / 12" },
+        { label: "Conventional all-in", value: "$2,106.23", note: "1951.83 + 154.40" },
+        { label: "VA advantage per month", value: "$40.12", note: "2106.23 - 2066.10" },
+      ],
+      conclusion:
+        "The VA loan borrows $6,880 more and still costs $40.12 a month less, because the conventional loan is paying $154.40 a month in insurance that the VA loan simply does not have. The VA loan also needed no down payment, so the comparison is between $0 at closing and $11,200 plus a monthly insurance charge.",
+    },
+    mistakes: [
+      {
+        title: "Comparing the VA payment to principal and interest only",
+        body: "The conventional figure must include its mortgage insurance or the comparison is between two different things. That omission makes the VA loan look worse than it is.",
+      },
+      {
+        title: "Treating the funding fee percentage as fixed",
+        body: "It varies with down payment and prior use of the entitlement. Using a single figure as though it were universal mis-states the cost.",
+      },
+      {
+        title: "Ignoring that the conventional insurance eventually ends",
+        body: "Conventional mortgage insurance can be cancelled once the balance falls far enough, so its cost is not permanent — but on a low down payment that can take years. The VA advantage is largest early and narrows over time.",
+      },
+    ],
+  },
+
+  "rent-vs-buy-calculator": {
+    intro:
+      "The comparison is not rent against a mortgage payment. It is the total cost of each path over the years you intend to stay, which for a short stay can favour renting by a wide margin.",
+    mechanics: [
+      {
+        title: "Buying costs more than the payment",
+        body: "Property tax, insurance and maintenance sit on top of principal and interest, and maintenance alone is commonly estimated near 1% of value a year. In the example below those three add $900 a month to a $1,798.65 mortgage payment, so the true monthly outflow is about 50% higher than the loan payment.",
+      },
+      {
+        title: "But part of the payment is not a cost",
+        body: "The principal portion of each payment converts cash into equity rather than spending it. Over five years on a $300,000 loan at 6%, $20,836.82 of principal is repaid — real value that offsets the outflow, though it is not liquid.",
+      },
+      {
+        title: "The break-even is a year count, not an opinion",
+        body: "Buying has large one-off costs at the start and large recurring costs throughout, but builds equity. Renting is cheaper monthly and builds nothing. The question is how many years it takes for equity and future appreciation to outweigh the extra cost — and that number is very sensitive to how long you stay.",
+      },
+    ],
+    example: {
+      title: "Worked example: five years, rent versus buy",
+      setup:
+        "Rent $2,000 a month rising 3% a year. Buy: $300,000 loan at 6% over 30 years, property tax and insurance $650 a month, maintenance $250 a month. Appreciation is excluded, so this measures cost only.",
+      rows: [
+        { label: "Rent over five years", value: "$127,419.26", note: "24000 + 24720 + 25461.60 + 26225.45 + 27012.21" },
+        { label: "Buying outflow over five years", value: "$161,919.00", note: "(1798.65 + 650 + 250) x 60" },
+        { label: "Balance after 60 payments", value: "$279,163.18", note: "amortised using the payment as displayed" },
+        { label: "Principal repaid", value: "$20,836.82", note: "300000 - 279163.18" },
+        { label: "Net cost of buying", value: "$141,082.18", note: "161919.00 - 20836.82" },
+        { label: "Renting is cheaper by", value: "$13,662.92", note: "141082.18 - 127419.26" },
+      ],
+      conclusion:
+        "Over five years and excluding appreciation, buying costs $13,662.92 more than renting — even after crediting the $20,836.82 of principal repaid. Buying wins on longer horizons because equity accumulates and the fixed mortgage payment erodes in real terms while rent rises, but on a five-year view the extra cost is real. Change the stay to ten or fifteen years and the answer usually moves the other way.",
+    },
+    mistakes: [
+      {
+        title: "Comparing rent to the mortgage payment",
+        body: "The mortgage payment excludes tax, insurance and maintenance, which commonly add 40-50% again. The full outflow is what the comparison needs.",
+      },
+      {
+        title: "Ignoring that principal is not spent",
+        body: "The principal portion becomes equity. Omitting that credit overstates the cost of buying; counting it as if it were cash understates the cash-flow strain.",
+      },
+      {
+        title: "Assuming appreciation will make a short stay work",
+        body: "Selling costs money, and a short holding period gives appreciation little time to cover it. A five-year stay is generally the shortest horizon where buying is defensible, and even then it depends on prices.",
+      },
+    ],
+  },
+
+  "retirement-calculator": {
+    intro:
+      "Retirement arithmetic has two halves that are usually discussed as one: how much you accumulate, and how much that balance can pay you without running out. The second is the harder half, because it depends on a future you cannot observe.",
+    mechanics: [
+      {
+        title: "Accumulation is an annuity",
+        body: "Regular contributions growing at a rate produce a future value of P x (((1 + r)^n - 1) / r). At $25,000 a year for 30 years and 6%, that is $1,976,454.66. The contributions total $750,000, so the majority of the balance is growth rather than deposits — which is why starting early outperforms contributing more later.",
+      },
+      {
+        title: "Withdrawal is a percentage, not a figure",
+        body: "A withdrawal rate is expressed as a share of the portfolio, and the share determines how long it lasts. A commonly cited starting point is 4%, which on $1,000,000 is $40,000 a year, or $3,333.33 a month. The lower the rate, the longer the money lasts and the more conservative the plan.",
+      },
+      {
+        title: "Why the two halves have different risks",
+        body: "Accumulation is exposed to how long you contribute and what the market does on average. Withdrawal is exposed to the ORDER of returns, because a bad stretch early in retirement permanently reduces the base every later withdrawal is calculated on. Two portfolios with identical average returns can support very different withdrawals if the sequence differs.",
+      },
+    ],
+    example: {
+      title: "Worked example: accumulating at $25,000 a year",
+      setup:
+        "Contribution $25,000 a year for 30 years at an assumed 6% annual return, contributions at year end. A 4% initial withdrawal rate applied to the result.",
+      rows: [
+        { label: "Total contributed", value: "$750,000.00", note: "25000 x 30" },
+        { label: "Balance after 30 years", value: "$1,976,454.66", note: "25000 x ((1.06^30 - 1) / 0.06)" },
+        { label: "Growth in the balance", value: "$1,226,454.66", note: "1976454.66 - 750000" },
+        { label: "4% withdrawal", value: "$79,058.19", note: "1976454.66 x 0.04" },
+        { label: "Capital needed for $40,000 a year", value: "$1,000,000.00", note: "40000 / 0.04" },
+        { label: "Monthly income from that capital", value: "$3,333.33", note: "40000 / 12" },
+      ],
+      conclusion:
+        "Thirty years of $25,000 produces about $1.98m, of which only $750,000 is your own money. At a 4% withdrawal that supports roughly $79,000 a year — $6,588 a month — against a target of $1,000,000 for a $40,000 income. The accumulation half is generous when the return is steady; the withdrawal half is where the plan is most likely to be surprised.",
+    },
+    mistakes: [
+      {
+        title: "Assuming a steady return",
+        body: "The annuity formula requires the same return every year. Real returns vary, and a bad sequence during the withdrawal years damages a plan far more than the same bad years during accumulation.",
+      },
+      {
+        title: "Treating the 4% figure as a rule",
+        body: "It is a starting point derived from historical data, not a guarantee. A longer retirement, higher fees or a lower-return environment all argue for a lower rate.",
+      },
+      {
+        title: "Ignoring what withdrawal does to tax and benefits",
+        body: "Withdrawals from traditional accounts are taxable income and can affect means-tested benefits and surcharges. The gross withdrawal is not the amount available to spend.",
+      },
+    ],
+  },
+
+  "retirement-age-calculator": {
+    intro:
+      "The age you can retire is not a personal characteristic. It is an output of how much you save, what it earns and what you intend to spend — and the first of those is the one you control.",
+    mechanics: [
+      {
+        title: "Three inputs, one output",
+        body: "Solve for time rather than balance: given a contribution, a return and a target, the years required is where the accumulated value reaches the target. At $25,000 a year and 7%, reaching $1,000,000 takes about 19.7 years. Change the contribution and the answer moves further than changing the return.",
+      },
+      {
+        title: "The savings rate dominates",
+        body: "Because the target is usually expressed as a multiple of spending, a higher savings rate both shortens the accumulation and lowers the spending the portfolio has to support. It attacks the problem from both ends at once, which is why it is the strongest lever available and the hardest to move.",
+      },
+      {
+        title: "The target is not a number, it is a ratio",
+        body: "Retiring at a given age mostly means having enough to sustain a chosen lifestyle indefinitely. Expressing the target as a multiple of annual spending makes it comparable across incomes; expressing it as a raw figure does not.",
+      },
+    ],
+    example: {
+      title: "Worked example: $25,000 a year at 7%",
+      setup:
+        "Contribution $25,000 a year, assumed return 7% a year, target $1,000,000. Contributions at year end.",
+      rows: [
+        { label: "Years to $1,000,000", value: "19.7 years", note: "ln(1 + 1000000 x 0.07 / 25000) / ln(1.07)" },
+        { label: "Balance after 20 years", value: "$1,024,887.31", note: "25000 x ((1.07^20 - 1) / 0.07)" },
+        { label: "Total contributed over 20 years", value: "$500,000.00", note: "25000 x 20" },
+        { label: "Growth over 20 years", value: "$524,887.31", note: "1024887.31 - 500000" },
+      ],
+      conclusion:
+        "At $25,000 a year the target arrives just under twenty years, and half the balance is growth rather than contributions. Note how little the answer depends on the exact starting age: the input that moves it is the contribution, and the second is the return. A retirement-age estimate is therefore a savings-rate estimate wearing a date.",
+    },
+    mistakes: [
+      {
+        title: "Treating the retirement age as a choice",
+        body: "It is a consequence of the savings rate, the return and the spending target. You choose the inputs and the age follows.",
+      },
+      {
+        title: "Assuming a higher return shortens the wait as much as saving more",
+        body: "Return assumptions are uncertain and can be wrong in both directions. Contributions are within your control, which makes them the more reliable lever.",
+      },
+      {
+        title: "Forgetting healthcare before eligibility for public programmes",
+        body: "Retiring before public health coverage begins means funding it privately, which raises the spending the portfolio must carry. That cost is not in the calculator's arithmetic and it can be substantial.",
+      },
+    ],
+  },
+
+  "rmd-calculator": {
+    intro:
+      "An RMD is a minimum, not a maximum, and it is calculated on a balance that no longer exists. Both of those facts catch people out in the first year it applies.",
+    mechanics: [
+      {
+        title: "Prior-year balance, divided by a factor from a table",
+        body: "The required amount is the December 31 balance from the previous year divided by an IRS life-expectancy factor for your age. At 73 the factor is 26.5, so $500,000 requires $18,867.92 — a 3.77% withdrawal. Because the divisor falls as you age, the required percentage rises every year.",
+      },
+      {
+        title: "The balance is a snapshot, the market is not",
+        body: "The requirement is fixed by a balance measured on one day. A market fall after December 31 does not reduce what you must withdraw, which is the risk in the rule: the withdrawal is set by a number that may already be history.",
+      },
+      {
+        title: "The first year has a one-time deferral",
+        body: "The first distribution can be delayed to April 1 of the following year. That does not shift the tax year — it means two distributions land in one year, which can push income into a higher band or affect income-tested charges on the same money.",
+      },
+    ],
+    example: {
+      title: "Worked example: $500,000 at age 73",
+      setup:
+        "Account balance on the prior December 31: $500,000. Age reached during the year: 73, which corresponds to a Uniform Lifetime Table factor of 26.5.",
+      rows: [
+        { label: "Factor at age 73", value: "26.5", note: "IRS Uniform Lifetime Table" },
+        { label: "Required distribution", value: "$18,867.92", note: "500000 / 26.5" },
+        { label: "Required percentage", value: "3.77%", note: "1 / 26.5" },
+        { label: "If the balance were $750,000", value: "$28,301.89", note: "750000 / 26.5" },
+      ],
+      conclusion:
+        "The percentage is modest at the start and rises with age because the divisor shrinks. Note that the arithmetic is one division — the difficulty is never the calculation, it is the deadline and the fact that missing it carries an excise tax on the shortfall. The RMD guide covers the rules the calculator does not model, including inherited accounts and cross-account aggregation.",
+    },
+    mistakes: [
+      {
+        title: "Using this year's balance",
+        body: "The requirement is based on the prior December 31 balance. Using the current balance produces a number that is wrong in a way that is invisible until the tax is calculated.",
+      },
+      {
+        title: "Assuming a Roth account is included",
+        body: "Roth IRAs are not subject to RMDs during the owner's lifetime. Applying the calculation to one overstates the required withdrawal.",
+      },
+      {
+        title: "Treating the RMD as the maximum",
+        body: "It is a floor. You may withdraw more, and taking only the minimum when you need more later means larger forced withdrawals from a smaller invested base.",
+      },
+    ],
+  },
+
+  "investment-calculator": {
+    intro:
+      "An investment result is two things added together: what a lump sum becomes, and what a series of contributions becomes. They grow at the same rate but over different amounts of time, and that difference is why the contributions usually dominate.",
+    mechanics: [
+      {
+        title: "Two components, one rate",
+        body: "A lump sum grows as P x (1 + r)^n. A series of contributions grows as PMT x (((1 + r)^n - 1) / r). In both cases compounding is applied at the periodic rate, so a monthly contribution uses a monthly rate and a monthly count of periods — not an annual rate divided roughly.",
+      },
+      {
+        title: "Timing of contributions changes the total",
+        body: "A contribution made at the start of a period compounds for one period longer than one made at the end. Over twenty years that difference is small per contribution and material in aggregate, which is why the calculator distinguishes the two rather than ignoring it.",
+      },
+      {
+        title: "What the balance does not include",
+        body: "Fees, taxes and the drag from an unsteady sequence of returns are all absent from a formula that assumes a constant rate. In a taxable account the annual tax on dividends and realised gains reduces the effective rate, and the size of that reduction depends on what you hold and how often you trade.",
+      },
+    ],
+    example: {
+      title: "Worked example: $10,000 plus $500 a month at 7% for 20 years",
+      setup:
+        "Initial lump sum $10,000. Monthly contribution $500. Assumed annual return 7%, so the monthly rate is 0.07 / 12 = 0.00583333. Term 20 years = 240 months.",
+      rows: [
+        { label: "Growth factor over 240 months", value: "4.038739", note: "(1.00583333)^240" },
+        { label: "Lump sum becomes", value: "$40,387.39", note: "10000 x 4.038739" },
+        { label: "Contributions become", value: "$260,463.33", note: "500 x ((4.038739 - 1) / 0.00583333)" },
+        { label: "Total", value: "$300,850.72", note: "40387.39 + 260463.33" },
+        { label: "Total paid in", value: "$130,000.00", note: "10000 + (500 x 240)" },
+        { label: "Growth", value: "$170,850.72", note: "300850.72 - 130000" },
+      ],
+      conclusion:
+        "The $10,000 lump sum becomes $40,387 — but the $120,000 of monthly contributions becomes $260,463, more than six times the original lump sum's result. The rate was identical throughout. The difference is entirely the number of dollars exposed to it, which is why the contribution amount matters more than the entry timing for most people.",
+    },
+    mistakes: [
+      {
+        title: "Dividing an annual rate by twelve and calling it the monthly rate",
+        body: "That is an approximation that slightly overstates growth. The correct periodic rate is the one that compounds to the annual figure, which is marginally lower than the simple division.",
+      },
+      {
+        title: "Ignoring fees",
+        body: "An annual expense ratio is subtracted from the return every year, and over twenty years it compounds against you. A one-percentage-point fee on this example costs far more than one percentage point of the final balance.",
+      },
+      {
+        title: "Treating the projected balance as a promise",
+        body: "The formula requires the same return every year. Actual returns vary, and the number it produces is a scenario rather than a forecast.",
+      },
+    ],
+  },
+
+  "investment-property-calculator": {
+    intro:
+      "A rental property is valued two ways at once: as a business, which is the cap rate, and as a leveraged purchase, which is the cash-on-cash return. The second is always the more flattering number, because it divides a return by the cash you put in rather than by what you bought.",
+    mechanics: [
+      {
+        title: "Net operating income, before financing",
+        body: "NOI is rent collected minus operating expenses — tax, insurance, maintenance, management and vacancy — and deliberately ignores the mortgage. That is what makes it comparable between properties bought with different loans: $30,000 of rent against $6,000 of expenses gives $24,000 of NOI regardless of how it was financed.",
+      },
+      {
+        title: "Cap rate is price, not performance",
+        body: "Cap rate is NOI divided by price: $24,000 on $300,000 is 8.00%. It tells you what the property yields unlevered, and it is the number to use when comparing two properties in different markets. Note that it says nothing about your return, because it ignores your loan entirely.",
+      },
+      {
+        title: "Cash-on-cash is the leveraged version",
+        body: "Subtract the annual debt service from NOI, then divide by the cash you invested. $24,000 minus $17,963.17 of debt service leaves $6,036.83, which against a $75,000 down payment is 8.05%. Leverage raises the percentage and also raises the risk, because the debt service is owed whether or not the unit is occupied.",
+      },
+    ],
+    example: {
+      title: "Worked example: $300,000 property, $225,000 loan",
+      setup:
+        "Gross rent $30,000 a year, operating expenses $6,000. Purchase price $300,000 with a $75,000 down payment, so the loan is $225,000 at an assumed 7% over 30 years.",
+      rows: [
+        { label: "Net operating income", value: "$24,000.00", note: "30000 - 6000" },
+        { label: "Cap rate", value: "8.00%", note: "24000 / 300000" },
+        { label: "Annual debt service", value: "$17,963.17", note: "225000 at 7% over 360 months, x 12" },
+        { label: "Annual cash flow", value: "$6,036.83", note: "24000 - 17963.17" },
+        { label: "Cash-on-cash return", value: "8.05%", note: "6036.83 / 75000" },
+        { label: "Vacancy of one month a year would cost", value: "$2,500.00", note: "30000 / 12 — straight off cash flow" },
+      ],
+      conclusion:
+        "The property yields 8.00% unlevered and 8.05% on the cash invested — nearly identical here, which is unusual and worth noticing: leverage amplifies a return above the borrowing cost and shrinks one below it. More important is the last row: a single vacant month costs $2,500, which is 41% of the annual cash flow, and cash flow is the line that has to absorb every surprise.",
+    },
+    mistakes: [
+      {
+        title: "Dividing NOI by your down payment",
+        body: "That mixes the two measures. Cap rate uses price; cash-on-cash uses cash invested. Dividing NOI by the down payment overstates the return by the leverage ratio.",
+      },
+      {
+        title: "Dropping vacancy and maintenance from expenses",
+        body: "A property is not occupied every month and does not go unrepaired. Both are real recurring costs, and excluding them flatters NOI and the cap rate together.",
+      },
+      {
+        title: "Assuming the loan payment is the only fixed cost",
+        body: "Debt service is fixed, but taxes and insurance are not. A reassessment or a premium increase reduces cash flow directly, with no corresponding increase in rent.",
+      },
+    ],
+  },
+
+  "how-long-will-my-money-last-calculator": {
+    intro:
+      "The question is not how large the portfolio is — it is how long a given withdrawal can be sustained. A withdrawal rate above the return shrinks the balance in real terms every year, and the arithmetic is unforgiving about how quickly.",
+    mechanics: [
+      {
+        title: "A draw above the return shortens everything",
+        body: "If the portfolio earns 5% and you withdraw 8%, the balance falls every year even in a good year. The years-to-depletion figure is where the balance reaches zero, and it is calculated by treating the withdrawals as an annuity in reverse: -ln(1 - (P x r) / W) / ln(1 + r).",
+      },
+      {
+        title: "The withdrawal rate matters more than the return",
+        body: "On $500,000 with $40,000 withdrawn — an 8% draw — the money lasts 20.1 years at a 5% return. Drop the return to zero and it lasts 12.5 years. That contrast is the point: the draw sets the clock, and the return only adjusts it.",
+      },
+      {
+        title: "Why the answer is not a date to rely on",
+        body: "The formula assumes a constant return and a constant withdrawal. Real returns vary, inflation raises the withdrawal in nominal terms, and a bad sequence early permanently reduces the base. The figure is a sensitivity test, not a schedule — its value is in showing which direction the levers move, not in predicting the year.",
+      },
+    ],
+    example: {
+      title: "Worked example: $500,000, 5% return, $40,000 withdrawn a year",
+      setup:
+        "Starting balance $500,000. Assumed annual return 5%. Annual withdrawal $40,000, taken at the end of each year, held constant in nominal terms.",
+      rows: [
+        { label: "Withdrawal as a share of the portfolio", value: "8.0%", note: "40000 / 500000" },
+        { label: "Years until depleted", value: "20.1", note: "-ln(1 - 25000 / 40000) / ln(1.05)" },
+        { label: "Years until depleted at 0% return", value: "12.5", note: "500000 / 40000" },
+        { label: "Effect of the 5% return", value: "7.6 extra years", note: "20.1 - 12.5" },
+      ],
+      conclusion:
+        "An 8% withdrawal lasts about twenty years at a 5% return and twelve and a half with no return at all — so the return buys roughly eight extra years, while the draw rate sets the baseline. Reduce the withdrawal to 5% and the same portfolio supports a much longer horizon; that lever moves the answer further than any plausible difference in return.",
+    },
+    mistakes: [
+      {
+        title: "Ignoring inflation on the withdrawal",
+        body: "A $40,000 withdrawal held flat loses purchasing power every year. If the intention is to maintain a lifestyle, the withdrawal has to rise, and that shortens the horizon materially.",
+      },
+      {
+        title: "Reading the depletion year as a prediction",
+        body: "It assumes a constant return every year. Real returns vary, and poor early years shorten the actual horizon well below the calculated one.",
+      },
+      {
+        title: "Assuming spending falls automatically in retirement",
+        body: "Some categories do fall and healthcare often rises. Assuming a decline without deciding which spending is actually going away produces an optimistic number.",
+      },
+    ],
+  },
+
+  "life-insurance-needs-calculator": {
+    intro:
+      "The useful question is not how much cover costs — it is what would need to be replaced. That quantity is the sum of a few specific obligations, and it is usually larger than people estimate and smaller than insurers suggest.",
+    mechanics: [
+      {
+        title: "The DIME components",
+        body: "Debt, Income, Mortgage and Education. Add outstanding debts, a multiple of annual income to replace the earning years, the remaining mortgage balance, and any expected education costs. Each is a separate decision, which is what makes the method auditable — you can see which assumption is driving the total.",
+      },
+      {
+        title: "Then subtract what already exists",
+        body: "Existing savings, investments, retirement balances and any employer-provided group cover reduce the gap. Group cover is easy to overlook and frequently insufficient on its own, but it is real and it belongs in the subtraction.",
+      },
+      {
+        title: "Term is the mechanism, not a product pitch",
+        body: "Cover needs are usually highest during working years and fall as debts are repaid and assets accumulate. Term insurance matches the coverage period to the obligation, which is why it prices so far below permanent products — you are buying protection, not an investment.",
+      },
+    ],
+    example: {
+      title: "Worked example: the DIME method",
+      setup:
+        "Debts $25,000. Annual income $60,000 replaced over 10 years. Remaining mortgage $280,000. Expected education costs $100,000. Existing assets $150,000.",
+      rows: [
+        { label: "Debt", value: "$25,000.00", note: "credit cards, loans, final expenses" },
+        { label: "Income replacement", value: "$600,000.00", note: "60000 x 10 years" },
+        { label: "Mortgage", value: "$280,000.00", note: "remaining balance" },
+        { label: "Education", value: "$100,000.00", note: "assumed" },
+        { label: "Total need", value: "$1,005,000.00", note: "25000 + 600000 + 280000 + 100000" },
+        { label: "Less existing assets", value: "$150,000.00", note: "savings, investments, group cover" },
+        { label: "Cover required", value: "$855,000.00", note: "1005000 - 150000" },
+      ],
+      conclusion:
+        "The total is $1,005,000 and the gap is $855,000 — and the income-replacement assumption is 60% of it. That single input deserves the most scrutiny, because changing ten years to five cuts the requirement by $300,000. The method's value is that it makes the dominant assumption visible rather than burying it in a generic multiple.",
+    },
+    mistakes: [
+      {
+        title: "Using a blanket multiple of income",
+        body: "A crude multiple ignores debts, the mortgage and existing assets, which is the bulk of the calculation. It is a starting point, not an answer.",
+      },
+      {
+        title: "Ignoring group cover you already have",
+        body: "Employer-provided coverage reduces the gap. Omitting it overstates the need; relying on it alone ignores that it usually ends with the job.",
+      },
+      {
+        title: "Buying cover to cover a lifestyle rather than an obligation",
+        body: "The need falls as debts are repaid and assets build. Cover sized to a permanent standard of living costs more than the obligation it insures.",
+      },
+    ],
+  },
+
+  "budget-calculator": {
+    intro:
+      "A budget is a set of proportions, and proportions are easier to keep than amounts. The 50/30/20 split gives each category a target that moves with income instead of a fixed number that has to be renegotiated every time pay changes.",
+    mechanics: [
+      {
+        title: "The three buckets",
+        body: "Needs take 50%: housing, utilities, food, transport, insurance, minimum debt payments. Wants take 30%: everything discretionary. Savings and extra debt repayment take 20%. On $5,000 a month that is $2,500, $1,500 and $1,000 — and the percentages hold at any income, which is the point.",
+      },
+      {
+        title: "Fifty percent is the constraint that bites",
+        body: "Housing alone commonly consumes 30% of gross for a household, so the needs bucket is where the plan fails first. If needs exceed 50%, the fix is a housing or transport decision rather than a stricter approach to groceries.",
+      },
+      {
+        title: "Twenty percent is a floor, not a target",
+        body: "Fifteen percent saved over a working life is materially different from twenty-five. At $1,000 a month the annual saving is $12,000, and what that becomes depends entirely on how long it is invested — which is the argument for treating the savings bucket as the one that does not flex.",
+      },
+    ],
+    example: {
+      title: "Worked example: $5,000 a month",
+      setup:
+        "Monthly take-home $5,000, split 50/30/20. The percentages apply to take-home, not gross, because that is the money available to allocate.",
+      rows: [
+        { label: "Needs at 50%", value: "$2,500.00", note: "5000 x 0.50" },
+        { label: "Wants at 30%", value: "$1,500.00", note: "5000 x 0.30" },
+        { label: "Savings and extra debt at 20%", value: "$1,000.00", note: "5000 x 0.20" },
+        { label: "Saved over a year", value: "$12,000.00", note: "1000 x 12" },
+        { label: "If the savings share were 10%", value: "$6,000.00", note: "500 x 12 — half as much" },
+      ],
+      conclusion:
+        "The split produces a $12,000 annual saving on a $60,000 take-home. Ten percentage points on the savings bucket is $6,000 a year, which is the whole argument for fixing that share first and letting the discretionary bucket absorb the variation instead. Notice also that the framework says nothing about which specific purchases are allowed — it only bounds the totals.",
+    },
+    mistakes: [
+      {
+        title: "Applying the percentages to gross pay",
+        body: "The buckets allocate money you actually have. Applying them to gross overstates every category and makes the savings target unreachable.",
+      },
+      {
+        title: "Counting minimum debt payments as savings",
+        body: "Minimum payments on a credit card sit in needs, because they are not optional. Only the amount above the minimum belongs in the savings bucket.",
+      },
+      {
+        title: "Treating the split as a rule rather than a starting point",
+        body: "A household with high rent or medical costs will not fit 50/30/20 immediately. The value is in seeing which bucket is out of line, not in forcing the ratio.",
+      },
+    ],
+  },
+
+  "car-affordability-calculator": {
+    intro:
+      "Affordability is not what a lender will approve — it is what a car can cost without crowding out everything else. The 20/4/10 guideline exists because it caps the three things that actually cause trouble: the down payment, the term and the share of income.",
+    mechanics: [
+      {
+        title: "The three constraints",
+        body: "Twenty percent down, a term of four years, and total transport costs under 10% of gross monthly income. Each addresses a specific failure: no down payment means being underwater immediately, a long term means owing more than the car is worth for years, and a high income share means one repair becomes a crisis.",
+      },
+      {
+        title: "Why the term limit matters more than it sounds",
+        body: "A car depreciates fastest in its first years. Financing it over six or seven years means spending a large part of the loan term owing more than the vehicle is worth, which is only a problem until you need to sell it or it is written off. At that point the gap has to be paid in cash.",
+      },
+      {
+        title: "The 10% is a ceiling on everything",
+        body: "Payment, insurance, fuel and maintenance together — not the payment alone. On a $5,000 monthly income the whole transport budget is $500, and a $500 payment leaves nothing for the rest, which is why the guideline is stricter than it first appears.",
+      },
+    ],
+    example: {
+      title: "Worked example: $60,000 income against the 20/4/10 rule",
+      setup:
+        "Gross income $60,000 a year, so $5,000 a month. Payment capped at 10% of monthly income, term capped at 48 months, down payment of at least 20%. Loan rate assumed at 7%.",
+      rows: [
+        { label: "Monthly income", value: "$5,000.00", note: "60000 / 12" },
+        { label: "Maximum payment at 10%", value: "$500.00", note: "5000 x 0.10" },
+        { label: "Loan supported over 48 months", value: "$20,880.10", note: "500 x 41.7602, the 48-month annuity factor" },
+        { label: "Car price with 20% down", value: "$26,100.13", note: "20880.10 / 0.80" },
+        { label: "Loan a 72-month term would support", value: "$29,327.22", note: "500 x 58.6544 — the same payment, a longer debt" },
+        { label: "Car price on the 72-month term", value: "$36,659.03", note: "29327.22 / 0.80" },
+      ],
+      conclusion:
+        "The rule puts the ceiling at about $26,100, of which $5,220 is the down payment and $20,880 is financed over four years. Stretching to 72 months raises the affordable price from $26,100.13 to $36,659.03 for an unchanged monthly payment — that extra $10,558.90 of car is bought with two more years of debt on an asset that is still depreciating. This is the trade the rule exists to make visible.",
+    },
+    mistakes: [
+      {
+        title: "Budgeting the payment and not the running costs",
+        body: "Insurance, fuel, tyres and maintenance are part of the 10%. A payment set at the full 10% leaves nothing for any of them.",
+      },
+      {
+        title: "Treating lender approval as affordability",
+        body: "Approval reflects a credit assessment, not your other obligations. The maximum a lender will advance is not the maximum you should borrow.",
+      },
+      {
+        title: "Extending the term to reach a nicer car",
+        body: "A longer term lowers the payment and raises both the total interest and the period during which the loan exceeds the car's value. The car is the variable that should move.",
+      },
+    ],
+  },
+
+  "salary-raise-calculator": {
+    intro:
+      "A raise has three different values and only one of them is on the letter: the gross increase, the net increase after tax, and the real increase once inflation is subtracted. The third is the one that changes what you can actually buy.",
+    mechanics: [
+      {
+        title: "Gross, then net, then real",
+        body: "The percentage raise is the new salary divided by the old one, minus one. The net increase is smaller because the extra income lands in your highest tax band. The real increase subtracts inflation, and it is the only one that describes a change in purchasing power.",
+      },
+      {
+        title: "Real terms is a division, not a subtraction",
+        body: "A 5% raise against 3% inflation is not a 2% gain. Real growth is 1.05 / 1.03 - 1, which is 1.94% — close to the subtraction here, but the gap widens as the numbers grow, and using subtraction on large rates gives a materially wrong answer.",
+      },
+      {
+        title: "Inflation is a backward-looking figure",
+        body: "The inflation rate used to deflate a raise is measured over the past twelve months. What matters for the coming year is unknown, which is why a raise that matches inflation in the year it is granted can still lose ground by the time the next one arrives.",
+      },
+    ],
+    example: {
+      title: "Worked example: $60,000 raised to $63,000",
+      setup:
+        "Previous salary $60,000, new salary $63,000. Assumed inflation of 3% over the same period, used only to express the raise in real terms.",
+      rows: [
+        { label: "Gross increase", value: "$3,000.00", note: "63000 - 60000" },
+        { label: "Percentage raise", value: "5.00%", note: "3000 / 60000" },
+        { label: "Increase per month", value: "$250.00", note: "3000 / 12" },
+        { label: "Real increase at 3% inflation", value: "1.94%", note: "1.05 / 1.03 - 1" },
+        { label: "The wrong way to compute it", value: "2.00%", note: "5% - 3%, a subtraction that drifts as rates grow" },
+      ],
+      conclusion:
+        "A 5% raise against 3% inflation is a 1.94% real increase, not 2%. That is roughly $1,164 of additional purchasing power a year rather than the $3,000 the letter states — the difference is tax and inflation, and both are unavoidable. The subtraction shortcut happens to be close here but diverges as the rates involved get larger.",
+    },
+    mistakes: [
+      {
+        title: "Spending the gross increase",
+        body: "The net increase is smaller whenever the raise lands in a higher band. Committing the full gross figure to a new recurring cost is how a raise makes a household worse off.",
+      },
+      {
+        title: "Subtracting inflation from the raise",
+        body: "Real growth is a ratio. Subtraction is an approximation that works at small percentages and misleads at large ones.",
+      },
+      {
+        title: "Comparing raises without comparing total compensation",
+        body: "A higher salary with a worse retirement match, higher premiums or a lost bonus can be a net reduction. Compare total value, not base salary.",
+      },
+    ],
+  },
+
+  "salary-to-hourly-calculator": {
+    intro:
+      "Converting a salary to an hourly figure requires one assumption — how many hours a year you work — and the standard answer of 2,080 hides the fact that it counts only paid hours.",
+    mechanics: [
+      {
+        title: "The standard divisor is 2,080",
+        body: "Forty hours a week for fifty-two weeks is 2,080 hours. Dividing $60,000 by 2,080 gives $28.85 an hour. The arithmetic is trivial; the number it depends on is the assumption worth examining.",
+      },
+      {
+        title: "Unpaid hours are excluded, and they are not small",
+        body: "The divisor counts paid hours only. A salaried role that regularly runs to fifty hours still divides the same salary by 2,080, so the true hourly rate is lower. Fifty hours a week is 2,600 hours a year, and $60,000 over 2,600 hours is $23.08 — a difference of nearly 20%.",
+      },
+      {
+        title: "What the salaried figure buys that the hourly one does not",
+        body: "Paid leave, holidays, employer contributions and paid overtime are all inside a salary and outside a raw hourly comparison. A contractor charging $28.85 has to fund leave, downtime and self-employment tax out of it, so the two rates are not equivalent even when the arithmetic matches.",
+      },
+    ],
+    example: {
+      title: "Worked example: $60,000 a year",
+      setup:
+        "Salary $60,000. Standard full-time year of 40 hours a week over 52 weeks, which is 2,080 paid hours. A second figure is shown at 50 hours a week, which is 2,600 hours.",
+      rows: [
+        { label: "Hours in a full-time year", value: "2,080", note: "40 x 52" },
+        { label: "Hourly rate at 2,080 hours", value: "$28.85", note: "60000 / 2080" },
+        { label: "Hours at 50 a week", value: "2,600", note: "50 x 52" },
+        { label: "True hourly rate at 50 hours a week", value: "$23.08", note: "60000 / 2600" },
+        { label: "Effective reduction", value: "20.0%", note: "1 - (23.08 / 28.85) — the rate falls by a fifth" },
+      ],
+      conclusion:
+        "The headline conversion is $28.85 an hour, but that only holds if the year really contains 2,080 hours worked. At fifty hours a week the same salary is worth $23.08 an hour — a fifth less — and nothing in the pay slip reflects it. This is the most useful thing the conversion reveals, and it requires knowing your actual hours rather than your contracted ones.",
+    },
+    mistakes: [
+      {
+        title: "Using 2,080 hours when you work more",
+        body: "The standard divisor assumes 40-hour weeks. Regular unpaid overtime means the real rate is lower, and the gap is usually larger than any raise the role is likely to produce.",
+      },
+      {
+        title: "Comparing a salaried rate to a contractor rate",
+        body: "A contractor funds their own leave, downtime, equipment and self-employment tax. The equivalent hourly rate for the same net position is meaningfully higher than the salaried conversion.",
+      },
+      {
+        title: "Subtracting unpaid leave incorrectly",
+        body: "If you take unpaid time off, the divisor falls and the hourly rate rises. Dividing a reduced salary by a full 2,080 understates the rate for the time actually worked.",
+      },
+    ],
+  },
+
+  "hourly-to-salary-calculator": {
+    intro:
+      "Multiplying an hourly rate by 2,080 is the standard conversion, and it quietly assumes you are paid for every week of the year. Part-time, seasonal and unpaid-leave situations all break that assumption in the direction that flatters the annual figure.",
+    mechanics: [
+      {
+        title: "The multiplication and its assumption",
+        body: "$28.85 an hour over 2,080 hours is $60,008 — the standard full-time year. The 2,080 is 40 hours across 52 weeks, so it includes paid holidays and paid leave as though they were hours worked, which is correct only when they are paid.",
+      },
+      {
+        title: "Adjust the weeks, not the hourly rate",
+        body: "For a seasonal role, multiply by the weeks actually worked. Twenty dollars an hour for 40 weeks is $32,000, not $41,600 — a difference of almost a quarter, and one that a straight 2,080 conversion hides completely.",
+      },
+      {
+        title: "Overtime changes the shape, not the base",
+        body: "Regular overtime raises actual earnings while leaving the base rate unchanged, so an annual figure driven by overtime is not comparable to a salaried figure that never varies. Before comparing an hourly role to a salaried one, separate the base hours from the premium hours.",
+      },
+    ],
+    example: {
+      title: "Worked example: $28.85 an hour",
+      setup:
+        "Hourly rate $28.85. Three scenarios: a full 2,080-hour year, a 1,000-hour part-time year, and a 40-week seasonal year at 40 hours a week.",
+      rows: [
+        { label: "Full year at 2,080 hours", value: "$60,008.00", note: "28.85 x 2080" },
+        { label: "Part-time, 1,000 hours", value: "$28,850.00", note: "28.85 x 1000" },
+        { label: "Seasonal, 40 weeks x 40 hours", value: "$46,160.00", note: "28.85 x 1600" },
+        { label: "Cost of assuming full-time for the seasonal role", value: "$13,848.00", note: "60008 - 46160" },
+      ],
+      conclusion:
+        "The same hourly rate produces $60,008, $28,850 or $46,160 depending entirely on how many hours the year actually contains. Converting a seasonal or part-time rate by the standard 2,080 overstates the annual figure by $13,848 in the seasonal case — nearly a quarter more than the role pays. The hourly rate is the reliable input; the hours are the assumption.",
+    },
+    mistakes: [
+      {
+        title: "Applying 2,080 to a part-time or seasonal role",
+        body: "The 2,080 figure assumes forty hours across every week of the year. Using it for anything else inflates the annual amount, sometimes by a quarter or more.",
+      },
+      {
+        title: "Treating overtime earnings as part of the base rate",
+        body: "Overtime is paid at a premium and is not guaranteed. An annual figure that depends on it falls when the hours do, so the two components should be separated.",
+      },
+      {
+        title: "Ignoring what the hourly role does not include",
+        body: "Unpaid time off, no employer retirement contribution and no paid holidays are all costs of an hourly arrangement. The hourly rate has to cover them, which is why a like-for-like comparison with a salary needs an uplift.",
+      },
+    ],
+  },
+
+  "salary-percentile-calculator": {
+    intro:
+      "A percentile describes a position in a distribution, not a proportion of it. Being at the 90th percentile does not mean earning 90% of something — it means 90% of the comparison group earns less than you do.",
+    mechanics: [
+      {
+        title: "A percentile is a rank, expressed as a share",
+        body: "If 10,000 people out of a comparison group of 100,000 earn less than you, you are at the 90th percentile. The figure is about where you sit in an ordered list, which means it depends entirely on the group you are compared against — the same salary can be the 80th percentile nationally and the 40th percentile in a specific occupation.",
+      },
+      {
+        title: "Median and mean answer different questions",
+        body: "The median is the middle value, so half the group sits either side of it, and it is the number a percentile tells you about. The mean is the total divided by the count, and a small number of very high earners pulls it up. In a skewed distribution the mean is well above the median, which is why reported averages are higher than most people's experience.",
+      },
+      {
+        title: "Percentiles hide the spread around them",
+        body: "Two groups can share an identical median and have completely different distributions. A percentile with no measure of spread around it tells you your position relative to one point, and nothing about how much room the group has above or below.",
+      },
+    ],
+    example: {
+      title: "Worked example: why the mean sits above the median",
+      setup:
+        "An illustrative group of five salaries, chosen to show the skew rather than to represent any real market: $20,000, $30,000, $40,000, $50,000 and $360,000.",
+      rows: [
+        { label: "Ordered values", value: "20k, 30k, 40k, 50k, 360k", note: "the group" },
+        { label: "Median (middle value)", value: "$40,000.00", note: "half the group is below it" },
+        { label: "Sum", value: "$500,000.00", note: "20000 + 30000 + 40000 + 50000 + 360000" },
+        { label: "Mean", value: "$100,000.00", note: "500000 / 5" },
+        { label: "Gap between mean and median", value: "$60,000.00", note: "100000 - 40000" },
+      ],
+      conclusion:
+        "The median is $40,000 and the mean is $100,000 — two and a half times higher, from a group where four of the five earn $50,000 or less. That gap is why a quoted average salary so often feels wrong: it is real, but it is being pulled by a value most of the group is nowhere near. When a figure is described as average, the first useful question is which one.",
+    },
+    mistakes: [
+      {
+        title: "Reading a percentile as a percentage of income",
+        body: "The 90th percentile is a rank, not 90% of a total. It means 90% of the comparison group earns less, which is a statement about position rather than amount.",
+      },
+      {
+        title: "Comparing against the wrong group",
+        body: "A national percentile and an occupational percentile are different measurements. The same salary can look strong in one and weak in the other, and neither is wrong.",
+      },
+      {
+        title: "Treating a median as a target",
+        body: "Half the group earns less than the median by definition. It describes a distribution, not a standard for any individual in it.",
+      },
+    ],
+  },
+
+  "stock-profit-calculator": {
+    intro:
+      "Profit on a share trade is the difference between two prices multiplied by a share count — and the share count is what separates a percentage from an amount of money. A large return on a small position is still a small amount.",
+    mechanics: [
+      {
+        title: "Position size multiplies everything",
+        body: "The gain per share is the sale price minus the purchase price. Multiply by the number of shares and you have the profit; divide by the cost and you have the return. A 24% return on $5,000 is $1,200, while the same 24% on $500 is $120 — the percentage is identical and the outcomes are not comparable.",
+      },
+      {
+        title: "Commissions are charged per trade, not per share",
+        body: "This is what makes frequent trading expensive and buy-and-hold cheap. A flat $10 each way is negligible on a $5,000 position and substantial on a $500 one, where it consumes a visible share of the gain. Small positions traded often can lose to costs even when the price went the right way.",
+      },
+      {
+        title: "Realised against unrealised",
+        body: "Profit is not realised until the position is sold. An unrealised gain on paper is not money, it is a valuation, and it can disappear before the sale. This calculator measures a completed trade, which is the only version of the figure that cannot move.",
+      },
+    ],
+    example: {
+      title: "Worked example: 100 shares bought at $50, sold at $62",
+      setup:
+        "100 shares purchased at $50 and sold at $62. Commission assumed at $10 on each side, which is an assumption and not a quote.",
+      rows: [
+        { label: "Cost of the position", value: "$5,000.00", note: "100 x 50" },
+        { label: "Proceeds", value: "$6,200.00", note: "100 x 62" },
+        { label: "Profit before costs", value: "$1,200.00", note: "6200 - 5000" },
+        { label: "Return before costs", value: "24.00%", note: "1200 / 5000" },
+        { label: "Profit after $10 each way", value: "$1,180.00", note: "1200 - 20" },
+        { label: "Return after costs", value: "23.60%", note: "1180 / 5000" },
+      ],
+      conclusion:
+        "A $12 move on a $50 stock is a 24.00% return, or $1,200 on this position. Commissions take $20 of it, which is 0.40 of a percentage point here — modest, but the same $20 on a $500 position would be four percentage points, enough to turn a winning trade into a losing one. Costs are a function of trade count, not of how well the trade went.",
+    },
+    mistakes: [
+      {
+        title: "Reading the percentage and not the amount",
+        body: "A large percentage on a small position is a small amount of money. Sizing determines the actual result; the percentage only describes the price move.",
+      },
+      {
+        title: "Ignoring commissions on small or frequent trades",
+        body: "A flat fee per trade is a larger share of a small position. Frequent trading multiplies the number of flat fees, so the drag scales with activity rather than with the size of the win.",
+      },
+      {
+        title: "Counting an unrealised gain as profit",
+        body: "Until the sale completes, the gain is a valuation that can change. This calculator measures a completed trade; anything else is a paper figure.",
+      },
+    ],
+  },
+
+  "child-support-calculator": {
+    intro:
+      "Child support is calculated from a formula, and the formula is set by the state hearing the case. Most follow a version of the income-shares model, which means two numbers matter far more than any others: combined income, and the share each parent contributes to it.",
+    mechanics: [
+      {
+        title: "The income-shares model",
+        body: "The parents' incomes are combined, a basic obligation is read from a schedule for that combined income and the number of children, and that obligation is then split in proportion to each parent's share of the combined income. If one parent earns 60% of the combined total, they carry 60% of the obligation.",
+      },
+      {
+        title: "It is not a fixed percentage of one parent's pay",
+        body: "A common misconception is that support is a flat share of the payer's income. Under income shares it depends on both incomes: the same paying parent with the same salary owes different amounts depending on what the other parent earns, because the split changes.",
+      },
+      {
+        title: "Add-ons and adjustments sit on top",
+        body: "Childcare, health insurance premiums and extraordinary medical costs are usually allocated on the same income-share basis, while parenting time can adjust the result. That is why a calculation from income alone commonly differs from the final order.",
+      },
+    ],
+    example: {
+      title: "Worked example: a hypothetical income-shares calculation",
+      setup:
+        "Combined monthly income $8,000, split 60/40 between the parents. The basic obligation is taken as a hypothetical $1,200 a month from an illustrative schedule. These figures demonstrate the mechanism and are not a real support schedule — actual amounts come from the state schedule and the court.",
+      rows: [
+        { label: "Combined monthly income", value: "$8,000.00", note: "assumed" },
+        { label: "Basic obligation", value: "$1,200.00", note: "hypothetical schedule figure" },
+        { label: "Higher earner's share at 60%", value: "$720.00", note: "1200 x 0.60" },
+        { label: "Other parent's share at 40%", value: "$480.00", note: "1200 x 0.40" },
+        { label: "If the other parent earned more, the split would reverse", value: "$480.00", note: "the higher earner would owe this instead" },
+      ],
+      conclusion:
+        "The obligation is $1,200 and the split follows the incomes, so $720 falls to the higher earner. Note the last row: changing which parent earns more changes who pays, without changing the total obligation at all. That dependence on both incomes is the part of this calculation most often misunderstood.",
+    },
+    mistakes: [
+      {
+        title: "Assuming a fixed percentage of the payer's income",
+        body: "That describes a different model. Under income shares the obligation depends on the combined income and the split, so the other parent's earnings change the answer.",
+      },
+      {
+        title: "Using gross income as the basis",
+        body: "Schedules generally work from income after specified deductions, and the deductions vary by state. Using gross overstates the obligation.",
+      },
+      {
+        title: "Treating this as an estimate of a court order",
+        body: "Add-ons for childcare, health cover and medical costs, plus any parenting-time adjustment, sit outside the basic calculation. A real order includes them and is issued by a court, not a calculator.",
+      },
+    ],
+  },
+
+  "mileage-reimbursement-calculator": {
+    intro:
+      "Mileage reimbursement is a rate multiplied by a distance, and the rate is the part that changes. It is set annually, so a figure that was correct last year is not evidence of what this year pays.",
+    mechanics: [
+      {
+        title: "Distance times rate",
+        body: "The arithmetic is one multiplication: 350 miles at an assumed 67 cents is $234.50. What matters is which rate applies, because there is often more than one — a standard business rate and a lower rate for moving or medical purposes in the same year.",
+      },
+      {
+        title: "The rate is set annually and is not a cost estimate",
+        body: "The standard rate is published for each tax year and is intended to approximate the fixed and variable costs of operating a vehicle. Because it is revised, a figure quoted from memory is likely to be out of date — check the current year's published rate rather than assuming last year's.",
+      },
+      {
+        title: "Reimbursement and deduction are different things",
+        body: "An employer reimbursing at a set rate is settling an expense under a policy. Claiming a deduction on a tax return is a separate exercise with its own rules and, in some cases, a different rate. A reimbursement under an accountable plan is not taxable income, which is a distinction worth confirming rather than assuming.",
+      },
+    ],
+    example: {
+      title: "Worked example: 350 business miles",
+      setup:
+        "Distance 350 miles. Rate taken as an assumed 67 cents a mile, used to demonstrate the arithmetic. The actual figure is set annually — confirm the current rate rather than reusing this one.",
+      rows: [
+        { label: "Miles driven", value: "350", note: "business use" },
+        { label: "Rate assumed", value: "$0.67", note: "illustrative — the rate is revised each year" },
+        { label: "Reimbursement", value: "$234.50", note: "350 x 0.67" },
+        { label: "1,000 miles at the same rate", value: "$670.00", note: "1000 x 0.67" },
+        { label: "Cost of using a stale rate", value: "varies", note: "the error scales with distance, not with the rate" },
+      ],
+      conclusion:
+        "Three hundred and fifty miles claims $234.50 at 67 cents. The rate is the only input in this calculation that goes stale, and because the multiplication is linear, a wrong rate produces a wrong answer in direct proportion to the miles driven — which means the largest claims carry the largest error. Verify the rate for the year of the expense.",
+    },
+    mistakes: [
+      {
+        title: "Using last year's rate",
+        body: "The rate is set annually and changes. Because the calculation is a single multiplication, any rate error passes straight into the claim.",
+      },
+      {
+        title: "Recording commuting miles",
+        body: "Ordinary commuting is generally not reimbursable or deductible. Counting it inflates the claim and can invalidate it.",
+      },
+      {
+        title: "Assuming the rate equals your actual cost",
+        body: "The published figure approximates operating costs across a broad range of vehicles. A large or inefficient vehicle may genuinely cost more per mile, and a small efficient one less — reimbursement is a policy rate, not a measurement.",
+      },
+    ],
+  },
+
+  "discount-calculator": {
+    intro:
+      "Two discounts in a row do not add up. Thirty percent off followed by another twenty percent off is not fifty percent off, and the difference is large enough to change what a purchase is worth.",
+    mechanics: [
+      {
+        title: "Each discount applies to the reduced price",
+        body: "The second discount is calculated on what is left after the first, not on the original price. Take 30% off $100 to get $70, then 20% off that $70 to get $56. The total reduction is $44, which is 44% — not the 50% the two figures seem to promise.",
+      },
+      {
+        title: "Stacking is multiplicative, not additive",
+        body: "The combined effect is 1 - (1 - d1)(1 - d2). Two 20% discounts combine to 36%, not 40%. Three 20% discounts combine to 48.8%. Each additional discount acts on a smaller base, so the sequence converges towards 100% without ever reaching it.",
+      },
+      {
+        title: "Order does not matter, the sequence does",
+        body: "Applying 30% then 20% gives the same result as 20% then 30%, because multiplication is commutative. What does matter is the number of steps: the more times a percentage is taken off a shrunk base, the further the total falls short of the sum of the percentages.",
+      },
+    ],
+    example: {
+      title: "Worked example: 30% off, then a further 20% off $100",
+      setup:
+        "Original price $100. A 30% discount followed by a separate 20% discount applied to the reduced price.",
+      rows: [
+        { label: "After 30% off", value: "$70.00", note: "100 x 0.70" },
+        { label: "After a further 20% off", value: "$56.00", note: "70 x 0.80" },
+        { label: "Total discount", value: "$44.00", note: "100 - 56" },
+        { label: "As a percentage", value: "44%", note: "1 - (0.70 x 0.80)" },
+        { label: "If the discounts simply added", value: "50%", note: "30 + 20 — the wrong answer, worth $6 here" },
+      ],
+      conclusion:
+        "The two discounts reduce the price by $44, not $50. The $6 gap comes entirely from the second discount being applied to $70 rather than to $100, and it grows quickly: three successive 20% discounts save 48.8% rather than the 60% the figures suggest. When a retailer stacks percentages, the total is always less than the sum.",
+    },
+    mistakes: [
+      {
+        title: "Adding two percentages together",
+        body: "30% and 20% do not make 50%. The second applies to the reduced price, so the true combined figure is 44%.",
+      },
+      {
+        title: "Assuming order changes the result",
+        body: "Applying 20% then 30% gives the same $56. Multiplication is commutative, so the sequence is irrelevant — only the number of steps matters.",
+      },
+      {
+        title: "Comparing a stacked discount to a single one on the face value",
+        body: "A single 44% off and two stacked discounts of 30% and 20% produce the same price, but two stacked 25% discounts produce 43.75%, not 50%. Compare final prices, not the advertised percentages.",
+      },
+    ],
+  },
 };
