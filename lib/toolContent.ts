@@ -3399,4 +3399,1224 @@ export const TOOL_CONTENT: Record<string, ToolContent> = {
       },
     ],
   },
+
+  "gas-cost-calculator": {
+    intro:
+      "The cost of a drive is one division and one multiplication, and almost everyone does it in the wrong order — estimating gallons from a price rather than from the distance the car actually has to cover.",
+    mechanics: [
+      {
+        title: "Distance, then efficiency, then price",
+        body: "Divide the distance by the car's miles per gallon to get gallons burned, then multiply by the price per gallon. Doing it the other way — dividing the price by mpg — gives a figure with the wrong units that happens to look plausible at some prices, which is why the error survives.",
+      },
+      {
+        title: "Cost per mile is the number that transfers",
+        body: "Price divided by mpg gives a cost per mile. At $3.50 a gallon and 30 mpg that is $0.1167, and it is the figure worth memorising, because it prices any trip without redoing the arithmetic. A car at 20 mpg costs $0.175 a mile on the same fuel — half again as much for the same journey.",
+      },
+      {
+        title: "What the estimate excludes",
+        body: "Fuel is the variable cost. Tolls, parking and the per-mile share of tyres, servicing and depreciation are all real, and depreciation dominates the true cost of driving for most vehicles. This calculator prices the fuel, which is the out-of-pocket part, not the whole cost of the trip.",
+      },
+    ],
+    example: {
+      title: "Worked example: 350 miles at 30 mpg with fuel at $3.50",
+      setup:
+        "Distance 350 miles. Efficiency 30 miles per gallon. Fuel price $3.50 a gallon, which is an assumed figure — prices vary by location and week.",
+      rows: [
+        { label: "Gallons burned", value: "11.667 gal", note: "350 / 30" },
+        { label: "Cost one way", value: "$40.83", note: "11.667 x 3.50" },
+        { label: "Cost round trip", value: "$81.67", note: "40.83 x 2" },
+        { label: "Cost per mile", value: "$0.1167", note: "3.50 / 30" },
+        { label: "The same trip at 20 mpg", value: "$61.25", note: "350 / 20 x 3.50 — half again as much" },
+      ],
+      conclusion:
+        "The trip burns 11.667 gallons and costs $40.83 each way. The last row is the one worth noticing: dropping from 30 mpg to 20 mpg raises the fuel cost by 50% for an identical journey, with nothing changing but the vehicle. Efficiency moves this number more than fuel price does over any realistic range of prices.",
+    },
+    mistakes: [
+      {
+        title: "Dividing the price by the mpg",
+        body: "That produces a number with no meaningful units. The order is distance divided by efficiency to get gallons, then gallons multiplied by price.",
+      },
+      {
+        title: "Using the highway figure for a city trip",
+        body: "Rated efficiency assumes a mix of conditions. Stop-start traffic reduces it substantially, and the rated figure is the optimistic end of the range.",
+      },
+      {
+        title: "Treating fuel as the whole cost of driving",
+        body: "Tolls, parking, tyres and depreciation are all real costs of a trip. Fuel is the visible one and usually the smallest of them per mile.",
+      },
+    ],
+  },
+
+  "sod-calculator": {
+    intro:
+      "Sod is sold in pallets of fixed coverage, so the arithmetic is a division and a round-up — and the round-up is where the money is, because you cannot buy two thirds of a pallet and you cannot lay sod that has dried out.",
+    mechanics: [
+      {
+        title: "Area divided by coverage per pallet",
+        body: "Divide the area to be covered by the coverage one pallet provides. At 450 square feet a pallet, 2,000 square feet needs 4.44 pallets — which means 5, because pallets are not split. The fractional pallet is not waste; it is the shape of the unit.",
+      },
+      {
+        title: "Add waste, then round again",
+        body: "Cutting around curves, beds and corners produces offcuts that cannot be reused. Ten percent is a normal allowance, which takes 2,000 square feet to 2,200 — and 2,200 divided by 450 is 4.89, still 5 pallets. Note that the waste allowance did not change the order here; it changed how much of the last pallet is spare.",
+      },
+      {
+        title: "Timing is the real constraint",
+        body: "Sod is living material and begins deteriorating within about a day of delivery in warm weather. The quantity is a calculation; the schedule is a constraint. Ordering two pallets more than needed is cheap next to laying sod that has already begun to die.",
+      },
+    ],
+    example: {
+      title: "Worked example: 2,000 square feet at 450 square feet per pallet",
+      setup:
+        "Area to cover 2,000 square feet. Pallet coverage 450 square feet, which is the typical figure for a standard pallet and not a universal one — confirm it with the supplier.",
+      rows: [
+        { label: "Exact pallets needed", value: "4.44", note: "2000 / 450" },
+        { label: "Pallets to order", value: "5", note: "rounded up — pallets are not sold in part" },
+        { label: "With a 10% waste allowance", value: "2,200 sq ft", note: "2000 x 1.10" },
+        { label: "Pallets at that area", value: "4.89", note: "2200 / 450 — still 5 pallets" },
+        { label: "Spare coverage on the fifth pallet", value: "250 sq ft", note: "5 x 450 - 2000" },
+      ],
+      conclusion:
+        "The order is 5 pallets, and the fifth leaves 250 square feet spare — more than half a pallet that will not be used. That is unavoidable rather than wasteful: the alternative is being short. Where the area is close to a whole pallet boundary, splitting the order so the final pallet arrives later is the only way to avoid paying for coverage you will not lay.",
+    },
+    mistakes: [
+      {
+        title: "Rounding the pallet count down",
+        body: "Rounding 4.44 down to 4 leaves 200 square feet of lawn unlaid. The number of pallets is always rounded up, because the quantity is indivisible in the direction that matters.",
+      },
+      {
+        title: "Assuming one pallet always covers the same area",
+        body: "Pallet coverage varies by supplier and by the thickness and cut of the sod. Confirm the figure rather than using a remembered one.",
+      },
+      {
+        title: "Ordering early to save a delivery fee",
+        body: "Sod is perishable. Holding it even a day before laying, particularly in heat, damages it — which costs more than the delivery it saved.",
+      },
+    ],
+  },
+
+  "date-calculator": {
+    intro:
+      "Counting days between dates is simple until a leap year is involved, and leap years are not quite the rule most people remember. The century exceptions matter, and they are the source of nearly every disagreement about a long date span.",
+    mechanics: [
+      {
+        title: "Leap years are divisible by 4, with two exceptions",
+        body: "A year divisible by 4 is a leap year — unless it is divisible by 100, in which case it is not, unless it is also divisible by 400, in which case it is. So 2028 is a leap year, 2100 will not be, and 2000 was. The 400-year rule exists to keep the calendar aligned with the seasons over centuries, and it is why a span measured across a century boundary can be a day off from the naive count.",
+      },
+      {
+        title: "The count excludes the start date",
+        body: "The number of days between 6 October and 1 January is 87 as an exclusive count and 88 if both endpoints are included. Both are used, for different purposes — an interest accrual and a hotel stay are not the same measurement — so the convention has to be stated rather than assumed.",
+      },
+      {
+        title: "Months are not interchangeable units",
+        body: "A duration quoted in months is ambiguous without stating what a month means. Adding one month to 31 January can produce 28 February or 3 March depending on the convention. For anything where precision matters, days are the unambiguous unit.",
+      },
+    ],
+    example: {
+      title: "Worked example: 6 October 2026 to 1 January 2027",
+      setup:
+        "Start 6 October 2026, end 1 January 2027. The count excludes the start date, which is the standard convention for measuring an interval.",
+      rows: [
+        { label: "Days between", value: "87", note: "25 remaining in October + 30 + 31 + 1" },
+        { label: "Weeks", value: "12.4", note: "87 / 7" },
+        { label: "Days in 2027", value: "365", note: "not divisible by 4" },
+        { label: "Days in 2028", value: "366", note: "2028 / 4 = 507 — a leap year" },
+      ],
+      conclusion:
+        "Eighty-seven days, or 12.4 weeks. The leap rule is what makes a long span reliable: over the four years from 2027, the total is 1,461 days, because one of the four years contains the extra day. A span that crosses a century boundary also has to account for the 100-and-400 exception, which is the one most hand counts miss.",
+    },
+    mistakes: [
+      {
+        title: "Adding a day for every fourth year",
+        body: "The century rule means a span crossing a century boundary may contain one fewer leap day than the simple rule predicts. Years divisible by 100 are not leap years unless divisible by 400.",
+      },
+      {
+        title: "Mixing inclusive and exclusive counts",
+        body: "Whether both endpoints are counted changes the total by one day. For spans of years that is trivial; for a contract or an interest calculation it is not.",
+      },
+      {
+        title: "Treating a month as a fixed number of days",
+        body: "Months range from 28 to 31 days, so a duration in months is not a precise quantity unless the convention is stated. Use days where accuracy matters.",
+      },
+    ],
+  },
+
+  "fence-calculator": {
+    intro:
+      "A fence is priced in pieces, and the pieces are not the same as the distance. Panels, posts and rails are three separate counts derived from one run length, and each one rounds differently.",
+    mechanics: [
+      {
+        title: "Panels come from the run, rounded up",
+        body: "Divide the run by the panel width. A 150-foot run at 8-foot panels is 18.75 panels, which means 19 — the last panel is trimmed to fit. Rounding down leaves a gap at the end of the fence, which is the one place the error is visible.",
+      },
+      {
+        title: "Posts are always one more than panels",
+        body: "Post count is panels plus one, because a post is needed at each end as well as between every pair of panels. That gives 20 posts for 19 panels. Getting this wrong by one is a common error, and it affects both the post order and the concrete quantity.",
+      },
+      {
+        title: "Rails multiply by the number of panels",
+        body: "Rail count is panels multiplied by rails per span — 38 at two rails, 57 at three. Three rails resist wind load and sag far better and cost roughly half again as much in rail material, so the choice is a structural one worth making deliberately rather than defaulting.",
+      },
+    ],
+    example: {
+      title: "Worked example: a 150-foot run with 8-foot panels",
+      setup:
+        "Run length 150 feet. Panel width 8 feet. Posts at every panel boundary including both ends. Concrete assumed at two bags per post, which is a common allowance rather than a fixed rule.",
+      rows: [
+        { label: "Panels", value: "19", note: "150 / 8 = 18.75, rounded up" },
+        { label: "Posts", value: "20", note: "19 + 1" },
+        { label: "Rails at two per span", value: "38", note: "19 x 2" },
+        { label: "Rails at three per span", value: "57", note: "19 x 3" },
+        { label: "Bags of concrete at two per post", value: "40", note: "20 x 2" },
+      ],
+      conclusion:
+        "One run length produces three counts: 19 panels, 20 posts and either 38 or 57 rails. The post count is the one most often got wrong, because it is the only one that does not come from a straight division — and it is also what drives the concrete estimate, so an error there propagates into two orders rather than one.",
+    },
+    mistakes: [
+      {
+        title: "Counting posts as equal to panels",
+        body: "There is a post at each end as well as between panels, so posts are always panels plus one. At 19 panels that is 20 posts, not 19.",
+      },
+      {
+        title: "Rounding the panel count down",
+        body: "The last panel is trimmed, so the count rounds up. Rounding down leaves the run short by part of a panel — visible at the end of the fence.",
+      },
+      {
+        title: "Buying rails for the run length rather than the panel count",
+        body: "Rails are cut to the span between posts, not to the total run. Ordering rails by the run length produces the wrong quantity and unusable offcuts.",
+      },
+    ],
+  },
+
+  "construction-cost-calculator": {
+    intro:
+      "Construction estimating is a per-unit price multiplied by a quantity, and the estimate is almost always wrong in the same direction. A contingency is not pessimism — it is the part of the number that accounts for the fact that the work is not yet defined.",
+    mechanics: [
+      {
+        title: "Square footage times a rate",
+        body: "A cost per square foot multiplied by the area gives the headline figure: 1,200 square feet at $150 is $180,000. The rate is the whole estimate, and it varies enormously by region, specification and finish — a rate used for a different market or a higher specification produces a number that is precise and wrong.",
+      },
+      {
+        title: "Contingency is a percentage, not a guess",
+        body: "A contingency of 10% to 20% is added on top to cover what is discovered during the work rather than designed before it. On $180,000 that is $18,000, bringing the total to $198,000, or $165 per square foot. The contingency is not padding — omitting it does not remove the extra cost, it just moves it outside the budget where it is more disruptive.",
+      },
+      {
+        title: "Where per-square-foot estimates break down",
+        body: "They work best on additions and new builds with a defined scope. They are least reliable on renovations, where the cost is driven by what is behind the wall rather than by the floor area: two identical bathrooms can differ by a factor of two once plumbing and structure are exposed.",
+      },
+    ],
+    example: {
+      title: "Worked example: 1,200 square feet at $150 per square foot",
+      setup:
+        "Area 1,200 square feet. Rate $150 per square foot, which is an assumed figure — regional rates vary widely and this is not a quote. Contingency taken at 10%.",
+      rows: [
+        { label: "Base cost", value: "$180,000.00", note: "1200 x 150" },
+        { label: "Contingency at 10%", value: "$18,000.00", note: "0.10 x 180000" },
+        { label: "Total with contingency", value: "$198,000.00", note: "180000 x 1.10" },
+        { label: "Effective rate per square foot", value: "$165.00", note: "150 x 1.10" },
+        { label: "Total at a 20% contingency", value: "$216,000.00", note: "180000 x 1.20" },
+      ],
+      conclusion:
+        "At a 10% contingency the project is $198,000, or $165 a square foot. The gap between the 10% and 20% cases is $18,000 — which is the honest range of the estimate, not an error in it. An estimate presented as a single figure with no contingency is not more accurate; it is just missing the part that will surprise you.",
+    },
+    mistakes: [
+      {
+        title: "Using a rate from a different market or specification",
+        body: "Cost per square foot is a regional and specification-specific figure. A rate quoted for a different area or a lower finish level produces a confident, precise, wrong estimate.",
+      },
+      {
+        title: "Omitting the contingency",
+        body: "The cost does not disappear when the line is removed; it arrives unplanned. A budget without a contingency is one that gets revised rather than one that comes in on target.",
+      },
+      {
+        title: "Applying a per-square-foot figure to a renovation",
+        body: "Renovation cost is driven by existing conditions — plumbing, wiring, structure — more than by area. Two identical-sized rooms can cost very differently.",
+      },
+    ],
+  },
+
+  "moving-cost-calculator": {
+    intro:
+      "Moving is priced by weight and distance on a long haul, and by hours and crew size for a local move. Those are different calculations, which is why a quote that looks comparable can be built on a completely different basis.",
+    mechanics: [
+      {
+        title: "Long distance is weight times a rate",
+        body: "For an interstate move the charge is normally based on the shipment weight and the mileage. At $0.75 a pound, 7,500 pounds is $5,625. The rate is set by the carrier, and the weight is determined by the truck's own weigh scale rather than by your estimate — which is why an inventory taken at the start matters to the final bill.",
+      },
+      {
+        title: "Local moves are billed by the hour",
+        body: "A local move is charged on the clock, including travel time to and from the job. At $150 an hour for a crew, an eight-hour day is $1,200. The variable that moves this number is not distance but how long the loading actually takes, which depends on access, stairs and how the belongings were prepared.",
+      },
+      {
+        title: "The parts that inflate a move",
+        body: "Stair and long-carry fees, packing, shuttle trucks where a full-size truck cannot reach the door, and bulky-item surcharges all sit outside the headline rate. These are the items that make a final bill differ from a quote, and they are almost always disclosed in the estimate — in the section that gets read last.",
+      },
+    ],
+    example: {
+      title: "Worked example: 7,500 pounds, 800 miles, versus a local day",
+      setup:
+        "Shipment 7,500 pounds. Long-distance rate assumed at $0.75 a pound. Local alternative assumed at $150 an hour for a crew over eight hours. Both rates are assumptions, not quotes.",
+      rows: [
+        { label: "Long distance at $0.75/lb", value: "$5,625.00", note: "7500 x 0.75" },
+        { label: "Crew needed at 7,500 lb", value: "3-4 people", note: "a rule of thumb, not a rate" },
+        { label: "Local at $150/hr for 8 hours", value: "$1,200.00", note: "150 x 8" },
+        { label: "Difference", value: "$4,425.00", note: "5625 - 1200" },
+        { label: "Long distance in lbs per dollar", value: "1.33 lb", note: "7500 / 5625" },
+      ],
+      conclusion:
+        "The two figures are $5,625 and $1,200, and they are not alternatives for the same job — one crosses a state line and one does not. The useful part is the ratio: the long-distance move costs 4.7 times the local day, and the majority of that is distance rather than effort.",
+    },
+    mistakes: [
+      {
+        title: "Comparing a weight-based quote to an hourly one",
+        body: "They measure different things. A long-distance quote scales with weight and miles; a local quote scales with hours. Comparing the totals directly compares two different jobs.",
+      },
+      {
+        title: "Estimating your own weight",
+        body: "The binding weight comes from the carrier's scale. An inventory that omits heavy items produced late in the packing process is the most common cause of a bill exceeding a quote.",
+      },
+      {
+        title: "Budgeting only the base rate",
+        body: "Stair fees, long carries, packing materials and bulky-item charges sit outside the headline figure. The estimate lists them; they are the difference between a quote and an invoice.",
+      },
+    ],
+  },
+
+  "price-per-square-foot-calculator": {
+    intro:
+      "Price per square foot is one division, and its value is entirely in making two properties comparable. Its risk is that it makes two properties look comparable when they are not.",
+    mechanics: [
+      {
+        title: "The division and what it is for",
+        body: "Divide the price by the area: $450,000 over 2,000 square feet is $225 a square foot. The figure is a comparison tool. It lets a buyer rank properties of different sizes on a common basis, which a headline price cannot do — a larger house at a higher price can be the cheaper purchase per square foot.",
+      },
+      {
+        title: "What is counted as area varies",
+        body: "Whether a basement, garage, covered porch or finished attic is included in the quoted square footage differs between listings and between markets. A property measured generously can show a lower price per square foot than an identical one measured strictly, with no difference in the house.",
+      },
+      {
+        title: "Where the metric misleads",
+        body: "It assumes area drives value, which holds better for similar homes in one neighbourhood than across neighbourhoods or property types. Land value, condition and location are not in the number. Two properties at $225 a square foot in different areas may have nothing else in common.",
+      },
+    ],
+    example: {
+      title: "Worked example: comparing on a common basis",
+      setup:
+        "A property at $450,000 with 2,000 square feet, compared against two alternatives. All three figures are illustrations of the arithmetic rather than market data.",
+      rows: [
+        { label: "Base case", value: "$225.00/sq ft", note: "450000 / 2000" },
+        { label: "Same house, price $480,000", value: "$240.00/sq ft", note: "480000 / 2000" },
+        { label: "Same price, 1,800 sq ft", value: "$250.00/sq ft", note: "450000 / 1800" },
+      ],
+      conclusion:
+        "A $30,000 higher price raises the metric by $15 a square foot; a 200-square-foot measurement difference raises it by $25. The measurement matters more than the price here, which is the practical warning: before comparing two properties by this figure, confirm that both areas were measured the same way.",
+    },
+    mistakes: [
+      {
+        title: "Comparing across markets or property types",
+        body: "The metric holds within a set of similar properties in one area. Across neighbourhoods or between a house and a condominium it compares things that are not alike.",
+      },
+      {
+        title: "Assuming the quoted area is measured consistently",
+        body: "Inclusion of basements, garages and outbuildings varies by listing. Two identical houses can carry different areas and therefore different price-per-square-foot figures.",
+      },
+      {
+        title: "Treating a low figure as value",
+        body: "A low price per square foot can reflect condition, location or a measurement that includes unheated space. It is a comparison, not a verdict.",
+      },
+    ],
+  },
+
+  "heart-rate-calculator": {
+    intro:
+      "Training zones are percentages of a maximum heart rate you cannot measure directly, so every zone is an estimate built on an estimate. Knowing which formula produced your number matters more than the number itself.",
+    mechanics: [
+      {
+        title: "Two ways to estimate maximum heart rate",
+        body: "The simple method is 220 minus age, which gives 180 for a 40-year-old. The Karvonen method instead uses heart rate reserve — maximum minus resting — and applies the intensity to that reserve before adding the resting rate back. At a resting rate of 60 and 70% intensity, Karvonen gives 144 while the simple method gives 126. Both are called 70% and they are not the same number.",
+      },
+      {
+        title: "Reserve is the better basis",
+        body: "Karvonen produces a higher target at the same stated percentage because it accounts for the fact that a fitter person with a lower resting rate has more usable range. Using the simple percentage of maximum systematically under-prescribes for anyone with a low resting heart rate, which is exactly the group training hardest.",
+      },
+      {
+        title: "The estimate has a wide margin",
+        body: "Age-based maximum heart rate has a substantial standard deviation — a wide spread either side of the predicted value for people of the same age. A zone calculated from it is a sensible starting range, not a physiological measurement. Perceived effort and a talk test are often more reliable in practice than a number derived from age alone.",
+      },
+    ],
+    example: {
+      title: "Worked example: age 40 with a resting rate of 60",
+      setup:
+        "Age 40, resting heart rate 60. Simple method as 220 minus age; Karvonen applied to heart rate reserve. Both are estimates.",
+      rows: [
+        { label: "Estimated maximum", value: "180 bpm", note: "220 - 40" },
+        { label: "60-70% of maximum", value: "108-126 bpm", note: "180 x 0.60 to 180 x 0.70" },
+        { label: "70-80% of maximum", value: "126-144 bpm", note: "180 x 0.70 to 180 x 0.80" },
+        { label: "Heart rate reserve", value: "120 bpm", note: "180 - 60" },
+        { label: "70% by Karvonen", value: "144 bpm", note: "120 x 0.70 + 60" },
+        { label: "Difference at the same stated 70%", value: "18 bpm", note: "144 - 126" },
+      ],
+      conclusion:
+        "The same person at the same stated intensity gets 126 bpm from one method and 144 from the other. The 18-beat gap is not a rounding difference — it is the difference between a jog and a tempo effort. Use one method consistently, and note which, because a zone quoted without its method is not a zone.",
+    },
+    mistakes: [
+      {
+        title: "Mixing the two methods",
+        body: "A percentage of maximum and a percentage of reserve are different scales. Zone figures taken from both and compared produce a training plan that is inconsistent with itself.",
+      },
+      {
+        title: "Treating the maximum as measured",
+        body: "220 minus age is a population average with a wide spread. An individual's true maximum can sit well either side of it.",
+      },
+      {
+        title: "Using a wrist sensor on the wrist",
+        body: "Optical sensors are sensitive to fit, motion and skin perfusion, and they lag during intervals. For zone training, a chest strap is considerably more reliable.",
+      },
+    ],
+  },
+
+  "calorie-deficit-calculator": {
+    intro:
+      "Weight change is a deficit or surplus accumulated over time, and the arithmetic is unusually simple: about 3,500 kilocalories per pound. The difficulty is not the maths, it is that the deficit is a moving target as the body adapts.",
+    mechanics: [
+      {
+        title: "The 3,500-kilocalorie rule",
+        body: "A pound of body tissue is commonly treated as roughly 3,500 kilocalories. A daily deficit of 500 therefore predicts about a pound a week, and a deficit of 1,000 about two. The rule is an approximation — the energy content of tissue varies with its composition, and expenditure falls as weight falls — but it is close enough to plan with.",
+      },
+      {
+        title: "The deficit is relative to a number that changes",
+        body: "A deficit is measured against total daily energy expenditure, and that expenditure falls as you lose weight: less mass costs less to move and less to maintain. A deficit fixed at 500 calories produces steady loss at first and then slows, not because the arithmetic failed but because the baseline moved.",
+      },
+      {
+        title: "Aggressive deficits have a floor",
+        body: "Cutting 1,000 calories a day against a 2,500 daily expenditure means eating 1,500. Pushing further risks inadequate nutrition, loss of lean mass and poor adherence. The deficit that works is the largest one that can be sustained, which is usually smaller than the one that looks fastest on paper.",
+      },
+    ],
+    example: {
+      title: "Worked example: a 500-calorie deficit against 2,500 daily expenditure",
+      setup:
+        "Estimated daily expenditure 2,500 kilocalories. A daily deficit of 500, and the 3,500-kilocalorie-per-pound approximation. Both are estimates, and the expenditure figure is the less certain of the two.",
+      rows: [
+        { label: "Daily intake for the deficit", value: "2,000 kcal", note: "2500 - 500" },
+        { label: "Weekly deficit", value: "3,500 kcal", note: "500 x 7" },
+        { label: "Expected loss per week", value: "1.0 lb", note: "3500 / 3500" },
+        { label: "Time to lose 20 lb at that rate", value: "20 weeks", note: "20 / 1.0" },
+        { label: "Daily deficit for 2 lb a week", value: "1,000 kcal", note: "7000 / 7 — intake falls to 1,500" },
+      ],
+      conclusion:
+        "A 500-calorie deficit predicts a pound a week and twenty weeks for twenty pounds. Doubling the deficit halves that on paper to ten weeks, at an intake of 1,500 against an expenditure of 2,500 — and it is the second half of that trade, not the first, that decides whether the plan survives. The arithmetic scales linearly; adherence does not.",
+    },
+    mistakes: [
+      {
+        title: "Treating the expenditure estimate as precise",
+        body: "Daily expenditure is estimated from formulas and activity multipliers, both of which carry substantial error. The deficit inherits that error entirely.",
+      },
+      {
+        title: "Expecting linear loss",
+        body: "Expenditure falls as weight falls, and water and glycogen shifts mask fat loss over short periods. A week without movement on the scale is not evidence the arithmetic stopped working.",
+      },
+      {
+        title: "Cutting calories without regard to what remains",
+        body: "A deficit describes a quantity of energy, not a quality of diet. Meeting a low target with poor food choices makes lean mass loss and micronutrient shortfalls more likely at the same deficit.",
+      },
+    ],
+  },
+
+  "electricity-cost-calculator": {
+    intro:
+      "An appliance's running cost is watts, times hours, divided by a thousand, times the rate. The division by a thousand is the step people drop, and it turns a plausible-looking figure into one that is off by three orders of magnitude.",
+    mechanics: [
+      {
+        title: "Watts to kilowatt-hours",
+        body: "A kilowatt-hour is a thousand watts running for one hour. So an appliance drawing 1,500 watts for 8 hours uses 1,500 x 8 / 1,000 = 12 kilowatt-hours. Skipping the division gives 12,000, which is the number of watt-hours — correct in its own unit, wrong by a factor of a thousand as a billing figure.",
+      },
+      {
+        title: "The rate is a stack, not a single number",
+        body: "The price per kilowatt-hour combines supply, delivery and various fixed and volumetric charges, and it frequently varies by time of day or by how much you use in a month. A single blended rate is a reasonable approximation for comparing appliances and a poor basis for predicting a bill.",
+      },
+      {
+        title: "Standby draw is the invisible part",
+        body: "Many devices consume power when nominally off. A device drawing 5 watts continuously uses 43.8 kilowatt-hours a year, which is small individually and material across a house full of them. This calculator measures active use; standby is a separate, smaller, additive cost.",
+      },
+    ],
+    example: {
+      title: "Worked example: 1,500 watts for 8 hours a day at $0.15 per kWh",
+      setup:
+        "Appliance draw 1,500 watts. Eight hours a day. Rate assumed at $0.15 per kilowatt-hour, which is an illustration — rates vary by region, by time of day and by consumption tier.",
+      rows: [
+        { label: "Kilowatt-hours per day", value: "12.00", note: "1500 x 8 / 1000" },
+        { label: "Cost per day", value: "$1.80", note: "12 x 0.15" },
+        { label: "Cost per 30-day month", value: "$54.00", note: "1.80 x 30" },
+        { label: "Kilowatt-hours per year", value: "4,380", note: "12 x 365" },
+        { label: "Cost per year", value: "$657.00", note: "1.80 x 365" },
+      ],
+      conclusion:
+        "Running one appliance eight hours a day costs $54 a month and $657 a year at this rate. That is the figure worth comparing against the appliance's purchase price before buying on price alone — and it is also why the hours matter so much: halving the daily running time halves the running cost, with the rate unchanged.",
+    },
+    mistakes: [
+      {
+        title: "Forgetting to convert watts to kilowatts",
+        body: "Billing is in kilowatt-hours, which are a thousand watt-hours. Omitting the division by 1,000 overstates the cost by a factor of a thousand.",
+      },
+      {
+        title: "Multiplying by the rate before converting",
+        body: "The rate applies per kilowatt-hour, so the conversion has to come first. The order matters even though the operations look commutative.",
+      },
+      {
+        title: "Using a nameplate rating as actual draw",
+        body: "The rated wattage is a maximum, not a typical figure. A refrigerator cycles; a laptop rarely runs at its peak. Nameplate figures overstate real consumption for anything that modulates.",
+      },
+    ],
+  },
+
+  "drywall-calculator": {
+    intro:
+      "Drywall is bought in sheets of fixed size, so the calculation is area divided by sheet area, rounded up — plus a waste allowance that depends on how many cuts the room requires rather than on its size.",
+    mechanics: [
+      {
+        title: "Sheets come from the area, rounded up",
+        body: "A standard sheet is 4 by 8 feet, which is 32 square feet. Covering 1,200 square feet takes 1,200 / 32 = 37.5 sheets, so 38. As with any sheet material the count rounds up, because the final sheet is cut and the offcut is scrap.",
+      },
+      {
+        title: "Waste depends on the shape, not the size",
+        body: "A ten percent allowance takes this to 41.25 sheets, so 42. But waste is driven by how well full sheets fit: long uninterrupted walls produce almost none, while a room full of openings, angles and short returns can waste considerably more. A simple percentage is a starting point, and a complex layout deserves a higher one.",
+      },
+      {
+        title: "The unseen quantities",
+        body: "Sheets are the visible order; joints need tape and compound, screws are counted per square foot of board, and corners need bead. These scale with the same area but are ordered separately, and they are the lines most often forgotten when a project is quoted from board alone.",
+      },
+    ],
+    example: {
+      title: "Worked example: 1,200 square feet with 4 by 8 sheets",
+      setup:
+        "Area to cover 1,200 square feet. Sheets 4 by 8 feet, so 32 square feet each. Waste allowance taken at 10%.",
+      rows: [
+        { label: "Sheet area", value: "32 sq ft", note: "4 x 8" },
+        { label: "Sheets exactly", value: "37.50", note: "1200 / 32" },
+        { label: "Sheets to order", value: "38", note: "rounded up" },
+        { label: "With a 10% waste allowance", value: "41.25", note: "1200 x 1.10 / 32" },
+        { label: "Sheets to order with waste", value: "42", note: "rounded up" },
+      ],
+      conclusion:
+        "The order is 38 sheets, or 42 with a ten percent allowance for cuts. Sheet material is delivered in full units, so the calculation always ends with a round-up — which means the difference between 41.25 and 42 is a whole sheet. For a room with many openings, the higher figure is the safer starting point and the tape, compound and screws are separate orders entirely.",
+    },
+    mistakes: [
+      {
+        title: "Using the wall area as the board area",
+        body: "Deduct windows and doors from the wall area before dividing, but add extra for the many small cuts they create. The two adjustments do not cancel out, and which dominates depends on the layout.",
+      },
+      {
+        title: "Rounding the sheet count down",
+        body: "Half a sheet does not cover anything. Sheet goods are always rounded up, because the last sheet is cut and the remainder is waste rather than stock.",
+      },
+      {
+        title: "Ordering board only",
+        body: "Tape, joint compound, screws and corner bead are all required and are ordered on their own quantities. A materials list that stops at board is incomplete by roughly the finishing half of the job.",
+      },
+    ],
+  },
+
+  "paint-calculator": {
+    intro:
+      "Paint coverage is quoted per gallon for one coat, and almost every surface needs two. The figure on the can is also the best case, measured on a smooth sealed surface rather than on the wall you actually have.",
+    mechanics: [
+      {
+        title: "Area divided by coverage, times the number of coats",
+        body: "A gallon covers roughly 350 square feet on a smooth surface. Covering 1,200 square feet needs 1,200 / 350 = 3.43 gallons per coat, so 6.86 for two — which means 7 gallons, because paint is sold in whole cans and is not returnable once tinted.",
+      },
+      {
+        title: "The quoted coverage is optimistic",
+        body: "Manufacturer coverage assumes a smooth, sealed, non-porous surface. Bare drywall, rough masonry or a strong colour change all absorb considerably more. At 250 square feet a gallon the same 1,200 square feet needs 9.6 gallons for two coats — nearly three more than the can's own figure suggests.",
+      },
+      {
+        title: "Colour change is the real variable",
+        body: "Going from a dark colour to a light one over a tinted primer, or covering a strong red with a pale neutral, can require three coats rather than two. The arithmetic is unchanged; the multiplier is not. Approximate the number of coats before buying, because the shortfall is always discovered halfway up a wall.",
+      },
+    ],
+    example: {
+      title: "Worked example: 1,200 square feet, two coats",
+      setup:
+        "Area to cover 1,200 square feet. Coverage assumed at 350 square feet per gallon, which is the typical figure for a smooth sealed wall. Two coats.",
+      rows: [
+        { label: "Gallons per coat", value: "3.43", note: "1200 / 350" },
+        { label: "Gallons for two coats", value: "6.86", note: "3.43 x 2" },
+        { label: "Gallons to buy", value: "7", note: "rounded up — tinted paint is not returnable" },
+        { label: "If coverage is 250 sq ft/gal", value: "9.60", note: "1200 / 250 x 2, so 10 gallons" },
+        { label: "Extra cans at the lower coverage", value: "3", note: "10 - 7" },
+      ],
+      conclusion:
+        "Two coats over 1,200 square feet is 7 gallons at the quoted coverage and 10 at a realistic one for a porous surface. Three cans, or roughly 40% more paint, is decided entirely by the surface rather than by the area — which is why coverage figures are a planning estimate and the surface is the actual variable.",
+    },
+    mistakes: [
+      {
+        title: "Buying for one coat",
+        body: "Almost every surface needs two, and a colour change may need three. The can's coverage figure is per coat and is the most common source of a mid-job shortage.",
+      },
+      {
+        title: "Trusting the quoted coverage on a porous wall",
+        body: "Bare drywall, render and masonry absorb substantially more than the figure assumes. Budget on the lower number for an unsealed surface.",
+      },
+      {
+        title: "Forgetting primer",
+        body: "Primer is a separate product with its own coverage, and it is required for bare surfaces and for significant colour changes. It is not part of the paint quantity.",
+      },
+    ],
+  },
+
+  "home-remodel-cost-calculator": {
+    intro:
+      "A remodel is estimated room by room at a cost per square foot, and the rates differ so much between room types that averaging them across a project is how a whole-house budget goes wrong.",
+    mechanics: [
+      {
+        title: "Kitchens and bathrooms drive the total",
+        body: "A kitchen and a bathroom are the two most expensive rooms per square foot, because cost is concentrated in cabinetry, plumbing, tile and electrical rather than in floor area. A 200-square-foot kitchen at $150 a square foot is $30,000; a 50-square-foot bathroom at $250 is $12,500. The bathroom is a quarter of the area and more than 40% of the combined cost of this pair.",
+      },
+      {
+        title: "Per-square-foot rates are the wrong shape for a bathroom",
+        body: "A bathroom has a fixed set of fixtures and connections regardless of whether it is 50 or 80 square feet. Its cost is closer to a fixed figure plus a small area term than to a rate times area, which is why small bathrooms show an unusually high cost per square foot. The metric is a planning aid, not a pricing model.",
+      },
+      {
+        title: "Contingency and what sits outside the rate",
+        body: "A contingency of 15% on a $42,500 pair of rooms is $6,375. Beyond that, permits, design fees and any work discovered behind the walls sit outside a per-square-foot rate entirely — and in a remodel those are the items most likely to change the total.",
+      },
+    ],
+    example: {
+      title: "Worked example: a kitchen and a bathroom",
+      setup:
+        "Kitchen 200 square feet at an assumed $150 per square foot. Bathroom 50 square feet at an assumed $250 per square foot. Both rates are illustrations — regional rates vary widely and neither is a quote.",
+      rows: [
+        { label: "Kitchen", value: "$30,000.00", note: "200 x 150" },
+        { label: "Bathroom", value: "$12,500.00", note: "50 x 250" },
+        { label: "Combined", value: "$42,500.00", note: "30000 + 12500" },
+        { label: "Contingency at 15%", value: "$6,375.00", note: "42500 x 0.15" },
+        { label: "Total with contingency", value: "$48,875.00", note: "42500 + 6375" },
+        { label: "Bathroom share of the cost", value: "29.4%", note: "12500 / 42500 — on 20% of the area" },
+      ],
+      conclusion:
+        "The bathroom is 20% of the floor area and 29.4% of the cost, and that gap widens as bathrooms get smaller, because the fixtures and connections do not shrink with the room. Budgeting a whole house at one blended rate hides exactly this, which is why room-by-room estimation is worth the extra step even when the project is small.",
+    },
+    mistakes: [
+      {
+        title: "Averaging one rate across the whole house",
+        body: "Kitchens and bathrooms cost several times more per square foot than bedrooms or living space, for reasons that have nothing to do with area. A blended rate understates the expensive rooms and overstates the cheap ones.",
+      },
+      {
+        title: "Comparing a renovation rate to a new-build rate",
+        body: "New-build rates are lower per square foot because the work is unencumbered. A renovation carries demolition, protection and discovery, and it is priced accordingly.",
+      },
+      {
+        title: "Leaving permits and design out of the budget",
+        body: "Design fees, engineering and permits are real project costs and are not inside a per-square-foot construction rate. They are usually the first items omitted.",
+      },
+    ],
+  },
+
+  "bmi-calculator": {
+    intro:
+      "BMI is a single division — weight in kilograms over height in metres squared — and its usefulness is limited by exactly how little is in it. It measures size, not composition, and the distinction matters most at the two ends of the scale.",
+    mechanics: [
+      {
+        title: "The formula and the unit conversion",
+        body: "BMI is kilograms divided by height in metres squared. In imperial units the conversion is where errors appear: 180 pounds is 81.65 kilograms, and 5 feet 10 inches is 1.778 metres. Those give 81.65 / 3.1613 = 25.83. Dividing pounds by inches without converting produces a number that is not BMI at all.",
+      },
+      {
+        title: "What it cannot distinguish",
+        body: "BMI has no term for muscle, bone density or fat distribution. A muscular athlete and a sedentary person of the same height and weight have the same BMI and very different body composition. The measure was designed for population studies, where those individual differences average out, not for assessing one person.",
+      },
+      {
+        title: "Where the categories come from",
+        body: "The category boundaries are administrative thresholds chosen to describe populations, not physiological cut-points discovered in individuals. They were set for a specific reference population and are applied to others with varying accuracy. A BMI a fraction above a boundary is not meaningfully different from one a fraction below it.",
+      },
+    ],
+    example: {
+      title: "Worked example: 180 pounds at 5 feet 10 inches",
+      setup:
+        "Weight 180 pounds. Height 5 feet 10 inches, which is 70 inches. Conversions to metric are exact rather than rounded.",
+      rows: [
+        { label: "Weight in kilograms", value: "81.65 kg", note: "180 x 0.45359237" },
+        { label: "Height in metres", value: "1.7780 m", note: "70 x 0.0254" },
+        { label: "Height squared", value: "3.1613", note: "1.7780 x 1.7780" },
+        { label: "BMI", value: "25.83", note: "81.65 / 3.1613" },
+        { label: "Weight at BMI 25 for this height", value: "174.2 lb", note: "5.8 lb lower" },
+      ],
+      conclusion:
+        "A BMI of 25.83 sits just above the boundary commonly labelled overweight, and reaching a BMI of 25 would require losing 5.8 pounds — with no change to muscle, fat distribution or fitness. That is what the number measures: a relationship between two dimensions, and nothing about what the weight is made of.",
+    },
+    mistakes: [
+      {
+        title: "Dividing pounds by inches",
+        body: "The formula requires kilograms and metres. Using imperial units without converting produces an arbitrary figure, and it is a common source of a BMI that looks plausible but is not.",
+      },
+      {
+        title: "Reading a category as a diagnosis",
+        body: "The boundaries are population thresholds, not individual diagnoses. A doctor assessing risk uses waist measurement, blood markers and history, not a single ratio of height to weight.",
+      },
+      {
+        title: "Applying adult categories to children",
+        body: "Children and adolescents are assessed against age-and-sex-specific percentiles, because body composition changes rapidly with growth. Adult thresholds do not apply.",
+      },
+    ],
+  },
+
+  "tile-calculator": {
+    intro:
+      "Tile is bought by the box, and the box is the only unit that matters at the till. The calculation is an area, a tile size, a waste allowance and a round-up — four steps where only the last one costs money.",
+    mechanics: [
+      {
+        title: "Area over tile area",
+        body: "Divide the area to cover by the area of one tile. A 12 by 12 inch tile is exactly one square foot, so 200 square feet needs 200 tiles. For any other size, convert the tile dimensions to feet first: a 6 by 6 inch tile is 0.25 square feet, so the same floor needs 800.",
+      },
+      {
+        title: "Waste depends on the layout",
+        body: "A straight lay against square walls wastes little; a diagonal pattern or a herringbone wastes considerably more. Ten percent is the normal allowance for a straightforward layout, taking 200 tiles to 220. Complex patterns and small rooms with many cuts justify fifteen to twenty.",
+      },
+      {
+        title: "Boxes, and why the round-up is expensive",
+        body: "Tiles come in boxes of a fixed count — this calculator uses ten per box. So 220 tiles is 22 boxes, and the round-up to a whole box can add up to nine tiles you will never lay. Tile from different production runs can differ slightly in shade, which is why buying the extra box up front is preferable to returning for one later.",
+      },
+    ],
+    example: {
+      title: "Worked example: 200 square feet with 12 by 12 inch tile",
+      setup:
+        "Area 200 square feet. Tiles 12 by 12 inches, so one square foot each. Waste allowance taken at 10%. Boxes assumed at ten tiles, which is the figure this calculator uses.",
+      rows: [
+        { label: "Area of one tile", value: "1 sq ft", note: "12 in x 12 in = 1 sq ft" },
+        { label: "Tiles exactly", value: "200", note: "200 / 1" },
+        { label: "With a 10% waste allowance", value: "220", note: "200 x 1.10" },
+        { label: "Boxes at ten tiles each", value: "22", note: "220 / 10" },
+        { label: "Tiles bought versus laid", value: "20 spare", note: "220 - 200" },
+      ],
+      conclusion:
+        "The order is 22 boxes. Twenty tiles will not be laid — ten percent for cuts and ten for the round-up to whole boxes. That is normal rather than wasteful: the spares cover a breakage or a miscut, and a tile bought six months later may not match the batch. The waste here is the cost of not running short.",
+    },
+    mistakes: [
+      {
+        title: "Mixing inches and feet",
+        body: "Tile dimensions are usually quoted in inches and areas in feet. Convert the tile to square feet before dividing, or the count will be out by a factor of 144.",
+      },
+      {
+        title: "Forgetting the waste allowance on a diagonal lay",
+        body: "Diagonal and patterned layouts cut more and waste more. A ten percent allowance is for a straight lay; a diagonal pattern commonly needs fifteen or more.",
+      },
+      {
+        title: "Buying the exact count",
+        body: "There is no margin for a miscut or a broken tile, and tiles from a later batch can differ in shade. The round-up to whole boxes plus a small allowance is the practical minimum.",
+      },
+    ],
+  },
+
+  "carpet-calculator": {
+    intro:
+      "Carpet is priced and sold by the square yard, not the square foot, and it comes in fixed-width rolls. Both facts mean the arithmetic is a conversion followed by a question about how the roll divides.",
+    mechanics: [
+      {
+        title: "Square feet to square yards",
+        body: "There are nine square feet in a square yard, so dividing the area by nine converts it. Five hundred square feet is 55.56 square yards. Confusing this with the three feet in a linear yard is the most common error, and it understates the quantity by a factor of three.",
+      },
+      {
+        title: "Seams and roll width drive the real quantity",
+        body: "Carpet comes in rolls of a fixed width, commonly twelve or fifteen feet. A room wider than the roll needs a seam, and the second piece may require nearly as much length as the first — so a room just over twelve feet wide can need almost twice the carpet of one just under. The area is the starting point; how it divides into roll widths is what determines the order.",
+      },
+      {
+        title: "Waste and pile direction",
+        body: "A ten percent allowance covers trimming for edges, doorways and irregular shapes. Pile direction adds a constraint that area alone does not capture: pieces laid with the pile running in different directions look different under light, so cuts have to be oriented consistently and that can increase waste further.",
+      },
+    ],
+    example: {
+      title: "Worked example: 500 square feet",
+      setup:
+        "Area 500 square feet. Rolls assumed twelve feet wide, which is a common width and not a universal one. Waste allowance taken at 10%.",
+      rows: [
+        { label: "Square yards", value: "55.56 sq yd", note: "500 / 9" },
+        { label: "With a 10% waste allowance", value: "61.11 sq yd", note: "550 / 9" },
+        { label: "Square yards to order", value: "62 sq yd", note: "rounded up — carpet is not sold in fractions of a yard" },
+        { label: "The wrong conversion", value: "166.67", note: "500 / 3 — using linear rather than square yards" },
+      ],
+      conclusion:
+        "Five hundred square feet is 55.56 square yards, so 62 with waste and a round-up. The last row shows what happens if the conversion is treated as three rather than nine: the quantity comes out three times too high. The area is only half the calculation in practice, because the roll width and seam placement set the actual order.",
+    },
+    mistakes: [
+      {
+        title: "Dividing by three instead of nine",
+        body: "A square yard contains nine square feet, not three. Confusing it with the linear conversion overstates the order by a factor of three.",
+      },
+      {
+        title: "Ignoring roll width",
+        body: "A room wider than the roll needs a seam and a second length. That can nearly double the quantity for a room slightly wider than the roll, regardless of its total area.",
+      },
+      {
+        title: "Laying pieces with the pile in different directions",
+        body: "Pile direction affects how the carpet reflects light. Two pieces run against each other show as a visible seam even when the join itself is perfect.",
+      },
+    ],
+  },
+
+  "grade-calculator": {
+    intro:
+      "A course grade is a weighted average, and the weighting is the whole point. A grade in a course carrying four credits affects the result four times as much as one carrying a single credit, which is why two students with identical letter grades can have different averages.",
+    mechanics: [
+      {
+        title: "Quality points, then divide by credits",
+        body: "Each grade is converted to a number — on a four-point scale, an A is 4.0, a B is 3.0 and so on — then multiplied by the course's credit value to give quality points. Adding those and dividing by total credits gives the average. Note that the divisor is credits, not the number of courses.",
+      },
+      {
+        title: "Why dividing by course count is wrong",
+        body: "Treating every course as equal weight ignores that credit values differ. A three-credit A and a three-credit C average to a 3.0 whether you weight by credits or by courses — but add a one-credit A and a four-credit C and the two methods diverge, because the heavy course should dominate.",
+      },
+      {
+        title: "What the average does not capture",
+        body: "An average of 3.11 is compatible with straight Bs and with a mix of As and Cs. The number is the same; the trajectory is not, and many institutions look at the trend and the difficulty of the courses as well as the final figure.",
+      },
+    ],
+    example: {
+      title: "Worked example: three courses with different credit values",
+      setup:
+        "Course A: grade A (4.0) over 3 credits. Course B: grade B (3.0) over 4 credits. Course C: grade C (2.0) over 2 credits. Four-point scale.",
+      rows: [
+        { label: "Quality points from course A", value: "12.0", note: "3 credits x 4.0" },
+        { label: "Quality points from course B", value: "12.0", note: "4 credits x 3.0" },
+        { label: "Quality points from course C", value: "4.0", note: "2 credits x 2.0" },
+        { label: "Total quality points", value: "28.0", note: "12 + 12 + 4" },
+        { label: "Total credits", value: "9", note: "3 + 4 + 2" },
+        { label: "Weighted average", value: "3.11", note: "28 / 9" },
+      ],
+      conclusion:
+        "The average is 3.11 — a B overall, despite one A and one C. The unweighted mean of the three grade points would be 3.00, so the credit weighting moved the result up, because the A sat in a heavier course than the C. That is the mechanism: the answer depends on where the grades fell, not only on what they were.",
+    },
+    mistakes: [
+      {
+        title: "Dividing by the number of courses",
+        body: "The divisor is total credits, not course count. Treating a one-credit seminar as equal to a four-credit lecture produces an average the institution will not recognise.",
+      },
+      {
+        title: "Averaging the letter grades directly",
+        body: "Grade points have to be used, and the scale has to be the institution's own. Some use a 4.0 maximum with plus and minus grades carrying intermediate values; others compress those into whole points.",
+      },
+      {
+        title: "Confusing a term average with a cumulative one",
+        body: "A cumulative average weights every course taken so far, so one term moves it less than students expect in later years. A term figure and a cumulative figure are not interchangeable.",
+      },
+    ],
+  },
+
+  "body-fat-calculator": {
+    intro:
+      "Tape-based body fat estimates are regressions, not measurements — a formula fitted to a sample, applied to an individual. They are useful for tracking change in one person and unreliable for comparing two people.",
+    mechanics: [
+      {
+        title: "The circumference method",
+        body: "The US Navy method uses a logarithmic relationship between circumference and height: for men, 86.010 x log10(waist minus neck) minus 70.041 x log10(height) plus 36.76. With a 34-inch waist, a 15-inch neck and a height of 70 inches that gives 17.51%. Both logarithms are base ten, not natural.",
+      },
+      {
+        title: "It tracks change better than it measures level",
+        body: "The formula was fitted to a specific population, so its absolute output carries the error of that fit for any individual. But because the same error applies to successive measurements of the same person, a change in the number reflects a real change in the inputs. Use it for direction, treat the level as approximate.",
+      },
+      {
+        title: "Measurement consistency is everything",
+        body: "The inputs are tape measurements, and a half-inch difference in the waist reading moves the result by more than a percentage point. Measuring at the same point, at the same time of day and under the same conditions matters more than which formula is used.",
+      },
+    ],
+    example: {
+      title: "Worked example: 34-inch waist, 15-inch neck, 70-inch height",
+      setup:
+        "Waist 34 inches, neck 15 inches, height 70 inches. US Navy circumference method for men. Both logarithms are base ten.",
+      rows: [
+        { label: "Waist minus neck", value: "19 in", note: "34 - 15" },
+        { label: "log10(19)", value: "1.27875", note: "base ten, not natural" },
+        { label: "log10(70)", value: "1.84510", note: "base ten" },
+        { label: "Estimated body fat", value: "17.51%", note: "86.010 x 1.27875 - 70.041 x 1.84510 + 36.76" },
+      ],
+      conclusion:
+        "The estimate is 17.51%, and it is an estimate fitted to a sample rather than a measurement of this person. Its practical value is the trend: the same tape, the same landmarks and the same time of day applied monthly will show whether the composition is changing, even if the absolute figure sits a point or two off.",
+    },
+    mistakes: [
+      {
+        title: "Using natural logarithms",
+        body: "The coefficients were fitted using base-ten logarithms. Substituting natural logs changes every term and produces a materially different answer.",
+      },
+      {
+        title: "Measuring at a different point each time",
+        body: "The formula is sensitive to the waist reading, and the waist is where measurement variance is largest. Consistency of landmark matters more than precision of the tape.",
+      },
+      {
+        title: "Comparing your number to someone else's",
+        body: "The formula carries individual error, so two people at the same true body fat can read differently. Compare a person to their own previous figures, not to another person.",
+      },
+    ],
+  },
+
+  "miles-per-gallon-calculator": {
+    intro:
+      "Miles per gallon is one division, and it becomes useful the moment it is converted to cost per mile. That conversion is what lets a fuel-efficiency figure compete with a price at the pump.",
+    mechanics: [
+      {
+        title: "Miles over gallons",
+        body: "Divide the distance driven by the fuel used: 320 miles on 10.5 gallons is 30.48 mpg. The measurement is only as good as the fuel record, and the reliable method is to fill the tank completely at each fill-up and divide the miles between fills by the gallons added.",
+      },
+      {
+        title: "Cost per mile is the transferable figure",
+        body: "Divide the price per gallon by the mpg. At $3.50 a gallon and 30.48 mpg that is $0.115 a mile, which prices any distance immediately. This is the figure that makes efficiency comparable to fuel price: improving from 30 to 35 mpg saves more per mile than a 50-cent drop in the pump price at typical prices.",
+      },
+      {
+        title: "Why the trip computer disagrees",
+        body: "In-dash economy displays are estimates derived from fuel injection data and are frequently optimistic, sometimes by several miles per gallon. A fill-to-fill calculation is the reference figure, and a persistent gap between the two is normal rather than a fault.",
+      },
+    ],
+    example: {
+      title: "Worked example: 320 miles on 10.5 gallons at $3.50 a gallon",
+      setup:
+        "Distance 320 miles between fill-ups. Fuel added 10.5 gallons. Price assumed at $3.50 a gallon.",
+      rows: [
+        { label: "Miles per gallon", value: "30.48", note: "320 / 10.5" },
+        { label: "Cost per mile", value: "$0.115", note: "3.50 / 30.48" },
+        { label: "Cost of 1,000 miles", value: "$114.84", note: "1000 x 0.11484" },
+        { label: "Annual cost at 12,000 miles", value: "$1,378.12", note: "12000 x 0.11484" },
+        { label: "The same at 25 mpg", value: "$1,680.00", note: "12000 / 25 x 3.50 — $302 more a year" },
+      ],
+      conclusion:
+        "Thirty and a half miles per gallon is 11.5 cents a mile, which is $1,378 a year at 12,000 miles. Dropping to 25 mpg costs $302 more over the same distance — a difference worth more than most drivers would guess, and one that a change of vehicle rather than a change of driving style produces immediately.",
+    },
+    mistakes: [
+      {
+        title: "Dividing gallons by miles",
+        body: "That gives gallons per mile, which is a legitimate measure used in some countries but is not mpg. It also inverts the intuition: with this measure, lower is better.",
+      },
+      {
+        title: "Measuring between partial fill-ups",
+        body: "The calculation requires the tank to be filled to the same level each time. Filling partially and recording the distance produces a figure that drifts unpredictably.",
+      },
+      {
+        title: "Trusting the dashboard over the pump",
+        body: "Trip computers estimate from injection data and are commonly optimistic. The fill-to-fill figure is the one that matches what you actually paid for.",
+      },
+    ],
+  },
+
+  "gpa-calculator": {
+    intro:
+      "GPA is a weighted mean of grade points, and the two things that vary most between schools are what the scale goes up to and whether courses are weighted. Both change the answer without changing the grades.",
+    mechanics: [
+      {
+        title: "Quality points divided by credits",
+        body: "Convert each grade to its point value, multiply by the credits that course carries, add the results and divide by the total credits. Three courses graded A, B and C over 3, 4 and 2 credits give 28 quality points over 9 credits, which is 3.111, or 3.11 to two places.",
+      },
+      {
+        title: "The scale is not universal",
+        body: "A four-point scale is common but not the only one. Some institutions use five for weighted advanced courses, some compress plus and minus grades into whole points, and some weight the scale for course difficulty. A 3.5 on one scale is not a 3.5 on another, which is why a GPA quoted without its scale is incomplete.",
+      },
+      {
+        title: "Cumulative is not a fresh start",
+        body: "A cumulative GPA weights every course taken, so each new term moves it less. Early grades continue to have an effect through the whole programme, which is why the marginal cost of a poor first term persists far longer than it feels it should.",
+      },
+    ],
+    example: {
+      title: "Worked example: three courses on a four-point scale",
+      setup:
+        "Course A: A (4.0) over 3 credits. Course B: B (3.0) over 4 credits. Course C: C (2.0) over 2 credits. Four-point scale, no weighting for difficulty.",
+      rows: [
+        { label: "Quality points", value: "28.0", note: "12.0 + 12.0 + 4.0" },
+        { label: "Total credits", value: "9", note: "3 + 4 + 2" },
+        { label: "GPA", value: "3.111", note: "28 / 9" },
+        { label: "Reported to two places", value: "3.11", note: "conventional rounding" },
+        { label: "As a percentage of the scale", value: "77.8%", note: "3.111 / 4 x 100" },
+      ],
+      conclusion:
+        "The GPA is 3.11, or 77.8% of the four-point maximum. Note that the percentage is a translation, not a grade — many institutions do not convert between the two, and ones that do use their own table. The average is a weighted mean, and it moves whenever a credit value or a scale convention changes.",
+    },
+    mistakes: [
+      {
+        title: "Dividing by the number of courses",
+        body: "The divisor is total credits. A one-credit course and a four-credit course are not equal contributions, and treating them as equal produces a figure no registrar recognises.",
+      },
+      {
+        title: "Ignoring whether the scale is weighted",
+        body: "Advanced and honours courses may use a five-point scale, which raises the maximum. A GPA computed on an unweighted scale and compared to a weighted one understates the result.",
+      },
+      {
+        title: "Assuming the percentage conversion is standard",
+        body: "The mapping between GPA and percentage varies by institution. Converting at all is an approximation unless the school publishes its own table.",
+      },
+    ],
+  },
+
+  "time-duration-calculator": {
+    intro:
+      "Duration arithmetic looks trivial until a span crosses midnight, and that is exactly when a hand calculation goes wrong. The reliable method is to convert both ends to a single unit, subtract, and convert back once.",
+    mechanics: [
+      {
+        title: "Convert to minutes before subtracting",
+        body: "Rather than subtracting hours and minutes separately, convert each time to minutes since midnight and subtract. 9:45 AM is 585 minutes past midnight and 4:30 PM is 990, so the interval is 990 minus 585, which is 405 minutes — 6 hours and 45 minutes. Subtracting the parts separately invites borrowing errors, because minutes borrow 60 rather than 100.",
+      },
+      {
+        title: "Crossing midnight adds 24 hours",
+        body: "A span from 10:00 PM to 6:15 AM is negative if both ends are treated as times on the same day. Adding 1,440 minutes for the intervening day gives the right answer: 6:15 AM is 375 minutes, 10:00 PM is 1,320, and 375 plus 1,440 minus 1,320 is 495 minutes, or 8 hours 15 minutes.",
+      },
+      {
+        title: "Decimal hours are a different representation",
+        body: "Timesheets often use decimal hours, where 45 minutes is 0.75 of an hour. That makes arithmetic with a rate simple, because hours multiplied by an hourly rate needs hours rather than a two-part notation. Converting back and forth is the source of most payroll errors.",
+      },
+    ],
+    example: {
+      title: "Worked example: two spans, one crossing midnight",
+      setup:
+        "Span one: 9:45 AM to 4:30 PM on the same day. Span two: 10:00 PM to 6:15 AM, crossing midnight. Both counted as elapsed time.",
+      rows: [
+        { label: "Span one in minutes", value: "405", note: "990 - 585" },
+        { label: "Span one", value: "6 h 45 m", note: "405 / 60" },
+        { label: "Span two in minutes", value: "495", note: "(375 + 1440) - 1320" },
+        { label: "Span two", value: "8 h 15 m", note: "495 / 60, crossing midnight" },
+        { label: "Combined total", value: "900 min / 15 h", note: "405 + 495" },
+        { label: "Span one as decimal hours", value: "6.75 h", note: "45 minutes is 0.75 of an hour" },
+      ],
+      conclusion:
+        "The two spans are 6 hours 45 minutes and 8 hours 15 minutes, totalling 15 hours. The overnight span is where a hand count fails, because subtracting the two clock times gives a negative number unless a day is added. Converting to minutes first makes the midnight case the same operation as the ordinary one.",
+    },
+    mistakes: [
+      {
+        title: "Subtracting clock times across midnight",
+        body: "A negative result from subtracting the parts means a day boundary was crossed. Adding 24 hours to the end time — or 1,440 minutes — produces the elapsed time.",
+      },
+      {
+        title: "Borrowing incorrectly across the hour",
+        body: "Minutes borrow 60, not 100. Subtracting minutes and hours separately without accounting for that produces errors that are always a multiple of 40 minutes.",
+      },
+      {
+        title: "Confusing 1.75 hours with 1 hour 75 minutes",
+        body: "Decimal hours and the two-part notation are different systems. A decimal of 0.75 is 45 minutes; 75 minutes is 1 hour and 15 minutes, which as a decimal is 1.25.",
+      },
+    ],
+  },
+
+  "water-intake-calculator": {
+    intro:
+      "Fluid guidance is generally expressed as a total from all sources, and the drinks are only part of it. The common half-your-weight heuristic is a starting estimate, not a target to hit with a water bottle alone.",
+    mechanics: [
+      {
+        title: "The half-your-weight heuristic",
+        body: "The common rule suggests roughly half your body weight in ounces: 180 pounds gives 90 ounces, which is about 2.66 litres. It is a heuristic rather than a derived requirement, and it scales with body size, which is why it is more useful than a single fixed figure applied to everyone.",
+      },
+      {
+        title: "Activity and climate move it far more than weight",
+        body: "Sweat losses during exercise and in heat can be substantial, and they are not captured by body weight. A working figure is roughly 12 additional ounces for each half hour of activity, with more in heat or at altitude. For many people this term exceeds the adjustment for body size.",
+      },
+      {
+        title: "Food and other drinks count",
+        body: "A significant share of typical fluid intake comes from food, and all beverages count toward the total including coffee and tea. Guidance expressed as total fluid is therefore not a target for plain water alone. The practical indicators of adequacy are thirst and urine colour rather than a number.",
+      },
+    ],
+    example: {
+      title: "Worked example: 180 pounds",
+      setup:
+        "Body weight 180 pounds. Half-weight heuristic applied, plus a moderate exercise allowance. The additional figure per half hour of activity is a working approximation rather than a derived requirement.",
+      rows: [
+        { label: "Half body weight in ounces", value: "90 oz", note: "180 x 0.5" },
+        { label: "In litres", value: "2.66 L", note: "90 / 33.814" },
+        { label: "In 8-ounce glasses", value: "11.2", note: "90 / 8" },
+        { label: "With one half-hour of exercise", value: "102 oz", note: "90 + 12" },
+      ],
+      conclusion:
+        "The heuristic gives about 90 ounces, or 2.66 litres, rising to 102 with a half hour of exercise. Both figures include fluid from food and from every beverage, so the amount of plain water required is lower than the number suggests. The estimate scales sensibly with body size and activity, which is the most that can be said for it as a target.",
+    },
+    mistakes: [
+      {
+        title: "Drinking the whole figure as plain water",
+        body: "The guidance is for total fluid, including food and all drinks. Treating it as a water-only target overshoots, and in large amounts consumed quickly can dilute blood sodium.",
+      },
+      {
+        title: "Ignoring activity and heat",
+        body: "Sweat losses are not captured by body weight and can exceed the adjustment for size. Exercise and hot weather move the requirement more than weight does.",
+      },
+      {
+        title: "Applying a fixed figure to everyone",
+        body: "Requirements vary with body size, activity, climate and health conditions. A single number applied universally is a rough average, not a personal target.",
+      },
+    ],
+  },
+
+  "due-date-calculator": {
+    intro:
+      "An estimated due date is a calculation from a date you know, not a prediction of when labour will begin. It marks a point on a distribution, and the range around it is wide.",
+    mechanics: [
+      {
+        title: "280 days from the last menstrual period",
+        body: "The standard estimate adds 280 days — forty weeks — to the first day of the last menstrual period. From 1 January that gives 8 October. The count starts at the period rather than at conception because the period date is the one that is reliably known.",
+      },
+      {
+        title: "Naegele's rule is the same arithmetic restated",
+        body: "The traditional form is: subtract three months from the first day of the last period, then add seven days and one year. For 1 January it gives 8 October of the same year, matching the 280-day version. Two routes to one number, which is a useful cross-check when the dates are awkward.",
+      },
+      {
+        title: "Why the estimate is an estimate",
+        body: "The 280-day figure assumes a regular 28-day cycle with ovulation on day 14. Cycles longer or shorter than that shift the estimate, and cycle length varies between people and between months. Ultrasound measurement in early pregnancy is more accurate than any date calculation, which is why the estimate is often revised.",
+      },
+    ],
+    example: {
+      title: "Worked example: last menstrual period on 1 January",
+      setup:
+        "First day of the last menstrual period: 1 January. Standard 280-day count, cross-checked against Naegele's rule. Both are estimates that a clinician may revise.",
+      rows: [
+        { label: "Estimated due date", value: "8 October", note: "1 January + 280 days" },
+        { label: "Naegele's rule check", value: "8 October", note: "minus 3 months, plus 7 days, plus 1 year" },
+        { label: "Weeks in the calculation", value: "40", note: "280 / 7" },
+        { label: "Typical range around the estimate", value: "roughly 2 weeks either side", note: "a wide distribution, not a deadline" },
+      ],
+      conclusion:
+        "Both methods give 8 October, which is the point of having two — they should agree, and when they do not, an arithmetic slip is the usual cause. The forty-week figure is a convention rather than a biological constant, and the estimate is a centre point with a wide range around it.",
+    },
+    mistakes: [
+      {
+        title: "Counting from conception",
+        body: "The convention counts from the last menstrual period, which is roughly two weeks before conception. Counting from a known conception date gives a different and lower figure.",
+      },
+      {
+        title: "Treating the date as a deadline",
+        body: "It is the centre of a distribution. A wide range of dates around it is normal, and a clinician may revise the estimate after an early scan.",
+      },
+      {
+        title: "Ignoring cycle length",
+        body: "The 280-day rule assumes a 28-day cycle. A longer cycle shifts ovulation later and moves the estimate, which is one reason the calculated date is often adjusted.",
+      },
+    ],
+  },
+
+  "wallpaper-calculator": {
+    intro:
+      "Wallpaper is sold in rolls of fixed area, and the pattern repeat is what makes the difference between the area of the wall and the quantity of paper you have to buy.",
+    mechanics: [
+      {
+        title: "Net wall area, after openings",
+        body: "Multiply the room perimeter by wall height to get the gross area — 40 feet by 9 feet is 360 square feet — then subtract doors and windows. Two doors at 21 square feet and a window at 15 gives a net area of 303 square feet. Openings are subtracted because paper is not hung across them, but the waste they create is not.",
+      },
+      {
+        title: "A roll covers less than it contains",
+        body: "A roll is nominally a fixed area, but only part of it is usable once lengths are cut to the wall height. Around 33 square feet of usable coverage per roll is a reasonable working figure, so 303 square feet needs 9.18 rolls — which means 10.",
+      },
+      {
+        title: "Pattern repeat is the quantity people forget",
+        body: "A patterned paper with a repeat must have each strip aligned to the pattern, so every cut consumes up to a full repeat of extra length. Adding 15% for a moderate repeat takes the requirement from 9.18 to 10.56 rolls, which is 11 rather than 10. For a large repeat, more.",
+      },
+    ],
+    example: {
+      title: "Worked example: a 40-foot perimeter with 9-foot walls",
+      setup:
+        "Room perimeter 40 feet, wall height 9 feet. Two doors at 21 square feet each and one window at 15 square feet. Usable coverage assumed at 33 square feet per roll, which is a working figure rather than a fixed one.",
+      rows: [
+        { label: "Gross wall area", value: "360 sq ft", note: "40 x 9" },
+        { label: "Less two doors", value: "-42 sq ft", note: "21 each" },
+        { label: "Less one window", value: "-15 sq ft", note: "assumed" },
+        { label: "Net wall area", value: "303 sq ft", note: "360 - 57" },
+        { label: "Rolls at plain paper", value: "10", note: "303 / 33 = 9.18, rounded up" },
+        { label: "Rolls with a pattern repeat, plus 15%", value: "11", note: "303 x 1.15 / 33 = 10.56, rounded up" },
+      ],
+      conclusion:
+        "The same room needs 10 rolls of a plain paper and 11 of a patterned one. The extra roll is not waste — it is the pattern alignment, which consumes length on every strip that a plain paper does not. Working from the wall area alone, with no allowance for repeat, is how a job finishes one strip short.",
+    },
+    mistakes: [
+      {
+        title: "Ignoring the pattern repeat",
+        body: "Patterned paper consumes extra length at every cut to align the design. Plain paper needs no allowance; a large repeat can need substantially more than 15%.",
+      },
+      {
+        title: "Using the nominal roll area as usable coverage",
+        body: "Only the part of a roll that becomes full-length strips counts. A working figure of about 33 square feet per roll is more realistic than the label area.",
+      },
+      {
+        title: "Forgetting that openings create offcuts",
+        body: "Doors and windows are subtracted from the area, but the strips around them are cut and largely wasted. Subtracting the area without allowing for the extra cutting understates the requirement.",
+      },
+    ],
+  },
+
+  "sleep-calculator": {
+    intro:
+      "Sleep runs in cycles of roughly ninety minutes, and waking between them feels different from waking inside one. Counting cycles rather than hours is a way of aiming at the boundary.",
+    mechanics: [
+      {
+        title: "Cycles of about ninety minutes",
+        body: "Sleep progresses through cycles of roughly ninety minutes, each ending with a lighter stage. Four cycles is six hours, five is seven and a half, six is nine. The figure is an average: cycles vary between people and across the night, with later cycles tending to be longer and lighter.",
+      },
+      {
+        title: "Add the time it takes to fall asleep",
+        body: "The time between getting into bed and sleeping is not part of a cycle. Fifteen minutes is a common working figure, so a wake time of 6:30 AM with five cycles means being in bed by 10:45 PM — seven and a half hours of sleep plus the fifteen minutes. Omitting that term puts bedtime fifteen minutes late every night.",
+      },
+      {
+        title: "What the calculation cannot account for",
+        body: "Alcohol, caffeine, late light exposure and irregular schedules all affect how quickly sleep arrives and how it is structured. A bedtime calculated from cycles assumes the transition happens on schedule, and the number of cycles achieved is an outcome rather than a decision.",
+      },
+    ],
+    example: {
+      title: "Worked example: aiming at a 6:30 AM wake time",
+      setup:
+        "Wake time 6:30 AM. Cycles of 90 minutes. Fifteen minutes allowed to fall asleep. Cycle length is an average rather than a fixed value.",
+      rows: [
+        { label: "Four cycles", value: "6.0 h", note: "4 x 90 minutes" },
+        { label: "Five cycles", value: "7.5 h", note: "5 x 90 minutes" },
+        { label: "Six cycles", value: "9.0 h", note: "6 x 90 minutes" },
+        { label: "Bedtime for five cycles", value: "10:45 PM", note: "6:30 - 7.5 h - 15 min" },
+        { label: "Bedtime for six cycles", value: "9:15 PM", note: "6:30 - 9 h - 15 min" },
+      ],
+      conclusion:
+        "For a 6:30 AM wake time, five cycles means being in bed by 10:45 PM and six means 9:15 PM. The fifteen minutes is the part usually left out, and leaving it out means being fifteen minutes short of the cycle count aimed for — which defeats the purpose of counting them at all. Whether the cycles themselves arrive is a different question from how the bedtime was chosen.",
+    },
+    mistakes: [
+      {
+        title: "Forgetting the time to fall asleep",
+        body: "The interval between getting into bed and sleeping is not part of a cycle. Omitting it makes the planned cycle count unreachable by exactly that margin.",
+      },
+      {
+        title: "Treating 90 minutes as exact",
+        body: "Cycle length varies between people and across the night. The boundaries shift, so a calculated wake time is an approximation rather than a schedule.",
+      },
+      {
+        title: "Optimising only the bedtime",
+        body: "Hitting a cycle boundary helps how waking feels. Total sleep duration, regularity and sleep quality are the larger determinants, and none of them appear in the cycle arithmetic.",
+      },
+    ],
+  },
+
+  "tdee-calculator": {
+    intro:
+      "Total daily energy expenditure is a resting rate multiplied by an activity factor — two estimates multiplied together, which means the error in the result is larger than the error in either input.",
+    mechanics: [
+      {
+        title: "Basal rate from a formula",
+        body: "Mifflin-St Jeor is the common contemporary estimate of resting energy use: ten times weight in kilograms, plus 6.25 times height in centimetres, minus five times age, plus five for men. For a 40-year-old male at 81.65 kilograms and 177.8 centimetres that gives 1,733 kilocalories a day. Each formula is a fit to a population and carries individual error.",
+      },
+      {
+        title: "The activity factor is the largest uncertainty",
+        body: "Multiplying by 1.2 for sedentary gives 2,079; by 1.55 for moderate gives 2,686; by 1.725 for very active gives 2,989. The span between sedentary and very active is over 900 kilocalories — larger than the error in the basal formula, and it is the input people estimate least carefully, usually by describing their intended activity rather than their actual week.",
+      },
+      {
+        title: "Why the number drifts",
+        body: "Expenditure falls as weight falls, because moving and maintaining less mass costs less. A figure calculated at one weight becomes progressively too high as that weight changes, which is why an intake set from a single calculation stops producing the expected result after a few months.",
+      },
+    ],
+    example: {
+      title: "Worked example: a 40-year-old male, 81.65 kg, 177.8 cm",
+      setup:
+        "Weight 81.65 kilograms, height 177.8 centimetres, age 40. Mifflin-St Jeor for men: 10 x kg + 6.25 x cm - 5 x age + 5. Activity multipliers applied to that basal figure.",
+      rows: [
+        { label: "Basal metabolic rate", value: "1,733 kcal", note: "816.5 + 1111.25 - 200 + 5" },
+        { label: "Sedentary, x1.2", value: "2,079 kcal", note: "little deliberate exercise" },
+        { label: "Moderate, x1.55", value: "2,686 kcal", note: "3-5 sessions a week" },
+        { label: "Very active, x1.725", value: "2,989 kcal", note: "6-7 sessions a week" },
+        { label: "Gap, sedentary to very active", value: "910 kcal", note: "2989 - 2079" },
+      ],
+      conclusion:
+        "The same person spans 2,079 to 2,989 kilocalories a day depending entirely on which activity multiplier is chosen. That 910-kilocalorie range is larger than the error in the basal formula, and it is decided by a description of a typical week rather than by measurement. The formula's precision is misleading: the result is only as good as the multiplier.",
+    },
+    mistakes: [
+      {
+        title: "Choosing the activity multiplier by intention",
+        body: "The multiplier describes what the week actually contains, not what it is meant to contain. Overstating it produces a target that does not match the results it predicts.",
+      },
+      {
+        title: "Treating the output as measured",
+        body: "Two estimates are multiplied here, so the result carries both errors. It is a reasonable starting point to adjust from, not a measurement of your metabolism.",
+      },
+      {
+        title: "Reusing a figure calculated at a different weight",
+        body: "Expenditure falls as weight falls. An intake set from one calculation becomes too high as the body changes, which is why the plan appears to stop working.",
+      },
+    ],
+  },
 };
