@@ -33,20 +33,33 @@
  */
 
 export const CONTENT_DATES = {
-  /** Site-wide pages: home, about, methodology, contact, hubs. */
-  site: "2026-09-26",
+  /**
+   * Site-wide pages: home, about, methodology, contact, hubs.
+   * 2026-10-05: homepage H1/description reframed around pay, tax, mortgage and
+   * retirement; categories tiered finance-first. A material change to what the
+   * page says, so the date moves — the rule is content, not code.
+   */
+  site: "2026-10-05",
   /** lib/tools.ts — calculator definitions, formulas, and per-tool FAQ copy. */
-  tools: "2026-09-26",
+  tools: "2026-10-06",
   /** lib/states.ts + lib/stateRates.ts — state tax structure and rate schedules. */
   states: "2026-09-26",
   /** lib/amounts.ts — salary and price scenario bands. */
   amounts: "2026-09-17",
   /** lib/metros.ts — metro definitions. */
   metros: "2026-09-22",
-  /** Editorial guides and blog posts. */
-  guides: "2026-09-11",
-  /** Legal and policy pages: privacy, terms. */
-  legal: "2026-08-28",
+  /**
+   * Editorial guides and blog posts.
+   * 2026-10-06: the RMD guide was deepened with the Uniform Lifetime Table, a
+   * worked two-distribution year and its known exclusions.
+   */
+  guides: "2026-10-06",
+  /**
+   * Legal and policy pages: privacy, terms.
+   * 2026-10-06: the privacy policy gained an explicit Google Analytics 4
+   * disclosure and a description of the first-party counter.
+   */
+  legal: "2026-10-06",
 } as const;
 
 export type ContentGroup = keyof typeof CONTENT_DATES;
