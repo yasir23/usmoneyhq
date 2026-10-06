@@ -16,6 +16,23 @@ that did not move, and one that understates hides real updates.
 Usage:
     python3 scripts/check_content_dates.py           # exit 1 on drift
     python3 scripts/check_content_dates.py --table    # always print the comparison
+
+DELIBERATELY NOT A BUILD GATE — do not wire this into `npm run build` or CI.
+It is run by hand, and that is a decision rather than an omission.
+
+This compares the maintained dates against the last commit touching each group's
+paths. That is the right question, but it cannot tell a CONTENT change from any
+other edit to a file in those paths. A whitespace fix, a comment, or a refactor
+inside pages/guides moves git's date and would demand a <lastmod> bump — which is
+exactly what lib/content-dates.ts forbids in its own header ("Do NOT move it
+because code was deployed, a build ran, or a template was refactored").
+
+So as a hard gate it would misfire on legitimate commits, and the usual response
+to a gate that misfires is to weaken or skip it, which loses the check entirely.
+It was unwired and unheard for long enough that three dates sat stale unnoticed
+(2026-10-06); the fix for THAT is to actually run it, not to make it fail
+deploys. Narrow its semantics to distinguish content edits from code edits before
+promoting it to a gate.
 """
 from __future__ import annotations
 

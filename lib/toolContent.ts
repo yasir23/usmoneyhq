@@ -1537,4 +1537,588 @@ export const TOOL_CONTENT: Record<string, ToolContent> = {
       },
     ],
   },
+
+  /**
+   * ── ADDED 2026-10-06 (batch 2) ────────────────────────────────────────────
+   * 74 tools still had no deep content and rendered at 254-434 words. This
+   * batch covers the FINANCE ones, deliberately: the Search Console audit
+   * advises against expanding the non-finance utility categories ("Keep them
+   * stable... Do not expand those categories during the next finance-focused
+   * publishing wave"), and finance pages carry the better advertising value.
+   *
+   * Figures computed by script, not recalled, and reproducible from each
+   * entry's own `setup`. Rates used as illustrations (6%, 7%, 8.5%) are
+   * labelled as assumptions rather than presented as current market quotes.
+   */
+
+  "compound-interest-calculator": {
+    intro:
+      "Compounding is not a bigger number than simple interest — it is a different shape of growth. The gap between the two starts imperceptible and ends up larger than the original deposit, which is why the frequency of compounding matters more than people expect.",
+    mechanics: [
+      {
+        title: "The formula and what each part does",
+        body: "Future value is P x (1 + r/n)^(nt), where P is the amount you start with, r is the annual rate as a decimal, n is how many times a year interest is credited, and t is the number of years. The only part that responds to compounding frequency is the exponent — n and t multiply, so monthly compounding credits interest 12 times a year for every year you hold it.",
+      },
+      {
+        title: "Why monthly compounding beats annual",
+        body: "At the same quoted annual rate, more frequent crediting produces a higher effective rate, because each credit starts earning interest sooner. 6% credited annually pays exactly 6%. The same 6% credited monthly compounds to an effective 6.17%, because (1.005)^12 - 1 = 0.0617. That seventeen-hundredths of a percentage point is why a quoted rate is not comparable across accounts until you know the frequency — which is exactly what an annual percentage yield states explicitly.",
+      },
+      {
+        title: "Compounding vs simple interest",
+        body: "Simple interest is charged only on the original principal, so it grows in a straight line. Compound interest is charged on principal plus whatever interest has already accrued, so it curves upward. Over one year the difference is small; over thirty it is the difference between a savings account and a retirement.",
+      },
+    ],
+    example: {
+      title: "Worked example: $10,000 at 6% compounded monthly for 10 years",
+      setup:
+        "Principal $10,000. Annual rate 6%, credited monthly, so the periodic rate is 0.06 / 12 = 0.005. Term 10 years, which is 120 monthly periods.",
+      rows: [
+        { label: "Growth factor", value: "1.819397", note: "(1.005)^120" },
+        { label: "Future value", value: "$18,193.97", note: "10000 x 1.819397" },
+        { label: "Interest earned", value: "$8,193.97", note: "18193.97 - 10000" },
+        { label: "Effective annual rate", value: "6.17%", note: "(1.005)^12 - 1" },
+        { label: "Simple interest over the same 10 years", value: "$6,000.00", note: "10000 x 0.06 x 10" },
+        { label: "Value of compounding", value: "$2,193.97", note: "8193.97 - 6000" },
+      ],
+      conclusion:
+        "Ten years at 6% nearly doubles the money, and $2,193.97 of that — more than a fifth of the total gain — exists only because the interest was credited monthly rather than simply accruing on the original $10,000. Change the rate by a fraction of a point and this figure moves more than most people expect, which is why the rate and the frequency both belong in the comparison.",
+    },
+    mistakes: [
+      {
+        title: "Comparing a quoted rate to a quoted yield",
+        body: "6% compounded monthly and 6% compounded annually are not the same offer, even though both read as 6%. Compare effective rates or annual percentage yields, never the headline nominal figures.",
+      },
+      {
+        title: "Treating the effective rate as the growth rate for a partial year",
+        body: "The effective rate is annual by definition. Halving it to get six months is an approximation, not the answer, because the compounding does not divide evenly across a part year.",
+      },
+      {
+        title: "Ignoring what compounding does to debt",
+        body: "The formula does not know whether you are the lender or the borrower. A credit card balance compounding at a much higher rate grows by the same curve, faster, and in the other direction.",
+      },
+    ],
+  },
+
+  "simple-interest-calculator": {
+    intro:
+      "Simple interest is the one rate calculation that does not compound, and its predictability is the point. It is the standard on car loans, short-term notes and some student loans, and knowing which of the two you have changes what the balance does over time.",
+    mechanics: [
+      {
+        title: "The formula",
+        body: "Interest is P x r x t — principal times the annual rate as a decimal times the term in years. Nothing accumulates on the interest itself, so the amount charged is identical in year one and year ten. On $10,000 at 6% that is $600 a year, every year, for as long as the loan runs.",
+      },
+      {
+        title: "It does not mean the payment is flat",
+        body: "A simple-interest loan still usually amortises, so the payment is level while the split inside it changes: early payments are mostly interest, later ones mostly principal. The interest is calculated on the outstanding balance each period rather than on the original principal, which is why a shorter term costs less even at the same quoted rate.",
+      },
+      {
+        title: "Where you actually meet it",
+        body: "Interest-only payments on a line of credit, a private car loan written as a flat add-on, and some short-term notes all work this way. Because the total interest is fixed and knowable at the outset, it is easy to compare offers — but only against other simple-interest offers. Setting it beside a compounding rate compares two different things.",
+      },
+    ],
+    example: {
+      title: "Worked example: $10,000 at 6% simple interest for 3 years",
+      setup:
+        "Principal $10,000. Annual rate 6%. Term 3 years, with no compounding.",
+      rows: [
+        { label: "Interest per year", value: "$600.00", note: "0.06 x 10000" },
+        { label: "Interest over 3 years", value: "$1,800.00", note: "10000 x 0.06 x 3" },
+        { label: "Total repaid", value: "$11,800.00", note: "10000 + 1800" },
+        { label: "Monthly interest-only payment", value: "$50.00", note: "600 / 12" },
+      ],
+      conclusion:
+        "Three years of interest costs $1,800, and it would cost exactly $600 for each additional year — there is no acceleration. Compounded monthly instead, the same $10,000 would carry interest on interest and the three-year figure would be higher. The difference is not large over three years and becomes substantial over twenty, which is the whole reason the distinction exists.",
+    },
+    mistakes: [
+      {
+        title: "Applying the simple formula to a compounding balance",
+        body: "Credit cards, most mortgages and most savings accounts compound. Using P x r x t on them understates what is owed. Check which one the agreement describes before comparing.",
+      },
+      {
+        title: "Assuming a flat payment means flat interest",
+        body: "A level payment on an amortising loan hides a changing split. Payment one can be mostly interest even though the payment never changes.",
+      },
+      {
+        title: "Reading a flat add-on quote as the rate",
+        body: "A lender quoting total interest rather than an annual rate may be describing a simple-interest loan where the effective cost depends on how the balance declines. Convert everything to a comparable annual figure before deciding.",
+      },
+    ],
+  },
+
+  "savings-goal-calculator": {
+    intro:
+      "Saving toward a number is a payment calculation, not a hope. The question is what you have to put aside each period to land on a target by a date, and the answer depends far more on the time you allow than on the return you assume.",
+    mechanics: [
+      {
+        title: "The formula runs backwards from compounding",
+        body: "A goal is the future value of a series of deposits, so the contribution is FV x r / ((1 + r)^n - 1), where r is the periodic rate and n the number of periods. Note that the return does not appear as a multiplier on your deposits — it appears inside a denominator, which is why the required contribution falls steeply as the horizon lengthens.",
+      },
+      {
+        title: "Time matters more than return",
+        body: "Stretching a goal from five years to ten roughly halves the monthly amount, because you both deposit more times and give each deposit longer to compound. Raising the assumed return by a point or two does far less. If a goal looks unreachable, the lever that actually moves is the deadline.",
+      },
+      {
+        title: "The assumption that breaks the plan",
+        body: "The formula assumes a steady return every period. Real returns are not steady, and a bad sequence late in the plan hurts more than a bad one early. Treat the contribution it produces as a floor to start from rather than a figure that is guaranteed to arrive.",
+      },
+    ],
+    example: {
+      title: "Worked example: reaching $50,000 in 5 years at 5%",
+      setup:
+        "Goal $50,000. Assumed annual return 5%, so the monthly rate is 0.05 / 12 = 0.0041667. Horizon 5 years = 60 monthly deposits.",
+      rows: [
+        { label: "Growth factor minus one", value: "0.283359", note: "(1.0041667)^60 - 1" },
+        { label: "Monthly contribution", value: "$735.23", note: "50000 x 0.0041667 / 0.283359" },
+        { label: "Total contributed", value: "$44,113.70", note: "735.23 x 60" },
+        { label: "Growth inside the goal", value: "$5,886.30", note: "50000 - 44113.70" },
+        { label: "Monthly amount with no return at all", value: "$833.33", note: "50000 / 60" },
+      ],
+      conclusion:
+        "A 5% return reduces the monthly requirement from $833.33 to $735.23 — a saving of about $98 a month, or roughly 12%. Most of the goal is still your own money: only $5,886 of the $50,000 comes from growth. That ratio is why extending the deadline is a more powerful move than reaching for a higher return, and why a plan built on an optimistic return is fragile.",
+    },
+    mistakes: [
+      {
+        title: "Depositing at the end of the period and expecting start-of-period results",
+        body: "Money deposited at the start of each month compounds for one month longer than money deposited at the end. Over a long horizon this is a real difference, and it is the same distinction that appears in every annuity calculation.",
+      },
+      {
+        title: "Using an annual return as a monthly rate",
+        body: "Dividing an annual return by twelve is a common shortcut and it slightly overstates the monthly growth. The correct periodic rate is the one that compounds to the annual figure: for 5%, that is 0.407% a month, not 0.417%.",
+      },
+      {
+        title: "Setting the goal in a nominal figure",
+        body: "A $50,000 goal set today is not $50,000 of today's purchasing power when you reach it. If the goal has a price attached — a down payment, tuition — the price moves too, and the target should move with it.",
+      },
+    ],
+  },
+
+  "amortization-schedule-calculator": {
+    intro:
+      "An amortisation schedule is the answer to a question a monthly payment hides: where does each payment go? The split changes every month, and over a 30-year loan the total interest exceeds the amount borrowed.",
+    mechanics: [
+      {
+        title: "The payment is fixed, the split is not",
+        body: "Interest is charged on the outstanding balance, so it is largest in the first payment when the balance is at its peak. Subtract it from the fixed payment and whatever remains reduces the principal. Next month the balance is marginally smaller, so interest is marginally smaller, and the principal share marginally larger. The payment never changes; the contents do.",
+      },
+      {
+        title: "Why early prepayments are worth so much",
+        body: "A dollar of principal paid in year one stops accruing interest for the remaining 29 years. The same dollar paid in year 29 stops almost nothing, because there is almost no time left for it to matter. This is not a slogan about discipline — it is arithmetic, and it is why the identical extra payment has wildly different effects depending on when it happens.",
+      },
+      {
+        title: "What the schedule does not include",
+        body: "A schedule models principal and interest only. Property tax, homeowners insurance and mortgage insurance sit outside it, and escrow collects them as a separate line that changes when assessed values and premiums change. Two loans with identical schedules can have very different monthly outflows.",
+      },
+    ],
+    example: {
+      title: "Worked example: $300,000 at 6% over 30 years",
+      setup:
+        "Loan $300,000. Annual rate 6%, so the monthly rate is 0.005. Term 30 years = 360 payments.",
+      rows: [
+        { label: "Monthly payment", value: "$1,798.65", note: "300000 x 0.005 / (1 - 1.005^-360)" },
+        { label: "Interest in payment 1", value: "$1,500.00", note: "300000 x 0.005 — the whole balance" },
+        { label: "Principal in payment 1", value: "$298.65", note: "1798.65 - 1500.00" },
+        { label: "Share of payment 1 going to interest", value: "83.4%", note: "1500 / 1798.65" },
+        { label: "Balance after 10 years (120 payments)", value: "$251,057.17", note: "amortised month by month" },
+        { label: "Total paid over the term", value: "$647,514.57", note: "1798.65 x 360" },
+        { label: "Total interest", value: "$347,514.57", note: "total - 300000" },
+      ],
+      conclusion:
+        "You borrow $300,000 and repay $647,515, of which $347,515 is interest. In the first payment only $298.65 — 16.6% — reduces what you owe. After ten years of paying on time, $251,057 of the original loan is still outstanding. This is the shape every amortisation table has, and it is why the schedule is worth reading once before signing rather than after.",
+    },
+    mistakes: [
+      {
+        title: "Reading the total interest as a fee",
+        body: "It is not a charge added on top — it is the price of having the money for thirty years, and it declines steeply if the term shortens. The same loan over 15 years carries far less total interest at a higher monthly cost.",
+      },
+      {
+        title: "Assuming principal falls evenly",
+        body: "On a 30-year loan at 6%, ten years of payments leave roughly 84% of the loan outstanding. Borrowers who expect to owe half the loan after half the term are working from the payment, not the schedule.",
+      },
+      {
+        title: "Prepaying after the crossover instead of before it",
+        body: "The interest share falls below the principal share around the midpoint of the term. An extra payment made after that point still helps, but nothing like the same payment made in the first years.",
+      },
+    ],
+  },
+
+  "capital-gains-calculator": {
+    intro:
+      "A capital gain is not what the shares are worth minus what you paid — it is the difference between two prices, and a holding period decides which tax treatment applies to it. Both parts are easy to get wrong in opposite directions.",
+    mechanics: [
+      {
+        title: "Proceeds minus basis",
+        body: "The gain is what you sold for minus what you paid, where what you paid is the basis — and basis includes the commission you paid to buy, not just the share price. Selling costs reduce the proceeds. Ignoring commissions overstates the gain slightly on a small trade and materially on a large one traded often.",
+      },
+      {
+        title: "The holding period sets the category",
+        body: "Gains on assets held for more than one year fall into a different tax category from those held for a year or less, and the two categories are taxed at different rates. The boundary is a year and a day. This is the single most consequential fact in the calculation, and it is not visible in the price at all — two identical gains can be taxed differently depending on when they were bought.",
+      },
+      {
+        title: "What the gain is not",
+        body: "A gain is not realised until you sell. Unrealised appreciation is not a taxable event, which is why the timing of a sale is a decision with a tax consequence rather than a mechanical one. Nor is the whole proceeds amount income — only the gain is, and the basis comes back to you as return of your own money.",
+      },
+    ],
+    example: {
+      title: "Worked example: 200 shares bought at $45 and sold at $68",
+      setup:
+        "200 shares purchased at $45 and sold at $68. Commission assumed at $10 on each side, which is an assumption and not a quote.",
+      rows: [
+        { label: "Cost basis", value: "$9,000.00", note: "200 x 45" },
+        { label: "Proceeds", value: "$13,600.00", note: "200 x 68" },
+        { label: "Gain before costs", value: "$4,600.00", note: "13600 - 9000" },
+        { label: "Gain after $10 each way", value: "$4,580.00", note: "4600 - 20" },
+        { label: "Return on cost", value: "51.11%", note: "4600 / 9000" },
+        { label: "Return after commission", value: "50.89%", note: "4580 / 9000" },
+      ],
+      conclusion:
+        "The trade returns 51.11% before costs and 50.89% after — a difference of about a fifth of a percentage point here, but one that scales with how often you trade rather than how much you hold. The larger point is what this calculation cannot tell you: whether the gain is long-term or short-term, which depends entirely on the purchase date and is decided by tax law rather than by this arithmetic.",
+    },
+    mistakes: [
+      {
+        title: "Using the sale price as the gain",
+        body: "Only the difference over basis is a gain. Treating the full proceeds as profit would overstate the taxable amount by a factor of nearly three in the example above.",
+      },
+      {
+        title: "Leaving commissions out of basis",
+        body: "Buy-side commission is part of what you paid, so it increases basis and reduces the reported gain. Omitting it overstates the gain and therefore the tax.",
+      },
+      {
+        title: "Assuming the rate is one number",
+        body: "There is not a single capital gains rate. The treatment depends on the holding period and on your overall income, and it can also interact with investment income surtaxes. The gain is this calculator's output; the tax on it is a separate question.",
+      },
+    ],
+  },
+
+  "dividend-calculator": {
+    intro:
+      "A dividend is income you did not have to sell anything to receive, which is exactly why the yield matters more than the share price. Two stocks at $68 are not equivalent if one pays $3.40 a year and the other pays nothing.",
+    mechanics: [
+      {
+        title: "Yield is the dividend over the price",
+        body: "Dividend yield is the annual dividend per share divided by the price per share. It is a ratio, so it moves for two reasons: the dividend can change, or the price can. A yield that rose because the price fell is not an improvement — it is the same dividend on a smaller asset, and it is the most common way a high yield misleads.",
+      },
+      {
+        title: "The quarterly pattern is not smooth",
+        body: "A quarterly payer pays four times a year, so the income arrives in lumps even though the annual figure is the figure that matters for planning. Companies also raise, cut, or suspend dividends, and a cut is usually a signal about the business rather than a random event — which is why the payment record matters as much as the current yield.",
+      },
+      {
+        title: "Reinvestment compounds the position",
+        body: "Dividend reinvestment buys additional shares with each payment, and those shares pay dividends in turn. The arithmetic is ordinary compounding applied to a share count instead of a balance, and over long periods it is the difference between holding a position and holding a growing one.",
+      },
+    ],
+    example: {
+      title: "Worked example: 500 shares, $0.85 quarterly, at a $68 price",
+      setup:
+        "500 shares held. Dividend $0.85 per share per quarter. Share price $68, held constant for the reinvestment illustration.",
+      rows: [
+        { label: "Annual dividend per share", value: "$3.40", note: "0.85 x 4" },
+        { label: "Annual income", value: "$1,700.00", note: "500 x 3.40" },
+        { label: "Position value", value: "$34,000.00", note: "500 x 68" },
+        { label: "Yield", value: "5.00%", note: "3.40 / 68" },
+        { label: "Shares bought by one year of reinvestment", value: "25", note: "1700 / 68" },
+        { label: "Shares held after reinvesting", value: "525", note: "500 + 25" },
+      ],
+      conclusion:
+        "Five hundred shares paying $0.85 a quarter produces $1,700 a year on a $34,000 position — a 5.00% yield. Reinvesting that income at the same price buys 25 more shares, so the next year's income is calculated on 525 shares rather than 500. The yield did not change; the base did, which is the whole mechanism behind dividend growth over a long holding period.",
+    },
+    mistakes: [
+      {
+        title: "Reading a falling price as a better yield",
+        body: "If the price drops from $68 to $34 with the dividend unchanged, the yield doubles to 10% — and you have lost half your capital. The yield rose for the wrong reason.",
+      },
+      {
+        title: "Treating dividends as guaranteed",
+        body: "A dividend is declared each period and can be reduced or stopped. A yield calculated from the last payment assumes the next one is the same size, which is an assumption rather than a fact.",
+      },
+      {
+        title: "Ignoring the tax on the income",
+        body: "Dividends are taxable in the year received, and the treatment differs between ordinary and qualified dividends. The gross figure this calculator reports is not what you keep.",
+      },
+    ],
+  },
+
+  "mortgage-points-calculator": {
+    intro:
+      "A discount point is a fee paid now to buy a lower rate, and it is neither automatically good nor bad — it is a bet on how long you keep the loan. The break-even is a specific number of months, and it is worth calculating because the answer changes the decision.",
+    mechanics: [
+      {
+        title: "What a point buys",
+        body: "One discount point costs 1% of the loan amount and buys a reduction in the interest rate. On a $300,000 loan, one point is $3,000, and the rate reduction it buys is set by the market rather than by a schedule — it changes with conditions and with the lender. The calculator takes the reduced rate as an input for exactly that reason.",
+      },
+      {
+        title: "The break-even is the whole decision",
+        body: "Paying a point lowers the monthly payment, so the money is recovered gradually. Divide the cost of the point by the monthly saving to get the break-even in months. Keep the loan longer than that and the point paid off; sell or refinance sooner and it was a loss, because the fee is not returned.",
+      },
+      {
+        title: "Points and closing costs are different",
+        body: "Discount points are a lender charge for the rate. Closing costs are third-party and prepaid items that would exist without any rate reduction. Both are due at settlement, so they are easy to conflate when comparing two offers — but only the point is buying anything.",
+      },
+    ],
+    example: {
+      title: "Worked example: $300,000 over 30 years, one point moving 6.50% to 6.25%",
+      setup:
+        "Loan $300,000 over 360 months. Rate before the point 6.50%. One discount point costs $3,000 and is assumed to reduce the rate to 6.25%, an illustrative reduction rather than a quoted market price.",
+      rows: [
+        { label: "Payment at 6.50%", value: "$1,896.20", note: "300000 at 6.5% over 360 months" },
+        { label: "Payment at 6.25%", value: "$1,847.15", note: "300000 at 6.25% over 360 months" },
+        { label: "Monthly saving", value: "$49.05", note: "1896.20 - 1847.15" },
+        { label: "Cost of one point", value: "$3,000.00", note: "1% of 300000" },
+        { label: "Break-even", value: "61.2 months (5.1 years)", note: "3000 / 49.05" },
+        { label: "Lifetime interest saved", value: "$17,658.89", note: "49.05 x 360" },
+      ],
+      conclusion:
+        "The point costs $3,000 and saves $49.05 a month, so it breaks even at about 61 payments — five years and one month. Stay ten years and it is clearly worth it; sell in three and you handed over $3,000 for nothing. That is a tenure question, not a rate question, and it is why the break-even matters more than the headline rate reduction.",
+    },
+    mistakes: [
+      {
+        title: "Comparing the rate reduction instead of the break-even",
+        body: "A quarter-point cut sounds small and $3,000 sounds large, but the comparison is meaningless on its own. Only the number of months to recover the fee answers the question.",
+      },
+      {
+        title: "Paying points on a loan you expect to refinance",
+        body: "The fee is paid at settlement and is not refunded on a refinance or a sale. If the break-even period is longer than your expected tenure, the point loses money regardless of how attractive the lower rate looks.",
+      },
+      {
+        title: "Assuming the point reduction is a fixed amount",
+        body: "What a point buys varies by lender and by market conditions. It is not a constant rate cut, so a break-even calculated from one quote does not carry over to another.",
+      },
+    ],
+  },
+
+  "refinance-calculator": {
+    intro:
+      "A refinance is a purchase of a lower payment with a fee, and the only question that matters is how long it takes the saving to repay the cost. A rate that is lower than your current one is not by itself an argument to refinance.",
+    mechanics: [
+      {
+        title: "The comparison is the two payments",
+        body: "Take the payment on the existing loan at its current rate and term remaining, and the payment on the new loan at its rate and term. The difference is the monthly saving. Note that resetting the term matters here: refinancing a loan with 22 years left into a fresh 30-year term lowers the payment partly through the rate and partly by stretching the debt back out.",
+      },
+      {
+        title: "Closing costs are the price of the option",
+        body: "A refinance carries its own closing costs, and they can be paid in cash, rolled into the new balance, or absorbed through a higher rate. Rolling them in means paying interest on the fee for the life of the loan; paying them in cash means the cash is gone. Either way the amount is real, and it is the numerator of the break-even.",
+      },
+      {
+        title: "What the payment comparison leaves out",
+        body: "A lower payment is not automatically a lower cost. Extending the term can lower the monthly figure while increasing the total interest paid, and restarting the amortisation clock resets the point at which principal begins to dominate. The break-even says when the fee is recovered; it does not say the new loan is cheaper overall.",
+      },
+    ],
+    example: {
+      title: "Worked example: $300,000 from 7.00% to 6.00%, $4,500 in costs",
+      setup:
+        "Balance $300,000 refinanced over a fresh 360 months. Existing rate 7.00%, new rate 6.00%. Closing costs $4,500, assumed rather than quoted.",
+      rows: [
+        { label: "Payment at 7.00%", value: "$1,995.91", note: "300000 at 7% over 360 months" },
+        { label: "Payment at 6.00%", value: "$1,798.65", note: "300000 at 6% over 360 months" },
+        { label: "Monthly saving", value: "$197.26", note: "1995.91 - 1798.65" },
+        { label: "Closing costs", value: "$4,500.00", note: "assumed" },
+        { label: "Break-even", value: "22.8 months (1.9 years)", note: "4500 / 197.26" },
+        { label: "Net saving over 5 years", value: "$7,335.35", note: "197.26 x 60 - 4500" },
+      ],
+      conclusion:
+        "The fee is recovered in just under two years, and five years of the lower payment nets $7,335 after costs. That is a short break-even, which is what a full percentage point of rate does. Compare it with a quarter-point reduction and the same $4,500 would take far longer to recover — the costs stay the same while the saving shrinks, and that ratio decides the answer.",
+    },
+    mistakes: [
+      {
+        title: "Comparing the rate and not the payment",
+        body: "A lower rate on a longer term can produce a lower payment and a higher total cost. The rate is one input; the term is the other, and it moves the total.",
+      },
+      {
+        title: "Forgetting that the term restarts",
+        body: "Refinancing 22 years into a new 30-year loan adds eight years of payments. The monthly saving is real and the extra payments are also real, and a break-even calculated on the payment alone will not show them.",
+      },
+      {
+        title: "Ignoring how long you expect to stay",
+        body: "The break-even is only meaningful against your expected tenure in the home. A break-even longer than the time you plan to stay means the refinance costs money even though every individual number in it looks favourable.",
+      },
+    ],
+  },
+
+  "home-equity-calculator": {
+    intro:
+      "Home equity is the difference between what the property is worth and what is owed against it — but the amount you can actually borrow against is a different number, because lenders cap the total debt on the property as a percentage of value.",
+    mechanics: [
+      {
+        title: "Equity is a subtraction, and only as good as the valuation",
+        body: "Equity is market value minus the outstanding mortgage balance. The balance is a fact from the servicer; the value is an estimate, and every equity figure inherits that estimate's uncertainty. An appraisal-based value and a valuation from a website can differ by a meaningful margin, and the lender will use its own number.",
+      },
+      {
+        title: "Borrowing is capped by combined loan-to-value",
+        body: "Lenders limit the total of all loans secured by the property as a percentage of its value — the combined loan-to-value, or CLTV. If the cap is 80% and the home is worth $450,000, total secured debt cannot exceed $360,000. Subtract the existing mortgage from that ceiling and you have the maximum available, regardless of how much equity exists.",
+      },
+      {
+        title: "Falling prices cut both ways",
+        body: "A $280,000 mortgage on a $450,000 home is comfortable. If the value falls to $360,000, the equity is cut by more than half while the debt is unchanged — the loan balance does not participate in the market. That asymmetry is why equity is a weaker cushion than it appears during a downturn.",
+      },
+    ],
+    example: {
+      title: "Worked example: a $450,000 home with $280,000 outstanding",
+      setup:
+        "Home value $450,000. Mortgage balance $280,000. CLTV ceilings of 80% and 90% shown for comparison.",
+      rows: [
+        { label: "Equity", value: "$170,000.00", note: "450000 - 280000" },
+        { label: "Loan-to-value", value: "62.2%", note: "280000 / 450000" },
+        { label: "80% CLTV ceiling", value: "$360,000.00", note: "0.80 x 450000" },
+        { label: "Borrowable to 80% CLTV", value: "$80,000.00", note: "360000 - 280000" },
+        { label: "Borrowable to 90% CLTV", value: "$125,000.00", note: "405000 - 280000" },
+        { label: "Equity if the value falls 20%", value: "$80,000.00", note: "360000 - 280000" },
+      ],
+      conclusion:
+        "There is $170,000 of equity, but only $80,000 is borrowable at an 80% CLTV cap — the equity and the borrowing capacity are different numbers, and the gap is the point. Note also that a 20% fall in value takes equity from $170,000 to $80,000, a 53% reduction, while the debt does not move at all.",
+    },
+    mistakes: [
+      {
+        title: "Treating equity as spendable",
+        body: "Equity is a residual, not a balance. It cannot be withdrawn without a new loan or a sale, both of which cost money and one of which ends your ownership of the asset.",
+      },
+      {
+        title: "Borrowing to the maximum available",
+        body: "The cap is a limit the lender imposes, not a recommendation. Borrowing to the ceiling leaves no room for a fall in value, and a fall can turn a comfortable position into a constrained one quickly.",
+      },
+      {
+        title: "Using a website valuation as the number",
+        body: "Automated valuations are estimates with a stated error range. A lender's appraisal decides the figure that actually governs the loan.",
+      },
+    ],
+  },
+
+  "heloc-calculator": {
+    intro:
+      "A home equity line of credit is two loans in one: an interest-only phase that flatters the budget, followed by a repayment phase where the principal is finally amortised. The payment change between them is the fact most borrowers discover late.",
+    mechanics: [
+      {
+        title: "The draw period charges interest only",
+        body: "During the draw period you can borrow against the line and are typically billed interest on what is outstanding, with no principal required. On $80,000 at 8.5% that is $566.67 a month — the cost of the money and nothing more. The balance does not fall, so the payment does not fall either.",
+      },
+      {
+        title: "Repayment adds the principal back in",
+        body: "When the draw period ends, the outstanding balance is amortised over the repayment term. The same $80,000 at 8.5% over 20 years requires $694.26 a month — a 22.5% increase over the interest-only figure, arriving on a fixed date that was set when the line was opened.",
+      },
+      {
+        title: "The rate is usually variable",
+        body: "A HELOC rate is typically tied to an index and moves with it, so both phases are calculated at a rate that can change. The illustration above holds the rate constant to isolate the effect of the phase change; in practice a rise during the draw period raises the interest-only payment and the repayment payment together.",
+      },
+    ],
+    example: {
+      title: "Worked example: $80,000 drawn at 8.5%",
+      setup:
+        "Line of credit $80,000 fully drawn at an assumed 8.5% annual rate, held constant. Draw period billed interest-only; repayment amortised over 20 years.",
+      rows: [
+        { label: "Interest-only monthly payment", value: "$566.67", note: "80000 x 0.085 / 12" },
+        { label: "Annual interest", value: "$6,800.00", note: "0.085 x 80000" },
+        { label: "Repayment monthly payment", value: "$694.26", note: "80000 at 8.5% over 240 months" },
+        { label: "Increase at repayment", value: "$127.59", note: "694.26 - 566.67" },
+        { label: "Increase as a percentage", value: "22.5%", note: "127.59 / 566.67" },
+      ],
+      conclusion:
+        "The interest-only payment is $566.67 and the repayment payment is $694.26 — the same debt, the same rate, and a 22.5% higher monthly cost purely because the principal is now being repaid. Over the draw period $80,000 was paid in interest with the balance untouched, which is the real cost of the structure.",
+    },
+    mistakes: [
+      {
+        title: "Budgeting on the interest-only payment",
+        body: "It is the smaller of the two numbers and it is temporary. The repayment figure is the one that will arrive, and it arrives on a date fixed at closing.",
+      },
+      {
+        title: "Assuming the rate will not move",
+        body: "A variable rate means both payments are calculated at a rate that changes. A rise during the draw period increases the balance's carrying cost before the principal ever comes due.",
+      },
+      {
+        title: "Using a line of credit for long-term spending",
+        body: "The line is secured by the home, so failing to pay it puts the property at risk. Money borrowed for consumption converts an unsecured problem into a secured one.",
+      },
+    ],
+  },
+
+  "lease-vs-buy-calculator": {
+    intro:
+      "A car lease quote is written in a language designed not to be compared with a loan, and the translation key is the money factor. Convert it once and the two offers become comparable numbers.",
+    mechanics: [
+      {
+        title: "The money factor is the interest rate in disguise",
+        body: "Leases quote a money factor — a small decimal such as 0.00125 — instead of an interest rate. Multiply it by 2400 and it becomes an annual percentage rate: 0.00125 x 2400 = 3.00%. The conversion factor is not arbitrary; it follows from the way the monthly finance charge is calculated. Without this step a lease cannot be compared with a loan at all, which is arguably the point of quoting it this way.",
+      },
+      {
+        title: "A lease payment has two halves",
+        body: "The depreciation portion covers the value the car loses over the term, divided across the months. The finance portion is the money factor applied to the average of the starting and ending values. That second half is rent on the car's value, not on the depreciation — which is why an expensive car with a strong residual can still lease for more than a cheaper one that depreciates faster.",
+      },
+      {
+        title: "What the payment does not tell you",
+        body: "A lease payment is lower than a comparable loan payment almost by construction, because a lease buys only the depreciation over the term rather than the whole vehicle. Comparing the two payments alone therefore always favours the lease. The honest comparison adds the down payment, the disposition and mileage fees, and the fact that at the end of a loan you own an asset and at the end of a lease you do not.",
+      },
+    ],
+    example: {
+      title: "Worked example: translating money factors",
+      setup:
+        "Three money factors converted at the standard 2400 multiplier, and one APR converted back for reference. The rent charge is shown on a $20,000 value, which stands in for the average of the starting and ending values.",
+      rows: [
+        { label: "Money factor 0.00100", value: "2.40% APR", note: "0.00100 x 2400" },
+        { label: "Money factor 0.00125", value: "3.00% APR", note: "0.00125 x 2400" },
+        { label: "Money factor 0.00200", value: "4.80% APR", note: "0.00200 x 2400" },
+        { label: "6.00% APR as a money factor", value: "0.000025", note: "0.06 / 2400" },
+        { label: "Monthly rent charge on $20,000", value: "$25.00", note: "20000 x 0.00125" },
+      ],
+      conclusion:
+        "A money factor of 0.00125 is 3.00% a year, and on a $20,000 value it costs $25 a month in finance charges. A dealer who will not state a rate and quotes only the money factor is quoting a number most buyers cannot price — converting it takes one multiplication, and it turns an opaque quote into a comparable one.",
+    },
+    mistakes: [
+      {
+        title: "Comparing a lease payment to a loan payment",
+        body: "The lease payment covers depreciation over the term; the loan payment covers the whole car. The lower number is lower for a structural reason, not because the deal is better.",
+      },
+      {
+        title: "Ignoring the mileage cap",
+        body: "Excess mileage is charged per mile at the end of the term. A lease priced on an allowance you will exceed has a cost that is not in the monthly figure at all.",
+      },
+      {
+        title: "Treating a down payment on a lease as equity",
+        body: "Money paid up front on a lease reduces the monthly payment but does not build ownership. If the car is written off early, that money is generally not recovered — which is the opposite of a down payment on a loan.",
+      },
+    ],
+  },
+
+  "net-worth-calculator": {
+    intro:
+      "Net worth is one subtraction, and almost every mistake people make with it comes from one of the two sides being defined loosely. What counts as an asset, and what has to be subtracted, are decisions rather than arithmetic.",
+    mechanics: [
+      {
+        title: "Assets minus liabilities, and what belongs on each side",
+        body: "Add everything you own at a realisable value, subtract everything you owe, and the remainder is net worth. The judgment is in the valuations: a retirement account is an asset at its balance, while a car is an asset at what it would actually sell for today rather than what it cost. A defined-benefit pension is an income stream, not a balance, and putting a number on it requires an assumption.",
+      },
+      {
+        title: "Home equity belongs on the asset side, netted",
+        body: "A common error is to count the full market value of a home as an asset while also counting the mortgage as a liability — which is arithmetically correct but double-counts nothing and simply reports the same equity twice in a large, confusing way. The cleaner method is either full value minus full mortgage, or equity as a single asset line. Both produce the same net worth; only one is easy to read.",
+      },
+      {
+        title: "The number is a trend, not a score",
+        body: "A net worth measured once says very little, because it moves with markets you do not control. Measured quarterly and compared with itself, it shows whether the gap between what you earn and what you spend is widening or closing — which is the only part of it you actually influence.",
+      },
+    ],
+    example: {
+      title: "Worked example: a household balance sheet",
+      setup:
+        "Assets: retirement accounts $120,000, home equity $90,000, cash $25,000, vehicle $15,000. Liabilities: mortgage $180,000, car loan $18,000, credit cards $6,000. Home equity is stated net here rather than as value minus mortgage, to avoid reporting the house and the loan as separate large lines.",
+      rows: [
+        { label: "Total assets", value: "$250,000.00", note: "120000 + 90000 + 25000 + 15000" },
+        { label: "Total liabilities", value: "$204,000.00", note: "180000 + 18000 + 6000" },
+        { label: "Net worth", value: "$46,000.00", note: "250000 - 204000" },
+        { label: "Liabilities as a share of assets", value: "81.6%", note: "204000 / 250000" },
+        { label: "Net worth excluding home equity", value: "-$44,000.00", note: "46000 - 90000" },
+      ],
+      conclusion:
+        "The household is worth $46,000, but $90,000 of that is home equity — exclude the house and the position is negative $44,000. That is not a criticism; it is what the composition of a young balance sheet looks like. Net worth is most useful not as a total but as a picture of which side it is concentrated on, and how that changes quarter to quarter.",
+    },
+    mistakes: [
+      {
+        title: "Listing a house at market value and the mortgage alongside it",
+        body: "It produces the right total but a misleading picture, because both figures are large enough that the actual equity disappears inside them. Use value minus loan, or net equity as one line.",
+      },
+      {
+        title: "Valuing a car at what it cost",
+        body: "A vehicle depreciates quickly, and its contribution to net worth is what it would sell for now. Carrying the purchase price overstates assets, and the overstatement grows every year you hold it.",
+      },
+      {
+        title: "Counting retirement balances gross of tax",
+        body: "A traditional retirement account is worth less than its balance once the tax owed on withdrawal is considered, and a Roth is worth more than a taxable account of the same size. Treating the balance as the value systematically inflates net worth.",
+      },
+    ],
+  },
 };
