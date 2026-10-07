@@ -308,6 +308,188 @@ check("a combined 14.8% of salary",
       f"{(_y250 + _m250) / 250000 * 100:.1f}%", "14.8%")
 check("projected balance is $2,010,064.42", fmoney(_b250), "$2,010,064.42")
 
+# --- the 2026-10-07 batch: nine tools that previously shipped no deep content ---
+
+# --- auto-loan-calculator ------------------------------------------------
+print("\nauto loan: $30,000 @ 7% / 60 months")
+_AL = payment(Decimal(30000), Decimal("0.07"), 5)
+check("monthly payment is $594.04", money(_AL), "$594.04")
+_al_i1 = Decimal(30000) * Decimal("0.07") / 12
+check("month 1 interest is $175.00", money(_al_i1), "$175.00")
+check("month 1 principal is $419.04", money(_AL - _al_i1), "$419.04")
+_al_share = (_al_i1 / _AL * 100).quantize(Decimal("0.1"), rounding=ROUND_HALF_UP)
+check("interest share of payment 1 is 29.5%", f"{_al_share}%", "29.5%")
+_al_total = _AL * 60
+check("total paid is $35,642.16", money(_al_total), "$35,642.16")
+check("total interest is $5,642.16", money(_al_total - 30000), "$5,642.16")
+_AL48 = payment(Decimal(30000), Decimal("0.07"), 4)
+check("48-month payment is $718.39", money(_AL48), "$718.39")
+_al_i48 = _AL48 * 48 - 30000
+check("the 48-month interest gap is $1,159.57",
+      money((_al_total - 30000) - _al_i48), "$1,159.57")
+
+# --- concrete-calculator -------------------------------------------------
+print("\nconcrete: 10 ft x 20 ft x 4 in slab")
+_c_vol = 10 * 20 * (4 / 12)
+check("volume is 66.67 cu ft", f"{_c_vol:.2f} cu ft", "66.67 cu ft")
+_c_yd = _c_vol / 27
+check("volume is 2.47 cu yd", f"{_c_yd:.2f} cu yd", "2.47 cu yd")
+check("with 10% waste it is 2.72 cu yd", f"{_c_yd * 1.10:.2f} cu yd", "2.72 cu yd")
+check("that is 111 eighty-pound bags", f"{_c_vol / 0.6:.0f} bags", "111 bags")
+check("or 148 sixty-pound bags", f"{_c_vol / 0.45:.0f} bags", "148 bags")
+
+# --- credit-card-payoff-calculator --------------------------------------
+print("\ncredit card: $5,000 @ 22% APR")
+_cc_r = Decimal("0.22") / 12
+_cc_i1 = Decimal(5000) * _cc_r
+check("month 1 interest is $91.67", money(_cc_i1), "$91.67")
+check("the 2.5% minimum is $125.00",
+      money(Decimal(5000) * Decimal("0.025")), "$125.00")
+check("principal at the minimum is $33.33",
+      money(Decimal(125) - _cc_i1), "$33.33")
+
+
+def payoff_months(balance, monthly_rate, payment_amt):
+    val = 1 - float(monthly_rate) * float(balance) / float(payment_amt)
+    return math.ceil(-math.log(val) / math.log(1 + float(monthly_rate)))
+
+
+check("$150 a month pays off in 52 months",
+      f"{payoff_months(5000, _cc_r, 150)} months", "52 months")
+check("total paid at $150 is $7,800.00", money(Decimal(150) * 52), "$7,800.00")
+check("interest at $150 is $2,800.00",
+      money(Decimal(150) * 52 - 5000), "$2,800.00")
+check("$500 a month pays off in 12 months",
+      f"{payoff_months(5000, _cc_r, 500)} months", "12 months")
+check("interest at $500 is $1,000.00",
+      money(Decimal(500) * 12 - 5000), "$1,000.00")
+
+# --- debt-snowball-calculator -------------------------------------------
+print("\ndebt snowball: one month, two debts, a $200 surplus")
+check("debt A monthly interest is $7.50",
+      money(Decimal(500) * Decimal("0.18") / 12), "$7.50")
+check("debt B monthly interest is $60.00",
+      money(Decimal(3000) * Decimal("0.24") / 12), "$60.00")
+check("minimums total $85.00", money(Decimal(25) + Decimal(60)), "$85.00")
+check("the outlay is $285.00", money(Decimal(85) + Decimal(200)), "$285.00")
+check("the surplus avoids $1.00 a month",
+      money(Decimal(200) * (Decimal("0.24") - Decimal("0.18")) / 12), "$1.00")
+check("interest is 23.7% of the outlay",
+      f"{(Decimal('67.50') / Decimal('285') * 100).quantize(Decimal('0.1'))}%",
+      "23.7%")
+
+# --- home-affordability-calculator --------------------------------------
+print("\nhome affordability: $100,000 income, $300,000 house")
+_ha_gross = Decimal(100000) / 12
+check("gross monthly income is $8,333.33", money(_ha_gross), "$8,333.33")
+_ha_cap = _ha_gross * Decimal("0.28")
+check("the 28% front-end cap is $2,333.33", money(_ha_cap), "$2,333.33")
+_ha_pi = payment(Decimal(240000), Decimal("0.065"), 30)
+check("principal and interest is $1,516.96", money(_ha_pi), "$1,516.96")
+check("property tax is $300.00 a month",
+      money(Decimal(300000) * Decimal("0.012") / 12), "$300.00")
+check("insurance is $125.00 a month", money(Decimal(1500) / 12), "$125.00")
+_ha_total = _ha_pi + Decimal(300) + Decimal(125)
+check("total housing cost is $1,941.96", money(_ha_total), "$1,941.96")
+check("headroom is $391.37", money(_ha_cap - _ha_total), "$391.37")
+check("that is 23.3% of gross income",
+      f"{(_ha_total / _ha_gross * 100).quantize(Decimal('0.1'))}%", "23.3%")
+check("the 36% back-end cap is $3,000.00",
+      money(_ha_gross * Decimal("0.36")), "$3,000.00")
+check("leaving $2,580.00 for housing after a $420 car payment",
+      money(_ha_gross * Decimal("0.36") - Decimal(420)), "$2,580.00")
+
+
+def _piti(price):
+    return (payment(price * Decimal("0.8"), Decimal("0.065"), 30)
+            + price * Decimal("0.012") / 12 + Decimal(1500) / 12)
+
+
+_lo, _hi = Decimal(100000), Decimal(900000)
+for _ in range(90):
+    _mid = (_lo + _hi) / 2
+    if _piti(_mid) > _ha_cap:
+        _hi = _mid
+    else:
+        _lo = _mid
+check("the maximum price at the cap is about $364,619", dollars(_lo), "$364,619")
+
+# --- overtime-calculator -------------------------------------------------
+print("\novertime: $25 an hour, 50 hours in a workweek")
+check("40 straight hours pay $1,000.00", money(Decimal(40) * 25), "$1,000.00")
+check("the overtime rate is $37.50", money(Decimal(25) * Decimal("1.5")), "$37.50")
+check("10 overtime hours pay $375.00",
+      money(Decimal(10) * Decimal("37.50")), "$375.00")
+check("total gross pay is $1,375.00",
+      money(Decimal(1000) + Decimal(375)), "$1,375.00")
+check("the effective average rate is $27.50", money(Decimal(1375) / 50), "$27.50")
+check("the overtime premium is $125.00",
+      money(Decimal(10) * Decimal("12.50")), "$125.00")
+check("the wrong all-hours method would give $1,875.00",
+      money(Decimal(50) * 25 * Decimal("1.5")), "$1,875.00")
+
+# --- self-employment-tax-calculator -------------------------------------
+print("\nself-employment tax: $80,000 of net profit")
+_se_base = Decimal(80000) * Decimal("0.9235")
+check("the 92.35% base is $73,880.00", money(_se_base), "$73,880.00")
+_se_ss = _se_base * Decimal("0.124")
+check("Social Security at 12.4% is $9,161.12", money(_se_ss), "$9,161.12")
+_se_med = _se_base * Decimal("0.029")
+check("Medicare at 2.9% is $2,142.52", money(_se_med), "$2,142.52")
+_se_tot = _se_ss + _se_med
+check("total self-employment tax is $11,303.64", money(_se_tot), "$11,303.64")
+check("the effective rate on profit is 14.13%",
+      f"{(Decimal('11303.64') / 80000 * 100).quantize(Decimal('0.01'))}%", "14.13%")
+check("the above-the-line deduction is $5,651.82", money(_se_tot / 2), "$5,651.82")
+_se40 = Decimal(40000) * Decimal("0.9235") * Decimal("0.153")
+check("at $40,000 the tax is $5,651.82", money(_se40), "$5,651.82")
+check("and the deduction is $2,825.91", money(_se40 / 2), "$2,825.91")
+check("applying 15.3% directly would give $12,240.00",
+      money(Decimal(80000) * Decimal("0.153")), "$12,240.00")
+check("an overstatement of $936.36",
+      money(Decimal(80000) * Decimal("0.153") - _se_tot), "$936.36")
+
+# --- social-security-calculator -----------------------------------------
+print("\nsocial security: claiming-age adjustments on a $2,000 benefit")
+check("claiming at 62 gives $1,400.00",
+      money(Decimal(2000) * Decimal("0.70")), "$1,400.00")
+check("claiming at 70 gives $2,480.00",
+      money(Decimal(2000) * Decimal("1.24")), "$2,480.00")
+check("the monthly difference is $1,080.00",
+      money(Decimal(2480) - Decimal(1400)), "$1,080.00")
+check("eight years of forgone payments is $134,400",
+      dollars(Decimal(1400) * 12 * 8), "$134,400")
+check("the recovery period is 10.4 years",
+      f"{(Decimal(134400) / (Decimal(1080) * 12)).quantize(Decimal('0.1'))} years",
+      "10.4 years")
+_e_red = Decimal(36) * Decimal(5) / Decimal(9) + Decimal(12) * Decimal(5) / Decimal(12)
+check("four years early costs 25%", f"{_e_red.quantize(Decimal('1'))}%", "25%")
+check("four years late adds 32%", f"{Decimal(4) * 8}%", "32%")
+
+# --- tip-calculator ------------------------------------------------------
+print("\ntip: a $64.50 bill")
+check("the 10% anchor is $6.45", money(Decimal("64.50") / 10), "$6.45")
+check("15% is $9.68", money(Decimal("64.50") * Decimal("0.15")), "$9.68")
+check("18% is $11.61", money(Decimal("64.50") * Decimal("0.18")), "$11.61")
+check("20% is $12.90", money(Decimal("64.50") * Decimal("0.20")), "$12.90")
+check("the total at 20% is $77.40",
+      money(Decimal("64.50") * Decimal("1.20")), "$77.40")
+check("split four ways the tip is $3.23", money(Decimal("12.90") / 4), "$3.23")
+check("and each total is $19.35", money(Decimal("77.40") / 4), "$19.35")
+check("22% is $14.19", money(Decimal("64.50") * Decimal("0.22")), "$14.19")
+check("the 15% to 22% range is $4.51",
+      money(Decimal("14.19") - Decimal("9.68")), "$4.51")
+check("15% against 20% is about 81 cents a person",
+      money((Decimal("12.90") - Decimal("9.68")) / 4), "$0.81")
+check("the 8% sales tax is $5.16",
+      money(Decimal("64.50") * Decimal("0.08")), "$5.16")
+check("20% of the post-tax total is $13.93",
+      money(Decimal("64.50") * Decimal("1.08") * Decimal("0.20")), "$13.93")
+check("which is $1.03 more", money(Decimal("13.93") - Decimal("12.90")), "$1.03")
+check("an effective 21.6% of the pre-tax bill",
+      f"{(Decimal('13.93') / Decimal('64.50') * 100).quantize(Decimal('0.1'))}%",
+      "21.6%")
+
 print("\n" + "=" * 68)
 failed = checks.count(False)
 print(f"  {len(checks) - failed} passed, {failed} failed")

@@ -4619,4 +4619,440 @@ export const TOOL_CONTENT: Record<string, ToolContent> = {
       },
     ],
   },
+  "auto-loan-calculator": {
+    intro:
+      "An auto loan is not the sticker price divided by the months. Two things move the number before the loan starts — what is traded in and what is still owed on it — and a third moves it after: interest is charged on the outstanding balance, so the earliest payments recover almost none of it.",
+    mechanics: [
+      {
+        title: "The payment formula",
+        body: "Your payment comes from M = P x r / (1 - (1 + r)^-n), where P is the amount financed, r is the monthly rate (APR divided by 12) and n is the number of monthly payments. The formula knows nothing about the car's price, your trade-in or your credit score — only those three numbers. Every other part of the deal is a way of changing what gets put into them.",
+      },
+      {
+        title: "The amount financed is where the deal is actually made",
+        body: "Price plus sales tax plus documentation and title fees plus any negative equity carried from a previous loan, minus the down payment and minus the trade-in allowance, equals the amount financed. Dealers negotiate on the monthly payment because lengthening the term lowers the payment while raising the total cost. A $30,000 loan at 7% over 60 months is $594.04 a month; the same loan over 48 months is $718.39 but costs $1,159.57 less in interest.",
+      },
+      {
+        title: "Interest does not accrue evenly",
+        body: "Interest each month is the outstanding balance multiplied by the monthly rate. In month one on $30,000 at 7%, that is $175.00 — 29.5% of a $594.04 payment. The remaining $419.04 reduces the balance. As the balance falls the interest share falls with it, which is why paying ahead early is worth far more than the same amount paid late.",
+      },
+    ],
+    example: {
+      title: "Worked example: $30,000 at 7% over 60 months",
+      setup:
+        "Amount financed $30,000 — the loan, not the car price. APR 7%, so the monthly rate is 0.07 / 12 = 0.00583333. Term 60 months. No down payment is modelled because the loan amount is already given.",
+      rows: [
+        { label: "Monthly payment (P&I)", value: "$594.04", note: "30000 x 0.00583333 / (1 - (1.00583333)^-60)" },
+        { label: "Interest in payment 1", value: "$175.00", note: "0.00583333 x 30000" },
+        { label: "Principal in payment 1", value: "$419.04", note: "594.04 - 175.00" },
+        { label: "Share of payment 1 that is interest", value: "29.5%", note: "175.00 / 594.04" },
+        { label: "Total paid over 60 months", value: "$35,642.16", note: "594.04 x 60" },
+        { label: "Total interest", value: "$5,642.16", note: "35642.16 - 30000" },
+      ],
+      conclusion:
+        "You repay $35,642.16 on a $30,000 loan. Of the first payment, $419.04 — 70.5% — reduces what is owed, which is a better ratio than a mortgage gets because the term is short. Stretch the same $30,000 over 72 months and the payment falls while total interest rises; shorten it to 48 months and the payment rises while $1,159.57 of interest disappears. After the rate, the term is the largest lever in the deal.",
+    },
+    mistakes: [
+      {
+        title: "Negotiating the monthly payment instead of the price",
+        body: "Almost any price can be made to fit a payment target by lengthening the term, so a dealer can meet the target while the total cost rises. Negotiate the price and the rate as two separate numbers, then look at the payment that term produces.",
+      },
+      {
+        title: "Rolling negative equity in without seeing it as a cost",
+        body: "If the trade-in is worth less than the old loan balance, the difference is added to the new amount financed — so interest is paid on a car that is no longer owned. It also raises the loan-to-value, which commonly raises the rate as well.",
+      },
+      {
+        title: "Comparing a quoted rate to an APR",
+        body: "A rate and an APR are different figures. The APR folds in fees, so it is the only number comparable across lenders; 6.9% APR and a 6.9% rate are different loans once a $700 origination fee is attached to one of them.",
+      },
+    ],
+  },
+
+  "concrete-calculator": {
+    intro:
+      "Concrete is ordered by volume, and volume is easy to get wrong because slab thickness is quoted in inches while plans and suppliers work in feet and cubic yards. Guessing low means a cold joint or a second pour; guessing high means paying for material that has to be dumped.",
+    mechanics: [
+      {
+        title: "Length x width x depth, all in the same unit",
+        body: "A slab 10 feet by 20 feet and 4 inches thick is 10 x 20 x (4 / 12) = 66.67 cubic feet. Concrete is sold by the cubic yard and there are 27 cubic feet in a yard, so the slab is 66.67 / 27 = 2.47 cubic yards before any allowance.",
+      },
+      {
+        title: "Order a waste allowance, not the exact figure",
+        body: "Depth varies across a graded site, formwork is never perfectly square, and some concrete stays in the chute. Five to ten percent covers it: 2.47 cubic yards plus 10% is 2.72. Rounding up to the next half yard is normal, because a short load cannot be topped up once the first pour has begun to set.",
+      },
+      {
+        title: "Bags versus a ready-mix truck",
+        body: "A ready-mix truck carries a minimum load, usually around one cubic yard, so small jobs are often bagged instead. An 80-pound bag yields about 0.6 cubic feet and a 60-pound bag about 0.45, so 66.67 cubic feet needs roughly 111 eighty-pound bags or 148 sixty-pound bags. At that count, the delivery minimum rather than the volume is what usually decides the method.",
+      },
+    ],
+    example: {
+      title: "Worked example: a 10 ft x 20 ft slab 4 inches thick",
+      setup:
+        "Length 10 feet, width 20 feet, thickness 4 inches. Convert the thickness to feet: 4 / 12 = 0.3333. One cubic yard is 27 cubic feet.",
+      rows: [
+        { label: "Slab volume", value: "66.67 cu ft", note: "10 x 20 x 0.3333" },
+        { label: "Volume in cubic yards", value: "2.47 cu yd", note: "66.67 / 27" },
+        { label: "With a 10% waste allowance", value: "2.72 cu yd", note: "2.469 x 1.10" },
+        { label: "80 lb bags if mixing by hand", value: "111 bags", note: "66.67 / 0.6" },
+        { label: "60 lb bags if mixing by hand", value: "148 bags", note: "66.67 / 0.45" },
+      ],
+      conclusion:
+        "The slab needs 2.47 cubic yards, or 2.72 with a ten percent allowance. That is small enough to be bagged rather than delivered — 111 eighty-pound bags — which is exactly the comparison that decides the method: not the volume, but the delivery minimum against the number of bags and the time to mix them.",
+    },
+    mistakes: [
+      {
+        title: "Multiplying inches by feet",
+        body: "Thickness arrives in inches while length and width arrive in feet. Multiplying 10 x 20 x 4 gives 800, which is neither cubic feet nor cubic yards. Convert every dimension to one unit before multiplying.",
+      },
+      {
+        title: "Dividing by 27 too early",
+        body: "The 27 divisor converts cubic feet to cubic yards, so it only works once all three dimensions are in feet. Applying it before converting the thickness produces a volume that looks plausible and is wrong by a factor of twelve.",
+      },
+      {
+        title: "Measuring the visible slab only",
+        body: "Footings, steps and thickened edges are separate pours with separate volumes. Measuring only the flat slab understates the order, which is how an under-ordered day ends in a cold joint.",
+      },
+    ],
+  },
+
+  "credit-card-payoff-calculator": {
+    intro:
+      "A credit card minimum payment is calculated to keep the account open, not to close it. On a typical balance at a typical rate it recovers almost none of the principal, so the schedule that clears the debt and the schedule the issuer sets are two different things.",
+    mechanics: [
+      {
+        title: "Interest posts before the payment is applied",
+        body: "The monthly periodic rate is the APR divided by 12. On $5,000 at 22%, that is 0.22 / 12 = 0.018333, or $91.67 of interest in the first month. Because interest is added first, a payment below $91.67 increases the balance even though money was paid.",
+      },
+      {
+        title: "A minimum is a percentage with a floor",
+        body: "Issuers commonly set it at 2 to 3 percent of the balance with a dollar floor such as $25. On $5,000 at 2.5% the minimum is $125.00 — above that month's interest, so the balance falls, but only by about $33. As the balance shrinks the minimum shrinks with it, which is precisely why the schedule stretches out.",
+      },
+      {
+        title: "The fixed payment is the variable that matters",
+        body: "Interest depends on the balance and the rate; the balance depends on the payment. Raising the payment shortens the term disproportionately, because every month of interest not charged is also principal repaid earlier. A payment held constant as a dollar figure defeats the shrinking-minimum effect entirely.",
+      },
+    ],
+    example: {
+      title: "Worked example: $5,000 at 22% APR under three plans",
+      setup:
+        "Balance $5,000. APR 22%, so the monthly rate is 0.22 / 12 = 0.018333. Three plans compared: the issuer's 2.5% minimum, a fixed $150 a month, and a fixed $500 a month.",
+      rows: [
+        { label: "Month 1 interest", value: "$91.67", note: "5000 x 0.018333" },
+        { label: "2.5% minimum payment", value: "$125.00", note: "5000 x 0.025" },
+        { label: "Month 1 principal at the minimum", value: "$33.33", note: "125.00 - 91.67" },
+        { label: "Payoff at $150 a month", value: "52 months", note: "fixed-payment amortisation" },
+        { label: "Total paid at $150 a month", value: "$7,800.00", note: "150 x 52" },
+        { label: "Total interest at $150 a month", value: "$2,800.00", note: "7800 - 5000" },
+        { label: "Payoff at $500 a month", value: "12 months", note: "same formula" },
+        { label: "Total interest at $500 a month", value: "$1,000.00", note: "6000 - 5000" },
+      ],
+      conclusion:
+        "At $150 a month the balance takes 52 months and costs $2,800 in interest — more than half the original balance again. At $500 a month it takes 12 months and costs $1,000. Tripling the payment does not shorten the schedule by two thirds; it removes $1,800 of interest, because the later years of the slow schedule are almost entirely interest.",
+    },
+    mistakes: [
+      {
+        title: "Reading a falling balance as fast progress",
+        body: "A minimum payment does reduce the balance, so it looks like movement. The reduction is the payment minus a full month of interest, which at these rates is a small fraction of the amount paid.",
+      },
+      {
+        title: "Judging a balance-transfer offer on the promotional rate alone",
+        body: "A transfer fee of around 3% is charged up front on the whole amount, and the promotional rate ends on a set date. Interest on whatever remains at the standard rate after that date can exceed the fee that was saved.",
+      },
+      {
+        title: "Assuming the payment posts before interest for the month",
+        body: "The month's interest is charged on the balance, not on a balance already reduced by a payment that has not yet posted. Timing within the cycle changes the figure at the margin.",
+      },
+    ],
+  },
+
+  "debt-snowball-calculator": {
+    intro:
+      "Debt payoff order is the most argued-about and least important part of getting out of debt. The order decides a small amount of interest; the total monthly payment decides how long the whole thing takes, and that is the larger number by an order of magnitude.",
+    mechanics: [
+      {
+        title: "Two orderings, one arithmetic difference",
+        body: "Snowball pays the smallest balance first and rolls each cleared payment into the next. Avalanche pays the highest interest rate first. Both send the same total amount every month; they differ only in which debt receives the surplus, so the difference between them is the rate spread on that surplus, applied for as long as it lasts.",
+      },
+      {
+        title: "The surplus is what changes the schedule",
+        body: "Minimums of $25.00 on a $500 balance and $60.00 on a $3,000 balance come to $85 of a $285 monthly outlay, leaving $200. Sending that $200 to a 24% debt instead of an 18% one avoids 200 x (0.24 - 0.18) / 12 = $1.00 of interest in the first month. Avalanche wins on arithmetic, and the win is small per month.",
+      },
+      {
+        title: "Why the smaller-balance method still works for people",
+        body: "Clearing a balance entirely removes its minimum from the schedule, which frees cash and produces a visible result. A method followed to completion beats an optimal method abandoned in month four. The calculator's job is to show the size of the trade, not to settle the argument.",
+      },
+    ],
+    example: {
+      title: "Worked example: one month, two debts, a $200 surplus",
+      setup:
+        "Debt A: $500 at 18%. Debt B: $3,000 at 24%. Minimum payments of 2% of the balance with a $25 floor. A $200 surplus is available on top of the minimums. Only the first month is shown, because the ordering decision is made once and then repeats.",
+      rows: [
+        { label: "Debt A monthly interest", value: "$7.50", note: "500 x 0.18 / 12" },
+        { label: "Debt B monthly interest", value: "$60.00", note: "3000 x 0.24 / 12" },
+        { label: "Minimums due", value: "$85.00", note: "25.00 + 60.00" },
+        { label: "Total monthly outlay", value: "$285.00", note: "85 + 200 surplus" },
+        { label: "Interest avoided by aiming the surplus at B", value: "$1.00", note: "200 x (0.24 - 0.18) / 12" },
+        { label: "Share of the outlay that is interest", value: "23.7%", note: "67.50 / 285" },
+      ],
+      conclusion:
+        "Aiming the $200 surplus at the 24% debt instead of the 18% debt avoids exactly $1.00 a month more in interest. That is the entire arithmetic difference between snowball and avalanche at a six-point spread. The $285 outlay is what closes the accounts: $67.50 of it is interest in month one, and only a larger payment or a lower rate changes that materially.",
+    },
+    mistakes: [
+      {
+        title: "Treating the ordering choice as the decision that matters",
+        body: "At a six-point rate spread the surplus saves about half a percent a month. The size of the surplus and the rate on the largest balance dominate the arithmetic far more than the order does.",
+      },
+      {
+        title: "Counting payments made as progress",
+        body: "Every minimum includes that month's interest, so part of each payment goes nowhere. Measuring progress by what has been paid rather than by how much the balance fell overstates it.",
+      },
+      {
+        title: "Closing an account the moment it clears",
+        body: "Closing a cleared card is not required and changes how the remaining balances are reported, because the combined utilisation is measured against the total available limit.",
+      },
+    ],
+  },
+
+  "home-affordability-calculator": {
+    intro:
+      "What a lender will approve and what a household can carry are two different figures. The affordability rules describe the first one, and they are ratios rather than advice: the same income supports a very different payment depending on existing debt, local taxes and how much is put down.",
+    mechanics: [
+      {
+        title: "Two ratios, one for housing and one for everything",
+        body: "The front-end ratio compares housing cost to gross monthly income, and 28% is the conventional cap. The back-end ratio compares all debt payments — housing plus car, student loans and minimum card payments — and uses 36%. Housing alone at 28% is the ceiling until other debt exists, at which point the back-end ratio binds first.",
+      },
+      {
+        title: "Housing cost is not the mortgage payment",
+        body: "Principal and interest is one component. Property tax, homeowners insurance, mortgage insurance when the down payment is under 20%, and any HOA dues are added to it, and the ratio applies to the total. A high-tax county therefore consumes the cap with dollars that build no equity.",
+      },
+      {
+        title: "A larger down payment changes two things at once",
+        body: "It lowers the loan and so the payment, and it can remove mortgage insurance entirely. Below 20% down, mortgage insurance is calculated on the loan amount and added to the monthly cost, so the ratio is squeezed from both directions at once.",
+      },
+    ],
+    example: {
+      title: "Worked example: $100,000 income and a $300,000 house",
+      setup:
+        "Gross monthly income $100,000 / 12 = $8,333.33. The 28% front-end cap is $2,333.33. House price $300,000 with 20% down, so the loan is $240,000 at 6.5% over 30 years. Property tax assumed at 1.2% of price a year and insurance $1,500 a year.",
+      rows: [
+        { label: "Gross monthly income", value: "$8,333.33", note: "100000 / 12" },
+        { label: "Front-end cap at 28%", value: "$2,333.33", note: "8333.33 x 0.28" },
+        { label: "Principal and interest", value: "$1,516.96", note: "240000 x 0.00541667 / (1 - (1.00541667)^-360)" },
+        { label: "Property tax per month", value: "$300.00", note: "300000 x 0.012 / 12" },
+        { label: "Insurance per month", value: "$125.00", note: "1500 / 12" },
+        { label: "Total housing cost", value: "$1,941.96", note: "1516.96 + 300 + 125" },
+        { label: "Headroom under the cap", value: "$391.37", note: "2333.33 - 1941.96" },
+        { label: "Maximum price at this cap", value: "$364,619", note: "price where total housing cost equals 2333.33" },
+      ],
+      conclusion:
+        "A $300,000 house costs $1,941.96 a month all-in on these assumptions — 23.3% of gross income, under the 28% cap, with $391.37 of headroom. That headroom supports a price of about $364,619. Add a $420 car payment and the back-end ratio becomes the binding one: 36% of gross is $3,000.00, housing must fall to $2,580.00, and the maximum price moves down with it.",
+    },
+    mistakes: [
+      {
+        title: "Applying the ratio to principal and interest alone",
+        body: "The 28% covers tax and insurance as well. In a high-tax area those alone can run several hundred dollars a month, so ignoring them overstates affordability by roughly the amount they add.",
+      },
+      {
+        title: "Using take-home pay in the ratio",
+        body: "Both ratios are defined against gross income. Substituting net pay produces a number that looks prudent but is not the one a lender will use, and it understates the approval.",
+      },
+      {
+        title: "Reading the approved maximum as a comfortable payment",
+        body: "The ratio is a lending limit, not a household budget. It leaves no room for the costs a home adds and an apartment does not — maintenance, utilities and a longer commute among them.",
+      },
+    ],
+  },
+
+  "overtime-calculator": {
+    intro:
+      "Overtime is calculated on the regular rate of pay for hours worked past 40 in a workweek, and both halves of that sentence cause disputes: which hours count, and what the regular rate actually is.",
+    mechanics: [
+      {
+        title: "Forty hours in a workweek, not per day",
+        body: "The threshold is 40 hours in a fixed seven-day workweek. Working 12 hours on Monday does not trigger overtime by itself; working 44 hours across the week does, and only the four hours past 40 carry the premium. The workweek is an employer-defined seven-day period and is not necessarily the calendar week.",
+      },
+      {
+        title: "Time and a half applies to the regular rate",
+        body: "The regular rate is total non-overtime pay divided by the hours it covers, not the hourly wage on its face. It includes most non-discretionary bonuses, shift differentials and commissions. A worker paid $20 an hour for one role and $25 for another therefore has a blended regular rate and a blended overtime rate.",
+      },
+      {
+        title: "The premium is half, not a separate full rate",
+        body: "The extra cost of an overtime hour is half the regular rate, because the hour is already being paid at the straight rate within the weekly total. For someone on $25.00 an hour the premium is $12.50, which takes the overtime hour to $37.50.",
+      },
+    ],
+    example: {
+      title: "Worked example: $25 an hour, 50 hours in one workweek",
+      setup:
+        "Straight-time rate $25.00. Hours in the workweek: 50, of which 40 are straight time and 10 are past the threshold. The overtime rate is 1.5 times the regular rate.",
+      rows: [
+        { label: "Straight-time pay for 40 hours", value: "$1,000.00", note: "40 x 25.00" },
+        { label: "Overtime rate", value: "$37.50", note: "25.00 x 1.5" },
+        { label: "Pay for 10 overtime hours", value: "$375.00", note: "10 x 37.50" },
+        { label: "Total gross pay", value: "$1,375.00", note: "1000 + 375" },
+        { label: "Effective average rate", value: "$27.50", note: "1375 / 50" },
+        { label: "Of which the overtime premium", value: "$125.00", note: "10 x 12.50" },
+      ],
+      conclusion:
+        "Fifty hours at $25.00 produces $1,375.00, an effective $27.50 an hour. The premium itself is $125.00: the ten hours are already paid at the straight rate within the weekly total and the premium adds half again on top. Multiplying 50 x $25.00 x 1.5 would give $1,875.00, which is wrong — the multiplier applies only to the hours past the threshold.",
+    },
+    mistakes: [
+      {
+        title: "Applying 1.5 to every hour worked",
+        body: "That overstates the pay by the premium on the first 40 hours. Only the hours past the threshold carry the multiplier; the rest are paid straight.",
+      },
+      {
+        title: "Treating the calendar week as the workweek",
+        body: "An employer may start the workweek on any day, and hours do not average across two weeks. A 30-hour week followed by a 50-hour week is not two 40-hour weeks; the second owes ten hours of overtime.",
+      },
+      {
+        title: "Excluding bonuses from the regular rate",
+        body: "Non-discretionary bonuses and shift differentials are generally part of the regular rate, so overtime computed on the base wage alone understates what is owed.",
+      },
+    ],
+  },
+
+  "self-employment-tax-calculator": {
+    intro:
+      "Self-employment tax is the employee and employer halves of Social Security and Medicare, both paid by one person. The rate looks like double the payroll figure, and one deduction takes part of it back.",
+    mechanics: [
+      {
+        title: "The base is 92.35% of net profit, not 100%",
+        body: "The law treats 7.65% of net profit as though it were the employer half and taxes the remainder. The taxable base is therefore net profit x 0.9235, and the rate applied to that base is 15.3% — 12.4% for Social Security and 2.9% for Medicare. The two steps together produce an effective 14.13% of net profit.",
+      },
+      {
+        title: "The Social Security part has a ceiling; Medicare does not",
+        body: "Social Security tax stops once wages plus self-employment income reach the annual wage base. Medicare has no ceiling, and an additional 0.9% applies to earned income above a high threshold. Which of those binds depends entirely on how much is earned, so the calculator rather than a rule of thumb is the right instrument.",
+      },
+      {
+        title: "Half of the tax is deductible above the line",
+        body: "The employer-equivalent half — 7.65% of net profit — is deducted from gross income whether or not itemised deductions are used. It reduces income tax, not self-employment tax, and it is why the combined burden is lower than the headline rate suggests.",
+      },
+    ],
+    example: {
+      title: "Worked example: $80,000 of net self-employment profit",
+      setup:
+        "Net profit $80,000 — gross receipts less ordinary business expenses. It is below the Social Security wage base, so the 12.4% portion applies to the whole base. No other wages.",
+      rows: [
+        { label: "Net profit", value: "$80,000.00", note: "starting point" },
+        { label: "Taxable base at 92.35%", value: "$73,880.00", note: "80000 x 0.9235" },
+        { label: "Social Security at 12.4%", value: "$9,161.12", note: "73880 x 0.124" },
+        { label: "Medicare at 2.9%", value: "$2,142.52", note: "73880 x 0.029" },
+        { label: "Total self-employment tax", value: "$11,303.64", note: "9161.12 + 2142.52" },
+        { label: "Effective rate on net profit", value: "14.13%", note: "11303.64 / 80000" },
+        { label: "Above-the-line deduction", value: "$5,651.82", note: "11303.64 / 2" },
+      ],
+      conclusion:
+        "On $80,000 of net profit the self-employment tax is $11,303.64 — 14.13% of profit rather than 15.3%, because of the 92.35% base. Half of it, $5,651.82, is deductible against income tax. The arithmetic scales exactly: $40,000 of net profit carries $5,651.82 of self-employment tax and a $2,825.91 deduction. The ceiling only enters once the base passes the annual wage base.",
+    },
+    mistakes: [
+      {
+        title: "Applying 15.3% directly to net profit",
+        body: "That ignores the 92.35% base and overstates the tax. On $80,000 the two methods differ by $936.36 a year.",
+      },
+      {
+        title: "Treating the deduction as a reduction of the tax itself",
+        body: "The half-deduction lowers taxable income for income tax purposes. It does not reduce the self-employment tax, which is calculated first and in full.",
+      },
+      {
+        title: "Blending two taxes with two different rules",
+        body: "Social Security has a ceiling and Medicare does not. A single blended rate produces a wrong figure above the wage base, where only the Medicare portion continues to apply.",
+      },
+    ],
+  },
+
+  "social-security-calculator": {
+    intro:
+      "A Social Security benefit is two calculations stacked: an average of the highest earning years, converted through a progressive formula, then adjusted for the age it is claimed. The first is fixed by the earnings record; the second is the part still under control.",
+    mechanics: [
+      {
+        title: "The benefit is built from an indexed career average",
+        body: "Each year's earnings are indexed to the national average wage level, then the highest 35 years are averaged and divided by 12 to give the average indexed monthly earnings. Years with no earnings — early retirement, caregiving, unemployment — count as zero in that 35-year set, which is why extra working years can raise a benefit even late in a career.",
+      },
+      {
+        title: "The formula applies percentages to bands, not to the whole average",
+        body: "The average indexed monthly earnings figure is split at fixed bend points. The lowest band receives the highest replacement percentage, the middle band a lower one, and everything above the top bend point a lower one still. The result is the primary insurance amount — the figure quoted for claiming at full retirement age.",
+      },
+      {
+        title: "Claiming age multiplies, it does not add",
+        body: "Claiming early reduces the primary insurance amount permanently: 5/9 of 1% a month for the first 36 months early and 5/12 of 1% for each month beyond. Claiming at 62 against a full retirement age of 67 is a 30% reduction. Delaying past full retirement age adds 2/3 of 1% a month — 8% a year — up to age 70, so the same record can produce a benefit 24% larger.",
+      },
+    ],
+    example: {
+      title: "Worked example: a $2,000 full-retirement-age benefit claimed at three ages",
+      setup:
+        "Primary insurance amount $2,000 a month at a full retirement age of 67. Three claiming ages compared. The percentages are the statutory adjustments; the base figure comes from the earnings record.",
+      rows: [
+        { label: "Claim at 62", value: "$1,400.00", note: "2000 x 0.70, a 30% reduction" },
+        { label: "Claim at 67 (full retirement age)", value: "$2,000.00", note: "the primary insurance amount" },
+        { label: "Claim at 70", value: "$2,480.00", note: "2000 x 1.24, 8% a year for 36 months" },
+        { label: "Monthly difference, 62 against 70", value: "$1,080.00", note: "2480 - 1400" },
+        { label: "Payments given up by waiting from 62 to 70", value: "$134,400", note: "1400 x 12 x 8" },
+        { label: "Years at $1,080 more to recover the wait", value: "10.4", note: "134400 / (1080 x 12)" },
+      ],
+      conclusion:
+        "The same earnings record produces $1,400, $2,000 or $2,480 depending only on when it is claimed. Waiting from 62 to 70 forgoes $134,400 of payments and adds $1,080 a month; at that rate the wait takes 10.4 years to recover. The arithmetic is exact, but whether ten years is a reasonable bet depends on circumstances the calculator cannot see.",
+    },
+    mistakes: [
+      {
+        title: "Comparing claiming ages on the monthly amount alone",
+        body: "The break-even depends on how long payments continue, so the comparison turns on a factor that is not in the calculation. The monthly figures are exact; the conclusion drawn from them is not.",
+      },
+      {
+        title: "Assuming the reduction and the credit are symmetrical",
+        body: "They are not. Four years early costs 25% at these ages, while four years late adds about 32%. The same four years is not worth the same in both directions.",
+      },
+      {
+        title: "Ignoring work after claiming",
+        body: "Earnings after claiming before full retirement age can temporarily reduce benefits under the earnings test, while additional years of earnings can raise the underlying average at the same time. The two effects pull in opposite directions.",
+      },
+    ],
+  },
+
+  "tip-calculator": {
+    intro:
+      "A tip is a percentage of the bill, and the two things that go wrong are the base it is taken from and the rounding. Both are small per transaction and both change what the service worker actually receives.",
+    mechanics: [
+      {
+        title: "The base is the amount before tax",
+        body: "Sales tax is not part of the service, so a tip calculated on the post-tax total is larger than the percentage suggests. On a $64.50 bill with 8% tax the tax is $5.16, and a 20% tip on the total is $13.93 against $12.90 on the pre-tax amount — $1.03 more, an effective 21.6% of the pre-tax bill.",
+      },
+      {
+        title: "Moving the decimal is the fast method",
+        body: "Ten percent is the amount shifted one place, which is $6.45 on a $64.50 bill. Half of that is 5%, and doubling it is 20%. Any rate in the usual range is a combination of those, so the arithmetic does not need a calculator at the table.",
+      },
+      {
+        title: "Splitting decides who absorbs the rounding",
+        body: "Dividing a tip evenly rarely lands on a whole cent. Whether the group rounds up or down decides whether the shortfall falls on the server or on the diners, and the difference compounds across a shift.",
+      },
+    ],
+    example: {
+      title: "Worked example: a $64.50 bill at four rates",
+      setup:
+        "Pre-tax bill $64.50. Each percentage is applied to the pre-tax amount. The 10% figure is the bill shifted one decimal place, and the others are built from it.",
+      rows: [
+        { label: "10% (the anchor)", value: "$6.45", note: "64.50 / 10" },
+        { label: "15% tip", value: "$9.68", note: "64.50 x 0.15" },
+        { label: "18% tip", value: "$11.61", note: "64.50 x 0.18" },
+        { label: "20% tip", value: "$12.90", note: "64.50 x 0.20, the 10% figure doubled" },
+        { label: "Total with a 20% tip", value: "$77.40", note: "64.50 + 12.90" },
+        { label: "20% tip split four ways", value: "$3.23", note: "12.90 / 4" },
+        { label: "Total each, split four ways", value: "$19.35", note: "77.40 / 4" },
+      ],
+      conclusion:
+        "The tip moves from $9.68 to $14.19 as the rate goes from 15% to 22%, a range of $4.51 on a $64.50 bill. Split four ways, the difference between 15% and 20% is about 81 cents a person. What matters is applying the rate to the pre-tax amount and agreeing the rounding before the card is handed over, because a tip entered as a total that does not match the written percentage is the error that gets corrected afterwards.",
+    },
+    mistakes: [
+      {
+        title: "Calculating on the post-tax total",
+        body: "Tax is a government charge, not a service. Tipping on it inflates the tip by the tax rate applied to the bill — about 1.6 percentage points of the pre-tax amount at an 8% sales tax.",
+      },
+      {
+        title: "Entering the tip on the wrong base in a card terminal",
+        body: "Some terminals prompt for a percentage of the post-tax total while printing the pre-tax figure as the amount. Reading the wrong line produces a tip that does not match the intended rate.",
+      },
+      {
+        title: "Rounding a split without deciding who absorbs it",
+        body: "Four people splitting $12.90 cannot each pay $3.225. Rounding each share down leaves the group short; rounding up charges more than the bill. Either is defensible, but it should be chosen rather than left to whoever reads the total.",
+      },
+    ],
+  },
 };

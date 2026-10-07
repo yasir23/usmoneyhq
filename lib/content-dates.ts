@@ -44,8 +44,17 @@ export const CONTENT_DATES = {
    * the editorial sections in lib/categories.ts.
    */
   site: "2026-10-06",
-  /** lib/tools.ts — calculator definitions, formulas, and per-tool FAQ copy. */
-  tools: "2026-10-06",
+  /**
+   * lib/tools.ts (calculator definitions, formulas, FAQ copy) and
+   * lib/toolContent.ts (the deep content on the base tool pages).
+   * 2026-10-07: the last nine tools without deep content — auto-loan, concrete,
+   * credit-card-payoff, debt-snowball, home-affordability, overtime,
+   * self-employment-tax, social-security and tip — gained a full entry. Coverage
+   * is now 105 of 105 base tool pages; every quoted figure is recomputed by
+   * scripts/verify_tool_content.py, which went from ~90 to 169 assertions
+   * (169 passed, 0 failed).
+   */
+  tools: "2026-10-07",
   /** lib/states.ts + lib/stateRates.ts — state tax structure and rate schedules. */
   states: "2026-09-26",
   /** lib/amounts.ts — salary and price scenario bands. */
