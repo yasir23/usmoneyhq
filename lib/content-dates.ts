@@ -34,12 +34,16 @@
 
 export const CONTENT_DATES = {
   /**
-   * Site-wide pages: home, about, methodology, contact, hubs.
+   * Site-wide pages: home, about, methodology, contact, hubs, developers, premium.
    * 2026-10-05: homepage H1/description reframed around pay, tax, mortgage and
    * retirement; categories tiered finance-first. A material change to what the
    * page says, so the date moves — the rule is content, not code.
+   * 2026-10-06: /contact gained the correction workflow and per-enquiry guidance;
+   * /developers was rewritten around the live API capture; /premium gained tier,
+   * licence and billing detail; and all five /calculators/<category> hubs gained
+   * the editorial sections in lib/categories.ts.
    */
-  site: "2026-10-05",
+  site: "2026-10-06",
   /** lib/tools.ts — calculator definitions, formulas, and per-tool FAQ copy. */
   tools: "2026-10-06",
   /** lib/states.ts + lib/stateRates.ts — state tax structure and rate schedules. */
@@ -67,4 +71,20 @@ export type ContentGroup = keyof typeof CONTENT_DATES;
 /** Midnight UTC on the group's material-change date, for sitemap <lastmod>. */
 export function contentDate(group: ContentGroup): Date {
   return new Date(`${CONTENT_DATES[group]}T00:00:00.000Z`);
+}
+
+/**
+ * "2026-10-06" -> "6 October 2026", for on-page "Last updated" lines.
+ *
+ * Added because the legal pages hardcoded "August 2026" while the sitemap
+ * published CONTENT_DATES.legal — two sources of truth for one date, and they
+ * disagreed. A page that derives its date cannot fall out of step with it.
+ */
+export function contentDateLabel(group: ContentGroup): string {
+  const [y, m, d] = CONTENT_DATES[group].split("-").map(Number);
+  const months = [
+    "January", "February", "March", "April", "May", "June",
+    "July", "August", "September", "October", "November", "December",
+  ];
+  return `${d} ${months[m - 1]} ${y}`;
 }

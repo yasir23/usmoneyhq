@@ -147,6 +147,40 @@ const nextConfig = {
           { key: "Link", value: '</.well-known/api-catalog>; rel="api-catalog", </openapi.json>; rel="service-desc"; type="application/openapi+json", </developers>; rel="service-doc"; type="text/html", </.well-known/agent-card.json>; rel="http://www.w3.org/ns/agents#card", </llms.txt>; rel="describedby"; type="text/plain"' },
         ],
       },
+      /**
+       * CORS for the public compute surfaces.
+       *
+       * /developers promised "CORS-open for any origin" while the server sent no
+       * Access-Control-* headers at all — verified live 2026-10-06 by sending an
+       * Origin header and an OPTIONS preflight: the response came back 200/204
+       * with nothing but `allow: GET, HEAD, OPTIONS, POST`. A server-side or
+       * agent client never notices the omission, which is exactly why the false
+       * claim survived so long; a browser on another origin is blocked outright,
+       * and a browser on another origin is the case the page advertises.
+       *
+       * Scoped to /api/calc and /api/widget only. Both are pure public
+       * arithmetic — no authentication, no session, no user data — so a
+       * wildcard origin exposes nothing. Deliberately NOT applied to
+       * /api/subscribe, /api/go, or /api/px, which hold state or carry abuse
+       * potential.
+       */
+      {
+        source: "/api/calc/:path*",
+        headers: [
+          { key: "Access-Control-Allow-Origin", value: "*" },
+          { key: "Access-Control-Allow-Methods", value: "GET, POST, OPTIONS" },
+          { key: "Access-Control-Allow-Headers", value: "Content-Type" },
+          { key: "Access-Control-Max-Age", value: "86400" },
+        ],
+      },
+      {
+        source: "/api/widget/:path*",
+        headers: [
+          { key: "Access-Control-Allow-Origin", value: "*" },
+          { key: "Access-Control-Allow-Methods", value: "GET, OPTIONS" },
+          { key: "Access-Control-Max-Age", value: "86400" },
+        ],
+      },
     ];
   },
 };

@@ -47,9 +47,16 @@ DATES_FILE = REPO / "lib" / "content-dates.ts"
 
 # Which files carry the content for each group. This is the same mapping
 # documented in content-dates.ts — keep the two in step.
+#
+# EXTENDED 2026-10-06. `site` listed only about/methodology/index/SiteShell, but
+# lib/sitemap-urls.ts stamps /contact, /developers, /premium and every
+# /calculators/<category> hub with siteDate too. Those five paths were therefore
+# published with a <lastmod> that nothing was watching — a page could be rewritten
+# and the date would never be checked. The mapping now matches the sitemap.
 GROUP_FILES = {
     "site": ["pages/about.js", "pages/methodology.js", "pages/index.js",
-             "components/SiteShell.jsx"],
+             "components/SiteShell.jsx", "pages/contact.js", "pages/developers.js",
+             "pages/premium.js", "pages/widgets.js", "pages/calculators/[category].js"],
     "tools": ["lib/tools.ts", "lib/toolContent.ts"],
     "states": ["lib/states.ts", "lib/stateRates.ts"],
     "amounts": ["lib/amounts.ts"],

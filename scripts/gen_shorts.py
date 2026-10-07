@@ -168,6 +168,26 @@ TOPICS = [
         "title": "$10k plus $200 a month at 7%",
         "script": "Ten thousand dollars up front, then two hundred dollars a month, at seven percent compounded monthly. After twenty years that is one hundred and forty four thousand five hundred and seventy two dollars. You put in fifty eight thousand. Compounding added eighty six thousand on top, more than you contributed, and the gap keeps widening every year. That is why year one matters more than year ten. The compound interest calculator at US Money HQ shows the growth year by year. Free, in your browser.",
     },
+    {
+        "id": "mortgage-750k",
+        "title": "$750,000 mortgage: the real monthly payment",
+        "script": "A seven hundred and fifty thousand dollar mortgage at six and a half percent for thirty years. Your principal and interest payment is about three thousand, seven hundred and ninety two dollars a month. Before taxes and insurance. Over the full term you will pay seven hundred and sixty five thousand dollars in interest, more than the amount you borrowed. The mortgage calculator at US Money HQ shows the full schedule. Free, in your browser.",
+    },
+    {
+        "id": "salary-500k",
+        "title": "$500,000 salary: where the money goes",
+        "script": "Half a million dollars a year. Sounds like unlimited money. Here is the reality. Federal income tax alone takes about one hundred and thirty eight thousand dollars, a twenty seven point six percent effective federal rate, before state tax and before Social Security and Medicare. Take home lands closer to three hundred and forty thousand. Still extraordinary, just not half a million. The salary after tax calculator at US Money HQ breaks it down for all fifty states.",
+    },
+    {
+        "id": "denver-mortgage-300k",
+        "title": "$300,000 home in Denver: the real payment",
+        "script": "A three hundred thousand dollar home in Denver, Colorado. With twenty percent down at six and a half percent for thirty years, principal and interest runs about one thousand, five hundred and seventeen dollars a month. Colorado property tax adds roughly one hundred and thirty dollars more at the state average. Over the life of the loan you pay about three hundred and six thousand dollars in interest. The mortgage calculator at US Money HQ does this for any city. Free.",
+    },
+    {
+        "id": "affordability-90k",
+        "title": "On $90,000, how much house can you afford?",
+        "script": "You earn ninety thousand dollars a year. Lenders cap your total monthly debt at about thirty six percent of gross income, roughly two thousand seven hundred dollars. Keep housing near the twenty eight percent line and that supports a home around three hundred and ten thousand dollars with twenty percent down. Carry more debt and the number drops fast. The home affordability calculator at US Money HQ shows your exact price for any income. Free.",
+    },
 ]
 
 
