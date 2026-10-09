@@ -14,7 +14,7 @@
 # commit. pages/states.js already carries the same rule for its own URL.
 #
 # Current composition: 105 calculator roots + 18 guides + 5 category hubs
-# + 12 trust/static pages = 140.
+# + 11 site/trust pages (homepage + 10 static) = 139.
 
 ## Core tools
 - Mortgage Calculator: https://usmoneyhq.com/mortgage-calculator

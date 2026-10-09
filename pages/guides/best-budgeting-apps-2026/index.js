@@ -46,6 +46,17 @@ export default function BestBudgetingApps() {
           <h2>When a budget becomes a business</h2>
           <p>Once your budget is stable, the fastest wealth move is increasing income. If you have a side skill, the same discipline that balances a budget can build a store — the <Link href="/guides/shopify-vs-etsy-vs-wix-2026">Shopify vs Etsy vs Wix comparison</Link> walks the platform math. Start with the <a href={A.shopify} rel="sponsored">free Shopify trial</a> only if you have a real product idea; otherwise keep building the emergency fund first.</p>
 
+          <h2>The arithmetic of a $12-a-month app</h2>
+          <p>A subscription is a fixed cost, and a fixed cost has to be covered before it pays anything back. At $12 a month the app costs $144 a year, or $720 across five years. On a $60,000 take-home income that fee is 0.24 percent of what you earn — small enough to be trivial, and large enough to be wasted. It is worth paying only if the app changes at least one decision a month enough to cover itself: it has to produce more than $12 of avoided spending, saved interest or added saving every month to break even. A single avoided impulse purchase covers a whole year.</p>
+          <p>The comparison is not app versus no app. It is app versus the free alternative — your bank's categorised statement plus one written target — and what the fee buys is automation and friction, not information.</p>
+
+          <h2>What an app can change, and what it cannot</h2>
+          <p>An app does three things a spreadsheet does not do cheaply: it pulls every account into one view automatically, it categorises spending without manual entry, and it can notify you at the moment of a decision. All three reduce the effort of <em>seeing</em> where money goes. None of them decide anything. A budget fails at the decision, not at the ledger — tracking is the easy part, and the app has already solved it.</p>
+          <p>That is why "I need to see my spending first" is a trap: the statement already shows it, and waiting for a perfect dashboard is a way of postponing the one subtraction that matters — income minus spending.</p>
+
+          <h2>The mistakes that make a budgeting app useless</h2>
+          <p>Tracking without a target is the first: a categorised list of last month's spending is a report, not a plan, and it changes the next month by nothing. Too many categories is the second — a 40-line budget is abandoned in three weeks, while five to seven categories survives. Skipping the automation step is the third: a budget that depends on remembering to move money each payday stops working the first busy month. The routine outlasts the tool, which is why the free method above beats a paid app you open twice.</p>
+
           <h2>Bottom line</h2>
           <p>Start free: bank app + <Link href="/budget-calculator">US Money HQ budget calculator</Link> + automated savings. Upgrade to a paid app only when you've proven you'll use it weekly. The tool matters less than the routine — pick one, run it 90 days, adjust.</p>
 

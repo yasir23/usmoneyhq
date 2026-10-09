@@ -46,6 +46,25 @@ export default function HowToStartInvesting() {
           <h2>Retirement timeline check</h2>
           <p>Run the <Link href="/retirement-calculator">retirement calculator</Link> to see if your current pace hits your target. If you're behind, the fix is contribution rate first, returns second. Start at any age — but the <Link href="/retirement-age-calculator">age calculator</Link> shows why 25 beats 35 by ~2x.</p>
 
+          <h2>Why the order of operations is fixed</h2>
+          <p>Each step above is ranked by the return it <em>guarantees</em>, not by how exciting it is. An employer match is an immediate 50 to 100 percent return on the money you put in — nothing in a brokerage account is guaranteed to beat it. Paying down a card at a known interest rate is a guaranteed return equal to that rate. Tax-advantaged investing is a guaranteed discount equal to your marginal rate. A taxable brokerage account is the only step where the return is uncertain, which is precisely why it comes last.</p>
+          <p>The practical test for any marginal dollar is: what is the guaranteed return of the next best alternative? If a card charges, say, 20 percent and an index fund is expected to return 7 percent, the card wins on certainty alone. An expectation is not a guarantee; a known rate is.</p>
+
+          <h2>What a ten-year head start is actually worth</h2>
+          <p>Assume $300 a month at a 7 percent annual return — a rate used here as an illustration, not a promise. Starting at 25 and stopping at 65 is 480 monthly deposits; starting at 35 and stopping at 65 is 360. The head start adds $36,000 of contributions. Here is what the two paths grow to:</p>
+          <ul>
+            <li>$300 a month for 40 years — $787,444</li>
+            <li>$300 a month for 30 years — $365,991</li>
+            <li>Difference — $421,453, on $36,000 of extra deposits</li>
+          </ul>
+          <p>The extra $36,000 compounds into roughly $385,000 of that gap. Ten extra years does not add a third to the result; it more than doubles it, because the earliest deposits have the most time to compound. This is the one variable you cannot buy back later.</p>
+
+          <h2>The real cost of interrupting compounding</h2>
+          <p>The expensive event is not a market decline — it is being <em>forced</em> to sell into one. $5,000 invested that falls 20 percent is $4,000, and withdrawing it locks in a $1,000 loss on top of losing every future year that $5,000 would have compounded through. Emergency savings exist to make that sale unnecessary, which is why step 1 comes before step 2 rather than after it.</p>
+
+          <h2>The mistakes that cost the most</h2>
+          <p>Holding too much cash for too long is the first: money sitting in a checking account earning nothing does not compound, and a decade of it is unrecoverable. Chasing last year's best-performing fund is the second — performance reverts, and the fund bought after its run is frequently the one that lags next. Trading on headlines is the third: it converts a compounding exercise into a timing exercise, where you must be right twice, on the exit and on the re-entry. The mechanics that actually help are boring ones — automate the deposit, choose broad low-cost funds, and leave the schedule alone.</p>
+
           <div style={{ background: "#f6f6f4", border: "1px solid #ddd", borderRadius: 12, padding: 24, margin: "32px 0" }}>
             <h2>Run your personal numbers</h2>
             <p>See what $X/month becomes in 30 years: <Link href="/compound-interest-calculator">open the compound interest calculator</Link> — then set your automated contribution.</p>
