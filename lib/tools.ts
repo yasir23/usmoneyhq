@@ -501,6 +501,8 @@ export const TOOLS: ToolDef[] = [
     note: "Uses a 0.5% annual PMI rate (typical range 0.3-1.0%).",
     faq: [
       { q: "Is PMI worth avoiding?", a: "With 20% down you skip PMI entirely, but you also delay buying. Compare the PMI cost against rent and expected home appreciation — sometimes paying PMI for a few years is the better financial move." },
+      { q: "How is PMI calculated?", a: "PMI is quoted as an annual percentage of the original loan amount and billed monthly. This calculator uses 0.5% a year, so a $360,000 loan costs $1,800 a year, or $150 a month. Real quotes run from about 0.3% to 1.0% a year, and a larger down payment or a stronger credit score lowers the rate." },
+      { q: "Is FHA mortgage insurance the same as PMI?", a: "No. Conventional loans carry PMI, which ends by law at 78% loan-to-value and can be cancelled on request at 80%. FHA loans charge MIP instead: a 1.75% upfront premium plus roughly 0.55% a year, and when the down payment is under 10% the annual MIP generally lasts for the life of the loan. Use this calculator for conventional PMI; an FHA loan needs its own MIP figures." },
       { q: "Can I remove PMI early?", a: "Yes — on a conventional loan, request cancellation once you reach 80% LTV based on current home value (appraisal may be required)." },
     ],
     related: ["mortgage-calculator", "heloc-calculator", "dti-calculator"],
@@ -1935,6 +1937,7 @@ export const TOOLS: ToolDef[] = [
     faq: [
       { q: "What is included in closing costs?", a: "Loan origination fees, appraisal, title search and insurance, credit report, escrow prepaids, recording fees, and points. Buyers and sellers split different parts." },
       { q: "Can closing costs be negotiated?", a: "Yes — lenders compete on origination fees, and you can ask the seller to cover some costs. Always compare Loan Estimates from 2-3 lenders." },
+      { q: "Who pays closing costs, the buyer or the seller?", a: "Both, but on different lines. Buyers normally pay the 2-5% this calculator estimates: lender fees, appraisal, title insurance, and recording. Sellers typically pay the real-estate commission, transfer taxes, and their share of title, which usually totals 6-10% of the sale price once commission is included. In a slower market sellers often agree to cover part of the buyer's costs as a concession." },
     ],
     related: ["mortgage-calculator", "rent-vs-buy-calculator", "home-affordability-calculator"],
   },
@@ -2029,11 +2032,13 @@ export const TOOLS: ToolDef[] = [
       const r = capitalGains(Number(v.gain) || 0, Number(v.income) || 0, String(v.holding) === "short" ? "short" : "long");
       return [moneyRow("Tax on gain", r.tax), { label: "Effective rate", value: r.effectiveRate.toFixed(2) + "%" }, moneyRow("Net after tax", r.net, true)];
     },
-    note: "2026 long-term rates: 0% up to $47,025 single, 15% to $518,900, 20% above. Short-term gains are taxed as ordinary income.",
+    note: "2026 long-term rates: 0% up to $49,450 single, 15% to $545,500, 20% above. Short-term gains are taxed as ordinary income.",
     faq: [
-      { q: "What is the 0% capital gains bracket?", a: "For 2026, single filers with taxable income up to $47,025 pay 0% on long-term gains. This can be a powerful tax-planning window for low-income years." },
+      { q: "What is the 0% capital gains bracket?", a: "For 2026, single filers with taxable income up to $49,450 pay 0% on long-term gains. This can be a powerful tax-planning window for low-income years." },
       { q: "How do I avoid capital gains tax?", a: "Hold assets 1+ years for the lower long-term rates, use tax-advantaged accounts (401k/IRA), and consider tax-loss harvesting — selling losers to offset gains." },
       { q: "Are gains taxed at the state level too?", a: "Yes — most states tax capital gains as ordinary income on top of federal. California and New Jersey tax all gains at your income rate; nine states with no income tax (TX, FL, NV, etc.) don't tax gains at all." },
+      { q: "Do I owe capital gains tax when I sell my primary home?", a: "Usually not. Section 121 lets you exclude up to $250,000 of gain if you are single, or $500,000 if you are married filing jointly, when you have owned the home and lived in it as your primary residence for at least two of the five years before the sale. Any gain above the exclusion is taxed at long-term rates as long as you held the home more than a year. This calculator does not apply the exclusion automatically, so subtract it from your gain before entering a number." },
+      { q: "How is a rental property taxed when I sell it?", a: "The Section 121 home-sale exclusion does not apply to a pure rental. Depreciation you claimed while renting is recaptured at up to 25%, and the rest of the gain is taxed at 0%, 15%, or 20%. If you moved into the property and lived there for at least two of the five years before selling, the exclusion can cover part of the gain, though periods of rental use after 2009 reduce how much is excluded." },
     ],
     related: ["tax-calculator", "dividend-calculator", "compound-interest-calculator"],
   },
