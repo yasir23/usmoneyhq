@@ -188,6 +188,26 @@ TOPICS = [
         "title": "On $90,000, how much house can you afford?",
         "script": "You earn ninety thousand dollars a year. Lenders cap your total monthly debt at about thirty six percent of gross income, roughly two thousand seven hundred dollars. Keep housing near the twenty eight percent line and that supports a home around three hundred and ten thousand dollars with twenty percent down. Carry more debt and the number drops fast. The home affordability calculator at US Money HQ shows your exact price for any income. Free.",
     },
+    {
+        "id": "mortgage-dallas-300k",
+        "title": "$300,000 home in Dallas: the real payment",
+        "script": "A three hundred thousand dollar home in Dallas, Texas. With twenty percent down at six and a half percent for thirty years, principal and interest runs about one thousand, five hundred and seventeen dollars a month. Texas property tax adds roughly four hundred dollars more, at the state average of one point six percent of value. Over the life of the loan you pay about three hundred and six thousand dollars in interest. The mortgage calculator at US Money HQ does this for any city. Free, in your browser.",
+    },
+    {
+        "id": "mortgage-seattle-300k",
+        "title": "$300,000 home in Seattle: the real payment",
+        "script": "A three hundred thousand dollar home in Seattle, Washington. With twenty percent down at six and a half percent for thirty years, principal and interest runs about one thousand, five hundred and seventeen dollars a month. Washington property tax adds roughly two hundred and eighteen dollars more, at an average of zero point eight seven percent of value. Over the life of the loan you pay about three hundred and six thousand dollars in interest. The mortgage calculator at US Money HQ does this for any metro area. Free.",
+    },
+    {
+        "id": "paycheck-70k-texas",
+        "title": "$70,000 salary: what lands every two weeks",
+        "script": "A seventy thousand dollar salary pays two thousand, six hundred and ninety two dollars gross every two weeks. In Texas, after federal income tax and FICA, you keep two thousand, two hundred and thirty four dollars a check. The same job in California leaves two thousand, one hundred and thirty four, about ninety nine dollars less every single payday. The paycheck calculator at US Money HQ runs your salary in any state. Free.",
+    },
+    {
+        "id": "hourly-80k",
+        "title": "$80,000 a year is $38.46 an hour",
+        "script": "Eighty thousand dollars a year. Break it down. That is thirty eight dollars and forty six cents an hour, one thousand five hundred and thirty eight dollars a week, and six thousand six hundred and sixty seven dollars a month gross. Salaried roles do not pay overtime, which is exactly why the hourly figure matters when you compare two offers. The salary to hourly calculator at US Money HQ converts any salary in seconds. Free, no sign up.",
+    },
 ]
 
 
