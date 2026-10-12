@@ -104,6 +104,12 @@ export const LTCG_FIFTEEN_MAX = 545500; // 15% up to here, 20% above
 /** 2026 social security wage base (OASDI). */
 export const SS_WAGE_BASE = 184500;
 
+/** 2026 Primary Insurance Amount (PIA) bend points — SSA.
+ *  Source: Federal Register 2025-19763, "Cost-of-Living Increase and Other
+ *  Determinations for 2026". Imported rather than inlined so a stale year is a
+ *  single edit and the tests can pin it. */
+export const SS_BEND_POINTS = { first: 1286, second: 7749 };
+
 /** Marginal ordinary-income rate for a TAXABLE income (after the standard deduction). */
 export function marginalRate(taxable: number, filing: Filing = "single"): number {
   for (const [lo, hi, rate] of FED_BRACKETS[filing]) {
@@ -1021,10 +1027,11 @@ export function debtSnowball(debts: { name: string; balance: number; apr: number
  *  claiming at FRA (no discounting; null when claiming at FRA). */
 export function socialSecurityEstimate(ageNow: number, retireAge: number, annualIncome: number) {
   const aime = annualIncome / 12;
-  // 2026 bend points
-  const bend1 = Math.min(aime, 1174) * 0.9;
-  const bend2 = Math.max(0, Math.min(aime, 7078) - 1174) * 0.32;
-  const bend3 = Math.max(0, aime - 7078) * 0.15;
+  // 2026 PIA bend points, SSA. Source: Federal Register 2025-19763
+  // ("Cost-of-Living Increase and Other Determinations for 2026").
+  const bend1 = Math.min(aime, SS_BEND_POINTS.first) * 0.9;
+  const bend2 = Math.max(0, Math.min(aime, SS_BEND_POINTS.second) - SS_BEND_POINTS.first) * 0.32;
+  const bend3 = Math.max(0, aime - SS_BEND_POINTS.second) * 0.15;
   const pia = bend1 + bend2 + bend3;
   const fra = 67;
   let factor: number;

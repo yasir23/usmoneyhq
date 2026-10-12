@@ -2330,11 +2330,13 @@ export const TOOLS: ToolDef[] = [
       }
       return rows;
     },
-    note: "Rough estimate using 2026 bend points and today's income, assuming a full retirement age of 67. The break-even age is a simple cumulative cross-over — it ignores discounting, and cost-of-living raises apply to both claims. Actual benefits use your 35 highest-earning years — check ssa.gov for your real statement.",
+    note: "Rough estimate using the 2026 bend points ($1,286 and $7,749) and today's income, assuming a full retirement age of 67. Two limits to know: your actual benefit is built from your 35 highest-earning years, and SSA re-indexes the bend points every year — so a younger worker's real starting benefit will be higher in nominal dollars than this estimate, though the replacement rate is what stays comparable. The break-even age is a simple cumulative cross-over — it ignores discounting, and cost-of-living raises apply to both claims. Check ssa.gov for your real statement.",
     faq: [
       { q: "When should I claim Social Security?", a: "Full retirement age is 67 for anyone born after 1960. Claiming at 62 cuts benefits ~30% permanently; waiting to 70 adds ~8% per year. The right choice depends on your health, savings, and lifespan expectations." },
       { q: "Should I claim at 62 or 67?", a: "Claiming at 62 pays 70% of your full retirement age benefit; claiming at 67 pays 100% (age 65 pays about 86.7%). The cut is permanent and applies to future cost-of-living raises too, because they are added to the smaller base. Claiming at 67 wins on total dollars if you live past roughly age 78-79; claiming at 62 wins if you do not, or if you need the cash flow sooner." },
       { q: "What is the break-even age for Social Security?", a: "It is the age at which the total dollars from claiming early catch up to — then fall behind — the total from waiting. On a simple cumulative basis (no discounting; inflation lifts both claims similarly) claiming at 62 breaks even against 67 at about age 78-79, claiming at 65 breaks even at about 80, and delaying to 70 breaks even against claiming at 67 at about 82-83. Live beyond that age and waiting wins on total dollars; live shorter and the early claim collected more. This calculator returns your own break-even age with the results." },
+      { q: "What changed for Social Security in 2026?", a: "Four numbers moved. Benefits rose 2.8% with the cost-of-living adjustment effective December 2025. The wage base — the earnings ceiling subject to Social Security tax — is $184,500 for 2026, up from $176,100. The PIA bend points, which set how much of your average earnings are replaced, are $1,286 and $7,749 for 2026 (they were $1,226 and $7,391 for 2025). And one quarter of coverage now requires $1,890 of earnings. This calculator already uses the 2026 figures." },
+      { q: "How do spousal benefits work?", a: "A spouse can claim up to 50% of the higher earner's full retirement age benefit — but only once the higher earner has filed. Spousal benefits earn no delayed retirement credits, so waiting past your own full retirement age adds nothing to that 50%; it only protects against the early-claiming reduction. Claiming the spousal benefit at 62 instead reduces it to about 32.5% of the worker's PIA (for a full retirement age of 67), which is a steeper cut than the worker's own early-claiming reduction. Survivor benefits follow different rules and can reach 100% of what the deceased was receiving." },
       { q: "Is my benefit taxed?", a: "Up to 85% of Social Security benefits can be taxed if your combined income exceeds $25k (single) or $32k (married). About 40% of beneficiaries owe tax on some portion." },
     ],
     related: ["retirement-calculator", "401k-calculator", "investment-calculator"],
@@ -3098,23 +3100,25 @@ export const TOOLS: ToolDef[] = [
   },
   {
     slug: "mileage-reimbursement-calculator",
-    title: "Mileage Reimbursement Calculator 2026 — IRS Rate | US Money HQ",
+    title: "Mileage Reimbursement Calculator 2026 — 76¢ IRS Rate | US Money HQ",
     shortTitle: "Mileage Reimbursement Calculator",
-    description: "Free mileage reimbursement calculator: what you're owed at the IRS standard rate, with the 2026 rate built in.",
+    description: "Free mileage reimbursement calculator at the current IRS standard rate — 76 cents per mile for business driving from July 1, 2026. Enter your miles for the amount owed.",
     h1: "Mileage Reimbursement Calculator",
     sub: "Miles driven, money owed.",
     fields: [
       { key: "miles", label: "Business miles", type: "number", default: 100, min: 1, step: 10, inputMode: "numeric" },
-      { key: "rate", label: "Rate (cents per mile)", type: "number", default: 70, min: 0, max: 200, step: 1, inputMode: "numeric" },
+      { key: "rate", label: "Rate (cents per mile)", type: "number", default: 76, min: 0, max: 200, step: 1, inputMode: "numeric" },
     ],
     compute: (v) => {
-      const r = mileageReimbursement(Number(v.miles) || 0, Number(v.rate) || 70);
+      const r = mileageReimbursement(Number(v.miles) || 0, Number(v.rate) || 76);
       return [moneyRow("Reimbursement", r.reimbursement, true), { label: "Per mile", value: "$" + r.perMile.toFixed(2) }];
     },
-    note: "The 2026 IRS standard mileage rate is 70 cents per mile (up from 70¢ in 2025). Employers can reimburse more — the rate is a safe-harbor floor, not a cap.",
+    note: "The IRS business rate is 76 cents per mile from July 1, 2026 (it was 72.5¢ from January 1 to June 30, 2026, and 70¢ for all of 2025). Medical and moving is 23.5¢; charitable stays 14¢. Expenses are split at the changeover date, so miles driven in each half of 2026 use that half's rate. Employers may reimburse more — the standard rate is a safe-harbor floor, not a cap.",
     faq: [
-      { q: "What is the IRS mileage rate for 2026?", a: "70 cents per mile for business driving, 21¢ for medical/moving, 14¢ for charitable. The business rate is the one most reimbursement policies use." },
-      { q: "Is mileage reimbursement taxable?", a: "No — reimbursements at or below the IRS rate are tax-free. Amounts above the rate are treated as taxable income." },
+      { q: "What is the IRS mileage rate for 2026?", a: "76 cents per mile for business driving from July 1, 2026, up from 72.5 cents for January 1 to June 30, 2026. Medical and moving purposes pay 23.5 cents and charitable driving stays at 14 cents. The 2026 rate is up sharply from 70 cents for all of 2025, so a claim built on last year's figure understates what is owed." },
+      { q: "What is the mileage rate for the whole of 2026?", a: "There is no single 2026 rate. The IRS changed it mid-year, so 2026 business mileage is claimed at 72.5 cents per mile for miles driven January 1 to June 30 and 76 cents per mile for miles driven July 1 to December 31. Run each half through the calculator separately and add the two figures — averaging the two rates over a full year gives the wrong answer for both halves." },
+      { q: "How much does a stale rate cost me?", a: "It scales with distance, because the arithmetic is one multiplication. Claiming 350 miles at 2024's 67 cents pays $234.50 where the current 76 cents pays $266.00 — $31.50 short. On 10,000 miles the same gap is $900. Verify the rate for the date the miles were driven." },
+      { q: "Is mileage reimbursement taxable?", a: "No — reimbursements at or below the IRS rate under an accountable plan are tax-free and are not reported as wages. Amounts paid above the standard rate are generally treated as taxable income. Note that a reimbursement from your employer and a deduction on your own return are separate things with separate rules." },
     ],
     related: ["gas-cost-calculator", "overtime-calculator", "hourly-to-salary-calculator"],
   },

@@ -77,6 +77,7 @@ import {
   salaryRaise,
   loanWithExtra,
   socialSecurityEstimate,
+  SS_BEND_POINTS,
   debtSnowball,
   leaseVsBuy,
   mortgagePoints,
@@ -711,7 +712,16 @@ console.log("ALL KEYWORD-IMPL TESTS PASS");
 // === Phase 4: social security, snowball, lease-vs-buy, points, price/sqft, construction, deficit, loan compare, savings rate, refund ===
 {
   const r = socialSecurityEstimate(45, 67, 75000);
-  assert.ok(r.monthly > 2500 && r.monthly < 2800, "$75k income PIA ~$2,681");
+  // Pinned exactly, not a loose range. This assertion is the ONLY thing standing
+  // between a stale bend-point year and a published figure that is quietly wrong
+  // on every Social Security page — a 2500-2800 range passed for years while the
+  // engine used 2024 bend points (1,174/7,078) under a comment claiming 2026.
+  // AIME $6,250 -> $1,286 x 0.9 + ($6,250 - $1,286) x 0.32 = $2,745.88 -> 2746.
+  assert.strictEqual(SS_BEND_POINTS.first, 1286, "2026 first PIA bend point (SSA / FR 2025-19763)");
+  assert.strictEqual(SS_BEND_POINTS.second, 7749, "2026 second PIA bend point");
+  assert.strictEqual(r.pia, 2746, "$75k income PIA on 2026 bend points");
+  assert.strictEqual(r.monthly, 2746, "claiming at FRA pays the PIA");
+  assert.strictEqual(r.annual, 32951, "annual = 12 x unrounded PIA (32,950.56), not 12 x the rounded monthly");
   const early = socialSecurityEstimate(45, 62, 75000);
   assert.ok(early.monthly < r.monthly, "claiming early reduces benefit");
   // Statutory claiming-age factors: 5/9% per month for the first 36 months early, 5/12% beyond.

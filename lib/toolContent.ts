@@ -3308,15 +3308,15 @@ export const TOOL_CONTENT: Record<string, ToolContent> = {
 
   "mileage-reimbursement-calculator": {
     intro:
-      "Mileage reimbursement is a rate multiplied by a distance, and the rate is the part that changes. It is set annually, so a figure that was correct last year is not evidence of what this year pays.",
+      "Mileage reimbursement is a rate multiplied by a distance, and the rate is the part that changes. It is set for each tax year — and in 2026 it changed mid-year — so a figure that was correct last year, or even in January, is not evidence of what a claim made today pays.",
     mechanics: [
       {
         title: "Distance times rate",
-        body: "The arithmetic is one multiplication: 350 miles at an assumed 67 cents is $234.50. What matters is which rate applies, because there is often more than one — a standard business rate and a lower rate for moving or medical purposes in the same year.",
+        body: "The arithmetic is one multiplication: 350 miles at the current 76 cents is $266.00. What matters is which rate applies, because there is often more than one — a standard business rate, and lower rates for moving or medical purposes in the same year.",
       },
       {
-        title: "The rate is set annually and is not a cost estimate",
-        body: "The standard rate is published for each tax year and is intended to approximate the fixed and variable costs of operating a vehicle. Because it is revised, a figure quoted from memory is likely to be out of date — check the current year's published rate rather than assuming last year's.",
+        title: "The rate is set annually — and can be revised mid-year",
+        body: "The standard rate is published for each tax year and is intended to approximate the fixed and variable costs of operating a vehicle. It is not fixed once it is published: when fuel and depreciation costs moved, the IRS raised the 2026 business rate from 72.5 cents to 76 cents effective July 1, 2026. The rate is therefore a function of the date the miles were driven, not merely of the tax year, and a full year's mileage has to be split at the changeover date. A figure quoted from memory is likely to be out of date — check the published rate for the period.",
       },
       {
         title: "Reimbursement and deduction are different things",
@@ -3326,21 +3326,21 @@ export const TOOL_CONTENT: Record<string, ToolContent> = {
     example: {
       title: "Worked example: 350 business miles",
       setup:
-        "Distance 350 miles. Rate taken as an assumed 67 cents a mile, used to demonstrate the arithmetic. The actual figure is set annually — confirm the current rate rather than reusing this one.",
+        "Distance 350 miles, at the current IRS business rate of 76 cents a mile. The same 350 miles driven between January 1 and June 30, 2026 are claimed at 72.5 cents instead, because the rate changed at the mid-year point.",
       rows: [
         { label: "Miles driven", value: "350", note: "business use" },
-        { label: "Rate assumed", value: "$0.67", note: "illustrative — the rate is revised each year" },
-        { label: "Reimbursement", value: "$234.50", note: "350 x 0.67" },
-        { label: "1,000 miles at the same rate", value: "$670.00", note: "1000 x 0.67" },
-        { label: "Cost of using a stale rate", value: "varies", note: "the error scales with distance, not with the rate" },
+        { label: "Rate applied", value: "$0.76", note: "current IRS business rate from July 1, 2026" },
+        { label: "Reimbursement", value: "$266.00", note: "350 x 0.76" },
+        { label: "1,000 miles at the same rate", value: "$760.00", note: "1000 x 0.76" },
+        { label: "The same 350 miles at 2024's 67 cents", value: "$234.50", note: "$31.50 short of what is owed" },
       ],
       conclusion:
-        "Three hundred and fifty miles claims $234.50 at 67 cents. The rate is the only input in this calculation that goes stale, and because the multiplication is linear, a wrong rate produces a wrong answer in direct proportion to the miles driven — which means the largest claims carry the largest error. Verify the rate for the year of the expense.",
+        "Three hundred and fifty miles claims $266.00 at 76 cents. The rate is the only input in this calculation that goes stale, and because the multiplication is linear, a wrong rate produces a wrong answer in direct proportion to the miles driven — which means the largest claims carry the largest error. Across 10,000 miles the gap between 67 cents and 76 cents is $900. Verify the rate for the date of the expense.",
     },
     mistakes: [
       {
         title: "Using last year's rate",
-        body: "The rate is set annually and changes. Because the calculation is a single multiplication, any rate error passes straight into the claim.",
+        body: "The rate is set annually and changes, and it can change part-way through a year as it did in July 2026. Because the calculation is a single multiplication, any rate error passes straight into the claim.",
       },
       {
         title: "Recording commuting miles",
