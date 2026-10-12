@@ -241,4 +241,23 @@ export const GUIDE_FAQ: Record<string, GuideFaqItem[]> = {
       a: "Keep contributing and rebalance if your mix has drifted. Broad US market drawdowns have recovered in the past, though never on a predictable schedule. The people who turned temporary losses into permanent ones sold and waited for clarity that never arrived.",
     },
   ],
+
+  "take-home-pay-by-metro-2026": [
+    {
+      q: "Why do several metros in the table show exactly the same take-home pay?",
+      a: "Because income tax is charged by the state, not the city. The model applies each state's own rate schedule, so all six California metros report one figure and all twelve metros in states with no income tax report another. The 50 metros produce 16 distinct outcomes between them, and the table says where they collapse.",
+    },
+    {
+      q: "Does moving state really change my take-home pay that much?",
+      a: "At a $100,000 salary the spread is $8,500 a year between the highest and lowest metro in this set. Federal tax and FICA are identical everywhere, so the entire difference is state income tax. The caveat is residency: most states tax income earned from a job located in the state, so remote work does not automatically switch you to a no-tax state's rules.",
+    },
+    {
+      q: "Is a bigger take-home the same as a higher standard of living?",
+      a: "No, and the table is careful not to imply it. Only income tax is included. Property tax, sales tax and cost of living are all excluded, and those can easily exceed the income-tax difference — a metro with no income tax often carries the higher property tax rate and housing cost that offsets it.",
+    },
+    {
+      q: "Can I check these figures myself rather than taking the table on trust?",
+      a: "Yes, two ways. Run your own salary and state through the take-home pay calculator on this page and compare it with the row for your metro, or read the raw table at /data/take-home-pay.json. Both come from the same engine, and the method and exclusions are listed under Method above.",
+    },
+  ],
 };

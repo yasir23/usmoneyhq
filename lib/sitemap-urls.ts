@@ -63,6 +63,7 @@ export function buildSitemap() {
     { url: `${SITE_URL}/guides/rmd-guide`, lastModified: guideDate, changeFrequency: "monthly", priority: 0.7 },
     { url: `${SITE_URL}/guides/529-guide`, lastModified: guideDate, changeFrequency: "monthly", priority: 0.7 },
     { url: `${SITE_URL}/guides/tax-refund-guide`, lastModified: guideDate, changeFrequency: "monthly", priority: 0.7 },
+    { url: `${SITE_URL}/guides/take-home-pay-by-metro-2026`, lastModified: guideDate, changeFrequency: "monthly", priority: 0.7 },
     { url: `${SITE_URL}/guides/shopify-vs-etsy-vs-wix-2026`, lastModified: guideDate, changeFrequency: "monthly", priority: 0.7 },
     { url: `${SITE_URL}/guides/best-budgeting-apps-2026`, lastModified: guideDate, changeFrequency: "monthly", priority: 0.7 },
     { url: `${SITE_URL}/guides/how-to-start-investing-2026`, lastModified: guideDate, changeFrequency: "monthly", priority: 0.7 },

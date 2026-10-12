@@ -42,8 +42,11 @@ export const CONTENT_DATES = {
    * /developers was rewritten around the live API capture; /premium gained tier,
    * licence and billing detail; and all five /calculators/<category> hubs gained
    * the editorial sections in lib/categories.ts.
+   * 2026-10-07: re-seeded from `git log -1 --format=%cs` — that editorial work
+   * SHIPPED on 10-07 (commit 719f734), and scripts/check_content_dates.py had
+   * been flagging the group as stale against git ever since.
    */
-  site: "2026-10-06",
+  site: "2026-10-07",
   /**
    * lib/tools.ts (calculator definitions, formulas, FAQ copy) and
    * lib/toolContent.ts (the deep content on the base tool pages).
@@ -53,8 +56,11 @@ export const CONTENT_DATES = {
    * is now 105 of 105 base tool pages; every quoted figure is recomputed by
    * scripts/verify_tool_content.py, which went from ~90 to 169 assertions
    * (169 passed, 0 failed).
+   * 2026-10-09: re-seeded from git — the stale 2024 long-term capital gains
+   * figures on the capital-gains page were corrected in lib/tools.ts (f3ca13e),
+   * which is a real change to the tool copy, not a refactor.
    */
-  tools: "2026-10-07",
+  tools: "2026-10-09",
   /** lib/states.ts + lib/stateRates.ts — state tax structure and rate schedules. */
   states: "2026-09-26",
   /** lib/amounts.ts — salary and price scenario bands. */
@@ -65,14 +71,19 @@ export const CONTENT_DATES = {
    * Editorial guides and blog posts.
    * 2026-10-06: the RMD guide was deepened with the Uniform Lifetime Table, a
    * worked two-distribution year and its known exclusions.
+   * 2026-10-09: two money guides deepened to the 700-word floor (64b707b).
+   * 2026-10-12: /guides/take-home-pay-by-metro-2026 added — the published HTML
+   * face of the take-home-pay dataset, so the data asset is citable and
+   * linkable rather than a bare JSON file.
    */
-  guides: "2026-10-06",
+  guides: "2026-10-12",
   /**
    * Legal and policy pages: privacy, terms.
    * 2026-10-06: the privacy policy gained an explicit Google Analytics 4
    * disclosure and a description of the first-party counter.
+   * 2026-10-07: re-seeded from git — that disclosure shipped on 10-07 (719f734).
    */
-  legal: "2026-10-06",
+  legal: "2026-10-07",
 } as const;
 
 export type ContentGroup = keyof typeof CONTENT_DATES;

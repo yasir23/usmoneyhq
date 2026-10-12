@@ -26,6 +26,7 @@ const GUIDES = [
 
   { href: "/guides/salary-after-tax-guide", title: "How Much of Your Salary You Actually Keep", desc: "Federal brackets, FICA, and why your state matters most.", group: "Pay & tax" },
   { href: "/guides/tax-refund-guide", title: "Tax Refunds Decoded", desc: "Why a big refund means you overpaid — and the fix.", group: "Pay & tax" },
+  { href: "/guides/take-home-pay-by-metro-2026", title: "Take-Home Pay in 50 Metros (2026)", desc: "Our own dataset: the same $100k nets $8,500 more in one metro than another.", group: "Pay & tax" },
 
   { href: "/guides/debt-payoff-guide", title: "The Fastest Way to Pay Off Debt", desc: "Snowball vs avalanche, and the power of extra payments.", group: "Debt" },
   { href: "/guides/debt-snowball-guide", title: "Multiple Debts? Run the Snowball", desc: "The debt-free date and the method that keeps you going.", group: "Debt" },
