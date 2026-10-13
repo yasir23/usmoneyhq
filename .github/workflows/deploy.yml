@@ -27,7 +27,14 @@ jobs:
           mkdir -p /tmp/app
           cp -R .next/standalone/. /tmp/app/
           cp -R .next/static /tmp/app/.next/static
-          cp -R public /tmp/app/public
+          # .next/standalone/ already ships its own public/ (traced data files land
+          # there), so `cp -R public /tmp/app/public` copies INTO that directory and
+          # leaves the served /app/public/* frozen at an old revision. Copy the
+          # CONTENTS so every public/ file is refreshed on each deploy.
+          mkdir -p /tmp/app/public
+          cp -R public/. /tmp/app/public/
+          test -f /tmp/app/public/llms.txt && test -f /tmp/app/public/ads.txt \
+            || { echo "PUBLIC COPY FAILED — /tmp/app/public missing expected files"; ls -la /tmp/app/public | head; exit 1; }
           cp Dockerfile docker-compose.yml /tmp/app/
           echo "--- bundle .next contents ---"
           ls /tmp/app/.next >/dev/null || exit 1
