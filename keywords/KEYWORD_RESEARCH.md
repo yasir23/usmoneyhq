@@ -89,8 +89,8 @@ Long-tail (autocomplete):
 - paycheck calculator pa
 - paycheck calculator nc
 - paycheck calculator nyc
+- paycheck calculator illinois
 - paycheck calculator ohio
-- paycheck calculator michigan
 - paycheck calculator 2026
 - paycheck calculator 2026 with taxes
 - paycheck calculator 2026 texas
@@ -207,8 +207,8 @@ Long-tail (autocomplete):
 Short-tail: refinance calculator | mortgage refinance calculator
 Long-tail (autocomplete):
 - refinance calculator
+- refinance calculator mortgage
 - refinance calculator car
-- refinance calculator home
 - refinance calculator auto
 - refinance calculator free
 - refinance calculator with cash out
@@ -258,6 +258,7 @@ Short-tail: tax calculator | income tax calculator
 Long-tail (autocomplete):
 - tax calculator
 - tax calculator 2025-26
+- tax calculator 2026-27
 - tax calculator pakistan
 - tax calculator 2026
 - tax calculator 2025-26 pakistan
@@ -265,9 +266,7 @@ Long-tail (autocomplete):
 - tax calculator 2025
 - tax calculator 2024-25
 - tax calculator 2026 pakistan
-- tax calculator 26-27
 - tax calculator 2026 to 2027
-- tax calculator 2026-27
 - tax calculator 2026-27 salary
 - tax calculator 2026-27 slab
 - tax calculator 2026 to 2027 pakistan
@@ -276,6 +275,7 @@ Long-tail (autocomplete):
 - tax calculator how much will i get back
 - tax calculator how much will i pay
 - tax calculator how much tax should i pay
+- tax calculator how much will i owe
 
 ## credit-card-payoff-calculator
 
@@ -381,7 +381,6 @@ Long-tail (autocomplete):
 
 Short-tail: water intake calculator | how much water should i drink
 Long-tail (autocomplete):
-- water intake calculator
 - water intake calculator kg litre
 - water intake calculator by weight
 - water intake calculator by age
@@ -391,6 +390,7 @@ Long-tail (autocomplete):
 - water intake calculator based on weight
 - water intake calculator australia
 - water intake calculator with creatine
+- water intake calculator dog
 - how much water intake calculator
 - how much water intake daily calculator
 - how much water should i drink calculator
@@ -525,8 +525,8 @@ Long-tail (autocomplete):
 - how much house can i afford calculator
 - how much house can i afford with 100k salary
 - how much house can i afford with 200k salary
-- how much house can i afford with 150k salary
 - how much house can i afford with 80k salary
+- how much house can i afford with 150k salary
 - how much house can i afford based on salary
 - how much house can i afford with 60k salary
 - how much house can i afford with 120k salary
@@ -555,7 +555,7 @@ Long-tail (autocomplete):
 - gpa calculator university
 - gpa calculator umt
 - gpa calculator uos
-- gpa calculator uol
+- gpa calculator karachi university
 - gpa calculator 2026
 - gpa calculator 2026 ssc
 - hsc gpa calculator 2026
@@ -575,12 +575,12 @@ Long-tail (autocomplete):
 - due date calculator pregnancy
 - due date calculator by lmp
 - due date calculator babycenter
+- due date calculator from conception
 - due date calculator ivf
 - due date calculator by ultrasound
 - due date calculator flo
 - due date calculator with weeks
 - due date calculator babylist
-- due date calculator nhs
 - due date calculator 2026
 - chinese due date calculator 2026
 - tax due date 2026 calculator
@@ -645,10 +645,10 @@ Long-tail (autocomplete):
 - compound interest calculator pkr
 - compound interest calculator daily
 - compound interest calculator monthly
-- compound interest calculator uk
 - compound interest calculator formula
 - compound interest calculator with tax deduction
 - compound interest calculator with tax
+- compound interest calculator india
 - compound interest calculator 2026
 - compound interest calculator online in india 2026
 - what is compound interest calculator
@@ -944,11 +944,11 @@ Long-tail (autocomplete):
 - bmi calculator male
 - bmi calculator women
 - bmi calculator kg with age
+- bmi calculator kg
 - bmi calculator pakistan
 - bmi calculator for kids
 - bmi calculator formula
 - bmi calculator female kg
-- bmi calculator in kg
 - bmi calculator 2026
 - bmi calculator 2026 female
 - bmi calculator 2026 male
@@ -1978,6 +1978,7 @@ Long-tail (autocomplete):
 
 Short-tail: lease vs buy calculator | car lease vs buy calculator
 Long-tail (autocomplete):
+- lease vs buy calculator
 - lease vs buy calculator car
 - lease vs buy calculator excel
 - lease vs buy calculator for business
@@ -1985,9 +1986,8 @@ Long-tail (autocomplete):
 - lease vs buy calculator equipment
 - lease vs buy calculator uk
 - lease vs buy calculator reddit
-- lease versus buy calculator
-- lease v buy calculator
 - lease or buy calculator
+- lease or buy calculator car
 
 ## life-insurance-needs-calculator
 
@@ -2142,6 +2142,7 @@ Long-tail (autocomplete):
 
 Short-tail: price per square foot calculator | cost per square foot calculator
 Long-tail (autocomplete):
+- price per square foot calculator
 - price per square foot calculator uk
 - price per square foot calculator commercial
 - price per square foot calculator to build
@@ -2151,9 +2152,7 @@ Long-tail (autocomplete):
 - price per square foot calculator construction
 - price per square foot calculator lease
 - price per square foot calculator house
-- price per square feet calculator
 - free concrete calculator price per square foot
-- price per square foot calculator
 - average price per square foot calculator
 
 ## retirement-age-calculator
