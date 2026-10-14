@@ -597,6 +597,7 @@ export const TOOLS: ToolDef[] = [
     faq: [
       { q: "When does refinancing make sense?", a: "Typically when you can lower your rate enough to recover closing costs within the time you plan to keep the home — usually a 0.5-1% rate drop or better." },
       { q: "What are typical closing costs?", a: "Lender fees, appraisal, title, and recording fees usually total 2-6% of the loan amount. Include them in your break-even math." },
+      { q: "Can I use this calculator for a cash-out refinance?", a: "This calculator models a rate-and-term refinance, where the new loan pays off exactly the old balance — so for a cash-out, add the cash you are taking to the balance field. On the default $300,000 balance at 5.5% over 25 years the payment is $1,842. Taking $50,000 out makes it a $350,000 loan at $2,149 a month, so the extra $307 is the true monthly cost of the cash. Most lenders cap the new loan at 80% of the home's value, which means a $350,000 loan needs an appraisal of at least $437,500." },
     ],
     related: ["mortgage-calculator", "pmi-calculator", "heloc-calculator"],
   },
@@ -1491,6 +1492,7 @@ export const TOOLS: ToolDef[] = [
     faq: [
       { q: "Should I refinance my student loans?", a: "Refinancing can lower your rate if your credit is strong, but you lose federal protections like income-driven repayment and forgiveness programs. Compare your options before switching." },
       { q: "How is student loan interest calculated?", a: "Federal loans accrue simple interest daily based on your rate. This calculator estimates an amortized payment schedule, which is close for private loans and helpful for planning either way." },
+      { q: "How much do extra payments save on a student loan?", a: "A great deal, because student loan terms are long. On this calculator's default $35,000 at 5.5% over 10 years the payment is $379.84 and total interest is $10,581. Adding $100 a month clears the loan in 89 months (7 years 5 months) and cuts interest to $7,700 — $2,880 saved. Even $50 a month saves $1,672 and finishes 17 months early, and $200 a month saves $4,514 and finishes in 71 months. Always ask your servicer to apply extra amounts to principal rather than advancing your next due date, and if you carry several loans put the extra on the highest-rate one first." },
     ],
     related: ["loan-calculator", "compound-interest-calculator", "savings-goal-calculator"],
   },
@@ -3398,6 +3400,7 @@ export const TOOLS: ToolDef[] = [
       { q: "How much should I contribute to get the full match?", a: "At minimum, contribute enough to capture the full employer match — it is free money. If the match is 4% of salary, contribute at least 4%." },
       { q: "What is the max total contribution including employer match?", a: "The combined limit (you + employer) is $72,000 for 2026 (or $80,000 with the age-50 catch-up). High earners should watch this cap." },
       { q: "Should I choose Roth or traditional 401(k) contributions?", a: "Traditional deferrals come out pre-tax and cut your taxable income now; you pay tax on withdrawal. Roth deferrals are made with after-tax dollars and qualified withdrawals are tax-free — and since 2024 designated Roth accounts in a 401(k) have no required minimum distributions. The deciding factor is your tax rate now versus in retirement: Roth tends to win early in a career or in a year with unusually low income; traditional tends to win at peak earnings or if you expect to retire somewhere with no income tax. The $24,500 elective deferral limit covers your Roth and traditional contributions COMBINED, not each — and it does not include the employer match." },
+      { q: "How much is that per paycheck?", a: "The calculator returns annual figures, so divide by your pay periods. On the default $90,000 salary at 8%, your $7,200 deferral is $276.92 per biweekly check (26 pays), $300 semimonthly (24) or $600 monthly (12) — and the 4% match adds $3,600 a year, another $138.46 on each biweekly deposit. Because deferrals come out pre-tax, $100 more deferred reduces your take-home by less than $100; the exact figure is $100 minus your marginal rate times $100. One planning catch: the annual deferral limit caps total contributions, so at a high percentage your deferrals stop once you reach it — ask whether your plan offers a true-up, or you can lose part of the match." },
     ],
     related: ["401k-calculator", "retirement-calculator", "compound-interest-calculator"],
   },
