@@ -59,8 +59,16 @@ export const CONTENT_DATES = {
    * 2026-10-09: re-seeded from git — the stale 2024 long-term capital gains
    * figures on the capital-gains page were corrected in lib/tools.ts (f3ca13e),
    * which is a real change to the tool copy, not a refactor.
+   * 2026-10-16: four new FAQ entries in lib/tools.ts, all engine-derived — the
+   * paycheck calculator gained federal-civilian (FERS 4.4%, TSP, FEHB) and
+   * military (BAH/BAS excluded, SCRA state rule) answers for "paycheck calculator
+   * federal employee" and "pay calculator 2026 military"; the amortization tool
+   * gained extra-payment and balloon-payment answers for "amortization calculator
+   * with extra payments" / "with balloon payment". Also corrected a false figure:
+   * the auto-loan FAQ claimed $100/month extra saves "over $1,000" at the
+   * calculator's 60-month default, where the engine returns $972.33.
    */
-  tools: "2026-10-09",
+  tools: "2026-10-16",
   /** lib/states.ts + lib/stateRates.ts — state tax structure and rate schedules. */
   states: "2026-09-26",
   /** lib/amounts.ts — salary and price scenario bands. */
