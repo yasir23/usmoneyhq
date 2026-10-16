@@ -1,4 +1,5 @@
 import { SITE_URL, TOOLS } from "./tools";
+import { IN_SCOPE_TOOLS, IN_SCOPE_CATEGORIES } from "./topical";
 import { STATES, STATE_AWARE_TOOLS, getComparisonPairs } from "./states";
 import { AMOUNT_TOOLS, allowedAmounts, AGE_TOOLS, allowedAges } from "./amounts";
 import { METROS, METRO_VARIANTS_INDEXED } from "./metros";
@@ -91,14 +92,21 @@ export function buildSitemap() {
     { url: `${SITE_URL}/blog/diy-vs-professional-mrf-audit`, lastModified: guideDate, changeFrequency: "monthly", priority: 0.6 },
     { url: `${SITE_URL}/blog/what-to-ask-before-hiring-mrf-auditor`, lastModified: guideDate, changeFrequency: "monthly", priority: 0.6 },
     { url: `${SITE_URL}/blog/corrective-action-plan-45-days`, lastModified: guideDate, changeFrequency: "monthly", priority: 0.6 },
-    { url: `${SITE_URL}/calculators/money-loans`, lastModified: siteDate, changeFrequency: "monthly", priority: 0.5 },
-    { url: `${SITE_URL}/calculators/tax-retirement`, lastModified: siteDate, changeFrequency: "monthly", priority: 0.5 },
-    { url: `${SITE_URL}/calculators/home-improvement`, lastModified: siteDate, changeFrequency: "monthly", priority: 0.5 },
-    { url: `${SITE_URL}/calculators/health-fitness`, lastModified: siteDate, changeFrequency: "monthly", priority: 0.5 },
-    { url: `${SITE_URL}/calculators/everyday-business`, lastModified: siteDate, changeFrequency: "monthly", priority: 0.5 },
+    // Category hubs, derived from CATEGORIES so a hub cannot be published after its
+    // tools have left scope. health-fitness is omitted on 2026-10-15: every one of
+    // its tools is out of scope, so the hub only led to pages we are not offering.
+    // Deriving also means the hub list cannot disagree with the tool list.
+    ...IN_SCOPE_CATEGORIES.map((c) => ({
+      url: `${SITE_URL}/calculators/${c.slug}`,
+      lastModified: siteDate,
+      changeFrequency: "monthly" as const,
+      priority: 0.5,
+    })),
   ];
 
-  for (const t of TOOLS) {
+  // In-scope tools only. A tool whose subject is not money is not offered to search
+  // engines — see lib/topical.ts. The URLs stay live; they stop being advertised.
+  for (const t of IN_SCOPE_TOOLS) {
     pages.push({
       url: `${SITE_URL}/${t.slug}`,
       lastModified: toolDate,

@@ -25,6 +25,12 @@
 // definition, not a rate or a price, so nothing here goes stale when markets move.
 export type CategoryTier = "finance" | "other";
 
+/**
+ * The hub an unmatched tool lands on. Named rather than positional — see the
+ * comment in categorize() for the bug that made this necessary.
+ */
+export const FALLBACK_CATEGORY_SLUG = "everyday-business";
+
 /** One editorial block on a hub page. */
 export type CategorySection = {
   heading: string;
@@ -233,5 +239,19 @@ export function categorize(slug: string): Category {
   for (const c of CATEGORIES) {
     if (c.match.some((k) => slug.includes(k))) return c;
   }
-  return CATEGORIES[CATEGORIES.length - 1];
+  // The catch-all is named, not positional. This used to be
+  // `CATEGORIES[CATEGORIES.length - 1]`, which resolved to *health-fitness* once
+  // that category was appended — while this function's own comment claimed the
+  // catch-all was "Everyday & Business". Measured 2026-10-15: that put
+  // child-support-calculator and home-affordability-calculator on the Health &
+  // Fitness hub, and left no test failing. A fallback must not depend on array
+  // order, because order is exactly what changes when someone adds a category.
+  const fallback = CATEGORIES.find((c) => c.slug === FALLBACK_CATEGORY_SLUG);
+  if (!fallback) {
+    throw new Error(
+      `categories.ts: fallback category "${FALLBACK_CATEGORY_SLUG}" is not in CATEGORIES. ` +
+        `Every uncategorized tool would 404 or land on the wrong hub.`
+    );
+  }
+  return fallback;
 }

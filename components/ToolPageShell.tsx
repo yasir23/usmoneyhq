@@ -9,6 +9,7 @@ import { getState, getComparisonPair, STATES, STATE_AWARE_TOOLS, pairsForState, 
 import { AMOUNT_TOOLS, allowedAmounts, allowedAges, AGE_TOOLS, ageFromSlug, fmtAmount, amountFromSlug } from "../lib/amounts";
 import { getMetro, metrosForState, type Metro } from "../lib/metros";
 import { VARIANT_PAGES_INDEXED } from "../lib/indexing";
+import { isOutOfScope } from "../lib/topical";
 import { TOOL_CONTENT } from "../lib/toolContent";
 import { federalTax, fica, stateTax, monthlyPayment } from "../lib/calc";
 import { contentDate } from "../lib/content-dates";
@@ -339,7 +340,9 @@ export default function ToolPageShell({ slug, stateSlug, amountSlug, metroSlug, 
             stop being offered as distinct content. Flipping the flag back in
             lib/indexing.ts restores indexing, but only after the templates
             carry genuinely per-page data. */}
-        {isVariant && !VARIANT_PAGES_INDEXED && <meta name="robots" content="noindex, follow" />}
+        {((isVariant && !VARIANT_PAGES_INDEXED) || isOutOfScope(slug)) && (
+          <meta name="robots" content="noindex, follow" />
+        )}
         <meta property="og:type" content="website" />
         <meta property="og:title" content={pageTitle} />
         <meta property="og:description" content={pageDesc} />
