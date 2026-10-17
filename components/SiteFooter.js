@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { TOOLS } from "../lib/tools";
+import { IN_SCOPE_TOOLS } from "../lib/topical";
 
 export default function SiteFooter() {
   return (
@@ -8,13 +9,13 @@ export default function SiteFooter() {
         <div className="footer-grid">
           <div>
             <h3>Popular Calculators</h3>
-            {TOOLS.slice(0, 6).map((t) => (
+            {IN_SCOPE_TOOLS.slice(0, 6).map((t) => (
               <Link key={t.slug} href={`/${t.slug}`}>{t.shortTitle}</Link>
             ))}
           </div>
           <div>
             <h3>More Tools</h3>
-            {TOOLS.slice(6, 13).map((t) => (
+            {IN_SCOPE_TOOLS.slice(6, 13).map((t) => (
               <Link key={t.slug} href={`/${t.slug}`}>{t.shortTitle}</Link>
             ))}
           </div>

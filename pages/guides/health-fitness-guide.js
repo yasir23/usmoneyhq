@@ -14,6 +14,10 @@ export default function HealthFitnessGuide() {
         <title>Health & Fitness Guide 2026 — TDEE, BMI & Hydration | US Money HQ</title>
         <meta name="description" content="The numbers that matter for health in 2026: calories, BMI, body fat, water intake, and sleep — with free calculators." />
         <link rel="canonical" href={`${SITE_URL}/guides/health-fitness-guide`} />
+        {/* Out of scope: a health guide on a money site. Excluded from the sitemap and
+            noindexed for the same reason the tdee/bmi calculators are — see
+            lib/topical.ts. The page stays live for anyone who has the link. */}
+        <meta name="robots" content="noindex, follow" />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({ "@context": "https://schema.org", "@type": "Article", headline: "Health and Fitness Guide 2026", author: { "@type": "Organization", name: "US Money HQ" }, publisher: { "@type": "Organization", name: "US Money HQ" }, datePublished: "2026-08-30" }) }} />
       </Head>
       <main className="container">

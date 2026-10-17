@@ -129,8 +129,8 @@ export const CATEGORIES: Category[] = [
     desc: "Percentage, discount, sales tax, markup, margin, and budgeting tools for daily life and work.",
     tier: "other",
     match: ["percentage", "discount", "sales-tax", "tip", "budget", "net-worth", "emergency-fund", "due-date", "gpa", "grade", "markup", "margin", "tax-refund", "moving-cost", "life-insurance"],
-    startWith: "percentage-calculator",
-    startWithWhy: "Almost every other tool here is a percentage calculation wearing a different hat.",
+    startWith: "budget-calculator",
+    startWithWhy: "It is the one number that turns the other tools here into an actual plan.",
     intro: [
       {
         heading: "Percentage change has a direction, and most errors are in it",

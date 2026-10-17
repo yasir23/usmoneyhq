@@ -2,6 +2,7 @@ import Head from "next/head";
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import { TOOLS, SITE_URL, SITE_NAME, SITE_DESC } from "../lib/tools";
+import { IN_SCOPE_TOOLS } from "../lib/topical";
 import { CATEGORIES, categorize } from "../lib/categories";
 
 /**
@@ -28,8 +29,11 @@ export default function Home() {
 
   const q = query.trim().toLowerCase();
   const filtered = useMemo(() => {
-    if (!q) return TOOLS;
-    return TOOLS.filter((t) =>
+    // The front door lists in-scope tools only. Leaving an off-topic calculator
+    // reachable from the homepage is the same signal as sitemapping it: a money
+    // site whose own front page offers a topsoil calculator. See lib/topical.ts.
+    if (!q) return IN_SCOPE_TOOLS;
+    return IN_SCOPE_TOOLS.filter((t) =>
       (t.title + " " + t.shortTitle + " " + t.description + " " + t.slug).toLowerCase().includes(q)
     );
   }, [q]);

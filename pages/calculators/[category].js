@@ -2,6 +2,7 @@ import Head from "next/head";
 import Link from "next/link";
 import { TOOLS, SITE_URL, SITE_NAME } from "../../lib/tools";
 import { CATEGORIES } from "../../lib/categories";
+import { isOutOfScope, isCategoryOutOfScope } from "../../lib/topical";
 
 /**
  * /calculators/[category] — category landing page: intro, tool grid, editorial.
@@ -43,14 +44,23 @@ export async function getStaticProps({ params }) {
         intro: cat.intro,
         startWith: cat.startWith,
         startWithWhy: cat.startWithWhy,
-        startTitle: startTool.shortTitle || startTool.title,
+        // A hub must not recommend a tool we are no longer offering. health-fitness
+        // pointed at tdee-calculator, so the hub was still sending a reviewer to an
+        // out-of-scope page — a link is a promotion even when the target is noindexed.
+        startTitle: isOutOfScope(cat.startWith) ? null : startTool.shortTitle || startTool.title,
       },
     },
   };
 }
 
 export default function CategoryPage({ category }) {
-  const tools = TOOLS.filter((t) => category.match.some((k) => t.slug.includes(k)));
+  // In-scope tools only, and the grid is skipped entirely when none remain. An
+  // out-of-scope hub that renders an empty tool grid looks broken to a reviewer
+  // who reaches it by guessing the URL, which is worse than the hub not being
+  // offered at all. See lib/topical.ts.
+  const tools = TOOLS.filter(
+    (t) => category.match.some((k) => t.slug.includes(k)) && !isOutOfScope(t.slug)
+  );
 
   return (
     <>
@@ -58,6 +68,9 @@ export default function CategoryPage({ category }) {
         <title>{category.name} Calculators (2026) — Free | {SITE_NAME}</title>
         <meta name="description" content={category.desc} />
         <link rel="canonical" href={`${SITE_URL}/calculators/${category.slug}`} />
+        {isCategoryOutOfScope(category.slug) && (
+          <meta name="robots" content="noindex, follow" />
+        )}
         <meta property="og:site_name" content={SITE_NAME} />
         <meta property="og:image" content={`${SITE_URL}/og.png`} />
         <script
@@ -102,10 +115,12 @@ export default function CategoryPage({ category }) {
         <h1>{category.h1}</h1>
         <p className="sub">{category.desc}</p>
 
-        <div className="note-box">
-          <strong>New here?</strong> Start with the{" "}
-          <Link href={`/${category.startWith}`}>{category.startTitle}</Link> — {category.startWithWhy}
-        </div>
+        {category.startTitle && (
+          <div className="note-box">
+            <strong>New here?</strong> Start with the{" "}
+            <Link href={`/${category.startWith}`}>{category.startTitle}</Link> — {category.startWithWhy}
+          </div>
+        )}
 
         <div className="tool-grid">
           {tools.map((t) => (

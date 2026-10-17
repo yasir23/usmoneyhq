@@ -2,6 +2,7 @@ import Head from "next/head";
 import Script from "next/script";
 import { useState } from "react";
 import { TOOLS, SITE_URL, SITE_NAME } from "../lib/tools";
+import { IN_SCOPE_TOOLS } from "../lib/topical";
 
 const FAQ = [
   ["Is it really free?", "Yes. The widgets are free for any website, permanently. There is no paid tier and no account required. The only return for us is the small attribution link at the foot of the widget."],
@@ -72,7 +73,7 @@ export default function WidgetsPage() {
             <h2>Get the embed code</h2>
             <label className="field-label" htmlFor="tool-select">Choose a calculator</label>
             <select id="tool-select" className="input" value={tool} onChange={(e) => setTool(e.target.value)}>
-              {TOOLS.map((x) => (
+              {IN_SCOPE_TOOLS.map((x) => (
                 <option key={x.slug} value={x.slug}>{x.shortTitle}</option>
               ))}
             </select>

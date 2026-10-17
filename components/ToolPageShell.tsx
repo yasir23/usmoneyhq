@@ -749,7 +749,10 @@ export function relatedMembersFor(slug: string): string[] {
   const key = clusterKeyFor(slug);
   const out: string[] = [];
   const add = (t: string) => {
-    if (t !== slug && !out.includes(t) && getTool(t)) out.push(t);
+    // Out-of-scope tools are dropped from every related grid. A noindexed page
+    // that is still linked from indexable pages is not really withdrawn: the
+    // links keep it crawlable and tell a reviewer it is still part of the site.
+    if (t !== slug && !out.includes(t) && getTool(t) && !isOutOfScope(t)) out.push(t);
   };
   if (key) RELATED_CLUSTERS[key].tools.forEach(add);
   (getTool(slug)?.related || []).forEach(add);

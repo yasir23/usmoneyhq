@@ -118,3 +118,23 @@ export function isCategoryOutOfScope(categorySlug: string): boolean {
 
 /** The hubs still worth offering to search engines. */
 export const IN_SCOPE_CATEGORIES = CATEGORIES.filter((c) => !isCategoryOutOfScope(c.slug));
+
+/**
+ * Guides whose subject is not money.
+ *
+ * The tool list was not enough: /guides/health-fitness-guide was indexable AND in
+ * the sitemap, titled "Health & Fitness Guide 2026 — TDEE, BMI & Hydration". A money
+ * site publishing a hydration guide is the same inconsistency the tool exclusions
+ * address, and fixing only the tools would have left the guide promoting five of
+ * them. home-improvement-guide is deliberately NOT here — it is about budgeting for
+ * a renovation, which is money, even though the raw-material calculators it links to
+ * are out of scope.
+ */
+export const OUT_OF_SCOPE_GUIDE_SLUGS: readonly string[] = ["health-fitness-guide"];
+
+const OUT_OF_SCOPE_GUIDES = new Set(OUT_OF_SCOPE_GUIDE_SLUGS);
+
+/** True when a guide's subject is outside the site's money remit. */
+export function isGuideOutOfScope(slug: string): boolean {
+  return OUT_OF_SCOPE_GUIDES.has(slug);
+}

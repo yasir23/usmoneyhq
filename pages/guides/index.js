@@ -42,7 +42,9 @@ const GUIDES = [
   { href: "/guides/best-high-yield-savings-2026", title: "Best High-Yield Savings (2026)", desc: "What your emergency fund should earn.", group: "Where to keep cash" },
 
   { href: "/guides/best-budgeting-apps-2026", title: "Best Budgeting Apps (2026)", desc: "Free vs paid — which budget app actually saves you money.", group: "Everyday money" },
-  { href: "/guides/health-fitness-guide", title: "Health & Fitness Numbers", desc: "TDEE, BMI, hydration, sleep — the boring wins first.", group: "Everyday money" },
+  // Removed 2026-10-15: /guides/health-fitness-guide is out of scope (a health guide
+  // on a money site). It stays live and is noindexed, but it is not promoted from the
+  // index — a link is a promotion even when the target is noindexed. See lib/topical.ts.
   { href: "/guides/shopify-vs-etsy-vs-wix-2026", title: "Shopify vs Etsy vs Wix (2026)", desc: "Startup costs, fees, and which platform pays off for a side hustle.", group: "Everyday money" },
 ];
 

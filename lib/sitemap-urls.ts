@@ -1,5 +1,5 @@
 import { SITE_URL, TOOLS } from "./tools";
-import { IN_SCOPE_TOOLS, IN_SCOPE_CATEGORIES } from "./topical";
+import { IN_SCOPE_TOOLS, IN_SCOPE_CATEGORIES, isGuideOutOfScope } from "./topical";
 import { STATES, STATE_AWARE_TOOLS, getComparisonPairs } from "./states";
 import { AMOUNT_TOOLS, allowedAmounts, AGE_TOOLS, allowedAges } from "./amounts";
 import { METROS, METRO_VARIANTS_INDEXED } from "./metros";
@@ -60,7 +60,9 @@ export function buildSitemap() {
     { url: `${SITE_URL}/guides/401k-guide`, lastModified: guideDate, changeFrequency: "monthly", priority: 0.7 },
     { url: `${SITE_URL}/guides/investing-basics-guide`, lastModified: guideDate, changeFrequency: "monthly", priority: 0.7 },
     { url: `${SITE_URL}/guides/home-improvement-guide`, lastModified: guideDate, changeFrequency: "monthly", priority: 0.7 },
-    { url: `${SITE_URL}/guides/health-fitness-guide`, lastModified: guideDate, changeFrequency: "monthly", priority: 0.7 },
+    ...(isGuideOutOfScope("health-fitness-guide")
+      ? []
+      : [{ url: `${SITE_URL}/guides/health-fitness-guide`, lastModified: guideDate, changeFrequency: "monthly" as const, priority: 0.7 }]),
     { url: `${SITE_URL}/guides/rmd-guide`, lastModified: guideDate, changeFrequency: "monthly", priority: 0.7 },
     { url: `${SITE_URL}/guides/529-guide`, lastModified: guideDate, changeFrequency: "monthly", priority: 0.7 },
     { url: `${SITE_URL}/guides/tax-refund-guide`, lastModified: guideDate, changeFrequency: "monthly", priority: 0.7 },
