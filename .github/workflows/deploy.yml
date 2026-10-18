@@ -55,6 +55,39 @@ jobs:
           SSHPASS="$VPS_PASSWORD" sshpass -e scp -o StrictHostKeyChecking=accept-new /tmp/usmoneyhq.tar.gz "$VPS_USER@$VPS_HOST:/opt/usmoneyhq/"
           SSHPASS="$VPS_PASSWORD" sshpass -e ssh -o StrictHostKeyChecking=accept-new "$VPS_USER@$VPS_HOST" "bash -s" < scripts/remote_deploy.sh
 
+      - name: Remediate port 80 conflict
+        env:
+          VPS_HOST: ${{ secrets.VPS_HOST }}
+          VPS_USER: ${{ secrets.VPS_USER }}
+          VPS_PASSWORD: ${{ secrets.VPS_PASSWORD }}
+        run: |
+          # Traefik is the intended ingress for this VPS (the compose file carries the
+          # Traefik routers and a letsencrypt certresolver). A stray host-level nginx
+          # took :80, so Traefik could not build its "web" listener and exited 1 on
+          # every start -- 1,186 times. Nothing routed, Cloudflare returned 522, and
+          # AdSense could not fetch the site, which is what "Not found / Getting ready"
+          # had been reporting. Evidence is printed BEFORE the stop so the config is
+          # preserved in the log and this step is reversible.
+          SSHPASS="$VPS_PASSWORD" sshpass -e ssh -o StrictHostKeyChecking=accept-new "$VPS_USER@$VPS_HOST" bash -s <<'REMOTE'
+          echo '=== nginx config that held :80 (evidence, before stopping) ==='
+          (nginx -T 2>/dev/null | grep -E '^\s*(server_name|listen|root|proxy_pass)' | head -40) || echo 'nginx -T unavailable'
+          echo '=== nginx sites enabled ==='
+          ls -l /etc/nginx/sites-enabled/ 2>/dev/null || true
+          echo '=== stopping nginx ==='
+          systemctl stop nginx && echo 'nginx stopped'
+          systemctl disable nginx 2>&1 | tail -2 || true
+          echo '=== free? ==='
+          (ss -lptn 'sport = :80' 2>/dev/null | tail -2 || true)
+          echo '=== restart traefik ==='
+          docker restart traefik-traefik-1
+          sleep 15
+          docker ps --format '{{.Names}} | {{.Status}}' | grep -E 'traefik|usmoneyhq' || true
+          echo '=== traefik log tail ==='
+          docker logs --tail 15 traefik-traefik-1 2>&1 || true
+          echo '=== local https probe (SNI usmoneyhq.com) ==='
+          curl -s -o /dev/null -w 'local https -> %{http_code}\n' -k -m 15 --resolve usmoneyhq.com:443:127.0.0.1 https://usmoneyhq.com/ || echo 'probe failed'
+          REMOTE
+
       - name: Diagnose
         env:
           VPS_HOST: ${{ secrets.VPS_HOST }}
