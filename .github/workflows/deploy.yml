@@ -159,4 +159,14 @@ jobs:
             *"pub-2473684818960461"*) echo "ads.txt OK" ;;
             *) echo "::error::ads.txt served without the publisher id: $ads"; exit 1 ;;
           esac
+          # Approval alone does not earn. AD_UNITS is currently empty, so AdSlot renders
+          # null and no ad slot exists on any page — the site would be approved and still
+          # earn $0, silently. Report the count on every deploy instead of letting that
+          # state look healthy. Not a failure: Auto Ads can fill pages without manual
+          # units, so this is a warning with the exact remedy, not a gate.
+          slots=$(curl -s -m 20 "https://usmoneyhq.com/?cb=$RANDOM" | grep -o 'data-ad-slot' | wc -l | tr -d ' ')
+          echo "ad slots on homepage: $slots"
+          if [ "$slots" = "0" ]; then
+            echo "::warning::No manual ad unit renders. Either enable Auto Ads in AdSense (Sites -> usmoneyhq.com -> Auto ads) or create 3 display units and put their numeric ids in lib/ads.ts AD_UNITS. Until one of those exists, approval produces impressions of zero."
+          fi
           echo "LIVE VERIFIED: site 200 and ads.txt correct"
