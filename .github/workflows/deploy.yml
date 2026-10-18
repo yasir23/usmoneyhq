@@ -133,3 +133,30 @@ jobs:
           echo '=== compose file in use ==='
           sed -n '1,40p' /opt/usmoneyhq/docker-compose.yml 2>&1 || true
           REMOTE
+
+      - name: Verify live (hard gate)
+        run: |
+          # The deploy used to end at DEPLOY_DONE with a green tick while the edge
+          # returned 522 for ~20 hours: the app container was Up, but a host nginx
+          # held :80 so Traefik could not start and nothing was routed. A deploy that
+          # cannot prove the public site responds must be RED, not green.
+          #
+          # This retries because Cloudflare/DNS/cert can lag a few seconds after a
+          # restart, then fails the job if the site never serves 200.
+          ok=0
+          for i in $(seq 1 12); do
+            code=$(curl -s -o /dev/null -w "%{http_code}" -m 20 "https://usmoneyhq.com/?cb=$RANDOM$i" || echo 000)
+            echo "attempt $i: HTTP $code"
+            if [ "$code" = "200" ]; then ok=1; break; fi
+            sleep 10
+          done
+          if [ "$ok" != "1" ]; then
+            echo "::error::usmoneyhq.com did not return 200 after deploy — the site is not being served. Check Traefik: port 80 conflict, crash loop, or container not reachable."
+            exit 1
+          fi
+          ads=$(curl -s -m 20 "https://usmoneyhq.com/ads.txt?cb=$RANDOM")
+          case "$ads" in
+            *"pub-2473684818960461"*) echo "ads.txt OK" ;;
+            *) echo "::error::ads.txt served without the publisher id: $ads"; exit 1 ;;
+          esac
+          echo "LIVE VERIFIED: site 200 and ads.txt correct"
