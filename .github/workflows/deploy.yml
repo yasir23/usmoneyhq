@@ -74,7 +74,20 @@ jobs:
           docker logs --tail 80 traefik-traefik-1 2>&1 || echo 'traefik logs unavailable'
           echo '=== host ports 80/443 held by ==='
           (ss -lptn 'sport = :80' 2>/dev/null || true); (ss -lptn 'sport = :443' 2>/dev/null || true)
-          echo '=== docker ps -a ==='
+          echo '--- lsof ---'
+          (lsof -nP -iTCP:80 -sTCP:LISTEN 2>/dev/null || echo 'lsof unavailable/none')
+          (lsof -nP -iTCP:443 -sTCP:LISTEN 2>/dev/null || echo 'lsof unavailable/none')
+          echo '--- fuser ---'
+          (fuser -n tcp 80 2>&1 || true)
+          echo '--- netstat ---'
+          (netstat -lptn 2>/dev/null | grep -E ':80 |:443 ' || true)
+          echo '--- running web servers on host ---'
+          (systemctl list-units --type=service --state=running 2>/dev/null | grep -Ei 'nginx|apache|httpd|caddy|haproxy' || echo 'no unit match')
+          echo '--- pm2 ---'
+          (pm2 list 2>/dev/null | head -15 || echo 'no pm2')
+          echo '--- any container using host network ---'
+          (docker ps -a --format '{{.Names}} | {{.Status}} | net={{.Networks}}' || true)
+          echo '--- docker ps -a ==='
           docker ps -a --format '{{.Names}} | {{.Status}} | {{.Ports}}' | head -10
           echo '=== container state ==='
           docker inspect usmoneyhq-web-1 --format 'restarts={{.RestartCount}} oomKilled={{.State.OOMKilled}} exitCode={{.State.ExitCode}} startedAt={{.State.StartedAt}}' 2>&1 || echo 'inspect failed'
