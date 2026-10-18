@@ -61,4 +61,21 @@ jobs:
           VPS_USER: ${{ secrets.VPS_USER }}
           VPS_PASSWORD: ${{ secrets.VPS_PASSWORD }}
         run: |
-          SSHPASS="$VPS_PASSWORD" sshpass -e ssh -o StrictHostKeyChecking=accept-new "$VPS_USER@$VPS_HOST" "echo '=== traefik net ==='; docker network ls --format '{{.Name}}' | grep -i traefik; echo '=== containers ==='; docker ps --format '{{.Names}} {{.Ports}}' | head -8; echo '=== local curl ==='; curl -s -m 5 http://127.0.0.1:3000/ | head -c 120; echo"
+          # The previous version of this step printed `docker ps` and a curl, but never
+          # read the container's own logs — so a container that reports "Up" while
+          # serving nothing produced a green job and a 522 at the edge. Logs, exit
+          # code, restart count and OOM flag are the evidence that was missing.
+          SSHPASS="$VPS_PASSWORD" sshpass -e ssh -o StrictHostKeyChecking=accept-new "$VPS_USER@$VPS_HOST" bash -s <<'REMOTE'
+          echo '=== docker ps -a ==='
+          docker ps -a --format '{{.Names}} | {{.Status}} | {{.Ports}}' | head -10
+          echo '=== container state ==='
+          docker inspect usmoneyhq-web-1 --format 'restarts={{.RestartCount}} oomKilled={{.State.OOMKilled}} exitCode={{.State.ExitCode}} startedAt={{.State.StartedAt}}' 2>&1 || echo 'inspect failed'
+          echo '=== container ip ==='
+          docker inspect usmoneyhq-web-1 --format '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' 2>&1 || true
+          echo '=== logs (last 120 lines) ==='
+          docker logs --tail 120 usmoneyhq-web-1 2>&1 || echo 'logs unavailable'
+          echo '=== local curl ==='
+          curl -s -o /dev/null -w 'host:3000 -> %{http_code}\n' -m 8 http://127.0.0.1:3000/ || echo 'host:3000 unreachable'
+          echo '=== compose file in use ==='
+          sed -n '1,40p' /opt/usmoneyhq/docker-compose.yml 2>&1 || true
+          REMOTE
