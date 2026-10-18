@@ -66,6 +66,14 @@ jobs:
           # serving nothing produced a green job and a 522 at the edge. Logs, exit
           # code, restart count and OOM flag are the evidence that was missing.
           SSHPASS="$VPS_PASSWORD" sshpass -e ssh -o StrictHostKeyChecking=accept-new "$VPS_USER@$VPS_HOST" bash -s <<'REMOTE'
+          echo '=== ALL containers ==='
+          docker ps -a --format '{{.Names}} | {{.Status}} | {{.Ports}}'
+          echo '=== traefik state ==='
+          docker inspect traefik-traefik-1 --format 'restarts={{.RestartCount}} exitCode={{.State.ExitCode}} oomKilled={{.State.OOMKilled}} error={{.State.Error}}' 2>&1 || echo 'no traefik container'
+          echo '=== TRAEFIK LOGS (last 80) ==='
+          docker logs --tail 80 traefik-traefik-1 2>&1 || echo 'traefik logs unavailable'
+          echo '=== host ports 80/443 held by ==='
+          (ss -lptn 'sport = :80' 2>/dev/null || true); (ss -lptn 'sport = :443' 2>/dev/null || true)
           echo '=== docker ps -a ==='
           docker ps -a --format '{{.Names}} | {{.Status}} | {{.Ports}}' | head -10
           echo '=== container state ==='
