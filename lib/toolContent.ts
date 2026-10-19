@@ -2844,7 +2844,11 @@ export const TOOL_CONTENT: Record<string, ToolContent> = {
       },
       {
         title: "The withdrawal rate matters more than the return",
-        body: "On $500,000 with $40,000 withdrawn — an 8% draw — the money lasts 20.1 years at a 5% return. Drop the return to zero and it lasts 12.5 years. That contrast is the point: the draw sets the clock, and the return only adjusts it.",
+        body: "On $500,000 with $40,000 withdrawn — an 8% draw — the money lasts 20.1 years at a 5% return in closed form, or 19 years 8 months when the calculator steps month by month, because a monthly schedule pays the balance down slightly faster than an annual one. Drop the return to zero and it lasts 12.5 years annual, 12 years 7 months monthly. That contrast is the point: the draw sets the clock, and the return only adjusts it.",
+      },
+      {
+        title: "Inflation is the input that changes the answer most",
+        body: "A flat withdrawal is not a flat lifestyle. Raise spending 2.5% a year to hold purchasing power and the 8% draw above falls from 19 years 8 months to 15 years 4 months — four years and four months gone, with the return unchanged. Leave inflation at zero and you are modelling a retiree whose costs never move, which is why a nominal-only projection so often flatters the plan.",
       },
       {
         title: "Why the answer is not a date to rely on",
@@ -2854,15 +2858,17 @@ export const TOOL_CONTENT: Record<string, ToolContent> = {
     example: {
       title: "Worked example: $500,000, 5% return, $40,000 withdrawn a year",
       setup:
-        "Starting balance $500,000. Assumed annual return 5%. Annual withdrawal $40,000, taken at the end of each year, held constant in nominal terms.",
+        "Starting balance $500,000. Assumed annual return 5%. Annual withdrawal $40,000, taken as $3,333.33 a month. Inflation 2.5% a year, the calculator's default, which raises the monthly cheque every twelve months.",
       rows: [
         { label: "Withdrawal as a share of the portfolio", value: "8.0%", note: "40000 / 500000" },
-        { label: "Years until depleted", value: "20.1", note: "-ln(1 - 25000 / 40000) / ln(1.05)" },
-        { label: "Years until depleted at 0% return", value: "12.5", note: "500000 / 40000" },
-        { label: "Effect of the 5% return", value: "7.6 extra years", note: "20.1 - 12.5" },
+        { label: "Years until depleted, inflation ignored", value: "19.7", note: "monthly simulation, flat $3,333.33" },
+        { label: "Years until depleted at 2.5% inflation", value: "15.3", note: "calculator default" },
+        { label: "Monthly withdrawal in the final year", value: "$4,827.66", note: "3,333.33 x 1.025^15" },
+        { label: "Years until depleted at 0% return", value: "12.6", note: "monthly simulation" },
+        { label: "Cost of assuming no inflation", value: "4.4 extra years", note: "19.7 - 15.3" },
       ],
       conclusion:
-        "An 8% withdrawal lasts about twenty years at a 5% return and twelve and a half with no return at all — so the return buys roughly eight extra years, while the draw rate sets the baseline. Reduce the withdrawal to 5% and the same portfolio supports a much longer horizon; that lever moves the answer further than any plausible difference in return.",
+        "An 8% draw lasts about fifteen years once spending keeps up with prices, and nearly twenty only if you pretend it does not. That four-year gap is not a rounding difference — it is the difference between a plan that funds a 30-year retirement and one that does not. Reduce the withdrawal to 5% and the same portfolio supports a far longer horizon; that lever moves the answer further than any plausible difference in return.",
     },
     mistakes: [
       {

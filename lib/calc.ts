@@ -1242,18 +1242,35 @@ export function percentChange(from: number, to: number) {
   return { change: round2(change), absolute: round2(to - from) };
 }
 
-/** How long money lasts: balance vs monthly withdrawal with growth. */
-export function moneyLasts(balance: number, monthlyWithdrawal: number, ratePct: number) {
+/** Portfolio depletion with optional inflation. inflationPct raises the monthly
+ *  withdrawal once a year (compounded), which is what real spending does. A 0
+ *  inflation value reproduces the original nominal-only result exactly. */
+export function moneyLasts(balance: number, monthlyWithdrawal: number, ratePct: number, inflationPct = 0) {
   const r = ratePct / 100 / 12;
+  const g = inflationPct / 100;
   let bal = balance;
   let months = 0;
+  let w = monthlyWithdrawal;
+  let finalYearWithdrawal = monthlyWithdrawal;
   const maxMonths = 1200;
   while (bal > 0 && months < maxMonths) {
-    bal = bal * (1 + r) - monthlyWithdrawal;
+    if (months > 0 && months % 12 === 0) w = w * (1 + g);
+    finalYearWithdrawal = w;
+    bal = bal * (1 + r) - w;
     if (bal < 0) bal = 0;
     months++;
   }
-  return { months, years: Math.floor(months / 12), remMonths: months % 12, finalBalance: round2(bal) };
+  const elapsedYears = Math.max(0, Math.floor((months - 1) / 12));
+  return {
+    months,
+    years: Math.floor(months / 12),
+    remMonths: months % 12,
+    finalBalance: round2(bal),
+    // the last full monthly cheque before the money runs out
+    finalYearWithdrawal: round2(finalYearWithdrawal),
+    // that same cheque expressed in today's dollars (inflation stripped back out)
+    realFinalWithdrawal: round2(finalYearWithdrawal / Math.pow(1 + g, elapsedYears)),
+  };
 }
 
 /** Moving cost estimate: distance + hourly movers. */

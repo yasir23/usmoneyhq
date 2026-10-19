@@ -1068,9 +1068,11 @@ export const TOOLS: ToolDef[] = [
         { label: "Estimated cost", value: `$${r.cost.toLocaleString("en-US")}` },
       ];
     },
-    note: "Aim for 2-3 inches of mulch. Prices vary by type (wood, rubber, stone).",
+    note: "Aim for 2-3 inches of mulch. Prices vary by type (wood, rubber, stone). The bag count above assumes 2 cu ft bags — the size most garden centres and Home Depot stock — so adjust with the bag-size answer below if you are buying 1.5 or 3 cu ft bags.",
     faq: [
-      { q: "How deep should mulch be?", a: "2-3 inches is ideal: enough to suppress weeds and retain moisture without suffocating plant roots." },
+      { q: "How many bags of mulch do I need?", a: "Divide your cubic feet by the bag size and round up. A 20 ft by 10 ft bed at 3 inches is 50 cubic feet: 25 bags at 2 cu ft, 34 at 1.5 cu ft, or 17 at the larger 3 cu ft size. One cubic yard (27 cu ft) is 14 two-cubic-foot bags, 18 one-and-a-half-cubic-foot bags, or 9 three-cubic-foot bags. Bag sizes differ by brand, so check the label before you load the cart." },
+      { q: "Home Depot vs bulk: which is cheaper?", a: "Bags cost roughly 50% more per cubic foot. At about $4 for a 2 cu ft bag you pay $2.00 per cubic foot; bulk mulch at $35 a cubic yard works out to $1.30 per cubic foot — so the 1.85-yard example above is about $65 bulk against $100 in bags. Bags win below roughly half a yard, where delivery fees and a minimum order make bulk pointless, and where you have to carry it yourself." },
+      { q: "How deep should mulch be?", a: "2-3 inches is ideal: enough to suppress weeds and retain moisture without suffocating plant roots. Going past 4 inches keeps water from reaching the soil and can sour the root zone." },
       { q: "Bulk vs bagged mulch?", a: "For large areas bulk (by the yard) is cheaper; bags (2 cu ft each) are easier for small beds and DIY transport." },
     ],
     related: ["concrete-calculator", "paint-calculator", "mortgage-calculator"],
@@ -2958,22 +2960,40 @@ export const TOOLS: ToolDef[] = [
   },
   {
     slug: "how-long-will-my-money-last-calculator",
-    title: "How Long Will My Money Last Calculator 2026 | US Money HQ",
+    title: "How Long Will My Money Last Calculator 2026 — With Inflation | US Money HQ",
     shortTitle: "How Long Will My Money Last Calculator",
-    description: "Free retirement withdrawal calculator: how long your savings last with monthly withdrawals and investment growth.",
+    description: "Free retirement withdrawal calculator: how long your savings last with monthly withdrawals, investment growth and inflation. Nominal and inflation-adjusted answers side by side.",
     h1: "How Long Will My Money Last Calculator",
-    sub: "Withdrawal longevity, honestly projected.",
+    sub: "Withdrawal longevity, honestly projected — with or without inflation.",
     fields: [
       { key: "balance", label: "Savings balance (USD)", type: "number", default: 500000, min: 0, step: 10000, inputMode: "numeric" },
       { key: "withdrawal", label: "Monthly withdrawal (USD)", type: "number", default: 2500, min: 0, step: 100, inputMode: "numeric" },
       { key: "rate", label: "Annual return (%)", type: "number", default: 5, min: 0, max: 15, step: 0.5, inputMode: "decimal" },
+      { key: "inflation", label: "Inflation (%/yr, 0 = ignore)", type: "number", default: 2.5, min: 0, max: 10, step: 0.5, inputMode: "decimal" },
     ],
     compute: (v) => {
-      const r = moneyLasts(Number(v.balance) || 0, Number(v.withdrawal) || 0, Number(v.rate) || 0);
-      return [{ label: "Money lasts", value: r.years > 0 ? r.years + " yrs " + r.remMonths + " mo" : r.months + " months", highlight: true }, moneyRow("Remaining at end", r.finalBalance)];
+      const balance = Number(v.balance) || 0;
+      const withdrawal = Number(v.withdrawal) || 0;
+      const rate = Number(v.rate) || 0;
+      const inflation = Number(v.inflation) || 0;
+      const r = moneyLasts(balance, withdrawal, rate, inflation);
+      const label = r.years > 0 ? r.years + " yrs " + r.remMonths + " mo" : r.months + " months";
+      const rows: ResultRow[] = [{ label: "Money lasts (spending keeps up with inflation)", value: label, highlight: true }];
+      if (inflation > 0) {
+        const nominal = moneyLasts(balance, withdrawal, rate, 0);
+        const nLabel = nominal.years > 0 ? nominal.years + " yrs " + nominal.remMonths + " mo" : nominal.months + " months";
+        rows.push({ label: "Money lasts if inflation is ignored", value: nLabel });
+        rows.push(moneyRow("Spending in final year (per month)", r.finalYearWithdrawal));
+        rows.push(moneyRow("That spending in today's dollars", r.realFinalWithdrawal));
+      }
+      rows.push(moneyRow("Remaining at end", r.finalBalance));
+      return rows;
     },
-    note: "The 4% rule: withdraw no more than 4% of your portfolio per year to make it last 30 years. This calculator lets you stress-test your actual numbers.",
+    note: "The 4% rule: withdraw no more than 4% of your portfolio per year to make it last 30 years. This calculator lets you stress-test your actual numbers. Inflation is the input most projections leave out — at 2.5% it cuts the runway by roughly 40% on a moderate-return portfolio, so leave it on unless you specifically want the nominal figure.",
     faq: [
+      { q: "How long will my money last with inflation?", a: "$500,000 at $2,500 a month with a 5% return lasts 35 yrs 11 mo if you ignore inflation. Raise spending 2.5% a year — what real retirement costs do — and the same portfolio lasts 22 yrs 1 mo. The gap is 13 yrs 10 mo, which is why a nominal-only projection is the single most common retirement maths error. Enter your own figures and compare the two rows." },
+      { q: "What inflation rate should I use?", a: "2.5% is the long-run US average and the Federal Reserve's target is 2%. Use 3% to be conservative, or 3.5-4% if your spending is concentrated in healthcare, which inflates faster than the headline CPI. Setting inflation to 0 gives the nominal projection that most calculators show." },
+      { q: "How does Social Security change this?", a: "Do not model Social Security as extra savings. Enter only the shortfall your portfolio has to cover: monthly spending minus your Social Security benefit. If you need $5,000 a month and your benefit is $2,400, put $2,600 in the withdrawal field. Benefits are CPI-indexed, so the inflation rate you enter still applies to the gap." },
       { q: "What is the 4% rule?", a: "Withdraw 4% of your starting balance in year one, adjusted for inflation. On $1M that's $40k/year. It survived most historical market scenarios over 30 years." },
       { q: "What withdrawal rate is safe for me?", a: "3-4% is the standard range. Early retirees or longer horizons should use 3-3.5%. Higher returns or lower spending extends the runway." },
     ],

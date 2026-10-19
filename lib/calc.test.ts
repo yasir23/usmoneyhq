@@ -906,6 +906,25 @@ console.log("ALL PHASE 6 CALC TESTS PASS");
   assert.strictEqual(z.months, 10);
 }
 {
+  // Inflation raises spending every year, so the runway must get strictly shorter.
+  const nominal = moneyLasts(500000, 2500, 5, 0);
+  const two = moneyLasts(500000, 2500, 5, 2);
+  const twoFive = moneyLasts(500000, 2500, 5, 2.5);
+  const three = moneyLasts(500000, 2500, 5, 3);
+  assert.strictEqual(nominal.months, moneyLasts(500000, 2500, 5).months, "4th arg defaults to 0");
+  assert.strictEqual(nominal.months, 431, "500k/2.5k/5% = 431 months nominal");
+  assert.strictEqual(twoFive.months, 265, "same at 2.5% inflation = 265 months");
+  assert.ok(three.months < twoFive.months && twoFive.months < two.months && two.months < nominal.months,
+    "higher inflation => shorter runway, monotonic");
+  assert.ok(twoFive.finalYearWithdrawal > 2500, "final-year spending is inflated, not flat");
+  // Real value of the final cheque should land near the original withdrawal
+  assert.ok(Math.abs(twoFive.realFinalWithdrawal - 2500) / 2500 < 0.05,
+    "final cheque in today's dollars ~= starting withdrawal");
+  // Zero inflation must not change the cheque value
+  assert.strictEqual(nominal.finalYearWithdrawal, 2500);
+  assert.strictEqual(nominal.realFinalWithdrawal, 2500);
+}
+{
   const r = movingCost(50, 4, 50, 150);
   assert.strictEqual(r.total, 625);
 }
