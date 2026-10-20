@@ -256,9 +256,9 @@ Long-tail (autocomplete):
 
 Short-tail: tax calculator | income tax calculator
 Long-tail (autocomplete):
+- tax calculator 2026-27
 - tax calculator
 - tax calculator 2025-26
-- tax calculator 2026-27
 - tax calculator pakistan
 - tax calculator 2026
 - tax calculator 2025-26 pakistan
@@ -308,7 +308,6 @@ Short-tail: child support calculator | child support estimate calculator
 Long-tail (autocomplete):
 - child support calculator
 - child support calculator ontario
-- child support calculator texas
 - child support calculator alberta
 - child support calculator bc
 - child support calculator florida
@@ -316,6 +315,7 @@ Long-tail (autocomplete):
 - child support calculator california
 - child support calculator pa
 - child support calculator australia
+- child support calculator nc
 - child support calculator 2026
 - child support calculator 2026 ontario
 - child support calculator 2026 alberta
@@ -381,6 +381,7 @@ Long-tail (autocomplete):
 
 Short-tail: water intake calculator | how much water should i drink
 Long-tail (autocomplete):
+- water intake calculator
 - water intake calculator kg litre
 - water intake calculator by weight
 - water intake calculator by age
@@ -390,7 +391,6 @@ Long-tail (autocomplete):
 - water intake calculator based on weight
 - water intake calculator australia
 - water intake calculator with creatine
-- water intake calculator dog
 - how much water intake calculator
 - how much water intake daily calculator
 - how much water should i drink calculator
@@ -645,10 +645,10 @@ Long-tail (autocomplete):
 - compound interest calculator pkr
 - compound interest calculator daily
 - compound interest calculator monthly
+- compound interest calculator uk
 - compound interest calculator formula
 - compound interest calculator with tax deduction
 - compound interest calculator with tax
-- compound interest calculator india
 - compound interest calculator 2026
 - compound interest calculator online in india 2026
 - what is compound interest calculator

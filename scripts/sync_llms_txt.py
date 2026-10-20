@@ -132,18 +132,24 @@ def build_preamble(
         f"# US Money HQ's {total} calculators natively.",
         "# More: https://llmstxt.org",
         "# US Money HQ",
-        "> US Money HQ — free US financial calculators, state-by-state tax math, and",
-        f"> scenario tools. {kept} calculators offered for indexing, {pages} indexable",
-        f"> pages total — {SITE}/sitemap.xml is the authoritative list. All free, no signup.",
+        "> US Money HQ — free US financial calculators, state-by-state tax math, and scenario tools.",
+        # ONE line, deliberately. site_integrity_heartbeat.py reads this claim with
+        # `(\d[\d,]*)\s+indexable\s+pages`; when the header wrapped, the regex could
+        # not see it and matched a stale figure quoted in a comment instead. A claim
+        # spread over two lines is invisible to the machine that checks it.
+        f"> {kept} calculators offered for indexing, {pages} indexable pages total. "
+        f"Authoritative list: {SITE}/sitemap.xml. All free, no signup.",
         "",
         "# ── COUNT DISCIPLINE ────────────────────────────────────────────────────────",
         "# Every count above is DERIVED, never remembered. scripts/sync_llms_txt.py",
         "# regenerates this block from lib/tools.ts minus lib/topical.ts, plus the",
         "# <loc> count of the built sitemap; scripts/verify_llms_txt.py re-asserts it",
         "# in `npm run build`, so a stale number fails the build instead of shipping.",
-        "# The count sat at \"140 indexable pages\" for four days after the inventory",
-        "# was pruned to 113 — an advertised number an agent will repeat is worse",
-        "# than no number at all.",
+        "# The advertised figure sat at the retired 140-page count for four days",
+        "# after the inventory was pruned to the number above — an advertised number",
+        "# an agent will repeat is worse than no number at all. Do not re-quote a",
+        "# retired count in prose: the heartbeat's extractor matched this comment's",
+        "# quotation instead of the header, and reported drift on a corrected file.",
         "#",
         f"# Composition: {split['tools']} in-scope calculator roots + {split['guides']} guides",
         f"# + {split['hubs']} category hubs + {split['static']} site/trust pages = {pages}.",

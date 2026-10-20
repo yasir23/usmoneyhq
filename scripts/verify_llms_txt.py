@@ -78,12 +78,21 @@ def main() -> int:
     pages = sitemap_loc_count(live)
     text = LLMS.read_text(encoding="utf-8")
 
-    # 1. indexable-page count
-    m = re.search(r"(\d[\d,]*)\s+indexable", text)
-    if not m:
-        failures.append("no 'N indexable' claim found — the header block is missing")
+    # 1. indexable-page count. Read the claim exactly where the DOWNSTREAM reader
+    # reads it (site_integrity_heartbeat.py: `(\d[\d,]*)\s+indexable\s+pages` on the
+    # whole body) — otherwise this gate can pass on a file the heartbeat calls
+    # drifted. Require exactly one match so a second copy of the claim cannot
+    # silently win the first-match race.
+    claims = re.findall(r"(\d[\d,]*)\s+indexable\s+pages", text, re.I)
+    if not claims:
+        failures.append("no 'N indexable pages' claim found — the header block is missing")
     else:
-        claimed = int(m.group(1).replace(",", ""))
+        if len(claims) > 1:
+            failures.append(
+                f"{len(claims)} 'indexable pages' claims ({', '.join(claims)}) — a stale "
+                "copy can win the first-match race; keep exactly one"
+            )
+        claimed = int(claims[0].replace(",", ""))
         if claimed != pages:
             failures.append(
                 f"claims {claimed} indexable pages, sitemap serves {pages} "

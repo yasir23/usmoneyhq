@@ -3,18 +3,19 @@
 # US Money HQ's 105 calculators natively.
 # More: https://llmstxt.org
 # US Money HQ
-> US Money HQ — free US financial calculators, state-by-state tax math, and
-> scenario tools. 80 calculators offered for indexing, 113 indexable
-> pages total — https://usmoneyhq.com/sitemap.xml is the authoritative list. All free, no signup.
+> US Money HQ — free US financial calculators, state-by-state tax math, and scenario tools.
+> 80 calculators offered for indexing, 113 indexable pages total. Authoritative list: https://usmoneyhq.com/sitemap.xml. All free, no signup.
 
 # ── COUNT DISCIPLINE ────────────────────────────────────────────────────────
 # Every count above is DERIVED, never remembered. scripts/sync_llms_txt.py
 # regenerates this block from lib/tools.ts minus lib/topical.ts, plus the
 # <loc> count of the built sitemap; scripts/verify_llms_txt.py re-asserts it
 # in `npm run build`, so a stale number fails the build instead of shipping.
-# The count sat at "140 indexable pages" for four days after the inventory
-# was pruned to 113 — an advertised number an agent will repeat is worse
-# than no number at all.
+# The advertised figure sat at the retired 140-page count for four days
+# after the inventory was pruned to the number above — an advertised number
+# an agent will repeat is worse than no number at all. Do not re-quote a
+# retired count in prose: the heartbeat's extractor matched this comment's
+# quotation instead of the header, and reported drift on a corrected file.
 #
 # Composition: 80 in-scope calculator roots + 18 guides
 # + 4 category hubs + 11 site/trust pages = 113.
