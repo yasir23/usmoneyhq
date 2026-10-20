@@ -3,39 +3,110 @@
 # US Money HQ's 105 calculators natively.
 # More: https://llmstxt.org
 # US Money HQ
-> US Money HQ — free US financial calculators, state-by-state tax math, and scenario tools. 105 calculators. 140 indexable pages — https://usmoneyhq.com/sitemap.xml is the authoritative list. All free, no signup.
+> US Money HQ — free US financial calculators, state-by-state tax math, and
+> scenario tools. 80 calculators offered for indexing, 113 indexable
+> pages total — https://usmoneyhq.com/sitemap.xml is the authoritative list. All free, no signup.
 
 # ── COUNT DISCIPLINE ────────────────────────────────────────────────────────
-# The counts above are asserted against the sitemap, not remembered. They said
-# "1,938 indexable pages" until 2026-09-26, while the sitemap served 140 — the
-# inventory had been pruned and this file had not. An advertised number that
-# does not match the authoritative list is worse than no number, because an
-# agent will repeat it. If you prune the sitemap, update this line in the same
-# commit. pages/states.js already carries the same rule for its own URL.
+# Every count above is DERIVED, never remembered. scripts/sync_llms_txt.py
+# regenerates this block from lib/tools.ts minus lib/topical.ts, plus the
+# <loc> count of the built sitemap; scripts/verify_llms_txt.py re-asserts it
+# in `npm run build`, so a stale number fails the build instead of shipping.
+# The count sat at "140 indexable pages" for four days after the inventory
+# was pruned to 113 — an advertised number an agent will repeat is worse
+# than no number at all.
 #
-# Current composition: 105 calculator roots + 19 guides + 5 category hubs
-# + 11 site/trust pages (homepage + 10 static) = 140.
+# Composition: 80 in-scope calculator roots + 18 guides
+# + 4 category hubs + 11 site/trust pages = 113.
+# The other 25 tools are live but out of topical scope (see lib/topical.ts):
+# a money site that also ranks for "how much topsoil do I need" is what an
+# ad reviewer reads as a programmatic aggregator.
 
-## Core tools
-- Mortgage Calculator: https://usmoneyhq.com/mortgage-calculator
-- Salary After Tax Calculator: https://usmoneyhq.com/salary-after-tax-calculator
-- Tax Calculator: https://usmoneyhq.com/tax-calculator
-- Home Affordability Calculator: https://usmoneyhq.com/home-affordability-calculator
-- Paycheck Calculator: https://usmoneyhq.com/paycheck-calculator
+## Calculators
+
 - 401(k) Calculator: https://usmoneyhq.com/401k-calculator
-- Compound Interest Calculator: https://usmoneyhq.com/compound-interest-calculator
-- Debt Payoff Calculator: https://usmoneyhq.com/debt-payoff-calculator
-- Rent vs Buy Calculator: https://usmoneyhq.com/rent-vs-buy-calculator
-- Sales Tax Calculator: https://usmoneyhq.com/sales-tax-calculator
-- Capital Gains Calculator: https://usmoneyhq.com/capital-gains-calculator
-- Emergency Fund Calculator: https://usmoneyhq.com/emergency-fund-calculator
-- Take-Home Pay Calculator: https://usmoneyhq.com/take-home-pay-calculator
-- Personal Loan Calculator: https://usmoneyhq.com/personal-loan-calculator
-- Self-Employment Tax Calculator: https://usmoneyhq.com/self-employment-tax-calculator
-- FHA Mortgage Calculator: https://usmoneyhq.com/fha-mortgage-calculator
-- VA Mortgage Calculator: https://usmoneyhq.com/va-mortgage-calculator
 - 401(k) Contribution Calculator: https://usmoneyhq.com/401k-contribution-calculator
-
+- 529 Calculator: https://usmoneyhq.com/529-calculator
+- Amortization Schedule Calculator: https://usmoneyhq.com/amortization-schedule-calculator
+- Auto Loan Calculator: https://usmoneyhq.com/auto-loan-calculator
+- Break-Even Calculator: https://usmoneyhq.com/break-even-calculator
+- Budget Calculator: https://usmoneyhq.com/budget-calculator
+- Capital Gains Tax Calculator: https://usmoneyhq.com/capital-gains-calculator
+- Car Affordability Calculator: https://usmoneyhq.com/car-affordability-calculator
+- CD Calculator: https://usmoneyhq.com/cd-calculator
+- Child Support Calculator: https://usmoneyhq.com/child-support-calculator
+- Closing Costs Calculator: https://usmoneyhq.com/closing-costs-calculator
+- Commission Calculator: https://usmoneyhq.com/commission-calculator
+- Compound Interest Calculator: https://usmoneyhq.com/compound-interest-calculator
+- Construction Cost Calculator: https://usmoneyhq.com/construction-cost-calculator
+- Credit Card Payoff Calculator: https://usmoneyhq.com/credit-card-payoff-calculator
+- Debt Payoff Calculator: https://usmoneyhq.com/debt-payoff-calculator
+- Debt Snowball Calculator: https://usmoneyhq.com/debt-snowball-calculator
+- Discount Calculator: https://usmoneyhq.com/discount-calculator
+- Dividend Calculator: https://usmoneyhq.com/dividend-calculator
+- DTI Ratio Calculator: https://usmoneyhq.com/dti-calculator
+- Electricity Cost Calculator: https://usmoneyhq.com/electricity-cost-calculator
+- Emergency Fund Calculator: https://usmoneyhq.com/emergency-fund-calculator
+- Escrow Calculator: https://usmoneyhq.com/escrow-calculator
+- FHA Mortgage Calculator: https://usmoneyhq.com/fha-mortgage-calculator
+- Gas Cost Calculator: https://usmoneyhq.com/gas-cost-calculator
+- HELOC Calculator: https://usmoneyhq.com/heloc-calculator
+- Home Affordability Calculator: https://usmoneyhq.com/home-affordability-calculator
+- Home Equity Calculator: https://usmoneyhq.com/home-equity-calculator
+- Home Remodel Cost Calculator: https://usmoneyhq.com/home-remodel-cost-calculator
+- Hourly to Salary Calculator: https://usmoneyhq.com/hourly-to-salary-calculator
+- How Long Will My Money Last Calculator: https://usmoneyhq.com/how-long-will-my-money-last-calculator
+- Inflation Calculator: https://usmoneyhq.com/inflation-calculator
+- Investment Calculator: https://usmoneyhq.com/investment-calculator
+- Investment Property Calculator: https://usmoneyhq.com/investment-property-calculator
+- Lease vs Buy Calculator: https://usmoneyhq.com/lease-vs-buy-calculator
+- Life Insurance Needs Calculator: https://usmoneyhq.com/life-insurance-needs-calculator
+- Loan Calculator: https://usmoneyhq.com/loan-calculator
+- Loan Comparison Calculator: https://usmoneyhq.com/loan-comparison-calculator
+- Margin Calculator: https://usmoneyhq.com/margin-calculator
+- Markup Calculator: https://usmoneyhq.com/markup-calculator
+- Mileage Reimbursement Calculator: https://usmoneyhq.com/mileage-reimbursement-calculator
+- Mortgage Calculator: https://usmoneyhq.com/mortgage-calculator
+- Mortgage Points Calculator: https://usmoneyhq.com/mortgage-points-calculator
+- Moving Cost Calculator: https://usmoneyhq.com/moving-cost-calculator
+- MPG Calculator: https://usmoneyhq.com/miles-per-gallon-calculator
+- Net Worth Calculator: https://usmoneyhq.com/net-worth-calculator
+- Overtime Calculator: https://usmoneyhq.com/overtime-calculator
+- Paycheck Calculator: https://usmoneyhq.com/paycheck-calculator
+- Personal Loan Calculator: https://usmoneyhq.com/personal-loan-calculator
+- PMI Calculator: https://usmoneyhq.com/pmi-calculator
+- Price Per Square Foot Calculator: https://usmoneyhq.com/price-per-square-foot-calculator
+- Property Tax Calculator: https://usmoneyhq.com/property-tax-calculator
+- Refinance Calculator: https://usmoneyhq.com/refinance-calculator
+- Rent vs Buy Calculator: https://usmoneyhq.com/rent-vs-buy-calculator
+- Retirement Age Calculator: https://usmoneyhq.com/retirement-age-calculator
+- Retirement Calculator: https://usmoneyhq.com/retirement-calculator
+- RMD Calculator: https://usmoneyhq.com/rmd-calculator
+- ROI Calculator: https://usmoneyhq.com/roi-calculator
+- Rule of 72 Calculator: https://usmoneyhq.com/rule-of-72-calculator
+- Salary After Tax Calculator: https://usmoneyhq.com/salary-after-tax-calculator
+- Salary Percentile Calculator: https://usmoneyhq.com/salary-percentile-calculator
+- Salary Raise Calculator: https://usmoneyhq.com/salary-raise-calculator
+- Salary to Hourly Calculator: https://usmoneyhq.com/salary-to-hourly-calculator
+- Sales Tax Calculator: https://usmoneyhq.com/sales-tax-calculator
+- Savings Bonds Calculator: https://usmoneyhq.com/savings-bonds-calculator
+- Savings Goal Calculator: https://usmoneyhq.com/savings-goal-calculator
+- Savings Rate Calculator: https://usmoneyhq.com/savings-rate-calculator
+- Self-Employment Tax Calculator: https://usmoneyhq.com/self-employment-tax-calculator
+- Simple Interest Calculator: https://usmoneyhq.com/simple-interest-calculator
+- Social Security Calculator: https://usmoneyhq.com/social-security-calculator
+- Square Footage Calculator: https://usmoneyhq.com/square-footage-calculator
+- Stock Profit Calculator: https://usmoneyhq.com/stock-profit-calculator
+- Student Loan Calculator: https://usmoneyhq.com/student-loan-calculator
+- Take-Home Pay Calculator: https://usmoneyhq.com/take-home-pay-calculator
+- Tax Bracket Calculator: https://usmoneyhq.com/tax-bracket-calculator
+- Tax Calculator: https://usmoneyhq.com/tax-calculator
+- Tax Refund Calculator: https://usmoneyhq.com/tax-refund-calculator
+- Tip Calculator: https://usmoneyhq.com/tip-calculator
+- VA Mortgage Calculator: https://usmoneyhq.com/va-mortgage-calculator
+## State math
+## State math
+## State math
 ## State math
 State income tax is computed per state from that state's own rate schedule —
 flat states at their exact rate, progressive states interpolated between their

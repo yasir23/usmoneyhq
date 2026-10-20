@@ -7,7 +7,7 @@
     "verify:adsense": "node scripts/adsense_verify.mjs",
     "verify:claims": "node scripts/claims_verify.mjs",
     "verify:guides": "node scripts/verify_guides.mjs",
-    "build": "node scripts/adsense_verify.mjs && node scripts/claims_verify.mjs && node scripts/verify_guides.mjs && next build",
+    "build": "node scripts/adsense_verify.mjs && node scripts/claims_verify.mjs && node scripts/verify_guides.mjs && next build && python3 scripts/verify_llms_txt.py",
     "start": "next start",
     "test": "node lib/calc.test.ts"
   },
