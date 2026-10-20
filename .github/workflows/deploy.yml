@@ -78,6 +78,11 @@ jobs:
           systemctl disable nginx 2>&1 | tail -2 || true
           echo '=== free? ==='
           (ss -lptn 'sport = :80' 2>/dev/null | tail -2 || true)
+          echo '=== traefik restarts BEFORE this remediate (the real evidence) ==='
+          # MUST be read before `docker restart`: a manual restart resets RestartCount,
+          # so checking afterwards always reports 0 and hides a fresh crash loop. This
+          # step was destroying the evidence it exists to collect.
+          docker inspect traefik-traefik-1 --format 'pre_remediate restarts={{.RestartCount}} exitCode={{.State.ExitCode}} startedAt={{.State.StartedAt}}' 2>&1 || true
           echo '=== restart traefik ==='
           docker restart traefik-traefik-1
           sleep 15
