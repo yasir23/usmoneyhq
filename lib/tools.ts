@@ -2718,6 +2718,7 @@ export const TOOLS: ToolDef[] = [
     faq: [
       { q: "EE vs I bonds — what's the difference?", a: "EE bonds pay a fixed rate set at purchase (and are guaranteed to double in 20 years). I bonds pay a variable rate tied to inflation, protecting purchasing power." },
       { q: "Are savings bond gains taxable?", a: "Yes — interest is exempt from state tax but subject to federal tax, unless used for qualified education expenses (education exclusion)." },
+      { q: "How much does a $1,000 savings bond cost?", a: "One thousand dollars. Electronic EE and I bonds are both sold at face value, so a $1,000 bond costs $1,000. The half-price figure people remember comes from paper EE bonds, which were sold at 50% of face value and stopped being issued on 1 January 2012 — a paper $1,000 EE bond really did cost $500. Electronic EE bonds still carry the 20-year doubling guarantee, which implies about 3.53% a year compounded semi-annually. Minimum purchase is $25; the cap is $10,000 per person per series each calendar year." },
     ],
     related: ["cd-calculator", "compound-interest-calculator", "investment-calculator"],
   },
@@ -2816,9 +2817,9 @@ export const TOOLS: ToolDef[] = [
   },
   {
     slug: "carpet-calculator",
-    title: "Carpet Calculator 2026 — Sq Ft & Cost | US Money HQ",
+    title: "Carpet Calculator 2026 — Sq Ft, Stairs & Cost | US Money HQ",
     shortTitle: "Carpet Calculator",
-    description: "Free carpet calculator: square feet, square yards, and cost for carpeting any room.",
+    description: "Free carpet calculator: square feet, square yards, and cost for any room — plus how much carpet stairs need.",
     h1: "Carpet Calculator",
     sub: "Carpet area and cost, room by room.",
     fields: [
@@ -2834,6 +2835,8 @@ export const TOOLS: ToolDef[] = [
     faq: [
       { q: "Carpet by square foot or yard?", a: "Retail shows per sq ft; installers quote per sq yd (9 sq ft). Always compare the same unit." },
       { q: "What does carpet installation cost?", a: "$2-$4 per sq ft including padding and labor, on top of carpet. Move furniture and removal add fees." },
+      { q: "How much carpet do I need for stairs?", a: "Stairs are not a rectangle, so measure each step and add it to the room total. One step takes tread depth + riser height + about 2 inches where the carpet folds over the nose: 10 in + 7.5 in + 2 in = 19.5 in (1.63 ft) of carpet run. At a 3 ft stair width that is 4.88 sq ft per step, so 13 steps comes to about 63 sq ft (7 sq yd) and 12 steps to about 58.5 sq ft. Order roughly 10% more — 70 sq ft covers a 13-step flight with waste — and add that figure on top of the area this calculator returns for the rooms." },
+      { q: "Is the price per square foot or per square yard?", a: "Both are quoted, and that is why carpet estimates look so far apart. Retail is usually per sq ft, installers per sq yd. Multiply the per-sq-ft price by 9 to compare: $3.50 per sq ft is $31.50 per sq yd. This calculator shows the area in both units so you can check a quote whichever way it is written." },
     ],
     related: ["square-footage-calculator", "tile-calculator", "wallpaper-calculator"],
   },
@@ -2887,6 +2890,8 @@ export const TOOLS: ToolDef[] = [
     faq: [
       { q: "Sod or seed?", a: "Sod gives an instant lawn but costs 5-10x more. Seed is cheaper but needs 6-8 weeks of careful watering." },
       { q: "When should I lay sod?", a: "Early fall or spring — cool temperatures and rain help it root. Never lay sod on frozen or flooded ground." },
+      { q: "How many pallets of sod do I need for 1,000 sq ft?", a: "Three. A pallet covers about 450 sq ft and suppliers do not sell a partial pallet, so 1,000 ÷ 450 = 2.2 rounds up to 3 pallets — 1,350 sq ft delivered, roughly 35% more than the lawn measures. That spare is not wasted: cut-offs around beds, curves and walkways use it up quickly. The same math at 2,000 sq ft gives 5 pallets (2,250 sq ft). This calculator already rounds up to whole pallets for you." },
+      { q: "How much sod can one person lay in a day?", a: "About 500-750 sq ft for one fit person doing their own ground prep, so a single 450 sq ft pallet is a realistic day's work once you include tilling, levelling and the first watering. Professional crews with a machine lay 2,000 sq ft or more. A wet pallet weighs roughly 1,500-2,500 lb, so arrange help or equipment to unload it, and lay the sod within 24-48 hours of delivery — stacked rolls heat up and yellow quickly." },
     ],
     related: ["topsoil-calculator", "gravel-calculator", "mulch-calculator"],
   },
