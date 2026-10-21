@@ -1,5 +1,6 @@
 import Head from "next/head";
 import Link from "next/link";
+import { staticPageSchema } from "../lib/pageSchema";
 
 /**
  * /contact
@@ -10,7 +11,18 @@ import Link from "next/link";
  * an error report on this site, and who to write to for a data request. That is
  * process, not padding — the correction path is something the site claims
  * elsewhere, and this is where a reader would look for it.
+ *
+ * JSON-LD added 2026-10-21: ContactPage + publisher node, derived from this
+ * page's own title/description. The page previously carried none.
  */
+const SCHEMA = staticPageSchema({
+  name: "Contact US Money HQ",
+  description:
+    "Contact US Money HQ — report a calculation error, ask a question, or make a privacy request. We reply within 2 business days.",
+  path: "/contact",
+  type: "ContactPage",
+});
+
 export default function Contact() {
   return (
     <>
@@ -19,6 +31,7 @@ export default function Contact() {
         <meta name="description" content="Contact US Money HQ — report a calculation error, ask a question, or make a privacy request. We reply within 2 business days." />
         <link rel="canonical" href="https://usmoneyhq.com/contact" />
         <meta name="robots" content="index, follow" />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(SCHEMA) }} />
       </Head>
       <main className="container">
         <nav className="breadcrumbs"><Link href="/">Home</Link> <span aria-hidden="true">›</span> <span>Contact</span></nav>

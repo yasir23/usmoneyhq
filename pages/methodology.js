@@ -1,7 +1,22 @@
 import Head from "next/head";
 import { SITE_URL } from "../lib/tools";
+import { staticPageSchema } from "../lib/pageSchema";
 
-/** /methodology — E-E-A-T layer: how every calculator works, data sources, update policy. */
+/**
+ * /methodology — E-E-A-T layer: how every calculator works, data sources, update policy.
+ *
+ * JSON-LD added 2026-10-21 (page carried none). This is the page a reader — or an
+ * answer engine — arrives at to check whether a figure is sourced, so it should be
+ * machine-readable as the publisher's method statement rather than anonymous HTML.
+ */
+const SCHEMA = staticPageSchema({
+  name: "Calculator Methodology & Data Sources",
+  description:
+    "How US Money HQ calculators work: the exact formulas, tax data, and update policy behind every tool. Transparent math, standard methods, no black boxes.",
+  path: "/methodology",
+  type: "WebPage",
+});
+
 export default function Methodology() {
   return (
     <>
@@ -9,6 +24,7 @@ export default function Methodology() {
         <title>Calculator Methodology & Data Sources | US Money HQ</title>
         <meta name="description" content="How US Money HQ calculators work: the exact formulas, tax data, and update policy behind every tool. Transparent math, standard methods, no black boxes." />
         <link rel="canonical" href={`${SITE_URL}/methodology`} />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(SCHEMA) }} />
       </Head>
       <main className="container">
         <nav className="breadcrumbs"><span>Home</span> <span aria-hidden="true">›</span> <span>Methodology</span></nav>

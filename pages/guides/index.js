@@ -1,6 +1,7 @@
 import Head from "next/head";
 import Link from "next/link";
 import { SITE_URL } from "../../lib/tools";
+import { collectionSchema } from "../../lib/pageSchema";
 
 /**
  * /guides — guides hub.
@@ -60,6 +61,23 @@ const GROUP_NOTES = {
 
 const GROUPS = Array.from(new Set(GUIDES.map((g) => g.group)));
 
+/**
+ * JSON-LD for the hub — added 2026-10-21.
+ *
+ * The hub carried NO structured data, which meant the 18 guides were individually
+ * machine-readable (Article) while the collection that contains them was not: an
+ * answer engine could cite one guide but had no statement of what the guide set
+ * is. The ItemList is built from the SAME array the page renders, so the markup
+ * cannot list a guide the page does not show (and cannot drift as the list grows).
+ */
+const SCHEMA = collectionSchema({
+  name: "Money Guides — Plain English, With the Calculator Built In",
+  description:
+    "Plain-English US money guides, each with the calculator built into the page: borrowing, pay and tax, debt payoff, investing, and where to keep cash.",
+  path: "/guides",
+  items: GUIDES,
+});
+
 export default function GuidesHub() {
   return (
     <>
@@ -70,6 +88,7 @@ export default function GuidesHub() {
           content={`${GUIDES.length} plain-English money guides, each with the calculator built into the page: borrowing, pay and tax, debt payoff, investing, and where to keep cash.`}
         />
         <link rel="canonical" href={`${SITE_URL}/guides`} />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(SCHEMA) }} />
       </Head>
       <main className="container">
         <nav className="breadcrumbs">

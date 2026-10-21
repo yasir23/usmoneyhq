@@ -1,4 +1,21 @@
 import Head from "next/head";
+import { staticPageSchema } from "../lib/pageSchema";
+
+/**
+ * /about — the publisher identity page.
+ *
+ * JSON-LD added 2026-10-21: the page carried none, so an answer engine reading
+ * the site could not tell that this page defines who publishes it. The block is
+ * derived from this page's own title and description below.
+ */
+const SCHEMA = staticPageSchema({
+  name: "About US Money HQ",
+  description:
+    "About US Money HQ — free, fast, accurate US financial and everyday calculators with no sign-up and no data collection.",
+  path: "/about",
+  type: "AboutPage",
+  dateModified: "2026-09-26",
+});
 
 export default function About() {
   return (
@@ -7,6 +24,7 @@ export default function About() {
         <title>About Us | US Money HQ</title>
         <meta name="description" content="About US Money HQ — free, fast, accurate US financial and everyday calculators with no sign-up and no data collection." />
         <link rel="canonical" href="https://usmoneyhq.com/about" />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(SCHEMA) }} />
       </Head>
       <main className="container">
         <nav className="breadcrumbs"><span>Home</span> <span aria-hidden="true">›</span> <span>About</span></nav>

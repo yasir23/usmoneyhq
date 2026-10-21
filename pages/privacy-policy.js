@@ -1,6 +1,22 @@
 import Head from "next/head";
 import Link from "next/link";
 import { contentDateLabel } from "../lib/content-dates";
+import { staticPageSchema } from "../lib/pageSchema";
+
+/**
+ * /privacy-policy
+ *
+ * JSON-LD added 2026-10-21: WebPage + publisher node. The policy pages carried
+ * no structured data, which is also the one place a reviewer looks for a real
+ * operator behind the site.
+ */
+const SCHEMA = staticPageSchema({
+  name: "Privacy Policy",
+  description:
+    "How US Money HQ handles data: no accounts, nothing sold, what cookies and advertising partners see, and how to make a privacy request.",
+  path: "/privacy-policy",
+  type: "WebPage",
+});
 
 /**
  * /privacy-policy
@@ -26,6 +42,7 @@ export default function PrivacyPolicy() {
         <title>Privacy Policy | US Money HQ</title>
         <meta name="description" content="Privacy policy for US Money HQ — what data we collect, how long we keep it, who processes it, cookies, and third-party advertising." />
         <link rel="canonical" href="https://usmoneyhq.com/privacy-policy" />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(SCHEMA) }} />
         <meta name="robots" content="index, follow" />
       </Head>
       <main className="container">

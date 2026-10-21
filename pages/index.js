@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 import { TOOLS, SITE_URL, SITE_NAME, SITE_DESC } from "../lib/tools";
 import { IN_SCOPE_TOOLS } from "../lib/topical";
 import { CATEGORIES, categorize } from "../lib/categories";
+import { ORGANIZATION_NODE } from "../lib/pageSchema";
 
 /**
  * The homepage's own description. Deliberately not SITE_DESC: that one describes the
@@ -39,15 +40,25 @@ export default function Home() {
   }, [q]);
   const schema = {
     "@context": "https://schema.org",
-    "@type": "WebSite",
-    name: SITE_NAME,
-    url: SITE_URL,
-    description: SITE_DESC,
-    potentialAction: {
-      "@type": "SearchAction",
-      target: `${SITE_URL}/?q={search_term_string}`,
-      "query-input": "required name=search_term_string",
-    },
+    "@graph": [
+      {
+        "@type": "WebSite",
+        "@id": `${SITE_URL}/#website`,
+        name: SITE_NAME,
+        url: SITE_URL,
+        description: SITE_DESC,
+        publisher: { "@id": `${SITE_URL}/#organization` },
+        potentialAction: {
+          "@type": "SearchAction",
+          target: `${SITE_URL}/?q={search_term_string}`,
+          "query-input": "required name=search_term_string",
+        },
+      },
+      // Publisher node added 2026-10-21: the homepage carried WebSite + SearchAction
+      // but no Organization, so nothing on the site's most-crawled URL said who
+      // publishes it. Shared with lib/pageSchema.ts so there is one definition.
+      ORGANIZATION_NODE,
+    ],
   };
 
   // One categorisation rule, shared with the hub pages.

@@ -1,6 +1,20 @@
 import Head from "next/head";
 import Link from "next/link";
 import { contentDateLabel } from "../lib/content-dates";
+import { staticPageSchema } from "../lib/pageSchema";
+
+/**
+ * /terms
+ *
+ * JSON-LD added 2026-10-21: WebPage + publisher node, derived from this page.
+ */
+const SCHEMA = staticPageSchema({
+  name: "Terms of Use",
+  description:
+    "The terms for using US Money HQ calculators: informational results, no financial advice, and the limits of our liability.",
+  path: "/terms",
+  type: "WebPage",
+});
 
 /**
  * /terms
@@ -24,6 +38,7 @@ export default function Terms() {
         <title>Terms of Use | US Money HQ</title>
         <meta name="description" content="Terms of use for US Money HQ free financial calculators — permitted use, intellectual property, third-party links, and limitations." />
         <link rel="canonical" href="https://usmoneyhq.com/terms" />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(SCHEMA) }} />
         <meta name="robots" content="index, follow" />
       </Head>
       <main className="container">
