@@ -175,3 +175,12 @@ jobs:
             echo "::warning::No manual ad unit renders. Either enable Auto Ads in AdSense (Sites -> usmoneyhq.com -> Auto ads) or create 3 display units and put their numeric ids in lib/ads.ts AD_UNITS. Until one of those exists, approval produces impressions of zero."
           fi
           echo "LIVE VERIFIED: site 200 and ads.txt correct"
+
+      - name: Submit sitemap to IndexNow
+        run: |
+          # IndexNow (Bing/Yandex/Seznam) is the only general-purpose URL push
+          # protocol — the Google Indexing API accepts JobPosting/BroadcastEvent
+          # only, so using it here would return 200 and index nothing.
+          # Runs AFTER the live gate: pushing URLs from a deploy that never
+          # served would advertise pages that 522.
+          python3 scripts/indexnow.py
