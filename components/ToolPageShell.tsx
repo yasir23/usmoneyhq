@@ -433,7 +433,21 @@ export default function ToolPageShell({ slug, stateSlug, amountSlug, metroSlug, 
 
         {!pair && <ToolClient tool={tool} initialValues={initialValues} showFaq={false} showRelated={false} />}
 
-        {amountLinks.length > 0 && !pair && (
+        {/* ── WHY THESE CLOUDS ARE GATED ON VARIANT_PAGES_INDEXED ─────────────
+            Measured 2026-10-22: 75.9% of the internal links on the highest-value
+            tool pages pointed at variant URLs that lib/indexing.ts marks
+            `noindex, follow` — /mortgage-calculator emitted 76 hrefs, of which
+            63 were amount pages and 50 state pages; only 13 reached indexable
+            content. Three clouds were built to feed the variant matrix and were
+            never gated when the matrix was delisted (4488de8), so the site's
+            internal authority was being spent on pages search engines have been
+            told not to index.
+            Gating on the SAME constant that governs their noindex status keeps
+            the two in lockstep: if the variants are ever re-indexed (see the
+            re-enable checklist in lib/indexing.ts), the clouds return with them.
+            The URLs stay live and reachable — they are simply no longer offered
+            as primary navigation on the pages that can rank. */}
+        {VARIANT_PAGES_INDEXED && amountLinks.length > 0 && !pair && (
           <div className="state-links card">
             <h2>Popular {amtTool?.kind === "price" ? "home prices" : amtTool?.kind === "income" ? "incomes" : "salaries"}</h2>
             <div className="link-cloud">
@@ -445,7 +459,7 @@ export default function ToolPageShell({ slug, stateSlug, amountSlug, metroSlug, 
           </div>
         )}
 
-        {ageLinks.length > 0 && !pair && (
+        {VARIANT_PAGES_INDEXED && ageLinks.length > 0 && !pair && (
           <div className="state-links card">
             <h2>Starting ages</h2>
             <div className="link-cloud">
@@ -472,8 +486,12 @@ export default function ToolPageShell({ slug, stateSlug, amountSlug, metroSlug, 
         {/* Base tool pages AND metro pages carry the 50-state cloud: a metro page
             resolves a state (so the sibling grid above already fires), and
             without this guard it would silently lose the site's biggest
-            internal-linking surface for state URLs (1,092 metro pages). */}
-        {(!state || metro) && STATE_AWARE_TOOLS.includes(slug) && (
+            internal-linking surface for state URLs (1,092 metro pages).
+            GATED 2026-10-22 on VARIANT_PAGES_INDEXED — see the measurement note
+            above. This cloud was 50 of the 63 dead-end links on /mortgage-calculator.
+            /states keeps its inbound link from the homepage, so the hub is not
+            orphaned by this. */}
+        {VARIANT_PAGES_INDEXED && (!state || metro) && STATE_AWARE_TOOLS.includes(slug) && (
           <div className="seo">
             <h2>Calculator by State</h2>
             <div className="state-links">
