@@ -1,0 +1,80 @@
+{
+  "_meta": {
+    "purpose": "Verified local (city/municipal) income and wage tax rates, for metro-level take-home pay differentiation on usmoneyhq.com.",
+    "status": "NOT WIRED. This file is intentionally not consumed by the app.",
+    "why_not_wired": [
+      "Only 3 of 22 target jurisdictions could be verified from an official page. The remainder returned HTTP 403 bot walls (kcmo.gov, michigan.gov, nyc.gov), connection timeouts (stlouis-mo.gov), or restructured/404 pages (detroitmi.gov).",
+      "New York City's tax is a graduated four-bracket schedule. Only the married-filing-jointly bracket table was captured; the single-filer table was not. Publishing one flat NYC rate would misstate most filers.",
+      "Yonkers is NOT an income tax rate. 16.75% is a surcharge on the resident's New York State income tax liability (Form IT-201 line 55). Rendering it as a 16.75% income rate would overstate the tax by roughly an order of magnitude.",
+      "The live /guides/take-home-pay-by-metro-2026 page already discloses that local city income taxes are excluded, and names New York City, Philadelphia and Columbus. The published figures are state-level by design and stated as such, not silently wrong."
+    ],
+    "researched": "2026-10-21",
+    "method": "Primary sources only: state tax department form instructions and the city's own revenue department. No blogs, no CPA marketing pages, no listicles. Each record carries a verbatim quote containing the rate and the HTTP status observed when fetched.",
+    "next_step_to_unblock": "Obtain a free Census API key (api.census.gov/data/key_signup.html) for per-city income/home-value data, or capture the full NYC single + MFJ bracket tables and Philadelphia's School Income Tax before any of this is wired."
+  },
+  "verified": [
+    {
+      "city": "New York",
+      "state": "NY",
+      "resident_rate_pct": 3.078,
+      "nonresident_rate_pct": null,
+      "tax_type": "local income tax",
+      "applies_to": "all income",
+      "rate_is": "lowest bracket of a graduated schedule, NOT a flat rate",
+      "threshold_note": "Graduated NYC resident schedule (married filing jointly): 3.078% to $21,600; 3.762% to $45,000; 3.819% to $90,000; 3.876% above $90,000. Single-filer bracket table NOT yet captured.",
+      "source_url": "https://www.tax.ny.gov/forms/html-instructions/2025/it/it201i-2025.htm",
+      "source_quote": "Married filing jointly and qualifying surviving spouse—filing status ② and ⑤ If line 47 is: The tax is: over but not over $0 $21,600 3.078% of line 47 21,600 45,000 $665 plus 3.762% of the excess over $21,600 45,000 90,000 1,545 plus 3.819% of the excess over 45,000 90,000 ---- 3,264 plus 3.876% of the excess over 90,000",
+      "http_status": 200,
+      "verified_date": "2026-10-21"
+    },
+    {
+      "city": "Yonkers",
+      "state": "NY",
+      "resident_rate_pct": 16.75,
+      "nonresident_rate_pct": null,
+      "tax_type": "local income tax",
+      "applies_to": "all income",
+      "rate_is": "SURCHARGE ON STATE TAX LIABILITY, NOT A RATE ON INCOME",
+      "threshold_note": "DO NOT implement as an income rate. Yonkers residents pay a surcharge equal to 16.75% of their New York State income tax liability. Effective rate on income is roughly 16.75% of the state effective rate, i.e. well under 1.2% of wages.",
+      "source_url": "https://www.tax.ny.gov/forms/html-instructions/2025/it/it201i-2025.htm",
+      "source_quote": "n. Yonkers resident tax rate (16.75%) n. __0.1675___ o. Multiply line m by line n. Enter this amount on Form IT-201, line 55",
+      "http_status": 200,
+      "verified_date": "2026-10-21"
+    },
+    {
+      "city": "Philadelphia",
+      "state": "PA",
+      "resident_rate_pct": 3.735,
+      "nonresident_rate_pct": 3.425,
+      "tax_type": "earnings tax",
+      "applies_to": "wages only",
+      "rate_is": "flat rate on compensation",
+      "threshold_note": "Applies to salaries, wages, commissions and other compensation; no threshold. Philadelphia also levies a separate School Income Tax on unearned income, rate not verified here.",
+      "source_url": "https://www.phila.gov/services/payments-assistance-taxes/taxes/income-taxes/earnings-tax-employees/",
+      "source_quote": "3.735% for residents, and 3.425% for non-residents",
+      "http_status": 200,
+      "verified_date": "2026-10-21"
+    }
+  ],
+  "dropped_unverified": [
+    { "city": "Detroit", "state": "MI", "reason": "detroitmi.gov income-tax pages returned Content Not Found; site search returned Permission denied." },
+    { "city": "Grand Rapids", "state": "MI", "reason": "michigan.gov/treasury returned HTTP 403 Access Denied." },
+    { "city": "Lansing", "state": "MI", "reason": "michigan.gov/treasury returned HTTP 403 Access Denied." },
+    { "city": "St. Louis", "state": "MO", "reason": "stlouis-mo.gov earnings tax page timed out repeatedly." },
+    { "city": "Kansas City", "state": "MO", "reason": "kcmo.gov returned HTTP 403 Access Denied." },
+    { "city": "Columbus", "state": "OH", "reason": "not reached; Ohio DOR municipal pages are JS-rendered and yield no static rate table." },
+    { "city": "Cincinnati", "state": "OH", "reason": "not reached; same Ohio DOR rendering problem." },
+    { "city": "Cleveland", "state": "OH", "reason": "not reached; same Ohio DOR rendering problem." },
+    { "city": "Toledo", "state": "OH", "reason": "not reached; same Ohio DOR rendering problem." },
+    { "city": "Akron", "state": "OH", "reason": "not reached; same Ohio DOR rendering problem." },
+    { "city": "Dayton", "state": "OH", "reason": "not reached; same Ohio DOR rendering problem." },
+    { "city": "Louisville", "state": "KY", "reason": "not reached." },
+    { "city": "Lexington", "state": "KY", "reason": "not reached." },
+    { "city": "Birmingham", "state": "AL", "reason": "not reached; the levy is an occupational licence tax, which needs different modelling from a wage tax." },
+    { "city": "Wilmington", "state": "DE", "reason": "not reached." },
+    { "city": "Baltimore", "state": "MD", "reason": "not reached; the local rate is set at state level, so the Maryland Comptroller is the correct source, not the city." },
+    { "city": "Portland", "state": "OR", "reason": "not reached; Metro SHS and Preschool for All are administered by Metro and Multnomah County, not the city." },
+    { "city": "San Francisco", "state": "CA", "reason": "not reached; no evidence gathered either way on whether a local income tax exists." },
+    { "city": "Seattle", "state": "WA", "reason": "not reached; the payroll expense tax is employer-side on compensation above a per-employee threshold, not a resident tax." }
+  ]
+}
