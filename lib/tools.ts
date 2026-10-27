@@ -513,7 +513,7 @@ export const TOOLS: ToolDef[] = [
     slug: "heloc-calculator",
     title: "HELOC Calculator 2026 — Home Equity Line of Credit Payments | US Money HQ",
     shortTitle: "HELOC Calculator",
-    description: "Free US HELOC calculator: estimate your monthly home equity line of credit payment, interest-only vs amortized, and available equity.",
+    description: "Free US HELOC calculator: estimate your monthly home equity line of credit payment, interest-only vs amortized, available equity, and what extra payments save.",
     h1: "HELOC Calculator",
     sub: "Estimate your home equity line of credit payment and how much equity you can tap.",
     fields: [
@@ -551,6 +551,8 @@ export const TOOLS: ToolDef[] = [
     faq: [
       { q: "Interest-only vs amortized HELOC payments", a: "Most HELOCs let you pay interest only during the draw period (typically 10 years), then payments rise in the repayment phase. Amortizing from the start avoids a payment shock later." },
       { q: "How much can I borrow?", a: "Lenders typically cap combined loan-to-value at 80-90%. This calculator uses 85% as a common default — your lender may differ." },
+      { q: "Does paying extra pay off a HELOC faster?", a: "On a $50,000 draw at 7.5% amortised over the 10-year repayment term the scheduled payment is $593.51 and total interest is $21,221.06. Adding $100 a month clears the line in 97 months instead of 120 and cuts interest to $16,667.10, a saving of $4,553.96. At $200 extra it is repaid in 81 months with $13,753.18 of interest, a saving of $7,467.88. During the interest-only phase only the dollars above the interest charge touch principal; once repayment begins every extra dollar is principal." },
+      { q: "How much is a HELOC payoff?", a: "A payoff figure is the balance plus interest accrued since the last statement, so it is always slightly above the statement number. On $50,000 at 7.5% interest accrues at $10.27 a day (50000 x 0.075 / 365), so a quote taken 20 days into the cycle is about $50,205.48. Lenders quote the exact per-diem and usually hold it for a set number of days. Most HELOCs are revolving lines with no prepayment penalty, but a closed-end second mortgage can carry one, so check the agreement before sending the money." },
     ],
     related: ["mortgage-calculator", "pmi-calculator", "dti-calculator"],
   },
@@ -2205,7 +2207,7 @@ export const TOOLS: ToolDef[] = [
     slug: "home-equity-calculator",
     title: "Home Equity Calculator 2026 — Equity & LTV | US Money HQ",
     shortTitle: "Home Equity Calculator",
-    description: "Free home equity calculator: your equity and loan-to-value ratio — the key numbers for HELOCs and refinancing.",
+    description: "Free home equity calculator: your equity and loan-to-value ratio, plus how equity grows over time — the numbers behind HELOCs and refinancing.",
     h1: "Home Equity Calculator",
     sub: "Equity and LTV — the numbers lenders use.",
     fields: [
@@ -2220,6 +2222,8 @@ export const TOOLS: ToolDef[] = [
     faq: [
       { q: "How much equity can I borrow against?", a: "Most lenders cap your combined loan-to-value at 80-85%, meaning you keep 15-20% equity in the home. On a $400k home with a $280k mortgage, you could borrow roughly $40k-$60k more." },
       { q: "HELOC vs cash-out refinance?", a: "A HELOC is a revolving line with variable rates and no upfront cash. A cash-out refi replaces your mortgage at a new fixed rate. HELOCs win for flexibility; refis win if your current rate is high." },
+      { q: "How does home equity grow over time?", a: "Two forces, in very unequal proportions. On a $400,000 home with a $280,000 mortgage at 6.5% over 30 years the payment is $1,769.79, and after five years the balance is down to $262,110.74 — a principal reduction of $17,889.26. If the home also appreciates 3% a year it is worth $463,709.63 by then, so equity rises from $120,000 to $201,598.89. Of that $81,598.89 gain only 21.9% came from paying down the loan and 78.1% from appreciation. Ten years in, the same 3% assumption gives $300,193.40 of equity. Appreciation is an assumption, not a forecast: with values flat the five-year figure is $137,889.26." },
+      { q: "When does loan-to-value fall below 80%?", a: "It depends more on the market than on the payment. A 10% down buyer on that $400,000 home starts at 90% LTV with a $360,000 balance and a $2,275.44 payment. With values flat the loan drops below 80% at month 95 — seven years and 11 months — on a $319,707.73 balance. Add 3% a year of appreciation and the same threshold arrives at month 34, two years and 10 months. The 80% line matters because it is the usual ceiling for a HELOC or a cash-out refinance without mortgage insurance." },
     ],
     related: ["heloc-calculator", "mortgage-calculator", "refinance-calculator"],
   },

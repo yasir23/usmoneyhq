@@ -208,6 +208,11 @@ TOPICS = [
         "title": "$80,000 a year is $38.46 an hour",
         "script": "Eighty thousand dollars a year. Break it down. That is thirty eight dollars and forty six cents an hour, one thousand five hundred and thirty eight dollars a week, and six thousand six hundred and sixty seven dollars a month gross. Salaried roles do not pay overtime, which is exactly why the hourly figure matters when you compare two offers. The salary to hourly calculator at US Money HQ converts any salary in seconds. Free, no sign up.",
     },
+    {
+        "id": "pmi-10pct-400k",
+        "title": "10% down? PMI costs $16,350",
+        "script": "A four hundred thousand dollar home with ten percent down. That is a three hundred and sixty thousand dollar loan. Principal and interest at six and a half percent for thirty years runs two thousand two hundred and seventy five dollars a month. Then add private mortgage insurance: one hundred and fifty dollars more every month, until the balance falls to eighty percent of the original price. In this scenario that is month one hundred and nine, almost nine years away. Total PMI paid: sixteen thousand three hundred and fifty dollars. PMI is charged on the original loan amount, so it does not shrink as you pay the loan down. The PMI calculator at US Money HQ shows your cancellation month. Free.",
+    },
 ]
 
 
