@@ -213,6 +213,16 @@ TOPICS = [
         "title": "10% down? PMI costs $16,350",
         "script": "A four hundred thousand dollar home with ten percent down. That is a three hundred and sixty thousand dollar loan. Principal and interest at six and a half percent for thirty years runs two thousand two hundred and seventy five dollars a month. Then add private mortgage insurance: one hundred and fifty dollars more every month, until the balance falls to eighty percent of the original price. In this scenario that is month one hundred and nine, almost nine years away. Total PMI paid: sixteen thousand three hundred and fifty dollars. PMI is charged on the original loan amount, so it does not shrink as you pay the loan down. The PMI calculator at US Money HQ shows your cancellation month. Free.",
     },
+    {
+        # Added 2026-10-27. Every figure read from POST
+        # /api/calc/self-employment-tax-calculator {income:100000, filing:"single"}:
+        # net earnings $92,350.00, SS $11,451.40, Medicare $2,678.15, total
+        # $14,129.55, half-deduction $7,064.78. Self-employment tax is 15.3% of
+        # 92.35% of net profit, NOT 15.3% of net profit — that gap is the point.
+        "id": "self-employment-tax-100k",
+        "title": "Self-employment tax on $100k: $14,130",
+        "script": "If you are self employed, the fifteen point three percent figure everyone quotes is not what you pay on your income. It is fifteen point three percent of ninety two point three five percent of it. So on one hundred thousand dollars of net self employment income, the tax is figured on ninety two thousand three hundred and fifty dollars. Social Security takes eleven thousand four hundred and fifty one dollars. Medicare takes two thousand six hundred and seventy eight. Total self employment tax: fourteen thousand one hundred and twenty nine dollars and fifty five cents. Then remember half of that, seven thousand and sixty four dollars, is deductible against your income tax. If you are on a salary, your employer already paid half. Self employed, you pay both halves. The self employment tax calculator at US Money HQ runs it for your exact income. Free.",
+    },
 ]
 
 

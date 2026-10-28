@@ -1,0 +1,306 @@
+{
+ "_meta": {
+  "source": "US Census Bureau, ACS 2023 5-year estimates, table B19013 (Median Household Income), place level",
+  "acs_url": "https://www2.census.gov/programs-surveys/acs/summary_file/2023/table-based-SF/data/5YRData/acsdt5y2023-b19013.dat",
+  "gazetteer_url": "https://www2.census.gov/geo/docs/maps-data/data/gazetteer/2023_Gazetteer/2023_Gaz_place_national.zip",
+  "retrieved": "2026-10-27",
+  "join": "Gazetteer place name + state -> ACS GEO_ID 1600000US + place code",
+  "why": "Each metro page can state a sourced income figure that differs from every other metro in the same state. Without a per-entity fact like this, sibling pages measure 83-99.6% identical and must stay noindex."
+ },
+ "metros": [
+  {
+   "metro": "Dallas",
+   "state": "Texas",
+   "place_geoid": "4819000",
+   "median_household_income": 67760
+  },
+  {
+   "metro": "Houston",
+   "state": "Texas",
+   "place_geoid": "4835000",
+   "median_household_income": 62894
+  },
+  {
+   "metro": "Miami",
+   "state": "Florida",
+   "place_geoid": "1245000",
+   "median_household_income": 59390
+  },
+  {
+   "metro": "Seattle",
+   "state": "Washington",
+   "place_geoid": "5363000",
+   "median_household_income": 121984
+  },
+  {
+   "metro": "Tampa",
+   "state": "Florida",
+   "place_geoid": "1271000",
+   "median_household_income": 71302
+  },
+  {
+   "metro": "Orlando",
+   "state": "Florida",
+   "place_geoid": "1253000",
+   "median_household_income": 69268
+  },
+  {
+   "metro": "San Antonio",
+   "state": "Texas",
+   "place_geoid": "4865000",
+   "median_household_income": 62917
+  },
+  {
+   "metro": "Austin",
+   "state": "Texas",
+   "place_geoid": "4805000",
+   "median_household_income": 91461
+  },
+  {
+   "metro": "Las Vegas",
+   "state": "Nevada",
+   "place_geoid": "3240000",
+   "median_household_income": 70723
+  },
+  {
+   "metro": "Nashville",
+   "state": "Tennessee",
+   "place_geoid": "4752006",
+   "median_household_income": 75197
+  },
+  {
+   "metro": "Jacksonville",
+   "state": "Florida",
+   "place_geoid": "1235000",
+   "median_household_income": 66981
+  },
+  {
+   "metro": "Memphis",
+   "state": "Tennessee",
+   "place_geoid": "4748000",
+   "median_household_income": 51211
+  },
+  {
+   "metro": "Phoenix",
+   "state": "Arizona",
+   "place_geoid": "0455000",
+   "median_household_income": 77041
+  },
+  {
+   "metro": "Indianapolis",
+   "state": "Indiana",
+   "place_geoid": "1836003",
+   "median_household_income": 62995
+  },
+  {
+   "metro": "New Orleans",
+   "state": "Louisiana",
+   "place_geoid": "2255000",
+   "median_household_income": 55339
+  },
+  {
+   "metro": "Philadelphia",
+   "state": "Pennsylvania",
+   "place_geoid": "4260000",
+   "median_household_income": 60698
+  },
+  {
+   "metro": "Pittsburgh",
+   "state": "Pennsylvania",
+   "place_geoid": "4261000",
+   "median_household_income": 64137
+  },
+  {
+   "metro": "Cincinnati",
+   "state": "Ohio",
+   "place_geoid": "3915000",
+   "median_household_income": 51707
+  },
+  {
+   "metro": "Columbus",
+   "state": "Ohio",
+   "place_geoid": "3918000",
+   "median_household_income": 65327
+  },
+  {
+   "metro": "Cleveland",
+   "state": "Ohio",
+   "place_geoid": "3916000",
+   "median_household_income": 39187
+  },
+  {
+   "metro": "St Louis",
+   "state": "Missouri",
+   "place_geoid": "2965000",
+   "median_household_income": 55279
+  },
+  {
+   "metro": "Kansas City",
+   "state": "Missouri",
+   "place_geoid": "2938000",
+   "median_household_income": 67449
+  },
+  {
+   "metro": "Detroit",
+   "state": "Michigan",
+   "place_geoid": "2622000",
+   "median_household_income": 39575
+  },
+  {
+   "metro": "Charlotte",
+   "state": "North Carolina",
+   "place_geoid": "3712000",
+   "median_household_income": 78438
+  },
+  {
+   "metro": "Raleigh",
+   "state": "North Carolina",
+   "place_geoid": "3755000",
+   "median_household_income": 82424
+  },
+  {
+   "metro": "Denver",
+   "state": "Colorado",
+   "place_geoid": "0820000",
+   "median_household_income": 91681
+  },
+  {
+   "metro": "Oklahoma City",
+   "state": "Oklahoma",
+   "place_geoid": "4055000",
+   "median_household_income": 66702
+  },
+  {
+   "metro": "Birmingham",
+   "state": "Alabama",
+   "place_geoid": "0107000",
+   "median_household_income": 44376
+  },
+  {
+   "metro": "Salt Lake City",
+   "state": "Utah",
+   "place_geoid": "4967000",
+   "median_household_income": 74925
+  },
+  {
+   "metro": "Chicago",
+   "state": "Illinois",
+   "place_geoid": "1714000",
+   "median_household_income": 75134
+  },
+  {
+   "metro": "Atlanta",
+   "state": "Georgia",
+   "place_geoid": "1304000",
+   "median_household_income": 81938
+  },
+  {
+   "metro": "Boston",
+   "state": "Massachusetts",
+   "place_geoid": "2507000",
+   "median_household_income": 94755
+  },
+  {
+   "metro": "Baltimore",
+   "state": "Maryland",
+   "place_geoid": "2404000",
+   "median_household_income": 59623
+  },
+  {
+   "metro": "Virginia Beach",
+   "state": "Virginia",
+   "place_geoid": "5182000",
+   "median_household_income": 90685
+  },
+  {
+   "metro": "Providence",
+   "state": "Rhode Island",
+   "place_geoid": "4459000",
+   "median_household_income": 66772
+  },
+  {
+   "metro": "Richmond",
+   "state": "Virginia",
+   "place_geoid": "5167000",
+   "median_household_income": 62671
+  },
+  {
+   "metro": "Hartford",
+   "state": "Connecticut",
+   "place_geoid": "0937000",
+   "median_household_income": 45300
+  },
+  {
+   "metro": "Milwaukee",
+   "state": "Wisconsin",
+   "place_geoid": "5553000",
+   "median_household_income": 51888
+  },
+  {
+   "metro": "New York",
+   "state": "New York",
+   "place_geoid": "3651000",
+   "median_household_income": 79713
+  },
+  {
+   "metro": "Buffalo",
+   "state": "New York",
+   "place_geoid": "3611000",
+   "median_household_income": 48050
+  },
+  {
+   "metro": "Minneapolis",
+   "state": "Minnesota",
+   "place_geoid": "2743000",
+   "median_household_income": 80269
+  },
+  {
+   "metro": "Los Angeles",
+   "state": "California",
+   "place_geoid": "0644000",
+   "median_household_income": 80366
+  },
+  {
+   "metro": "San Francisco",
+   "state": "California",
+   "place_geoid": "0667000",
+   "median_household_income": 141446
+  },
+  {
+   "metro": "Riverside",
+   "state": "California",
+   "place_geoid": "0662000",
+   "median_household_income": 88575
+  },
+  {
+   "metro": "San Diego",
+   "state": "California",
+   "place_geoid": "0666000",
+   "median_household_income": 104321
+  },
+  {
+   "metro": "Sacramento",
+   "state": "California",
+   "place_geoid": "0664000",
+   "median_household_income": 83753
+  },
+  {
+   "metro": "San Jose",
+   "state": "California",
+   "place_geoid": "0668000",
+   "median_household_income": 141565
+  },
+  {
+   "metro": "Washington Dc",
+   "state": "District Of Columbia",
+   "place_geoid": "1150000",
+   "median_household_income": 106287
+  },
+  {
+   "metro": "Portland",
+   "state": "Oregon",
+   "place_geoid": "4159000",
+   "median_household_income": 88792
+  }
+ ]
+}
