@@ -1,0 +1,457 @@
+{
+ "_meta": {
+  "source": "US Census Bureau, ACS 2023 5-year estimates, place level",
+  "tables": {
+   "median_household_income": "B19013",
+   "median_home_value": "B25077"
+  },
+  "url_income": "https://www2.census.gov/programs-surveys/acs/summary_file/2023/table-based-SF/data/5YRData/acsdt5y2023-b19013.dat",
+  "url_home_value": "https://www2.census.gov/programs-surveys/acs/summary_file/2023/table-based-SF/data/5YRData/acsdt5y2023-b25077.dat",
+  "retrieved": "2026-10-29",
+  "method": "median home value divided by median household income, same release, same geography. No vendor estimates, no mixed vintages.",
+  "caveat": "Median value and median income describe different households, not the same household. The ratio is an area-level affordability indicator, not a statement about any individual buyer."
+ },
+ "metros": [
+  {
+   "metro": "Los Angeles",
+   "state": "California",
+   "place_geoid": "0644000",
+   "median_household_income": 80366,
+   "median_home_value": 879500,
+   "price_to_income": 10.94,
+   "years_of_income": 10.9
+  },
+  {
+   "metro": "San Francisco",
+   "state": "California",
+   "place_geoid": "0667000",
+   "median_household_income": 141446,
+   "median_home_value": 1380500,
+   "price_to_income": 9.76,
+   "years_of_income": 9.8
+  },
+  {
+   "metro": "New York",
+   "state": "New York",
+   "place_geoid": "3651000",
+   "median_household_income": 79713,
+   "median_home_value": 751700,
+   "price_to_income": 9.43,
+   "years_of_income": 9.4
+  },
+  {
+   "metro": "San Jose",
+   "state": "California",
+   "place_geoid": "0668000",
+   "median_household_income": 141565,
+   "median_home_value": 1187800,
+   "price_to_income": 8.39,
+   "years_of_income": 8.4
+  },
+  {
+   "metro": "San Diego",
+   "state": "California",
+   "place_geoid": "0666000",
+   "median_household_income": 104321,
+   "median_home_value": 848500,
+   "price_to_income": 8.13,
+   "years_of_income": 8.1
+  },
+  {
+   "metro": "Miami",
+   "state": "Florida",
+   "place_geoid": "1245000",
+   "median_household_income": 59390,
+   "median_home_value": 475200,
+   "price_to_income": 8.0,
+   "years_of_income": 8.0
+  },
+  {
+   "metro": "Boston",
+   "state": "Massachusetts",
+   "place_geoid": "2507000",
+   "median_household_income": 94755,
+   "median_home_value": 710400,
+   "price_to_income": 7.5,
+   "years_of_income": 7.5
+  },
+  {
+   "metro": "Seattle",
+   "state": "Washington",
+   "place_geoid": "5363000",
+   "median_household_income": 121984,
+   "median_home_value": 912100,
+   "price_to_income": 7.48,
+   "years_of_income": 7.5
+  },
+  {
+   "metro": "Washington Dc",
+   "state": "District Of Columbia",
+   "place_geoid": "1150000",
+   "median_household_income": 106287,
+   "median_home_value": 724600,
+   "price_to_income": 6.82,
+   "years_of_income": 6.8
+  },
+  {
+   "metro": "Salt Lake City",
+   "state": "Utah",
+   "place_geoid": "4967000",
+   "median_household_income": 74925,
+   "median_home_value": 495700,
+   "price_to_income": 6.62,
+   "years_of_income": 6.6
+  },
+  {
+   "metro": "Denver",
+   "state": "Colorado",
+   "place_geoid": "0820000",
+   "median_household_income": 91681,
+   "median_home_value": 586700,
+   "price_to_income": 6.4,
+   "years_of_income": 6.4
+  },
+  {
+   "metro": "Portland",
+   "state": "Oregon",
+   "place_geoid": "4159000",
+   "median_household_income": 88792,
+   "median_home_value": 557600,
+   "price_to_income": 6.28,
+   "years_of_income": 6.3
+  },
+  {
+   "metro": "Riverside",
+   "state": "California",
+   "place_geoid": "0662000",
+   "median_household_income": 88575,
+   "median_home_value": 542100,
+   "price_to_income": 6.12,
+   "years_of_income": 6.1
+  },
+  {
+   "metro": "Sacramento",
+   "state": "California",
+   "place_geoid": "0664000",
+   "median_household_income": 83753,
+   "median_home_value": 484600,
+   "price_to_income": 5.79,
+   "years_of_income": 5.8
+  },
+  {
+   "metro": "Austin",
+   "state": "Texas",
+   "place_geoid": "4805000",
+   "median_household_income": 91461,
+   "median_home_value": 512700,
+   "price_to_income": 5.61,
+   "years_of_income": 5.6
+  },
+  {
+   "metro": "Las Vegas",
+   "state": "Nevada",
+   "place_geoid": "3240000",
+   "median_household_income": 70723,
+   "median_home_value": 395300,
+   "price_to_income": 5.59,
+   "years_of_income": 5.6
+  },
+  {
+   "metro": "New Orleans",
+   "state": "Louisiana",
+   "place_geoid": "2255000",
+   "median_household_income": 55339,
+   "median_home_value": 296400,
+   "price_to_income": 5.36,
+   "years_of_income": 5.4
+  },
+  {
+   "metro": "Tampa",
+   "state": "Florida",
+   "place_geoid": "1271000",
+   "median_household_income": 71302,
+   "median_home_value": 375300,
+   "price_to_income": 5.26,
+   "years_of_income": 5.3
+  },
+  {
+   "metro": "Richmond",
+   "state": "Virginia",
+   "place_geoid": "5167000",
+   "median_household_income": 62671,
+   "median_home_value": 328100,
+   "price_to_income": 5.24,
+   "years_of_income": 5.2
+  },
+  {
+   "metro": "Orlando",
+   "state": "Florida",
+   "place_geoid": "1253000",
+   "median_household_income": 69268,
+   "median_home_value": 359000,
+   "price_to_income": 5.18,
+   "years_of_income": 5.2
+  },
+  {
+   "metro": "Atlanta",
+   "state": "Georgia",
+   "place_geoid": "1304000",
+   "median_household_income": 81938,
+   "median_home_value": 420600,
+   "price_to_income": 5.13,
+   "years_of_income": 5.1
+  },
+  {
+   "metro": "Nashville",
+   "state": "Tennessee",
+   "place_geoid": "4752006",
+   "median_household_income": 75197,
+   "median_home_value": 383100,
+   "price_to_income": 5.09,
+   "years_of_income": 5.1
+  },
+  {
+   "metro": "Phoenix",
+   "state": "Arizona",
+   "place_geoid": "0455000",
+   "median_household_income": 77041,
+   "median_home_value": 381900,
+   "price_to_income": 4.96,
+   "years_of_income": 5.0
+  },
+  {
+   "metro": "Providence",
+   "state": "Rhode Island",
+   "place_geoid": "4459000",
+   "median_household_income": 66772,
+   "median_home_value": 322800,
+   "price_to_income": 4.83,
+   "years_of_income": 4.8
+  },
+  {
+   "metro": "Hartford",
+   "state": "Connecticut",
+   "place_geoid": "0937000",
+   "median_household_income": 45300,
+   "median_home_value": 217200,
+   "price_to_income": 4.79,
+   "years_of_income": 4.8
+  },
+  {
+   "metro": "Raleigh",
+   "state": "North Carolina",
+   "place_geoid": "3755000",
+   "median_household_income": 82424,
+   "median_home_value": 377800,
+   "price_to_income": 4.58,
+   "years_of_income": 4.6
+  },
+  {
+   "metro": "Charlotte",
+   "state": "North Carolina",
+   "place_geoid": "3712000",
+   "median_household_income": 78438,
+   "median_home_value": 351500,
+   "price_to_income": 4.48,
+   "years_of_income": 4.5
+  },
+  {
+   "metro": "Dallas",
+   "state": "Texas",
+   "place_geoid": "4819000",
+   "median_household_income": 67760,
+   "median_home_value": 295300,
+   "price_to_income": 4.36,
+   "years_of_income": 4.4
+  },
+  {
+   "metro": "Minneapolis",
+   "state": "Minnesota",
+   "place_geoid": "2743000",
+   "median_household_income": 80269,
+   "median_home_value": 345600,
+   "price_to_income": 4.31,
+   "years_of_income": 4.3
+  },
+  {
+   "metro": "Chicago",
+   "state": "Illinois",
+   "place_geoid": "1714000",
+   "median_household_income": 75134,
+   "median_home_value": 315200,
+   "price_to_income": 4.2,
+   "years_of_income": 4.2
+  },
+  {
+   "metro": "Cincinnati",
+   "state": "Ohio",
+   "place_geoid": "3915000",
+   "median_household_income": 51707,
+   "median_home_value": 215300,
+   "price_to_income": 4.16,
+   "years_of_income": 4.2
+  },
+  {
+   "metro": "Virginia Beach",
+   "state": "Virginia",
+   "place_geoid": "5182000",
+   "median_household_income": 90685,
+   "median_home_value": 366300,
+   "price_to_income": 4.04,
+   "years_of_income": 4.0
+  },
+  {
+   "metro": "Houston",
+   "state": "Texas",
+   "place_geoid": "4835000",
+   "median_household_income": 62894,
+   "median_home_value": 253400,
+   "price_to_income": 4.03,
+   "years_of_income": 4.0
+  },
+  {
+   "metro": "Jacksonville",
+   "state": "Florida",
+   "place_geoid": "1235000",
+   "median_household_income": 66981,
+   "median_home_value": 266100,
+   "price_to_income": 3.97,
+   "years_of_income": 4.0
+  },
+  {
+   "metro": "Philadelphia",
+   "state": "Pennsylvania",
+   "place_geoid": "4260000",
+   "median_household_income": 60698,
+   "median_home_value": 232400,
+   "price_to_income": 3.83,
+   "years_of_income": 3.8
+  },
+  {
+   "metro": "Baltimore",
+   "state": "Maryland",
+   "place_geoid": "2404000",
+   "median_household_income": 59623,
+   "median_home_value": 219300,
+   "price_to_income": 3.68,
+   "years_of_income": 3.7
+  },
+  {
+   "metro": "Columbus",
+   "state": "Ohio",
+   "place_geoid": "3918000",
+   "median_household_income": 65327,
+   "median_home_value": 234500,
+   "price_to_income": 3.59,
+   "years_of_income": 3.6
+  },
+  {
+   "metro": "San Antonio",
+   "state": "Texas",
+   "place_geoid": "4865000",
+   "median_household_income": 62917,
+   "median_home_value": 219700,
+   "price_to_income": 3.49,
+   "years_of_income": 3.5
+  },
+  {
+   "metro": "Kansas City",
+   "state": "Missouri",
+   "place_geoid": "2938000",
+   "median_household_income": 67449,
+   "median_home_value": 227000,
+   "price_to_income": 3.37,
+   "years_of_income": 3.4
+  },
+  {
+   "metro": "St Louis",
+   "state": "Missouri",
+   "place_geoid": "2965000",
+   "median_household_income": 55279,
+   "median_home_value": 185100,
+   "price_to_income": 3.35,
+   "years_of_income": 3.3
+  },
+  {
+   "metro": "Milwaukee",
+   "state": "Wisconsin",
+   "place_geoid": "5553000",
+   "median_household_income": 51888,
+   "median_home_value": 172000,
+   "price_to_income": 3.31,
+   "years_of_income": 3.3
+  },
+  {
+   "metro": "Indianapolis",
+   "state": "Indiana",
+   "place_geoid": "1836003",
+   "median_household_income": 62995,
+   "median_home_value": 207000,
+   "price_to_income": 3.29,
+   "years_of_income": 3.3
+  },
+  {
+   "metro": "Oklahoma City",
+   "state": "Oklahoma",
+   "place_geoid": "4055000",
+   "median_household_income": 66702,
+   "median_home_value": 215100,
+   "price_to_income": 3.22,
+   "years_of_income": 3.2
+  },
+  {
+   "metro": "Buffalo",
+   "state": "New York",
+   "place_geoid": "3611000",
+   "median_household_income": 48050,
+   "median_home_value": 152300,
+   "price_to_income": 3.17,
+   "years_of_income": 3.2
+  },
+  {
+   "metro": "Birmingham",
+   "state": "Alabama",
+   "place_geoid": "0107000",
+   "median_household_income": 44376,
+   "median_home_value": 138600,
+   "price_to_income": 3.12,
+   "years_of_income": 3.1
+  },
+  {
+   "metro": "Memphis",
+   "state": "Tennessee",
+   "place_geoid": "4748000",
+   "median_household_income": 51211,
+   "median_home_value": 157100,
+   "price_to_income": 3.07,
+   "years_of_income": 3.1
+  },
+  {
+   "metro": "Pittsburgh",
+   "state": "Pennsylvania",
+   "place_geoid": "4261000",
+   "median_household_income": 64137,
+   "median_home_value": 193200,
+   "price_to_income": 3.01,
+   "years_of_income": 3.0
+  },
+  {
+   "metro": "Cleveland",
+   "state": "Ohio",
+   "place_geoid": "3916000",
+   "median_household_income": 39187,
+   "median_home_value": 94100,
+   "price_to_income": 2.4,
+   "years_of_income": 2.4
+  },
+  {
+   "metro": "Detroit",
+   "state": "Michigan",
+   "place_geoid": "2622000",
+   "median_household_income": 39575,
+   "median_home_value": 76800,
+   "price_to_income": 1.94,
+   "years_of_income": 1.9
+  }
+ ]
+}

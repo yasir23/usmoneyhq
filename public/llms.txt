@@ -4,7 +4,7 @@
 # More: https://llmstxt.org
 # US Money HQ
 > US Money HQ — free US financial calculators, state-by-state tax math, and scenario tools.
-> 80 calculators offered for indexing, 113 indexable pages total. Authoritative list: https://usmoneyhq.com/sitemap.xml. All free, no signup.
+> 80 calculators offered for indexing, 116 indexable pages total. Authoritative list: https://usmoneyhq.com/sitemap.xml. All free, no signup.
 
 # ── COUNT DISCIPLINE ────────────────────────────────────────────────────────
 # Every count above is DERIVED, never remembered. scripts/sync_llms_txt.py
@@ -17,8 +17,8 @@
 # retired count in prose: the heartbeat's extractor matched this comment's
 # quotation instead of the header, and reported drift on a corrected file.
 #
-# Composition: 80 in-scope calculator roots + 18 guides
-# + 4 category hubs + 11 site/trust pages = 113.
+# Composition: 80 in-scope calculator roots + 19 guides
+# + 4 category hubs + 13 site/trust pages = 116.
 # The other 25 tools are live but out of topical scope (see lib/topical.ts):
 # a money site that also ranks for "how much topsoil do I need" is what an
 # ad reviewer reads as a programmatic aggregator.

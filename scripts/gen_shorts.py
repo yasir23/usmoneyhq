@@ -223,6 +223,15 @@ TOPICS = [
         "title": "Self-employment tax on $100k: $14,130",
         "script": "If you are self employed, the fifteen point three percent figure everyone quotes is not what you pay on your income. It is fifteen point three percent of ninety two point three five percent of it. So on one hundred thousand dollars of net self employment income, the tax is figured on ninety two thousand three hundred and fifty dollars. Social Security takes eleven thousand four hundred and fifty one dollars. Medicare takes two thousand six hundred and seventy eight. Total self employment tax: fourteen thousand one hundred and twenty nine dollars and fifty five cents. Then remember half of that, seven thousand and sixty four dollars, is deductible against your income tax. If you are on a salary, your employer already paid half. Self employed, you pay both halves. The self employment tax calculator at US Money HQ runs it for your exact income. Free.",
     },
+    {
+        # Added 2026-10-29. Every figure read from POST
+        # /api/calc/salary-after-tax-calculator {salary:75000, state:"TX"}:
+        # take-home $61,592.50, monthly $5,132.71, biweekly $2,368.94,
+        # federal $7,670.00, FICA $5,737.50, state tax (TX) $0.00.
+        "id": "salary-75k-texas",
+        "title": "$75,000 in Texas: $61,592 take-home",
+        "script": "Seventy five thousand dollars a year in Texas. Federal income tax takes seven thousand six hundred and seventy dollars. Social security and Medicare take five thousand seven hundred and thirty seven dollars and fifty cents. Texas state income tax: zero. What is left is sixty one thousand five hundred and ninety two dollars a year, five thousand one hundred and thirty three a month, or two thousand three hundred and sixty nine dollars on a bi weekly paycheck. Texas is one of the states with no income tax, so the gap against a high tax state is real money. The salary after tax calculator at US Money HQ runs your number in all fifty states, free.",
+    },
 ]
 
 
