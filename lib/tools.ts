@@ -164,7 +164,7 @@ export const TOOLS: ToolDef[] = [
     title: "Mortgage Calculator 2026 — Monthly Payment & Amortization | US Money HQ",
     shortTitle: "Mortgage Calculator",
     description:
-      "Free US mortgage calculator: estimate your monthly payment, total interest, and full amortization schedule. Updated for 2026 rates.",
+      "Free US mortgage calculator: monthly payment, total interest, amortization schedule, and what extra monthly payments save.",
     h1: "Mortgage Calculator",
     sub: "Estimate your monthly payment, total interest, and amortization schedule for a US home loan.",
     fields: [
@@ -182,12 +182,14 @@ export const TOOLS: ToolDef[] = [
           { value: 30, label: "30 years" },
         ],
       },
+      { key: "extra", label: "Extra monthly payment (USD)", type: "number", default: 0, min: 0, step: 50, inputMode: "numeric" },
     ],
     compute: (v) => {
       const amount = Number(v.amount) || 0;
       const downPct = Number(v.down) || 0;
       const rate = Number(v.rate) || 0;
       const years = Number(v.years) || 30;
+      const extra = Number(v.extra) || 0;
       const principal = Math.max(0, amount - (amount * downPct) / 100);
       const payment = principal * (rate / 100 / 12) > 0 || rate === 0 ? monthlyPaymentSafe(principal, rate, years * 12) : 0;
       const rows = [moneyRow("Loan amount", principal), moneyRow("Monthly payment", payment, true)];
@@ -196,6 +198,24 @@ export const TOOLS: ToolDef[] = [
         const totalInterest = sched.reduce((a, r) => a + r.interest, 0);
         rows.push(moneyRow("Total interest", totalInterest));
         rows.push(moneyRow("Total paid", principal + totalInterest));
+        if (extra > 0) {
+          // Extra principal: the contract payment plus the extra, iterated to payoff.
+          // The 1-cent tolerance stops floating-point residue adding a phantom month.
+          const monthlyRate = rate / 100 / 12;
+          const monthlyTotal = payment + extra;
+          let bal = principal;
+          let months = 0;
+          let interestWithExtra = 0;
+          while (bal > 0.01 && months < 1200) {
+            const interest = bal * monthlyRate;
+            interestWithExtra += interest;
+            bal = bal + interest - monthlyTotal;
+            months++;
+          }
+          rows.push({ label: "Payoff time with extra", value: Math.floor(months / 12) + " yrs " + (months % 12) + " mo" });
+          rows.push(moneyRow("Interest saved with extra", Math.max(0, totalInterest - interestWithExtra)));
+          rows.push(moneyRow("Total paid with extra", principal + interestWithExtra));
+        }
       }
       return rows;
     },
@@ -204,6 +224,7 @@ export const TOOLS: ToolDef[] = [
       { q: "What is a good mortgage rate in 2026?", a: "Rates vary with the economy and your credit profile. Compare offers from at least three lenders and consider whether a 15-year or 30-year term fits your budget." },
       { q: "Does this include property tax and insurance?", a: "No. Your full monthly payment (PITI) also includes property taxes, homeowners insurance, and possibly PMI if your down payment is under 20%." },
       { q: "How does the amortization schedule work?", a: "Early payments go mostly to interest; later payments go mostly to principal. The schedule shows exactly how much of each payment reduces your balance." },
+      { q: "How much does an extra monthly payment save on a mortgage?", a: "Every extra dollar goes to principal, so it also removes all the interest that dollar would have earned for the remaining term — which is why the same $100 is worth more in year one than in year twenty. On this calculator's defaults (a $400,000 home, 20% down, so a $320,000 loan at 6.5% over 30 years) the payment is $2,022.62 and total interest is $408,142.36. Adding $100 a month clears the loan in 314 months instead of 360 — 3 years and 10 months earlier — and cuts total interest to $346,443.89, a saving of $61,698.47. At $200 a month it is paid off in 281 months with $302,713.69 of interest, $105,428.67 saved; at $500 a month, in 216 months with $185,552.45 saved. Two things decide whether you actually capture that: the extra must be applied to principal (some servicers hold it as a credit toward the next payment unless you instruct otherwise), and if you have an escrow account the extra has to be directed to the loan rather than to escrow." },
       { q: "Can I use this for a VA loan?", a: "Yes — VA loans require zero down payment and no PMI, but include a one-time funding fee (2.15-3.3% for most buyers). Set down payment to 0% and ignore the PMI estimate; add the funding fee into the loan amount for a closer number." },
     ],
     related: ["pmi-calculator", "heloc-calculator", "dti-calculator", "refinance-calculator"],
