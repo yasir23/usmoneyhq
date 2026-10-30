@@ -60,12 +60,12 @@ export default function HomePriceToIncome({ metros, above5, total, top, bottom }
     temporalCoverage: "2019/2023",
     spatialCoverage: "United States",
     variableMeasured: [
-      "Median household income (ACS B19013)",
+      "Median household income, owner-occupied (ACS B25119)",
       "Median home value (ACS B25077)",
       "Price-to-income ratio (derived)",
     ],
     citation:
-      "US Census Bureau, American Community Survey 2023 5-year estimates, tables B19013 and B25077",
+      "US Census Bureau, American Community Survey 2023 5-year estimates, tables B25077 and B25119",
   };
 
   return (
@@ -95,7 +95,7 @@ export default function HomePriceToIncome({ metros, above5, total, top, bottom }
         <p>
           In <strong>{top.metro}, {top.state}</strong> the median home value is{" "}
           <strong>{top.price_to_income.toFixed(2)} times</strong> median household income
-          ({money(top.median_home_value)} against {money(top.median_household_income)}).
+          ({money(top.median_home_value)} against {money(top.owner_median_income)} of owner households).
           At the other end, <strong>{bottom.metro}, {bottom.state}</strong> sits at{" "}
           <strong>{bottom.price_to_income.toFixed(2)} times</strong>. Across the {total}{" "}
           metros measured, <strong>{above5}</strong> exceed five times local income.
@@ -109,7 +109,7 @@ export default function HomePriceToIncome({ metros, above5, total, top, bottom }
                 <th>Metro</th>
                 <th>State</th>
                 <th style={{ textAlign: "right" }}>Median home value</th>
-                <th style={{ textAlign: "right" }}>Median household income</th>
+                <th style={{ textAlign: "right" }}>Median income, owner households</th>
                 <th style={{ textAlign: "right" }}>Price / income</th>
               </tr>
             </thead>
@@ -119,7 +119,7 @@ export default function HomePriceToIncome({ metros, above5, total, top, bottom }
                   <td>{m.metro}</td>
                   <td>{m.state}</td>
                   <td style={{ textAlign: "right" }}>{money(m.median_home_value)}</td>
-                  <td style={{ textAlign: "right" }}>{money(m.median_household_income)}</td>
+                  <td style={{ textAlign: "right" }}>{money(m.owner_median_income)}</td>
                   <td style={{ textAlign: "right" }}>
                     <strong>{m.price_to_income.toFixed(2)}</strong>
                   </td>
@@ -131,19 +131,25 @@ export default function HomePriceToIncome({ metros, above5, total, top, bottom }
 
         <h2>Method</h2>
         <p>
-          Both figures come from the same release and the same geography: median value of
-          owner-occupied housing units (ACS table B25077) divided by median household income
-          (ACS table B19013), at place level, for the principal city of each metro. Nothing
-          is mixed across vintages and no vendor estimates are used. Source files are the
-          Census table-based summary files for the 2023 5-year estimates.
+          Median value of owner-occupied housing units (ACS table B25077) divided by the
+          median household income of <em>owner-occupied</em> households (ACS table B25119,
+          tenure column). Both sides describe owners, at place level, for the principal city
+          of each metro, from the same 2023 5-year release.
+          <br /><br />
+          Revised 30 October 2026: the first version of this page divided by the median
+          income of <em>all</em> households, which includes renters — a mixed population.
+          That understated affordability everywhere (Los Angeles moved from 10.94× to
+          6.82×). The all-household figure is still published as
+          <code>price_to_income_all_households</code> in the data file for transparency.
         </p>
 
         <h2>What this ratio is not</h2>
         <p>
-          Median home value and median household income describe <em>different</em>{" "}
-          households. The ratio is an area-level affordability indicator — it says how far
-          the typical home price sits above the typical local income, not what any
-          particular family can afford. A buyer putting 20% down and carrying a 30-year
+          Both figures describe owner households, but not the same households, and the
+          medians are computed independently. The ratio is an area-level indicator of how
+          far the typical owner-occupied home sits above the typical owner household's
+          income — not what any particular family can afford, and not a statement about
+          renters, who are excluded from both sides by construction. A buyer putting 20% down and carrying a 30-year
           loan faces a very different monthly figure. Use the{" "}
           <Link href="/home-affordability-calculator">home affordability calculator</Link>{" "}
           for a specific household, and the{" "}
