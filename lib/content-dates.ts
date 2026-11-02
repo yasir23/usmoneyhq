@@ -46,7 +46,13 @@ export const CONTENT_DATES = {
    * SHIPPED on 10-07 (commit 719f734), and scripts/check_content_dates.py had
    * been flagging the group as stale against git ever since.
    */
-  site: "2026-10-07",
+  /**
+   * 2026-10-21: re-seeded from git. pages/about.js gained its JSON-LD block on
+   * 10-21 and the sitemap still published 10-07, so /about, /methodology,
+   * /contact, /developers, /premium, /widgets and the category hubs were all
+   * telling crawlers their content was two weeks older than it was.
+   */
+  site: "2026-10-21",
   /**
    * lib/tools.ts (calculator definitions, formulas, FAQ copy) and
    * lib/toolContent.ts (the deep content on the base tool pages).
@@ -68,7 +74,13 @@ export const CONTENT_DATES = {
    * the auto-loan FAQ claimed $100/month extra saves "over $1,000" at the
    * calculator's 60-month default, where the engine returns $972.33.
    */
-  tools: "2026-10-16",
+  /**
+   * 2026-10-30: lib/tools.ts and lib/toolContent.ts both changed on 10-30
+   * (mortgage extra-payment field, its FAQ and worked examples). The tool pages
+   * are the pages that need recrawling most, so understating their freshness was
+   * the most expensive of the four stale dates.
+   */
+  tools: "2026-10-30",
   /** lib/states.ts + lib/stateRates.ts — state tax structure and rate schedules. */
   states: "2026-09-26",
   /** lib/amounts.ts — salary and price scenario bands. */
@@ -84,14 +96,24 @@ export const CONTENT_DATES = {
    * face of the take-home-pay dataset, so the data asset is citable and
    * linkable rather than a bare JSON file.
    */
-  guides: "2026-10-12",
+  /**
+   * 2026-10-30: guides changed on 10-30 after the 10-12 take-home-pay page.
+   */
+  guides: "2026-10-30",
   /**
    * Legal and policy pages: privacy, terms.
    * 2026-10-06: the privacy policy gained an explicit Google Analytics 4
    * disclosure and a description of the first-party counter.
    * 2026-10-07: re-seeded from git — that disclosure shipped on 10-07 (719f734).
    */
-  legal: "2026-10-07",
+  /**
+   * 2026-11-02: /disclosure and /editorial-policy rewritten to the trust-page
+   * word floor (they measured 329 and 442 visible words — the two thinnest pages
+   * on the domain). Both are now listed in this group in
+   * scripts/check_content_dates.py, so neither can drift unnoticed again; before
+   * this change the group watched only privacy-policy and terms.
+   */
+  legal: "2026-11-02",
 } as const;
 
 export type ContentGroup = keyof typeof CONTENT_DATES;

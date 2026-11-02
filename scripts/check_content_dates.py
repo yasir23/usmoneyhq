@@ -62,7 +62,8 @@ GROUP_FILES = {
     "amounts": ["lib/amounts.ts"],
     "metros": ["lib/metros.ts"],
     "guides": ["pages/guides", "lib/guides.ts"],
-    "legal": ["pages/privacy-policy.js", "pages/terms.js"],
+    "legal": ["pages/privacy-policy.js", "pages/terms.js",
+              "pages/disclosure.js", "pages/editorial-policy.js"],
 }
 
 

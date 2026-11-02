@@ -54,6 +54,7 @@ const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const DESCRIBERS = [
   "pages/methodology.js",
   "pages/about.js",
+  "pages/editorial-policy.js",
   "components/ToolPageShell.tsx",
   "public/llms.txt",
 ];
