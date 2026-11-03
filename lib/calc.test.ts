@@ -3,6 +3,7 @@ import assert from "node:assert";
 import {
   monthlyPayment,
   amortizationSchedule,
+  yearlyAmortization,
   federalTax,
   fica,
   stateTax,
@@ -992,6 +993,59 @@ console.log("ALL PHASE 9 CALC TESTS PASS");
 }
 
 console.log("ALL BALLOON TESTS PASS");
+
+// === Year-by-year amortization: the schedule /amortization-schedule-calculator shows ===
+// The page is titled "Amortization Schedule Calculator", so the rows it renders have
+// to reconcile with the summary printed above them. These assertions pin that: the
+// year rows must sum back to the loan amount and to amortizationSummary's interest,
+// and an extra payment must shorten the schedule (both directions — a schedule that
+// ignored the extra payment would pass every "is a number" check).
+{
+  const summary = amortizationSummary(250000, 6.5, 30);
+  const yrs = yearlyAmortization(250000, 6.5, summary.payment, 360);
+  assert.strictEqual(yrs.length, 30, `30-year loan rolls up to 30 year rows (got ${yrs.length})`);
+  assert.ok(Math.abs(yrs[yrs.length - 1].balance) < 0.01, "final year-end balance clears the loan");
+  assert.strictEqual(yrs.reduce((s, y) => s + y.months, 0), 360, "month counts add back to the term");
+
+  const principalPaid = yrs.reduce((s, y) => s + y.principal, 0);
+  assert.ok(Math.abs(principalPaid - 250000) < 1, `principal column sums to the loan (${principalPaid})`);
+  const interestPaid = yrs.reduce((s, y) => s + y.interest, 0);
+  assert.ok(
+    Math.abs(interestPaid - summary.totalInterest) < 1,
+    `interest column sums to the summary total (${interestPaid} vs ${summary.totalInterest})`
+  );
+
+  // Front-loaded interest: year 1 must be mostly interest, and the crossover to
+  // mostly-principal must happen somewhere in the middle of a 30-year term.
+  assert.ok(yrs[0].interest > yrs[0].principal, "year 1 is mostly interest");
+  assert.ok(yrs[29].principal > yrs[29].interest, "year 30 is mostly principal");
+  const crossover = yrs.findIndex((y) => y.principal > y.interest);
+  assert.ok(crossover > 5 && crossover < 25, `principal overtakes interest mid-term (year ${crossover + 1})`);
+
+  // Extra payment: fewer years, less interest.
+  const faster = yearlyAmortization(250000, 6.5, summary.payment + 100, 360);
+  assert.ok(faster.length < 30, "an extra $100/mo clears the loan in fewer years");
+  assert.ok(
+    faster.reduce((s, y) => s + y.interest, 0) < interestPaid,
+    "an extra $100/mo costs less interest"
+  );
+
+  // Balloon: capped at the term, the last row must show the balloon still owed
+  // rather than amortising past it at the balloon-adjusted payment.
+  const bl = amortizationSummary(250000, 6.5, 30, 100000);
+  const blRows = yearlyAmortization(250000, 6.5, bl.payment, 360);
+  assert.strictEqual(blRows.length, 30, "balloon loan still runs the full term");
+  assert.ok(
+    Math.abs(blRows[29].balance - 100000) < 5,
+    `balloon left outstanding at the end (${blRows[29].balance})`
+  );
+
+  // A payment that does not cover the interest cannot amortise.
+  assert.deepStrictEqual(yearlyAmortization(1000, 12, 5), [], "payment below interest returns no rows");
+  assert.deepStrictEqual(yearlyAmortization(0, 6.5, 1000), [], "no principal returns no rows");
+}
+
+console.log("ALL YEAR-BY-YEAR AMORTIZATION TESTS PASS");
 
 // === State-specific income tax (added 2026-09-26) =========================
 //

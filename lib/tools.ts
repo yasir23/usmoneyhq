@@ -63,6 +63,7 @@ import {
   capitalGains,
   salaryToHourly,
   amortizationSummary,
+  yearlyAmortization,
   roiCalc,
   markupCalc,
   marginCalc,
@@ -2099,9 +2100,9 @@ export const TOOLS: ToolDef[] = [
     slug: "amortization-schedule-calculator",
     title: "Amortization Schedule Calculator 2026 — Payment & Interest | US Money HQ",
     shortTitle: "Amortization Schedule Calculator",
-    description: "Free amortization schedule calculator: monthly payment, total interest, and payoff summary for any loan.",
+    description: "Free amortization schedule calculator: your monthly payment, total interest, and a year-by-year schedule of interest against the balance left.",
     h1: "Amortization Schedule Calculator",
-    sub: "The full cost of your loan, in plain numbers.",
+    sub: "Your payment, the total interest, and how the balance actually falls — year by year.",
     fields: [
       { key: "amount", label: "Loan amount (USD)", type: "number", default: 250000, min: 0, step: 1000, inputMode: "numeric" },
       { key: "rate", label: "Interest rate (annual %)", type: "number", default: 6.5, min: 0, step: 0.01, inputMode: "decimal" },
@@ -2110,21 +2111,45 @@ export const TOOLS: ToolDef[] = [
       { key: "balloon", label: "Balloon payment at end (USD)", type: "number", default: 0, min: 0, step: 10000, inputMode: "numeric" },
     ],
     compute: (v) => {
+      const amount = Number(v.amount) || 0;
+      const rate = Number(v.rate) || 0;
+      const years = Number(v.years) || 30;
       const extra = Number(v.extra) || 0;
       const balloon = Number(v.balloon) || 0;
+      // The page is titled "Amortization Schedule Calculator", so it has to show a
+      // schedule — until 2026-11-02 this result panel was a four-row summary and the
+      // schedule was the one thing missing. Every row below comes from
+      // yearlyAmortization(), so the schedule cannot drift from the summary above it.
+      const whole = (n: number) => "$" + Math.round(n).toLocaleString("en-US");
+      const scheduleRows = (pay: number, termMonths: number): ResultRow[] =>
+        yearlyAmortization(amount, rate, pay, termMonths).map((y) => ({
+          label: `Year ${y.year}`,
+          value: `${whole(y.interest)} interest · ${whole(y.balance)} left`,
+        }));
       if (extra > 0) {
-        const r = loanWithExtra(Number(v.amount) || 0, Number(v.rate) || 0, (Number(v.years) || 30) * 12, extra);
-        return [moneyRow("Monthly payment (base)", r.payment, true), { label: "Payoff time", value: r.years + " yrs " + r.remMonths + " mo" }, moneyRow("Total interest", r.totalInterest), moneyRow("Interest saved", r.interestSaved)];
+        const r = loanWithExtra(amount, rate, years * 12, extra);
+        return [
+          moneyRow("Monthly payment (base)", r.payment, true),
+          { label: "Payoff time", value: r.years + " yrs " + r.remMonths + " mo" },
+          moneyRow("Total interest", r.totalInterest),
+          moneyRow("Interest saved", r.interestSaved),
+          ...scheduleRows(r.payment + extra, years * 12),
+        ];
       }
-      const r = amortizationSummary(Number(v.amount) || 0, Number(v.rate) || 0, Number(v.years) || 30, balloon);
-      const rows = [moneyRow("Monthly payment", r.payment, true)];
+      const r = amortizationSummary(amount, rate, years, balloon);
+      const rows: ResultRow[] = [moneyRow("Monthly payment", r.payment, true)];
       if (balloon > 0) rows.push(moneyRow("Balloon payment (final)", r.balloon));
-      rows.push(moneyRow("Total interest", r.totalInterest), moneyRow("Total paid", r.totalPaid), { label: "Payoff", value: r.years + " years (" + r.months + " months)" });
+      rows.push(
+        moneyRow("Total interest", r.totalInterest),
+        moneyRow("Total paid", r.totalPaid),
+        { label: "Payoff", value: r.years + " years (" + r.months + " months)" },
+        ...scheduleRows(r.payment, years * 12)
+      );
       return rows;
     },
-    note: "Standard amortization: equal payments, interest front-loaded. A balloon payment (common on commercial or 5-year loans) lowers the regular payment but leaves a large final lump sum.",
+    note: "Standard amortization: equal payments, interest front-loaded. The Year rows show interest paid in that year and the balance still owed at its end, rounded to the dollar. A balloon payment (common on commercial or 5-year loans) lowers the regular payment but leaves a large final lump sum — the schedule keeps the balloon outstanding instead of paying it off.",
     faq: [
-      { q: "What is an amortization schedule?", a: "It's the monthly breakdown of principal and interest over a loan's life. Early payments are mostly interest; later payments shift toward principal." },
+      { q: "What is an amortization schedule?", a: "It's the monthly breakdown of principal and interest over a loan's life. Early payments are mostly interest; later payments shift toward principal. The Year rows in the results are that breakdown rolled up: each one is the interest charged in that year and the balance left at its end, so you can see the year principal overtakes interest." },
       { q: "How can I pay less interest?", a: "Shorter terms and extra principal payments slash total interest. Even one extra payment per year can shave years off a 30-year mortgage." },
       { q: "How much does an extra payment save on a 30-year mortgage?", a: "On the default $250,000 at 6.5% over 30 years the payment is $1,580.17 a month and total interest is $318,861.22. Add $100 a month and the loan is done in 25 years 4 months with total interest of $260,001.34 — a saving of $58,859.89. At $200 a month it pays off in 22 years 1 month and saves $97,618.12, and at $500 a month in 16 years 3 months for a saving of $163,515.95. Spread a single extra payment across the year instead ($131.68 a month) and it still finishes in 24 years 2 months and saves $72,713.57. Extra dollars go straight to principal, so each one also ends the interest that would have accrued on it for the rest of the term." },
       { q: "How do I model a balloon payment?", a: "Set the loan term to the date the balloon comes due, and enter the balance still owed at that point in the balloon field. To model a 10-year balloon on a 30-year amortization, drop the term to 10 years and enter $211,940.32 — that is the balance remaining after 120 payments on a $250,000 loan at 6.5%. The tool then keeps the payment at $1,580.17 a month, versus the $2,838.70 a fully amortizing 10-year loan would require. The low payment is not free: over those same 10 years the balloon version costs $151,560.72 of interest against $90,643.93 for the true 10-year loan, and you still owe the $211,940.32 at the end. The same trade-off holds at full term — a $100,000 balloon due after 30 years lowers the payment to $1,489.77 from $1,580.17 but raises total interest from $318,861.22 to $386,316.73." },

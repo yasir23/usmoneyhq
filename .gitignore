@@ -5,3 +5,4 @@ scripts/__pycache__/
 
 # TS incremental build info (from npx tsc --noEmit)
 *.tsbuildinfo
+.DS_Store

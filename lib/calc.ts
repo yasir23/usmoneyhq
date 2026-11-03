@@ -49,6 +49,85 @@ export function amortizationSchedule(principal: number, ratePct: number, termMon
   return rows;
 }
 
+export type YearAmortRow = {
+  year: number;
+  months: number;
+  interest: number;
+  principal: number;
+  balance: number;
+};
+
+/**
+ * Year-end roll-up of the amortization schedule, driven by a FIXED monthly payment.
+ *
+ * WHY THIS EXISTS: /amortization-schedule-calculator was titled "Amortization
+ * Schedule Calculator" and described a schedule, but its result panel showed only
+ * a four-row summary — payment, total interest, total paid, payoff. The one thing
+ * the title promises was the one thing missing, on the highest-intent query for
+ * that page. `amortizationSchedule()` already had the month-by-month maths but
+ * nothing rendered it; 360 rows is not a result panel, so this rolls it up to one
+ * row per year while keeping every figure engine-derived rather than hand-typed.
+ *
+ * Because it takes the PAYMENT rather than deriving it, the same function covers
+ * three cases without special-casing:
+ *   - standard loan: pass the fully-amortising payment
+ *   - balloon loan:  pass the balloon-adjusted payment (amortizationSummary's) and
+ *                    cap maxMonths at the term, so the last row shows the balloon
+ *                    still outstanding instead of silently amortising past it
+ *   - extra payments: pass base + extra; the loop simply stops when the balance clears
+ *
+ * A payment at or below the FIRST month's interest can never reduce the balance,
+ * so that case returns [] rather than an unbounded row set.
+ */
+export function yearlyAmortization(
+  principal: number,
+  ratePct: number,
+  monthlyPay: number,
+  maxMonths = 600
+): YearAmortRow[] {
+  const p = Math.max(0, principal);
+  const pay = Math.max(0, monthlyPay);
+  const r = ratePct / 100 / 12;
+  if (p <= 0 || pay <= 0) return [];
+  if (p * r >= pay) return []; // the payment never touches principal
+  const out: YearAmortRow[] = [];
+  let balance = p;
+  let interestToDate = 0;
+  let principalToDate = 0;
+  let months = 0;
+  for (let m = 1; m <= Math.max(1, maxMonths); m++) {
+    const interest = balance * r;
+    const principalPart = Math.min(pay - interest, balance);
+    balance = Math.max(0, balance - principalPart);
+    interestToDate += interest;
+    principalToDate += principalPart;
+    months++;
+    if (months === 12 || balance <= 0.005) {
+      out.push({
+        year: Math.ceil(m / 12),
+        months,
+        interest: round2(interestToDate),
+        principal: round2(principalToDate),
+        balance: round2(balance),
+      });
+      interestToDate = 0;
+      principalToDate = 0;
+      months = 0;
+    }
+    if (balance <= 0.005) break;
+  }
+  // A payment rounded to the cent leaves a few cents of residue at the end of the
+  // term (on a 30-year loan, $0.06). A servicer's final payment absorbs it, and a
+  // row that reads "$0 left" while the summary says "payoff in 30 years" has to
+  // agree — so fold a sub-dollar residue into the final row's principal.
+  const last = out[out.length - 1];
+  if (last && last.balance > 0 && last.balance < 1) {
+    last.principal = round2(last.principal + last.balance);
+    last.balance = 0;
+  }
+  return out;
+}
+
 /* ─── 2026 FEDERAL TAX PARAMETERS ────────────────────────────────────────────
  * SINGLE SOURCE OF TRUTH for every year-specific figure in this file.
  * Verified 2026-09-16 against primary sources, not memory:
