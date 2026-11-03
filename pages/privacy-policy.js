@@ -43,7 +43,6 @@ export default function PrivacyPolicy() {
         <meta name="description" content="Privacy policy for US Money HQ — what data we collect, how long we keep it, who processes it, cookies, and third-party advertising." />
         <link rel="canonical" href="https://usmoneyhq.com/privacy-policy" />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(SCHEMA) }} />
-        <meta name="robots" content="index, follow" />
       </Head>
       <main className="container">
         <nav className="breadcrumbs"><Link href="/">Home</Link> <span aria-hidden="true">›</span> <span>Privacy Policy</span></nav>

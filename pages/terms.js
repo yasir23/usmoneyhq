@@ -39,7 +39,6 @@ export default function Terms() {
         <meta name="description" content="Terms of use for US Money HQ free financial calculators — permitted use, intellectual property, third-party links, and limitations." />
         <link rel="canonical" href="https://usmoneyhq.com/terms" />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(SCHEMA) }} />
-        <meta name="robots" content="index, follow" />
       </Head>
       <main className="container">
         <nav className="breadcrumbs"><Link href="/">Home</Link> <span aria-hidden="true">›</span> <span>Terms of Use</span></nav>

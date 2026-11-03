@@ -17,6 +17,15 @@ export default class SiteDocument extends Document {
           <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
           <meta name="theme-color" content="#0f172a" />
           {/* SEO */}
+          {/* 2026-11-02: a single site-wide robots tag, now carrying
+              max-image-preview:large so every page is eligible for Discover's large
+              image treatment. Pages that need to differ (the two noindexed guides)
+              keep their own tag; Google applies the most restrictive of a set, so
+              their noindex still wins over this default. The six pages that only
+              said "index, follow" had their duplicate removed — two robots tags with
+              the same directive is how a conflict gets invented later. */}
+          <meta name="robots" content="index, follow, max-image-preview:large" />
+
           {/* Deliberately NO site-wide robots meta here. `index, follow` is the
               default for any page that does not declare one, so adding it site-wide
               bought nothing and actively broke pages that DO declare one: a page

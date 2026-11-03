@@ -30,7 +30,6 @@ export default function Contact() {
         <title>Contact Us | US Money HQ</title>
         <meta name="description" content="Contact US Money HQ — report a calculation error, ask a question, or make a privacy request. We reply within 2 business days." />
         <link rel="canonical" href="https://usmoneyhq.com/contact" />
-        <meta name="robots" content="index, follow" />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(SCHEMA) }} />
       </Head>
       <main className="container">

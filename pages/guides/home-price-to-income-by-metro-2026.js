@@ -77,7 +77,6 @@ export default function HomePriceToIncome({ metros, above5, total, top, bottom }
           content={`Median home value divided by median household income across ${total} US metros. ${above5} metros exceed five times local income. Sourced from Census ACS 2023.`}
         />
         <link rel="canonical" href={`${SITE_URL}/guides/home-price-to-income-by-metro-2026`} />
-        <meta name="robots" content="index, follow, max-image-preview:large" />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }} />
       </Head>
       <main className="container">

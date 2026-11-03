@@ -38,7 +38,6 @@ export default function Disclosure() {
           content="How US Money HQ earns money, which links are compensated, how to recognise one, and what compensation does and does not affect."
         />
         <link rel="canonical" href="https://usmoneyhq.com/disclosure" />
-        <meta name="robots" content="index, follow, max-image-preview:large" />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(SCHEMA) }} />
       </Head>
       <main className="container">

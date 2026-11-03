@@ -41,7 +41,6 @@ export default function EditorialPolicy() {
           content="How US Money HQ builds its calculators, which sources the figures come from, what is checked before a release, and how corrections are handled."
         />
         <link rel="canonical" href="https://usmoneyhq.com/editorial-policy" />
-        <meta name="robots" content="index, follow, max-image-preview:large" />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(SCHEMA) }} />
       </Head>
       <main className="container">
