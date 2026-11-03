@@ -1,0 +1,51 @@
+{
+ "blockers": [
+  {
+   "id": "ADS_PARTNER",
+   "why": "AdSense rejection and zero filled units indicate a need for a managed header bidding partner (Ezoic/Raptive) to bypass manual approval hurdles.",
+   "ask": "Sign contract with a Tier-2 ad network or Ezoic."
+  },
+  {
+   "id": "AFFILIATE_STRAT",
+   "why": "Only 2 of 14 offers are live, leaving 85% of potential conversion points dead.",
+   "ask": "Map 12 inactive affiliate IDs to high-traffic calculator results pages."
+  },
+  {
+   "id": "GIT_STASIS",
+   "why": "Dirty files in production head prevent automated deployment of programmatic scaling scripts.",
+   "ask": "Commit or stash local changes to '375a9c3' to clear the CI/CD pipeline."
+  }
+ ],
+ "tasks": [
+  {
+   "rank": 1,
+   "title": "Inject Affiliate CTAs into Calculator Logic",
+   "how": "Hardcode 'Best Offer' buttons into the result state of the top 10 most visited calculators.",
+   "risk": "low"
+  },
+  {
+   "rank": 2,
+   "title": "Programmatic BLS/ACS Page Generation",
+   "how": "Map BLS 'Occupational Employment' data to 500 'Salary in [City]' pages using a standard template.",
+   "risk": "medium"
+  },
+  {
+   "rank": 3,
+   "title": "AEO Answer-First Injection",
+   "how": "Prepend 200-character summary blocks and FinancialProduct schema to all 116 indexable pages.",
+   "risk": "low"
+  },
+  {
+   "rank": 4,
+   "title": "HMDA Mortgage Lead Gen Pages",
+   "how": "Generate 'Average Mortgage Rates in [County]' pages using HMDA public datasets.",
+   "risk": "medium"
+  },
+  {
+   "rank": 5,
+   "title": "Global FAQPage Schema Deployment",
+   "how": "Auto-generate FAQPage JSON-LD from existing calculator H2/H3 headers.",
+   "risk": "low"
+  }
+ ]
+}

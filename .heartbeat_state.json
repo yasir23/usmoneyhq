@@ -1,0 +1,19 @@
+{
+ "alerts": {
+  "a464d0d992f1": 1793723266.908051,
+  "24672732032d": 1793723266.908092,
+  "ad7828b792dc": 1793723266.908105
+ },
+ "last_run": "2026-11-03T21:27:43",
+ "last_telemetry": {
+  "site_http": "200",
+  "sitemap_urls": 116,
+  "llms_http": "200",
+  "indexnow_key_http": "200",
+  "offers_live": 2,
+  "offers_total": 14,
+  "ad_units_filled": -1,
+  "git_dirty_files": 1,
+  "head": "375a9c3"
+ }
+}
