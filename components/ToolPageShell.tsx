@@ -340,8 +340,18 @@ export default function ToolPageShell({ slug, stateSlug, amountSlug, metroSlug, 
             stop being offered as distinct content. Flipping the flag back in
             lib/indexing.ts restores indexing, but only after the templates
             carry genuinely per-page data. */}
-        {((isVariant && !VARIANT_PAGES_INDEXED) || isOutOfScope(slug)) && (
+        {((isVariant && !VARIANT_PAGES_INDEXED) || isOutOfScope(slug)) ? (
           <meta name="robots" content="noindex, follow" />
+        ) : (
+          /* Exactly one robots tag per page: this branch is the indexable case,
+             and it carries max-image-preview:large here rather than in
+             pages/_document.js. A site-wide tag would land ON TOP of the noindex
+             branch above and produce two contradictory tags on every variant URL
+             (that regression shipped twice — see the note in _document.js).
+             Google defaults an untagged page to index, follow, so this tag only
+             adds the preview directive; scripts/verify_robots_meta.mjs fails the
+             build if any page ends up with more than one. */
+          <meta name="robots" content="index, follow, max-image-preview:large" />
         )}
         <meta property="og:type" content="website" />
         <meta property="og:title" content={pageTitle} />

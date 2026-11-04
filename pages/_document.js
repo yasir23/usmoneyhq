@@ -17,26 +17,38 @@ export default class SiteDocument extends Document {
           <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
           <meta name="theme-color" content="#0f172a" />
           {/* SEO */}
-          {/* 2026-11-02: a single site-wide robots tag, now carrying
-              max-image-preview:large so every page is eligible for Discover's large
-              image treatment. Pages that need to differ (the two noindexed guides)
-              keep their own tag; Google applies the most restrictive of a set, so
-              their noindex still wins over this default. The six pages that only
-              said "index, follow" had their duplicate removed — two robots tags with
-              the same directive is how a conflict gets invented later. */}
-          <meta name="robots" content="index, follow, max-image-preview:large" />
 
-          {/* Deliberately NO site-wide robots meta here. `index, follow` is the
-              default for any page that does not declare one, so adding it site-wide
-              bought nothing and actively broke pages that DO declare one: a page
-              rendering its own noindex produced TWO conflicting robots tags
-              (noindex,follow alongside index,follow). Google resolves conflicts to
-              the most restrictive, so the intent held — but the page was
-              self-contradictory and the signal depended on conflict-resolution
-              rules rather than being stated plainly. This affected the 2,907
-              amount x state pages from 2026-09-18 until 2026-09-22, and would have
-              affected the metro exclusion too. Removed so exactly one robots tag
-              renders per page: the page-level one, or none (= indexable). */}
+          {/* Deliberately NO site-wide robots meta here. Do not add one back.
+
+              A site-wide tag has now been introduced TWICE and removed twice,
+              both times after it broke pages that declare their own directive:
+
+                2026-09-18 -> 09-22  broke the 2,907 amount x state pages
+                2026-11-02 -> 11-04  broke every noindex variant page again
+                                     (introduced trying to add
+                                     max-image-preview:large site-wide)
+
+              The failure is structural, not a matter of wording: _document.js
+              renders for EVERY route and cannot know whether the page will emit
+              its own tag, so any global directive lands alongside the page-level
+              one. A variant page then serves TWO robots tags —
+              "noindex, follow" plus "index, follow" — which is the exact
+              self-contradiction this site was rejected for. Google resolves the
+              conflict to the most restrictive, so the intent held by luck, but
+              the page still stated both things at once and the outcome depended
+              on conflict resolution rather than on a plain declaration.
+
+              CORRECT SHAPE: exactly one robots tag per page, or none.
+                - indexable page emits no tag  => default is index, follow
+                - noindex page emits exactly one, from its own <Head>
+              Where max-image-preview:large is wanted, it is attached to the
+              page-level tag that already exists (see components/ToolPageShell),
+              never added as a second tag here.
+
+              Guarded at build time by scripts/verify_robots_meta.mjs, which
+              fails `npm run build` if any prerendered page emits more than one
+              robots tag or mixes index with noindex. A comment is not a guard. */}
+
 
           <meta property="og:site_name" content="US Money HQ" />
           <meta property="og:image" content="https://usmoneyhq.com/og.png" />
