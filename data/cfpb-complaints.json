@@ -1,0 +1,764 @@
+{
+ "_meta": {
+  "source": "CFPB Consumer Complaint Database bulk export",
+  "url": "https://files.consumerfinance.gov/ccdb/complaints.csv.zip",
+  "retrieved": "2026-11-03",
+  "method": "row counts by product and year; state counts restricted to 2-letter codes",
+  "rows_scanned": 18935791,
+  "rows_counted": 1757721,
+  "years": [
+   "2023",
+   "2024",
+   "2025",
+   "2026"
+  ],
+  "note": "Complaints are unverified allegations, not findings. Counts reflect volume, not wrongdoing."
+ },
+ "by_product_year": [
+  {
+   "product": "Checking or savings account",
+   "year": "2023",
+   "complaints": 49873
+  },
+  {
+   "product": "Checking or savings account",
+   "year": "2024",
+   "complaints": 52821
+  },
+  {
+   "product": "Checking or savings account",
+   "year": "2025",
+   "complaints": 84195
+  },
+  {
+   "product": "Checking or savings account",
+   "year": "2026",
+   "complaints": 75605
+  },
+  {
+   "product": "Credit card",
+   "year": "2023",
+   "complaints": 21872
+  },
+  {
+   "product": "Credit card",
+   "year": "2024",
+   "complaints": 75989
+  },
+  {
+   "product": "Credit card",
+   "year": "2025",
+   "complaints": 89978
+  },
+  {
+   "product": "Credit card",
+   "year": "2026",
+   "complaints": 81347
+  },
+  {
+   "product": "Credit card or prepaid card",
+   "year": "2023",
+   "complaints": 35310
+  },
+  {
+   "product": "Debt collection",
+   "year": "2023",
+   "complaints": 68107
+  },
+  {
+   "product": "Debt collection",
+   "year": "2024",
+   "complaints": 155894
+  },
+  {
+   "product": "Debt collection",
+   "year": "2025",
+   "complaints": 283199
+  },
+  {
+   "product": "Debt collection",
+   "year": "2026",
+   "complaints": 264569
+  },
+  {
+   "product": "Money transfer, virtual currency, or money service",
+   "year": "2023",
+   "complaints": 13749
+  },
+  {
+   "product": "Money transfer, virtual currency, or money service",
+   "year": "2024",
+   "complaints": 16751
+  },
+  {
+   "product": "Money transfer, virtual currency, or money service",
+   "year": "2025",
+   "complaints": 84619
+  },
+  {
+   "product": "Money transfer, virtual currency, or money service",
+   "year": "2026",
+   "complaints": 32529
+  },
+  {
+   "product": "Mortgage",
+   "year": "2023",
+   "complaints": 22853
+  },
+  {
+   "product": "Mortgage",
+   "year": "2024",
+   "complaints": 21438
+  },
+  {
+   "product": "Mortgage",
+   "year": "2025",
+   "complaints": 24697
+  },
+  {
+   "product": "Mortgage",
+   "year": "2026",
+   "complaints": 29050
+  },
+  {
+   "product": "Payday loan, title loan, personal loan, or advance loan",
+   "year": "2023",
+   "complaints": 2559
+  },
+  {
+   "product": "Payday loan, title loan, personal loan, or advance loan",
+   "year": "2024",
+   "complaints": 9036
+  },
+  {
+   "product": "Payday loan, title loan, personal loan, or advance loan",
+   "year": "2025",
+   "complaints": 13137
+  },
+  {
+   "product": "Payday loan, title loan, personal loan, or advance loan",
+   "year": "2026",
+   "complaints": 16462
+  },
+  {
+   "product": "Student loan",
+   "year": "2023",
+   "complaints": 10633
+  },
+  {
+   "product": "Student loan",
+   "year": "2024",
+   "complaints": 14657
+  },
+  {
+   "product": "Student loan",
+   "year": "2025",
+   "complaints": 21281
+  },
+  {
+   "product": "Student loan",
+   "year": "2026",
+   "complaints": 17073
+  },
+  {
+   "product": "Vehicle loan or lease",
+   "year": "2023",
+   "complaints": 12794
+  },
+  {
+   "product": "Vehicle loan or lease",
+   "year": "2024",
+   "complaints": 13360
+  },
+  {
+   "product": "Vehicle loan or lease",
+   "year": "2025",
+   "complaints": 20768
+  },
+  {
+   "product": "Vehicle loan or lease",
+   "year": "2026",
+   "complaints": 21516
+  }
+ ],
+ "top_states": {
+  "Credit card or prepaid card": [
+   [
+    "CA",
+    4686
+   ],
+   [
+    "FL",
+    3331
+   ],
+   [
+    "TX",
+    2952
+   ],
+   [
+    "NY",
+    2760
+   ],
+   [
+    "IL",
+    2327
+   ],
+   [
+    "PA",
+    1639
+   ],
+   [
+    "GA",
+    1508
+   ],
+   [
+    "NJ",
+    1305
+   ],
+   [
+    "NC",
+    995
+   ],
+   [
+    "OH",
+    972
+   ]
+  ],
+  "Debt collection": [
+   [
+    "TX",
+    133118
+   ],
+   [
+    "FL",
+    85816
+   ],
+   [
+    "CA",
+    65625
+   ],
+   [
+    "GA",
+    62954
+   ],
+   [
+    "NY",
+    31959
+   ],
+   [
+    "NC",
+    28981
+   ],
+   [
+    "IL",
+    28898
+   ],
+   [
+    "PA",
+    27976
+   ],
+   [
+    "SC",
+    22273
+   ],
+   [
+    "NJ",
+    19257
+   ]
+  ],
+  "Student loan": [
+   [
+    "CA",
+    6232
+   ],
+   [
+    "TX",
+    4920
+   ],
+   [
+    "FL",
+    4498
+   ],
+   [
+    "NY",
+    4054
+   ],
+   [
+    "GA",
+    3383
+   ],
+   [
+    "PA",
+    3047
+   ],
+   [
+    "IL",
+    2729
+   ],
+   [
+    "OH",
+    2165
+   ],
+   [
+    "NC",
+    2155
+   ],
+   [
+    "NJ",
+    2044
+   ]
+  ],
+  "Money transfer, virtual currency, or money service": [
+   [
+    "CA",
+    16650
+   ],
+   [
+    "TX",
+    14658
+   ],
+   [
+    "FL",
+    12018
+   ],
+   [
+    "NY",
+    9753
+   ],
+   [
+    "IL",
+    8659
+   ],
+   [
+    "GA",
+    8124
+   ],
+   [
+    "NC",
+    5081
+   ],
+   [
+    "PA",
+    4556
+   ],
+   [
+    "NJ",
+    4220
+   ],
+   [
+    "MI",
+    4038
+   ]
+  ],
+  "Checking or savings account": [
+   [
+    "CA",
+    36725
+   ],
+   [
+    "FL",
+    25519
+   ],
+   [
+    "TX",
+    24350
+   ],
+   [
+    "NY",
+    20562
+   ],
+   [
+    "GA",
+    13844
+   ],
+   [
+    "IL",
+    10432
+   ],
+   [
+    "PA",
+    9543
+   ],
+   [
+    "NJ",
+    9228
+   ],
+   [
+    "NC",
+    8402
+   ],
+   [
+    "VA",
+    7370
+   ]
+  ],
+  "Mortgage": [
+   [
+    "CA",
+    11842
+   ],
+   [
+    "FL",
+    10764
+   ],
+   [
+    "TX",
+    8890
+   ],
+   [
+    "GA",
+    5431
+   ],
+   [
+    "NY",
+    4708
+   ],
+   [
+    "IL",
+    3696
+   ],
+   [
+    "PA",
+    3604
+   ],
+   [
+    "NJ",
+    3377
+   ],
+   [
+    "MD",
+    3346
+   ],
+   [
+    "NC",
+    3161
+   ]
+  ],
+  "Credit card": [
+   [
+    "CA",
+    36821
+   ],
+   [
+    "TX",
+    31871
+   ],
+   [
+    "FL",
+    26790
+   ],
+   [
+    "NY",
+    20231
+   ],
+   [
+    "IL",
+    12656
+   ],
+   [
+    "GA",
+    11212
+   ],
+   [
+    "PA",
+    9902
+   ],
+   [
+    "NJ",
+    9744
+   ],
+   [
+    "VA",
+    8439
+   ],
+   [
+    "NC",
+    7925
+   ]
+  ],
+  "Payday loan, title loan, personal loan, or advance loan": [
+   [
+    "TX",
+    4839
+   ],
+   [
+    "CA",
+    4534
+   ],
+   [
+    "FL",
+    4210
+   ],
+   [
+    "GA",
+    2276
+   ],
+   [
+    "NY",
+    1666
+   ],
+   [
+    "OH",
+    1411
+   ],
+   [
+    "NC",
+    1349
+   ],
+   [
+    "IL",
+    1273
+   ],
+   [
+    "PA",
+    1238
+   ],
+   [
+    "VA",
+    1162
+   ]
+  ],
+  "Vehicle loan or lease": [
+   [
+    "FL",
+    7902
+   ],
+   [
+    "CA",
+    7148
+   ],
+   [
+    "TX",
+    6901
+   ],
+   [
+    "GA",
+    5121
+   ],
+   [
+    "NY",
+    3419
+   ],
+   [
+    "IL",
+    2677
+   ],
+   [
+    "NC",
+    2480
+   ],
+   [
+    "PA",
+    2418
+   ],
+   [
+    "NJ",
+    2254
+   ],
+   [
+    "OH",
+    2129
+   ]
+  ]
+ },
+ "top_issues": {
+  "Credit card or prepaid card": [
+   [
+    "Problem with a purchase shown on your statement",
+    8044
+   ],
+   [
+    "Getting a credit card",
+    4758
+   ],
+   [
+    "Problem with a credit reporting company's investigation into an existing problem",
+    4233
+   ],
+   [
+    "Other features, terms, or problems",
+    3560
+   ],
+   [
+    "Fees or interest",
+    2987
+   ]
+  ],
+  "Debt collection": [
+   [
+    "Attempts to collect debt not owed",
+    344584
+   ],
+   [
+    "Written notification about debt",
+    166537
+   ],
+   [
+    "Took or threatened to take negative or legal action",
+    124238
+   ],
+   [
+    "False statements or representation",
+    89711
+   ],
+   [
+    "Communication tactics",
+    28281
+   ]
+  ],
+  "Student loan": [
+   [
+    "Dealing with your lender or servicer",
+    40549
+   ],
+   [
+    "Struggling to repay your loan",
+    11648
+   ],
+   [
+    "Incorrect information on your report",
+    5798
+   ],
+   [
+    "Improper use of your report",
+    1925
+   ],
+   [
+    "Problem with a company's investigation into an existing problem",
+    1540
+   ]
+  ],
+  "Money transfer, virtual currency, or money service": [
+   [
+    "Other transaction problem",
+    64100
+   ],
+   [
+    "Fraud or scam",
+    32464
+   ],
+   [
+    "Unauthorized transactions or other transaction problem",
+    14888
+   ],
+   [
+    "Trouble accessing funds in your mobile or digital wallet",
+    8326
+   ],
+   [
+    "Money was not available when promised",
+    7558
+   ]
+  ],
+  "Checking or savings account": [
+   [
+    "Managing an account",
+    147864
+   ],
+   [
+    "Closing an account",
+    34310
+   ],
+   [
+    "Problem with a lender or other company charging your account",
+    32875
+   ],
+   [
+    "Problem caused by your funds being low",
+    22925
+   ],
+   [
+    "Opening an account",
+    22736
+   ]
+  ],
+  "Mortgage": [
+   [
+    "Trouble during payment process",
+    50035
+   ],
+   [
+    "Struggling to pay mortgage",
+    25713
+   ],
+   [
+    "Applying for a mortgage or refinancing an existing mortgage",
+    10111
+   ],
+   [
+    "Closing on a mortgage",
+    7397
+   ],
+   [
+    "Incorrect information on your report",
+    2773
+   ]
+  ],
+  "Credit card": [
+   [
+    "Problem with a purchase shown on your statement",
+    66494
+   ],
+   [
+    "Incorrect information on your report",
+    33154
+   ],
+   [
+    "Getting a credit card",
+    33027
+   ],
+   [
+    "Other features, terms, or problems",
+    27534
+   ],
+   [
+    "Problem with a company's investigation into an existing problem",
+    26889
+   ]
+  ],
+  "Payday loan, title loan, personal loan, or advance loan": [
+   [
+    "Charged fees or interest you didn't expect",
+    9843
+   ],
+   [
+    "Problem when making payments",
+    5975
+   ],
+   [
+    "Struggling to pay your loan",
+    4414
+   ],
+   [
+    "Getting the loan",
+    3717
+   ],
+   [
+    "Problem with additional add-on products or services",
+    3218
+   ]
+  ],
+  "Vehicle loan or lease": [
+   [
+    "Managing the loan or lease",
+    20625
+   ],
+   [
+    "Repossession",
+    15526
+   ],
+   [
+    "Problems at the end of the loan or lease",
+    9958
+   ],
+   [
+    "Getting a loan or lease",
+    9038
+   ],
+   [
+    "Incorrect information on your report",
+    5463
+   ]
+  ]
+ }
+}
