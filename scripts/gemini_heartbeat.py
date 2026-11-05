@@ -84,11 +84,23 @@ def telemetry():
     src = open(os.path.join(REPO, "lib/affiliates.ts"), encoding="utf-8").read()
     t["offers_live"] = len(re.findall(r"live:\s*true", src))
     t["offers_total"] = len(re.findall(r"live:\s*(?:true|false)", src))
-    m = re.search(r"AD_UNITS[^=]*=\s*\[([^\]]*)\]", src) or re.search(
-        r"AD_UNITS[^=]*=\s*\[([^\]]*)\]", open(os.path.join(REPO, "lib/ads.ts"),
-                                              encoding="utf-8").read()
-        if os.path.exists(os.path.join(REPO, "lib/ads.ts")) else "")
-    t["ad_units_filled"] = len([x for x in re.findall(r'"[^"]*"', m.group(1)) if x.strip('""')]) if m else -1
+    # AD_UNITS is declared in lib/ads.ts as a RECORD OBJECT
+    #   { top: "", mid: "", bottom: "" }
+    # not an array, so the old array regex `=\s*\[...\]` could never match and
+    # this always reported -1. The strategist's priority-1 input (monetisation
+    # switches a human must supply) was therefore permanently blind. Parse the
+    # object body and report filled-of-total instead. lib/ads.ts itself is never
+    # written here — read only.
+    t["ad_units_filled"], t["ad_units_total"] = -1, -1
+    ads_path = os.path.join(REPO, "lib/ads.ts")
+    if os.path.exists(ads_path):
+        ads_src = open(ads_path, encoding="utf-8").read()
+        m = re.search(r"AD_UNITS[^=]*=\s*\{([^}]*)\}", ads_src)
+        if m:
+            body = re.sub(r"//[^\n]*", "", m.group(1))  # strip trailing comments
+            pairs = re.findall(r'(\w+)\s*:\s*"([^"]*)"', body)
+            t["ad_units_total"] = len(pairs)
+            t["ad_units_filled"] = len([k for k, v in pairs if v.strip()])
     code, out = sh(["git", "status", "--porcelain"])
     t["git_dirty_files"] = len([l for l in out.splitlines() if l.strip()])
     code, out = sh(["git", "rev-parse", "--short", "HEAD"])
