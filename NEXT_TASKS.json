@@ -1,51 +1,51 @@
 {
  "blockers": [
   {
-   "id": "ADS_PARTNER",
-   "why": "AdSense rejection and zero filled units indicate a need for a managed header bidding partner (Ezoic/Raptive) to bypass manual approval hurdles.",
-   "ask": "Sign contract with a Tier-2 ad network or Ezoic."
+   "id": "AFF_MAP",
+   "why": "12 available affiliate offers are not mapped to page-level conversion points.",
+   "ask": "A CSV mapping offer_id to target_url and CTA text."
   },
   {
-   "id": "AFFILIATE_STRAT",
-   "why": "Only 2 of 14 offers are live, leaving 85% of potential conversion points dead.",
-   "ask": "Map 12 inactive affiliate IDs to high-traffic calculator results pages."
+   "id": "ADS_REJ",
+   "why": "AdSense rejection prevents display revenue; alternative network approval is required.",
+   "ask": "Approval for Ezoic or Mediavine account access."
   },
   {
-   "id": "GIT_STASIS",
-   "why": "Dirty files in production head prevent automated deployment of programmatic scaling scripts.",
-   "ask": "Commit or stash local changes to '375a9c3' to clear the CI/CD pipeline."
+   "id": "DATA_GEO",
+   "why": "Programmatic scaling requires specific state/city targeting parameters for BLS/ACS data.",
+   "ask": "Selection of top 50 target MSAs for initial long-tail generation."
   }
  ],
  "tasks": [
   {
    "rank": 1,
-   "title": "Inject Affiliate CTAs into Calculator Logic",
-   "how": "Hardcode 'Best Offer' buttons into the result state of the top 10 most visited calculators.",
+   "title": "Activate Affiliate CTAs",
+   "how": "Hardcode the 2 live offers into the top 10 traffic-driving calculator sidebars.",
    "risk": "low"
   },
   {
    "rank": 2,
-   "title": "Programmatic BLS/ACS Page Generation",
-   "how": "Map BLS 'Occupational Employment' data to 500 'Salary in [City]' pages using a standard template.",
-   "risk": "medium"
+   "title": "Deploy FinancialProduct Schema",
+   "how": "Inject JSON-LD schema across all 80 calculator pages to capture rich snippets.",
+   "risk": "low"
   },
   {
    "rank": 3,
-   "title": "AEO Answer-First Injection",
-   "how": "Prepend 200-character summary blocks and FinancialProduct schema to all 116 indexable pages.",
-   "risk": "low"
-  },
-  {
-   "rank": 4,
-   "title": "HMDA Mortgage Lead Gen Pages",
-   "how": "Generate 'Average Mortgage Rates in [County]' pages using HMDA public datasets.",
+   "title": "Programmatic BLS/ACS Landing Pages",
+   "how": "Generate 5,000 pages using 'Cost of Living in [City]' templates from ACS/BLS datasets.",
    "risk": "medium"
   },
   {
-   "rank": 5,
-   "title": "Global FAQPage Schema Deployment",
-   "how": "Auto-generate FAQPage JSON-LD from existing calculator H2/H3 headers.",
+   "rank": 4,
+   "title": "AEO Answer-First Blocks",
+   "how": "Prepend 200-character direct answers and HTML tables to the top 116 indexable pages.",
    "risk": "low"
+  },
+  {
+   "rank": 5,
+   "title": "HMDA Mortgage Lead Gen",
+   "how": "Build 'Mortgage Rates in [County]' pages using HMDA data with affiliate deep-links.",
+   "risk": "high"
   }
  ]
 }
