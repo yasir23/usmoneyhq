@@ -9,19 +9,22 @@
   "b21b6a23b780": 1793848789.188446,
   "a62c5823d0dd": 1793848789.188501,
   "65427ec93e24": 1793848789.188513,
-  "be16d397a4ed": 1793862115.684042
+  "be16d397a4ed": 1793862115.684042,
+  "f8d8fe2fb733": 1793885385.254924,
+  "7b6a32cbc8a5": 1793885385.2549472,
+  "b27cdbf2d64b": 1793905256.012214
  },
- "last_run": "2026-11-05T12:01:52",
+ "last_run": "2026-11-06T00:00:51",
  "last_telemetry": {
   "site_http": "200",
   "sitemap_urls": 116,
   "llms_http": "200",
   "indexnow_key_http": "200",
   "offers_live": 2,
-  "offers_total": 14,
+  "offers_total": 24,
   "ad_units_filled": 0,
   "ad_units_total": 3,
   "git_dirty_files": 2,
-  "head": "d3ff148"
+  "head": "c2d1403"
  }
 }

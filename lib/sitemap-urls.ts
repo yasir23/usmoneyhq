@@ -51,6 +51,7 @@ export function buildSitemap() {
     { url: `${SITE_URL}/terms`, lastModified: legalDate, changeFrequency: "yearly", priority: 0.2 },
     { url: `${SITE_URL}/disclosure`, lastModified: legalDate, changeFrequency: "yearly", priority: 0.2 },
     { url: `${SITE_URL}/editorial-policy`, lastModified: legalDate, changeFrequency: "yearly", priority: 0.3 },
+    { url: `${SITE_URL}/quiz/debt-relief-check`, lastModified: legalDate, changeFrequency: "monthly", priority: 0.8 },
     { url: `${SITE_URL}/guides/home-price-to-income-by-metro-2026`, lastModified: siteDate, changeFrequency: "monthly", priority: 0.7 },
     { url: `${SITE_URL}/widgets`, lastModified: siteDate, changeFrequency: "monthly", priority: 0.6 },
     { url: `${SITE_URL}/premium`, lastModified: siteDate, changeFrequency: "monthly", priority: 0.5 },

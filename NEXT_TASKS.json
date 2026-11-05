@@ -1,51 +1,51 @@
 {
  "blockers": [
   {
-   "id": "AFF_MAP",
-   "why": "12 available affiliate offers are not mapped to page-level conversion points.",
-   "ask": "A CSV mapping offer_id to target_url and CTA text."
+   "id": "AD_NETWORK_APPROVAL",
+   "why": "AdSense rejection and zero filled units prevent display revenue scaling.",
+   "ask": "Apply to Ezoic or Raptive as an AdSense alternative to bypass previous rejection."
   },
   {
-   "id": "ADS_REJ",
-   "why": "AdSense rejection prevents display revenue; alternative network approval is required.",
-   "ask": "Approval for Ezoic or Mediavine account access."
+   "id": "AFFILIATE_MAPPING",
+   "why": "22 inactive offers represent 91% unrealized conversion potential.",
+   "ask": "Provide a CSV mapping internal calculator IDs to specific affiliate deep-links."
   },
   {
-   "id": "DATA_GEO",
-   "why": "Programmatic scaling requires specific state/city targeting parameters for BLS/ACS data.",
-   "ask": "Selection of top 50 target MSAs for initial long-tail generation."
+   "id": "DATA_SOURCE_AUTH",
+   "why": "Programmatic scaling requires API keys for BLS and Census (ACS) datasets.",
+   "ask": "Supply API keys for BLS.gov and Census.gov developer portals."
   }
  ],
  "tasks": [
   {
    "rank": 1,
-   "title": "Activate Affiliate CTAs",
-   "how": "Hardcode the 2 live offers into the top 10 traffic-driving calculator sidebars.",
+   "title": "Hardcode Affiliate CTA Injection",
+   "how": "Inject the 2 live offers into all 80 calculator result components via global hook.",
    "risk": "low"
   },
   {
    "rank": 2,
    "title": "Deploy FinancialProduct Schema",
-   "how": "Inject JSON-LD schema across all 80 calculator pages to capture rich snippets.",
+   "how": "Map calculator inputs to FinancialProduct and FAQPage JSON-LD for SERP rich snippets.",
    "risk": "low"
   },
   {
    "rank": 3,
-   "title": "Programmatic BLS/ACS Landing Pages",
-   "how": "Generate 5,000 pages using 'Cost of Living in [City]' templates from ACS/BLS datasets.",
+   "title": "Programmatic Geo-Salary Pages",
+   "how": "Generate 3,000+ pages using BLS OES data (Occupation x MSA) with answer-first blocks.",
    "risk": "medium"
   },
   {
    "rank": 4,
-   "title": "AEO Answer-First Blocks",
-   "how": "Prepend 200-character direct answers and HTML tables to the top 116 indexable pages.",
+   "title": "AEO/GEO Optimization",
+   "how": "Add 'Key Takeaway' summary boxes to top of all 116 pages and update llms.txt.",
    "risk": "low"
   },
   {
    "rank": 5,
-   "title": "HMDA Mortgage Lead Gen",
-   "how": "Build 'Mortgage Rates in [County]' pages using HMDA data with affiliate deep-links.",
-   "risk": "high"
+   "title": "IRS SOI Tax Bracket Engine",
+   "how": "Build long-tail 'Tax Burden in [City]' pages using IRS SOI zip-code level data.",
+   "risk": "medium"
   }
  ]
 }
