@@ -143,6 +143,7 @@ Calculators are computable via POST https://usmoneyhq.com/api/calc/{tool-slug} w
 - Best CD Rates 2026: https://usmoneyhq.com/guides/best-cd-rates-2026
 - Best High-Yield Savings 2026: https://usmoneyhq.com/guides/best-high-yield-savings-2026
 - Debt Consolidation 2026: https://usmoneyhq.com/guides/debt-consolidation-2026
+- CFPB Complaints 2023-2026 (1.76M filings counted): https://usmoneyhq.com/guides/cfpb-complaints-2026
 
 ## Not on this site
 The hospital price-transparency articles that used to live at /blog/* now

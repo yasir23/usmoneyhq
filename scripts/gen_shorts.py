@@ -232,6 +232,24 @@ TOPICS = [
         "title": "$75,000 in Texas: $61,592 take-home",
         "script": "Seventy five thousand dollars a year in Texas. Federal income tax takes seven thousand six hundred and seventy dollars. Social security and Medicare take five thousand seven hundred and thirty seven dollars and fifty cents. Texas state income tax: zero. What is left is sixty one thousand five hundred and ninety two dollars a year, five thousand one hundred and thirty three a month, or two thousand three hundred and sixty nine dollars on a bi weekly paycheck. Texas is one of the states with no income tax, so the gap against a high tax state is real money. The salary after tax calculator at US Money HQ runs your number in all fifty states, free.",
     },
+    {
+        # Added 2026-11-06. Every figure read from POST
+        # /api/calc/refinance-calculator {balance:350000, rate:6.0, term:30,
+        # currentRate:7.5, currentTerm:30}: current payment $2,586.47, new
+        # payment $2,149.31, monthly savings $437.16, break-even 14 months,
+        # total interest saved $131,148.87.
+        "id": "refinance-breakeven-350k",
+        "title": "Refinance $350k: $437 less a month",
+        "script": "Three hundred and fifty thousand dollars at seven and a half percent costs two thousand five hundred and eighty six dollars a month. Move that same balance to six percent over thirty years and the payment is two thousand one hundred and forty nine dollars. That is four hundred and thirty seven dollars back in your pocket every month. But a refinance has a price, and the question is how long you stay to earn it back. At typical closing costs the break even lands in fourteen months, and over the full term the interest saved is one hundred and thirty one thousand one hundred and forty eight dollars. If you plan to sell inside a year, the maths does not work. The refinance calculator at US Money HQ runs your balance, your rate and your break even, free.",
+    },
+    {
+        # Added 2026-11-06. Every figure read from POST /api/calc/dti-calculator
+        # {income:7000, housing:1500, debts:700}: back-end DTI 31.43%, front-end
+        # 21.43%, qualification "Likely". Income is MONTHLY on this engine.
+        "id": "dti-36-rule-7000",
+        "title": "The 36% DTI rule on $7,000 a month",
+        "script": "Seven thousand dollars a month of income. Fifteen hundred of it goes to housing, and seven hundred more to car payments and cards. That is two thousand two hundred dollars of debt service, which is thirty one point four three percent of your income. Lenders look at two numbers, not one. The back end ratio counts everything and thirty one point four three percent sits under the thirty six percent line. The front end ratio counts housing alone, and at twenty one point four three percent it is comfortably inside the twenty eight percent guideline. This is why a household can feel broke at a payment a lender calls affordable, and why paying off a small card can move an approval. The debt to income calculator at US Money HQ checks both ratios against your actual numbers, free.",
+    },
 ]
 
 
@@ -312,9 +330,22 @@ def main():
         size = os.path.getsize(out) // (1024 * 1024)
         titles.append(f"{t['title']} | #shorts #finance #money | {out}")
         print(f"OK {t['id']}: {size}MB")
-    with open(os.path.join(OUT, "titles.txt"), "w") as f:
-        f.write("\n".join(titles))
-    print(f"DONE — {len(titles)} shorts in {OUT}")
+    # Merge into titles.txt instead of overwriting it. A filtered run
+    # (`gen_shorts.py refinance`) used to rebuild the index from only the
+    # topics it processed, silently deleting the other 41 lines — the index
+    # then claimed the batch was 2 Shorts long. Key on the mp4 basename so an
+    # entry is replaced, never duplicated.
+    idx = os.path.join(OUT, "titles.txt")
+    rows = {}
+    if os.path.exists(idx):
+        for line in open(idx).read().splitlines():
+            if line.strip():
+                rows[os.path.basename(line.rsplit("|", 1)[-1].strip())] = line
+    for line in titles:
+        rows[os.path.basename(line.rsplit("|", 1)[-1].strip())] = line
+    with open(idx, "w") as f:
+        f.write("\n".join(rows.values()))
+    print(f"DONE — {len(titles)} shorts rendered this run, {len(rows)} in titles.txt")
 
 
 if __name__ == "__main__":

@@ -2,7 +2,7 @@ import Head from "next/head";
 import Link from "next/link";
 import fs from "fs";
 import path from "path";
-import { SITE_URL } from "../../lib/tools";
+import { SITE_URL } from "../../../lib/tools";
 
 /**
  * /guides/cfpb-complaints-2026
@@ -19,6 +19,7 @@ import { SITE_URL } from "../../lib/tools";
  *   2. 2026 is a partial year, so a lower total is not a decline.
  */
 export default function CfpbComplaints2026({ meta, table, creditCard, states, issues }) {
+  const issue0 = issues[0] ? issues[0][0] : "a charge on your statement";
   return (
     <>
       <Head>
@@ -190,6 +191,72 @@ export default function CfpbComplaints2026({ meta, table, creditCard, states, is
             refinance calculator
           </Link>{" "}
           will show whether the rate you were quoted is worth the closing costs.
+        </p>
+
+        <h2 className="mt-10 text-xl font-semibold">
+          Debt collection is the real story in this data
+        </h2>
+        <p className="mt-2 text-slate-700">
+          Debt collection complaints went from 68,107 in 2023 to 283,199 in 2025 — a 316% rise, and
+          by 2025 the single largest product category in this dataset, ahead of credit cards and
+          checking accounts combined. Unlike the credit card figures, this one needs no taxonomy
+          footnote: the category name and definition did not change across the period.
+        </p>
+        <p className="mt-3 text-slate-700">
+          Four times the volume in two years is not a reporting artefact. The complaint database is
+          fed by consumers who find it, and findability has not changed much. What has changed is the
+          number of accounts reaching collection: the Federal Reserve&rsquo;s own consumer credit data
+          shows revolving balances climbing through the same window, and delinquency follows balances
+          with a lag. When a card balance goes unpaid for long enough, it is sold to a collector, and
+          the first contact a household has with that collector is often the first they hear of the
+          debt.
+        </p>
+        <p className="mt-3 text-slate-700">
+          That is also why the largest single issue inside credit cards is
+          &ldquo;{issue0}&rdquo;. These are not sophisticated disputes. They are people disagreeing
+          with a number, discovering the disagreement too late to prevent the consequence, and filing
+          a complaint as the only lever left.
+        </p>
+
+        <h2 className="mt-10 text-xl font-semibold">
+          The 515% increase nobody is talking about
+        </h2>
+        <p className="mt-2 text-slate-700">
+          Money transfer, virtual currency and money services rose from 13,749 complaints in 2023 to
+          84,619 in 2025 — the fastest growth of any product here, and the one least covered in
+          personal finance writing. This is the category that contains peer-to-peer payment apps,
+          remittance services and crypto platforms. A 515% rise in complaints against products people
+          use for everyday transfers, rather than for borrowing, is a different kind of signal: it
+          reflects how quickly money movement moved onto apps that had no complaint history a few
+          years earlier.
+        </p>
+        <p className="mt-3 text-slate-700">
+          Mortgage, by contrast, moved 8%. The product with the most regulation, the most disclosure
+          paperwork and the most licensed intermediaries is also the product where complaint volume
+          was flat. That is worth stating plainly, because the usual assumption is the opposite:
+          that more regulation produces more friction. In this data, the heavily-intermediated
+          product is the stable one, and the fast-moving app products are where the volume went.
+        </p>
+
+        <h2 className="mt-10 text-xl font-semibold">How to read a complaint count</h2>
+        <p className="mt-2 text-slate-700">
+          Three rules, because complaint numbers are misused constantly.
+        </p>
+        <p className="mt-3 text-slate-700">
+          <strong>Counts are not rates.</strong> California has the most credit card complaints of any
+          state. California also has the most people. Without market share or account counts, a raw
+          total says nothing about how a company or a state performs.
+        </p>
+        <p className="mt-3 text-slate-700">
+          <strong>Publication requires consent, and consent is biased.</strong> Consumers opt in to
+          publishing their narrative, and the ones who do are not a random sample. The volume is
+          reliable as a trend; any single story in the database is one person&rsquo;s account.
+        </p>
+        <p className="mt-3 text-slate-700">
+          <strong>A complaint is an allegation, not a finding.</strong> The CFPB does not verify
+          narrative detail before publication, and companies respond through a separate process with
+          its own categories. Treating a complaint count as a wrongdoing count is a category error,
+          and it is the error most listicles make.
         </p>
 
         <h2 className="mt-10 text-xl font-semibold">Methodology</h2>
