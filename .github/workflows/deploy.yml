@@ -48,12 +48,13 @@ jobs:
           VPS_HOST: ${{ secrets.VPS_HOST }}
           VPS_USER: ${{ secrets.VPS_USER }}
           VPS_PASSWORD: ${{ secrets.VPS_PASSWORD }}
+          BREVO_API_KEY: ${{ secrets.BREVO_API_KEY }}
         run: |
           sudo apt-get update -qq >/dev/null 2>&1
           sudo apt-get install -y -qq sshpass >/dev/null 2>&1
           SSHPASS="$VPS_PASSWORD" sshpass -e ssh -o StrictHostKeyChecking=accept-new -o ConnectTimeout=20 "$VPS_USER@$VPS_HOST" "mkdir -p /opt/usmoneyhq"
           SSHPASS="$VPS_PASSWORD" sshpass -e scp -o StrictHostKeyChecking=accept-new /tmp/usmoneyhq.tar.gz "$VPS_USER@$VPS_HOST:/opt/usmoneyhq/"
-          SSHPASS="$VPS_PASSWORD" sshpass -e ssh -o StrictHostKeyChecking=accept-new "$VPS_USER@$VPS_HOST" "bash -s" < scripts/remote_deploy.sh
+          SSHPASS="$VPS_PASSWORD" sshpass -e ssh -o StrictHostKeyChecking=accept-new "$VPS_USER@$VPS_HOST" "export BREVO_API_KEY='$BREVO_API_KEY'; bash -s" < scripts/remote_deploy.sh
 
       - name: Remediate port 80 conflict
         env:

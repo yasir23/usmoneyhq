@@ -25,6 +25,17 @@ echo "--- compose build+up ---"
 if command -v docker-compose >/dev/null 2>&1; then
   docker-compose up -d --build
 else
+  # Brevo credentials: written before the container starts, so the app reads a file
+  # that already exists. Skipped silently when the secret is absent.
+  if [ -n "${BREVO_API_KEY:-}" ]; then
+    umask 077
+    printf 'BREVO_API_KEY=%s\nBREVO_SENDER=hello@usmoneyhq.com\nBREVO_REPLY_TO=hello@usmoneyhq.com\n' "$BREVO_API_KEY" > /opt/usmoneyhq/.env
+    chmod 600 /opt/usmoneyhq/.env
+    echo "wrote /opt/usmoneyhq/.env ($(wc -c < /opt/usmoneyhq/.env) bytes)"
+  else
+    echo "BREVO_API_KEY not passed — /api/lead-capture will return 501"
+  fi
+
   docker compose up -d --build
 fi
 
