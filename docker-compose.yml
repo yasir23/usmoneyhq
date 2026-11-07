@@ -2,6 +2,17 @@ services:
   web:
     build: .
     restart: unless-stopped
+
+    # Brevo credentials for /api/lead-capture. The file is written by the deploy workflow
+    # at /opt/usmoneyhq/.env (0600) from the repo secret; compose reads it on every `up`.
+    # Without this block the container starts with no BREVO_API_KEY and the route returns
+    # 501 by design rather than accepting signups it cannot deliver.
+    env_file:
+      - .env
+    environment:
+      - BREVO_SENDER=${BREVO_SENDER:-hello@usmoneyhq.com}
+      - BREVO_REPLY_TO=${BREVO_REPLY_TO:-hello@usmoneyhq.com}
+
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.usmoneyhq.rule=Host(`usmoneyhq.com`) || Host(`www.usmoneyhq.com`)"
