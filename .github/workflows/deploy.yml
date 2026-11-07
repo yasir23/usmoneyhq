@@ -55,19 +55,6 @@ jobs:
           SSHPASS="$VPS_PASSWORD" sshpass -e scp -o StrictHostKeyChecking=accept-new /tmp/usmoneyhq.tar.gz "$VPS_USER@$VPS_HOST:/opt/usmoneyhq/"
           SSHPASS="$VPS_PASSWORD" sshpass -e ssh -o StrictHostKeyChecking=accept-new "$VPS_USER@$VPS_HOST" "bash -s" < scripts/remote_deploy.sh
 
-      - name: Inject Brevo env
-        if: ${{ secrets.BREVO_API_KEY != '' }}
-        env:
-          VPS_HOST: ${{ secrets.VPS_HOST }}
-          VPS_USER: ${{ secrets.VPS_USER }}
-          VPS_PASSWORD: ${{ secrets.VPS_PASSWORD }}
-          BREVO_API_KEY: ${{ secrets.BREVO_API_KEY }}
-        run: |
-          # Written before the restart, so the container reads a file that exists.
-          sshpass -e ssh -o StrictHostKeyChecking=accept-new "$VPS_USER@$VPS_HOST" \
-            "umask 077; printf 'BREVO_API_KEY=%s\nBREVO_SENDER=hello@usmoneyhq.com\nBREVO_REPLY_TO=hello@usmoneyhq.com\n' \"$BREVO_API_KEY\" > /opt/usmoneyhq/.env && cd /opt/usmoneyhq && (docker compose up -d || docker-compose up -d)"
-          echo 'wrote /opt/usmoneyhq/.env (0600) and restarted'
-
       - name: Remediate port 80 conflict
         env:
           VPS_HOST: ${{ secrets.VPS_HOST }}
