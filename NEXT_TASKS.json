@@ -1,51 +1,51 @@
 {
  "blockers": [
   {
-   "id": "ADS_APPROVAL",
+   "id": "AD_NETWORK_APPROVAL",
    "why": "AdSense rejection and zero filled units prevent display revenue scaling.",
-   "ask": "Apply for Ezoic or Mediavine as an AdSense alternative to bypass previous rejection."
+   "ask": "Apply to Ezoic or Raptive as a premium alternative to AdSense."
   },
   {
    "id": "AFFILIATE_MAPPING",
-   "why": "Only 2 of 24 offers are live, leaving 91% of conversion potential dormant.",
-   "ask": "Provide API keys or tracking IDs for the remaining 22 financial offers."
+   "why": "22 inactive offers indicate a lack of contextual placement logic.",
+   "ask": "Map 24 offers to specific calculator result pages and high-intent URLs."
   },
   {
-   "id": "DATA_SOURCE_AUTH",
-   "why": "Programmatic scaling requires specific API keys for BLS and Census Bureau datasets.",
-   "ask": "Supply API keys for BLS, Census (ACS), and HMDA data portals."
+   "id": "DATA_PIPELINE_AUTH",
+   "why": "Programmatic scaling requires API keys for BLS/IRS data ingestion.",
+   "ask": "Provide API keys for BLS and Census Bureau (ACS) data portals."
   }
  ],
  "tasks": [
   {
    "rank": 1,
-   "title": "Hardcode Affiliate CTA Blocks",
-   "how": "Inject the 2 live offers into all 80 calculator result footers via global component.",
+   "title": "Hardcode Affiliate CTAs",
+   "how": "Inject the 2 live offers into all 80 calculator result footers via global template.",
    "risk": "low"
   },
   {
    "rank": 2,
    "title": "Deploy FinancialProduct Schema",
-   "how": "Map calculator outputs to JSON-LD FinancialProduct and FAQPage schema for SERP features.",
+   "how": "Inject JSON-LD schema into all 116 pages using existing calculator metadata.",
    "risk": "low"
   },
   {
    "rank": 3,
-   "title": "Generate ACS/BLS Salary Pages",
-   "how": "Programmatically create 3,000+ pages mapping 'Salary needed for [House Price] in [City]' using ACS data.",
+   "title": "Programmatic IRS/BLS Landing Pages",
+   "how": "Generate 5,000+ pages using IRS SOI data (income by zip) and BLS (salary by role).",
    "risk": "medium"
   },
   {
    "rank": 4,
-   "title": "Implement Answer-First GEO Blocks",
-   "how": "Prepend every page with a 2-sentence summary and a 3-column comparison table for LLM scraping.",
+   "title": "AEO Answer-First Blocks",
+   "how": "Prepend 300-character 'Direct Answer' divs to top 50 high-traffic pages.",
    "risk": "low"
   },
   {
    "rank": 5,
-   "title": "HMDA Mortgage Lead Gen Engine",
-   "how": "Build long-tail pages targeting 'Average mortgage rates in [Zip Code]' using HMDA/CFPB datasets.",
-   "risk": "medium"
+   "title": "llms.txt Optimization",
+   "how": "Update /llms.txt to include markdown summaries of all 80 calculator functions.",
+   "risk": "low"
   }
  ]
 }

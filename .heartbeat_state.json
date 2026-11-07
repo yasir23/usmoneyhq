@@ -16,19 +16,20 @@
   "b77dc2cd808d": 1793948419.459693,
   "9e335892dbd1": 1793948419.459706,
   "df8d1ee4989d": 1793948419.459711,
-  "ab6298fa779b": 1793991656.669636
+  "ab6298fa779b": 1793991656.669636,
+  "765ac1c31cff": 1794013213.6801422
  },
- "last_run": "2026-11-07T00:00:52",
+ "last_run": "2026-11-07T12:02:06",
  "last_telemetry": {
-  "site_http": "200",
-  "sitemap_urls": 118,
-  "llms_http": "200",
-  "indexnow_key_http": "200",
+  "site_http": "000",
+  "sitemap_urls": 0,
+  "llms_http": "000",
+  "indexnow_key_http": "000",
   "offers_live": 2,
   "offers_total": 24,
   "ad_units_filled": 0,
   "ad_units_total": 3,
-  "git_dirty_files": 0,
-  "head": "302cac7"
+  "git_dirty_files": 2,
+  "head": "3df989a"
  }
 }
