@@ -22,6 +22,8 @@ export default function DebtReliefQuiz({ highUrl, lowUrl, highLive, lowLive }) {
   const [type, setType] = useState(null);
   const [state, setState] = useState("");
   const [hardship, setHardship] = useState(null);
+  const [email, setEmail] = useState("");
+  const [sendState, setSendState] = useState(null);
 
   const steps = [
     {
@@ -153,6 +155,71 @@ export default function DebtReliefQuiz({ highUrl, lowUrl, highLive, lowLive }) {
                     : "Compare payoff dates for your balance"}
                 </Link>
               )}
+              <form
+                onSubmit={async (e) => {
+                  e.preventDefault();
+                  setSendState("sending");
+                  const summary = [
+                    "Debt band: " + (high ? "$10,000 or more" : "under $10,000"),
+                    "State: " + state,
+                    "Behind on a payment: " + hardship,
+                    high
+                      ? "Usual fit: a negotiated settlement program. It reduces the balance and damages credit; it is not a loan."
+                      : "Usual fit: consolidation or a balance transfer. Settlement fees usually exceed the saving below $10,000.",
+                    "Model your timeline: usmoneyhq.com/debt-payoff-calculator",
+                  ].join("\n");
+                  try {
+                    const r = await fetch("/api/lead-capture", {
+                      method: "POST",
+                      headers: { "content-type": "application/json" },
+                      body: JSON.stringify({ email, debtBand: high ? "10k_plus" : "under_10k", state, hardship, summary }),
+                    });
+                    const j = await r.json();
+                    setSendState(j.ok ? "sent" : j.error === "email_not_configured" ? "unconfigured" : "failed");
+                  } catch {
+                    setSendState("failed");
+                  }
+                }}
+                className="mt-4 rounded-lg border border-slate-300 p-4"
+              >
+                <label className="block text-sm font-medium text-slate-800" htmlFor="email">
+                  Email me this summary
+                </label>
+                <p className="mt-1 text-xs text-slate-500">
+                  One email, no sequence. We do not sell addresses.
+                </p>
+                <div className="mt-2 flex gap-2">
+                  <input
+                    id="email"
+                    type="email"
+                    required
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="you@example.com"
+                    className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm"
+                  />
+                  <button
+                    type="submit"
+                    className="whitespace-nowrap rounded-md bg-slate-800 px-4 py-2 text-sm font-medium text-white"
+                  >
+                    {sendState === "sending" ? "Sending…" : "Send"}
+                  </button>
+                </div>
+                {sendState === "sent" && (
+                  <p className="mt-2 text-xs text-emerald-700">Sent. Check your inbox.</p>
+                )}
+                {sendState === "unconfigured" && (
+                  <p className="mt-2 text-xs text-amber-700">
+                    Email delivery is not configured yet — your summary is above.
+                  </p>
+                )}
+                {sendState === "failed" && (
+                  <p className="mt-2 text-xs text-red-700">
+                    That did not send. Your summary is above; try again later.
+                  </p>
+                )}
+              </form>
+
               <p className="text-xs text-slate-500">
                 {live
                   ? "We may earn a commission if you apply through this link. It does not change what you pay."
