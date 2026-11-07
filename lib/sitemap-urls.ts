@@ -51,6 +51,8 @@ export function buildSitemap() {
     { url: `${SITE_URL}/terms`, lastModified: legalDate, changeFrequency: "yearly", priority: 0.2 },
     { url: `${SITE_URL}/disclosure`, lastModified: legalDate, changeFrequency: "yearly", priority: 0.2 },
     { url: `${SITE_URL}/editorial-policy`, lastModified: legalDate, changeFrequency: "yearly", priority: 0.3 },
+    { url: `${SITE_URL}/guides/debt-payoff-guide`, lastModified: legalDate, changeFrequency: "yearly", priority: 0.8 },
+    { url: `${SITE_URL}/guides/how-much-house-can-i-afford`, lastModified: legalDate, changeFrequency: "yearly", priority: 0.8 },
     { url: `${SITE_URL}/guides/cfpb-complaints-2026`, lastModified: legalDate, changeFrequency: "yearly", priority: 0.8 },
     { url: `${SITE_URL}/quiz/debt-relief-check`, lastModified: legalDate, changeFrequency: "monthly", priority: 0.8 },
     { url: `${SITE_URL}/widgets`, lastModified: siteDate, changeFrequency: "monthly", priority: 0.6 },
