@@ -11,6 +11,7 @@ export default function TaxRefundGuide() {
   return (
     <>
       <Head>
+        <meta name="robots" content="noindex, follow" />
         <title>Tax Refund Guide 2026 — Big Refund or Big Mistake? | US Money HQ</title>
         <meta name="description" content="Why a big refund means you overpaid, how withholding works, and how to estimate your refund or bill for 2026." />
         <link rel="canonical" href={`${SITE_URL}/guides/tax-refund-guide`} />

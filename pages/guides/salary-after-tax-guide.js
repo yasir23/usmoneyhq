@@ -11,6 +11,7 @@ export default function SalaryTaxGuide() {
   return (
     <>
       <Head>
+        <meta name="robots" content="noindex, follow" />
         <title>Salary After Tax Guide 2026 — Take-Home Pay Explained | US Money HQ</title>
         <meta name="description" content="How much of your salary you actually keep: federal brackets, FICA, state taxes, and real take-home examples for every state." />
         <link rel="canonical" href={`${SITE_URL}/guides/salary-after-tax-guide`} />

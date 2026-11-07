@@ -11,6 +11,7 @@ export default function InvestingGuide() {
   return (
     <>
       <Head>
+        <meta name="robots" content="noindex, follow" />
         <title>Investing Basics Guide 2026 — Compound Growth Explained | US Money HQ</title>
         <meta name="description" content="Investing basics in 2026: compound interest, index funds, dollar-cost averaging, and what your money can become." />
         <link rel="canonical" href={`${SITE_URL}/guides/investing-basics-guide`} />

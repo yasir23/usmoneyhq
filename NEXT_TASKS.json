@@ -1,51 +1,51 @@
 {
  "blockers": [
   {
-   "id": "AD_NETWORK_APPROVAL",
+   "id": "ADS_APPROVAL",
    "why": "AdSense rejection and zero filled units prevent display revenue scaling.",
-   "ask": "Apply for Ezoic or Raptive and provide the integration script."
+   "ask": "Apply for Ezoic or Mediavine as an AdSense alternative to bypass previous rejection."
   },
   {
-   "id": "AFFILIATE_LINK_INJECTION",
-   "why": "22 of 24 available offers are not live, resulting in zero conversion potential.",
-   "ask": "Map the 22 inactive affiliate IDs to their respective calculator result pages."
+   "id": "AFFILIATE_MAPPING",
+   "why": "Only 2 of 24 offers are live, leaving 91% of conversion potential dormant.",
+   "ask": "Provide API keys or tracking IDs for the remaining 22 financial offers."
   },
   {
-   "id": "DATASET_ACCESS_KEYS",
-   "why": "Programmatic long-tail scaling requires authenticated access to BLS and Census APIs.",
-   "ask": "Provide API keys for BLS.gov and Census.gov (ACS)."
+   "id": "DATA_SOURCE_AUTH",
+   "why": "Programmatic scaling requires specific API keys for BLS and Census Bureau datasets.",
+   "ask": "Supply API keys for BLS, Census (ACS), and HMDA data portals."
   }
  ],
  "tasks": [
   {
    "rank": 1,
-   "title": "Activate Affiliate Offer Redirects",
-   "how": "Hardcode the 22 pending affiliate links into the calculator 'Result' CTA buttons.",
+   "title": "Hardcode Affiliate CTA Blocks",
+   "how": "Inject the 2 live offers into all 80 calculator result footers via global component.",
    "risk": "low"
   },
   {
    "rank": 2,
    "title": "Deploy FinancialProduct Schema",
-   "how": "Inject JSON-LD schema into all 80 calculator pages using existing offer metadata.",
+   "how": "Map calculator outputs to JSON-LD FinancialProduct and FAQPage schema for SERP features.",
    "risk": "low"
   },
   {
    "rank": 3,
-   "title": "Generate Programmatic Geo-Pages",
-   "how": "Cross-reference HMDA and ACS data to create 3,000+ 'Cost of Living in [City]' pages.",
+   "title": "Generate ACS/BLS Salary Pages",
+   "how": "Programmatically create 3,000+ pages mapping 'Salary needed for [House Price] in [City]' using ACS data.",
    "risk": "medium"
   },
   {
    "rank": 4,
-   "title": "Implement Answer-First Blocks",
-   "how": "Prepend 2-sentence direct answers and HTML tables to the top of all 116 indexable pages.",
+   "title": "Implement Answer-First GEO Blocks",
+   "how": "Prepend every page with a 2-sentence summary and a 3-column comparison table for LLM scraping.",
    "risk": "low"
   },
   {
    "rank": 5,
-   "title": "Configure llms.txt and IndexNow",
-   "how": "Populate llms.txt with site map and ping IndexNow API for all new programmatic URLs.",
-   "risk": "low"
+   "title": "HMDA Mortgage Lead Gen Engine",
+   "how": "Build long-tail pages targeting 'Average mortgage rates in [Zip Code]' using HMDA/CFPB datasets.",
+   "risk": "medium"
   }
  ]
 }

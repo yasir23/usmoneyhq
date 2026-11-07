@@ -71,6 +71,7 @@ export default function HomePriceToIncome({ metros, above5, total, top, bottom }
   return (
     <>
       <Head>
+        <meta name="robots" content="noindex, follow" />
         <title>Home Price to Income Ratio by Metro (2026) | US Money HQ</title>
         <meta
           name="description"

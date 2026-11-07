@@ -11,6 +11,7 @@ export default function DebtPayoffGuide() {
   return (
     <>
       <Head>
+        <meta name="robots" content="noindex, follow" />
         <title>Debt Payoff Guide 2026 — Snowball vs Avalanche | US Money HQ</title>
         <meta name="description" content="The fastest way to pay off debt in 2026: snowball vs avalanche, extra payments, and the math that beats minimums." />
         <link rel="canonical" href={`${SITE_URL}/guides/debt-payoff-guide`} />

@@ -11,6 +11,7 @@ export default function College529Guide() {
   return (
     <>
       <Head>
+        <meta name="robots" content="noindex, follow" />
         <title>529 College Savings Guide 2026 — Plans & Deductions | US Money HQ</title>
         <meta name="description" content="529 plans explained: state tax deductions, investment growth, qualified expenses, and what college actually costs in 2026." />
         <link rel="canonical" href={`${SITE_URL}/guides/529-guide`} />

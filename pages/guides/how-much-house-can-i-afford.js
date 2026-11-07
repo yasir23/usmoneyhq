@@ -11,6 +11,7 @@ export default function HouseAffordabilityGuide() {
   return (
     <>
       <Head>
+        <meta name="robots" content="noindex, follow" />
         <title>How Much House Can I Afford? 2026 Guide | US Money HQ</title>
         <meta name="description" content="How much house can I afford? The 28/36 rule, down payments, rates, and real examples for $60k-$200k salaries. Use the free calculator." />
         <link rel="canonical" href={`${SITE_URL}/guides/how-much-house-can-i-afford`} />

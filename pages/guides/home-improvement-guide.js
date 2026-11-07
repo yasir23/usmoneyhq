@@ -11,6 +11,7 @@ export default function HomeImprovementGuide() {
   return (
     <>
       <Head>
+        <meta name="robots" content="noindex, follow" />
         <title>Home Improvement Guide 2026 — Budget Without the Shock | US Money HQ</title>
         <meta name="description" content="Plan any home project in 2026: remodel budgets per room, material math (concrete, tile, paint, mulch), and cost controls." />
         <link rel="canonical" href={`${SITE_URL}/guides/home-improvement-guide`} />

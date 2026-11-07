@@ -11,6 +11,7 @@ export default function DebtSnowballGuide() {
   return (
     <>
       <Head>
+        <meta name="robots" content="noindex, follow" />
         <title>Debt Snowball Guide 2026 — Debt-Free Date & Method | US Money HQ</title>
         <meta name="description" content="Snowball vs avalanche across multiple debts: the exact order, the debt-free date, and the math that keeps you motivated." />
         <link rel="canonical" href={`${SITE_URL}/guides/debt-snowball-guide`} />

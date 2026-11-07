@@ -11,6 +11,7 @@ export default function Guide401k() {
   return (
     <>
       <Head>
+        <meta name="robots" content="noindex, follow" />
         <title>401k Guide 2026 — Match, Limits & Growth | US Money HQ</title>
         <meta name="description" content="How 401k plans work in 2026: employer match, contribution limits, Roth vs traditional, and what $500/month grows to." />
         <link rel="canonical" href={`${SITE_URL}/guides/401k-guide`} />
