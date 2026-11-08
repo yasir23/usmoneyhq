@@ -45,3 +45,6 @@ docker ps --format '{{.Names}} {{.Status}}' | grep usmoneyhq || true
 curl -s -m 5 http://127.0.0.1:3000/ | head -c 120 || true
 echo
 echo DEPLOY_DONE
+
+# Surface container logs in the Actions log so a crash is diagnosable without SSH.
+docker compose logs --tail 25 web 2>&1 || docker-compose logs --tail 25 web 2>&1 || true
