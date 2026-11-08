@@ -3,24 +3,24 @@
   {
    "id": "ADSENSE_REENTRY",
    "why": "AdSense rejection blocks the primary revenue stream for high-volume calculator traffic.",
-   "ask": "Fix policy violations and resubmit site for AdSense or Ezoic approval."
+   "ask": "Review rejection reason in AdSense console and fix site compliance issues."
   },
   {
    "id": "AFFILIATE_MAPPING",
    "why": "22 available offers are not integrated into the 116 indexable pages.",
-   "ask": "Provide a mapping of Offer IDs to specific page URLs or calculator categories."
+   "ask": "Provide a mapping CSV linking specific Offer IDs to relevant Page URLs."
   },
   {
    "id": "DATA_SOURCE_AUTH",
-   "why": "Programmatic scaling requires API keys for BLS/IRS datasets to avoid rate limits.",
-   "ask": "Supply API keys for BLS, Census (ACS), and IRS Gateway."
+   "why": "Programmatic scaling requires API keys for BLS and Census (ACS) to avoid rate limits.",
+   "ask": "Supply API keys for BLS, Census Bureau, and IRS SOI data portals."
   }
  ],
  "tasks": [
   {
    "rank": 1,
-   "title": "Hardcode Affiliate CTAs",
-   "how": "Inject the 2 live offers into top-performing calculator sidebars via global partials.",
+   "title": "Inject Affiliate CTAs",
+   "how": "Hardcode the 2 live offers into top-performing calculator sidebars and footers.",
    "risk": "low"
   },
   {
@@ -31,21 +31,21 @@
   },
   {
    "rank": 3,
-   "title": "Programmatic Long-Tail: IRS SOI",
-   "how": "Generate 3,000+ pages targeting 'Average [Tax Credit] in [Zip Code]' using IRS SOI data.",
+   "title": "Generate ACS/BLS Long-Tail Pages",
+   "how": "Script 3,000+ pages using ACS median income and BLS wage data by MSA.",
    "risk": "medium"
   },
   {
    "rank": 4,
-   "title": "AEO Answer-First Blocks",
-   "how": "Prepend 200-character 'Direct Answer' divs to all indexable pages for LLM scraping.",
+   "title": "Implement Answer-First Blocks",
+   "how": "Prepend 200-character direct answers and HTML tables to all indexable pages.",
    "risk": "low"
   },
   {
    "rank": 5,
-   "title": "HMDA Mortgage Data Pages",
-   "how": "Build local landing pages for 'Mortgage Approval Rates in [City]' using HMDA datasets.",
-   "risk": "medium"
+   "title": "Configure llms.txt and IndexNow",
+   "how": "Populate llms.txt with site map and trigger IndexNow API on programmatic publish.",
+   "risk": "low"
   }
  ]
 }

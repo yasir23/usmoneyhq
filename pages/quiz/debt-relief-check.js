@@ -188,6 +188,19 @@ export default function DebtReliefQuiz({ highUrl, lowUrl, highLive, lowLive }) {
                 <p className="mt-1 text-xs text-slate-500">
                   One email, no sequence. We do not sell addresses.
                 </p>
+                <p className="mt-2 text-xs text-slate-500">
+                  By submitting you agree to receive this summary by email and confirm you are 18 or
+                  older. See our{" "}
+                  <a href="/privacy-policy" className="underline">
+                    privacy policy
+                  </a>{" "}
+                  and{" "}
+                  <a href="/editorial-policy" className="underline">
+                    editorial policy
+                  </a>
+                  . This site is not a lender, broker or debt relief provider and does not make
+                  credit decisions.
+                </p>
                 <div className="mt-2 flex gap-2">
                   <input
                     id="email"
@@ -228,6 +241,22 @@ export default function DebtReliefQuiz({ highUrl, lowUrl, highLive, lowLive }) {
             </div>
           </div>
         )}
+
+        <section className="mt-8 rounded-lg border border-slate-200 bg-slate-50 p-4 text-xs text-slate-600">
+          <h2 className="text-sm font-semibold text-slate-800">Advertiser disclosure</h2>
+          <p className="mt-1">
+            US Money HQ earns a commission when a reader applies through a partner link on this
+            page. The commission does not change what a reader pays, and it does not influence which
+            option this quiz routes to — the routing is decided by the debt balance band, stated in
+            the decision table below. Where no partner link is live, the page sends readers to our
+            own calculator instead of a placeholder.
+          </p>
+          <p className="mt-2">
+            We are not a lender, broker, debt settlement company or credit counselling agency. We do
+            not collect application data on behalf of any provider, and we do not sell personal
+            information.
+          </p>
+        </section>
 
         <section className="mt-10 border-t border-slate-200 pt-6 text-sm text-slate-600">
           <h2 className="text-base font-semibold text-slate-800">How this is decided</h2>
