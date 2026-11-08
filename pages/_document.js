@@ -16,6 +16,7 @@ export default class SiteDocument extends Document {
           <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
           <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
           <meta name="theme-color" content="#0f172a" />
+          <meta name="fo-verify" content="43649d3d-7769-4088-9cd7-7376c60a54cc" />
           {/* SEO */}
 
           {/* Deliberately NO site-wide robots meta here. Do not add one back.
