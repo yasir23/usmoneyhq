@@ -35,7 +35,7 @@ export default async function handler(req, res) {
     }
     // A Brevo key is 89 chars starting xkeysib-. Anything else is a wiring fault, and it is
     // better to say so than to send a malformed header and let undici throw.
-    if (!/^xkeysib-[A-Za-z0-9]{20,}$/.test(key)) {
+    if (!/^xkeysib-[A-Za-z0-9-]{20,}$/.test(key)) {
       return res.status(500).json({
         ok: false,
         error: "bad_key_shape",
