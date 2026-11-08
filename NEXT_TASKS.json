@@ -1,51 +1,51 @@
 {
  "blockers": [
   {
-   "id": "AD_NETWORK_APPROVAL",
-   "why": "AdSense rejection and zero filled units prevent display revenue scaling.",
-   "ask": "Apply for Ezoic or Raptive as AdSense alternatives to bypass previous rejection."
+   "id": "ADSENSE_REENTRY",
+   "why": "AdSense rejection blocks the primary revenue stream for high-volume calculator traffic.",
+   "ask": "Fix policy violations and resubmit site for AdSense or Ezoic approval."
   },
   {
    "id": "AFFILIATE_MAPPING",
-   "why": "Only 2 of 24 offers are live, leaving 91% of conversion potential dormant.",
-   "ask": "Map the 22 inactive affiliate IDs to specific high-traffic calculator result pages."
+   "why": "22 available offers are not integrated into the 116 indexable pages.",
+   "ask": "Provide a mapping of Offer IDs to specific page URLs or calculator categories."
   },
   {
    "id": "DATA_SOURCE_AUTH",
-   "why": "Programmatic scaling requires API keys for BLS and Census Bureau datasets.",
-   "ask": "Provide API keys for BLS.gov and Census.gov for automated data ingestion."
+   "why": "Programmatic scaling requires API keys for BLS/IRS datasets to avoid rate limits.",
+   "ask": "Supply API keys for BLS, Census (ACS), and IRS Gateway."
   }
  ],
  "tasks": [
   {
    "rank": 1,
-   "title": "Activate Affiliate Offer Switch",
-   "how": "Hardcode the 22 pending affiliate links into the global calculator sidebar template.",
+   "title": "Hardcode Affiliate CTAs",
+   "how": "Inject the 2 live offers into top-performing calculator sidebars via global partials.",
    "risk": "low"
   },
   {
    "rank": 2,
    "title": "Deploy FinancialProduct Schema",
-   "how": "Inject JSON-LD schema into the 80 calculator pages using existing metadata.",
+   "how": "Inject JSON-LD schema across all 80 calculators using existing metadata.",
    "risk": "low"
   },
   {
    "rank": 3,
-   "title": "Programmatic Long-Tail Generation",
-   "how": "Generate 500 pages using IRS SOI data (e.g., 'Average Tax Refund in [Zip Code]').",
+   "title": "Programmatic Long-Tail: IRS SOI",
+   "how": "Generate 3,000+ pages targeting 'Average [Tax Credit] in [Zip Code]' using IRS SOI data.",
    "risk": "medium"
   },
   {
    "rank": 4,
    "title": "AEO Answer-First Blocks",
-   "how": "Prepend 200-character 'Direct Answer' divs to all 116 indexable pages.",
+   "how": "Prepend 200-character 'Direct Answer' divs to all indexable pages for LLM scraping.",
    "risk": "low"
   },
   {
    "rank": 5,
-   "title": "LLMS.txt Optimization",
-   "how": "Update /llms.txt to include markdown tables of all calculator utility functions.",
-   "risk": "low"
+   "title": "HMDA Mortgage Data Pages",
+   "how": "Build local landing pages for 'Mortgage Approval Rates in [City]' using HMDA datasets.",
+   "risk": "medium"
   }
  ]
 }
