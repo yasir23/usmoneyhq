@@ -4541,8 +4541,8 @@ export const TOOL_CONTENT: Record<string, ToolContent> = {
         body: "Sleep progresses through cycles of roughly ninety minutes, each ending with a lighter stage. Four cycles is six hours, five is seven and a half, six is nine. The figure is an average: cycles vary between people and across the night, with later cycles tending to be longer and lighter.",
       },
       {
-        title: "Add the time it takes to fall asleep",
-        body: "The time between getting into bed and sleeping is not part of a cycle. Fifteen minutes is a common working figure, so a wake time of 6:30 AM with five cycles means being in bed by 10:45 PM — seven and a half hours of sleep plus the fifteen minutes. Omitting that term puts bedtime fifteen minutes late every night.",
+        title: "The calculator counts back from sleep, not from lights-out",
+        body: "Each bedtime is the wake time minus a whole number of 90-minute cycles, so what it returns is the moment sleep needs to begin. If falling asleep takes you a while, that interval comes off the answer yourself: a 6:30 AM wake time on five cycles returns 11:00 PM, and someone who takes fifteen minutes to drop off should be in bed at 10:45 PM. The allowance is left out of the arithmetic because it varies between people and from night to night — an allowance built into the formula would be someone else's.",
       },
       {
         title: "What the calculation cannot account for",
@@ -4552,21 +4552,21 @@ export const TOOL_CONTENT: Record<string, ToolContent> = {
     example: {
       title: "Worked example: aiming at a 6:30 AM wake time",
       setup:
-        "Wake time 6:30 AM. Cycles of 90 minutes. Fifteen minutes allowed to fall asleep. Cycle length is an average rather than a fixed value.",
+        "Wake time 6:30 AM. Cycles of 90 minutes. The bedtimes below are return values from the calculator; any sleep-onset allowance is applied by you, not by the formula.",
       rows: [
         { label: "Four cycles", value: "6.0 h", note: "4 x 90 minutes" },
         { label: "Five cycles", value: "7.5 h", note: "5 x 90 minutes" },
         { label: "Six cycles", value: "9.0 h", note: "6 x 90 minutes" },
-        { label: "Bedtime for five cycles", value: "10:45 PM", note: "6:30 - 7.5 h - 15 min" },
-        { label: "Bedtime for six cycles", value: "9:15 PM", note: "6:30 - 9 h - 15 min" },
+        { label: "Bedtime for five cycles", value: "11:00 PM", note: "6:30 AM - 7.5 h" },
+        { label: "Bedtime for six cycles", value: "9:30 PM", note: "6:30 AM - 9 h" },
       ],
       conclusion:
-        "For a 6:30 AM wake time, five cycles means being in bed by 10:45 PM and six means 9:15 PM. The fifteen minutes is the part usually left out, and leaving it out means being fifteen minutes short of the cycle count aimed for — which defeats the purpose of counting them at all. Whether the cycles themselves arrive is a different question from how the bedtime was chosen.",
+        "For a 6:30 AM wake time the calculator returns 11:00 PM for five cycles and 9:30 PM for six, and those are the times sleep has to begin. If falling asleep takes about fifteen minutes, be in bed at 10:45 PM for the five-cycle night: the same answer a calculator that folds the allowance into the formula would give, with the amount left where you can set it to your own experience. Whether the cycles themselves arrive is a separate question from how the bedtime was chosen.",
     },
     mistakes: [
       {
-        title: "Forgetting the time to fall asleep",
-        body: "The interval between getting into bed and sleeping is not part of a cycle. Omitting it makes the planned cycle count unreachable by exactly that margin.",
+        title: "Reading the returned time as lights-out",
+        body: "The figure is when sleep needs to start, not when to get into bed. Someone who takes fifteen minutes to fall asleep and treats it as lights-out is fifteen minutes short of the cycles they aimed for — a correction worth making once, then keeping.",
       },
       {
         title: "Treating 90 minutes as exact",
