@@ -35,6 +35,12 @@ const REVIEWED_ON = (() => {
 })();
 
 /**
+ * Machine-readable twin of REVIEWED_ON, for the JSON-LD dateModified field.
+ * Same source, so the visible date and the structured date cannot disagree.
+ */
+const REVIEWED_ISO = contentDate("tools").toISOString().slice(0, 10);
+
+/**
  * ToolPageShell — shared page shell for every calculator (pages router).
  * Centralizes SEO (title/meta/canonical/OG/JSON-LD), breadcrumbs, ad slots,
  * the tool UI, FAQ, and related links. New tools = new registry entry only.
@@ -269,6 +275,14 @@ export default function ToolPageShell({ slug, stateSlug, amountSlug, metroSlug, 
         description: pageDesc,
         applicationCategory: "FinanceApplication",
         operatingSystem: "Any",
+        /* Publisher + review date in structured data, so an answer engine
+           reading the page can attribute it without guessing. Organisation,
+           not Person: the site is published by US Money HQ and the operator is
+           named on /about — a Person node here would assert an author the page
+           does not name. REVIEWED_ISO shares its source with the visible date. */
+        dateModified: REVIEWED_ISO,
+        author: { "@type": "Organization", name: SITE_NAME, url: SITE_URL },
+        publisher: { "@type": "Organization", name: SITE_NAME, url: SITE_URL },
         offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
       },
       {
@@ -377,6 +391,26 @@ export default function ToolPageShell({ slug, stateSlug, amountSlug, metroSlug, 
 
         <h1>{pair ? `${pair[0].name} vs ${pair[1].name}: ${tool.h1}` : metro ? `${metroLabel}: ${tool.h1}` : age ? `${tool.shortTitle} at ${age}: projected balance at ${ageTool?.retirementAge || 65}` : state && amount ? (amountKind === "price" ? `${fmtAmount(amount)} Home in ${state.name}: ${tool.h1}` : amountKind === "income" ? `How Much House on ${fmtAmount(amount)} in ${state.name}?` : `${fmtAmount(amount)} Salary in ${state.name}: ${tool.h1}`) : amount ? (amountKind === "income" ? `How Much House on ${fmtAmount(amount)}?` : amountKind === "price" ? `${fmtAmount(amount)} Home: ${tool.h1}` : `${fmtAmount(amount)} Salary: ${tool.h1}`) : state ? `${state.name} ${tool.h1}` : tool.h1}</h1>
         <p className="sub">{tool.sub}</p>
+
+        {/* ATTRIBUTION — added 2026-11-11.
+            Measured before this change: 0 of the money pages carried any author,
+            publisher or reviewer line in the served HTML (only a generic
+            "informational purposes" sentence buried in the footer). Google holds
+            YMYL finance content to an E-E-A-T standard, and "who says so" is the
+            first thing a reviewer looks for; an unattributed calculator page reads
+            as anonymous advice.
+
+            What this line claims is deliberately narrow and true: a named
+            publisher, a real review date derived from lib/content-dates.ts, the
+            sources page, and the explicit statement that no licensed advice is
+            being given. It names no credential, because inventing one is the exact
+            act the signal exists to detect. */}
+        <p className="note page-byline">
+          By <Link href="/about">US Money HQ</Link> · Reviewed {REVIEWED_ON} ·{" "}
+          <Link href="/methodology">Methodology &amp; sources</Link>
+          {" — "}free educational tools, not financial, tax or legal advice; we are not a licensed
+          financial adviser and no adviser-client relationship is created.
+        </p>
 
         <VariantTLDR slug={slug} state={state} amount={amount} amountKind={amountKind} age={age} ageTool={ageTool} metroLabel={metro ? metroLabel : undefined} />
 

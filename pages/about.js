@@ -44,6 +44,11 @@ export default function About() {
           <p>Regulated figures — tax brackets, FICA rates, contribution limits, the Social Security wage base, Medicare costs, loan limits — are taken from the agency that publishes them, listed by name on our <a href="/methodology">methodology page</a>. We do not estimate a regulated number, and we do not present an average as a statutory rate: where a figure is an average (state property tax, combined sales tax, typical material costs), the page says so and the result is labeled an estimate.</p>
           <p>Calculators are reviewed against their sources when those sources change — annually each January for IRS inflation adjustments, and quarterly for state tax data. Every tool is also checked automatically each day for results that contradict the page they appear on, and for pages that have drifted below the depth we hold ourselves to.</p>
 
+          <h2>Who Publishes This Site</h2>
+          <p>US Money HQ is an independent site, built and maintained by <strong>Yasir Ali Mushtaq</strong>, who writes the calculators, the sourcing rules above, and the corrections log on this page. The site is self-funded and has no investor, no advertiser and no sponsor with a say in what a calculator outputs.</p>
+          <p><strong>What we are not:</strong> nobody on this site is a licensed financial adviser, CPA, enrolled agent, or attorney, and nothing here is personalised financial, tax or legal advice. We do not know your circumstances, we cannot review them, and we do not recommend specific products, lenders or advisers. The tools compute standard published formulas on inputs you supply; the judgement about what to do with the result is yours, and for anything with tax or legal consequences it belongs with a licensed professional in your state.</p>
+          <p><strong>How to check our work:</strong> every regulated figure on the site is listed with the agency that publishes it on the <a href="/methodology">methodology page</a>. If a number here disagrees with the source, the source is right — tell us via the <a href="/contact">contact page</a> and we correct it and date the correction above.</p>
+
           <h2>Corrections</h2>
           <p>When we find a material error we fix it and record it here rather than quietly editing the page.</p>
           <ul>
