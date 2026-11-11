@@ -216,17 +216,12 @@ export const AFFILIATE_OFFERS: AffiliateOffer[] = [
     tools: ["budget-calculator", "savings-goal-calculator", "debt-payoff-calculator"],
   },
   {
-    id: "michaels-craft",
-    name: "Michaels",
-    blurb: "Craft & DIY supplies for the projects in your budget.",
-    href: "https://www.michaels.com/", // PLACEHOLDER
-    program: "michaels",
-    payout: "4-6%",
-    live: false,
-    apply: "Michaels partner program",
-    tools: ["concrete-calculator", "paint-calculator", "home-remodel-cost-calculator"],
-  },
-  {
+    // michaels-craft REMOVED 2026-11-11. Its href was the bare brand homepage
+    // (https://www.michaels.com/) with the comment "PLACEHOLDER" — a destination
+    // that is not an affiliate link, so any click it ever earned paid $0 while
+    // occupying page space and implying a partnership that does not exist. The
+    // affiliate audit flagged it every run. Re-add only with a real tracked URL
+    // from the Michaels partner program and `live: true`.
     id: "everquote-auto",
     name: "EverQuote",
     blurb: "Compare auto insurance quotes in one pass.",
