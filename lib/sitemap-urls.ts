@@ -23,6 +23,21 @@ import { contentDate } from "./content-dates";
  * timestamp made every entry share a single value that changed on every deploy,
  * which destroys the freshness signal the field exists to carry.
  */
+/**
+ * Per-path overrides for the case the group grain cannot express: one page in a
+ * group changed and its siblings did not.
+ *
+ * 2026-11-11 — /about gained the "Who Publishes This Site" section (named
+ * operator, explicit not-an-adviser statement, how-to-check-our-work pointer).
+ * Bumping the whole `site` group would have told crawlers that /contact,
+ * /methodology, /developers, /premium, /widgets and the category hubs all
+ * changed that day too, which is the same false-date failure this file exists to
+ * prevent. Only the page that actually changed moves.
+ */
+const PATH_DATES: Record<string, string> = {
+  "/about": "2026-11-11",
+};
+
 export function buildSitemap() {
   const siteDate = contentDate("site");
   const toolDate = contentDate("tools");
@@ -31,10 +46,11 @@ export function buildSitemap() {
   const amountDate = contentDate("amounts");
   const metroDate = contentDate("metros");
   const stateDate = contentDate("states");
+  const pathDate = (path: string, fallback: Date): string | Date => PATH_DATES[path] || fallback;
 
   const pages: { url: string; lastModified?: string | Date; changeFrequency?: string; priority?: number }[] = [
     { url: SITE_URL, lastModified: siteDate, changeFrequency: "weekly", priority: 1 },
-    { url: `${SITE_URL}/about`, lastModified: siteDate, changeFrequency: "yearly", priority: 0.3 },
+    { url: `${SITE_URL}/about`, lastModified: pathDate("/about", siteDate), changeFrequency: "yearly", priority: 0.3 },
     { url: `${SITE_URL}/methodology`, lastModified: siteDate, changeFrequency: "yearly", priority: 0.4 },
     { url: `${SITE_URL}/states`, lastModified: siteDate, changeFrequency: "monthly", priority: 0.8 },
     { url: `${SITE_URL}/developers`, lastModified: siteDate, changeFrequency: "monthly", priority: 0.5 },

@@ -14,7 +14,7 @@ const SCHEMA = staticPageSchema({
     "About US Money HQ — free, fast, accurate US financial and everyday calculators with no sign-up and no data collection.",
   path: "/about",
   type: "AboutPage",
-  dateModified: "2026-09-26",
+  dateModified: "2026-11-11",
 });
 
 export default function About() {
