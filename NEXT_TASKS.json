@@ -2,50 +2,50 @@
  "blockers": [
   {
    "id": "ADSENSE_REENTRY",
-   "why": "AdSense rejection blocks the primary revenue stream for high-volume calculator traffic.",
-   "ask": "Fix policy violations cited in the rejection notice and resubmit for manual review."
+   "why": "AdSense rejection blocks primary revenue stream and programmatic scaling.",
+   "ask": "Fix policy violations and resubmit site for AdSense approval."
   },
   {
-   "id": "AFFILIATE_MAPPING",
-   "why": "22 available offers are inactive, resulting in zero conversion potential on existing pages.",
-   "ask": "Map the 22 pending affiliate IDs to specific high-intent calculator and article URLs."
+   "id": "AFFILIATE_ACTIVATION",
+   "why": "21 offers are inactive despite being in the system.",
+   "ask": "Provide API keys or tracking IDs for the remaining 21 affiliate offers."
   },
   {
-   "id": "DATASET_ACCESS",
-   "why": "Programmatic scaling requires local copies of IRS SOI and HMDA files for fast generation.",
-   "ask": "Provide API keys or local paths for the 2023/2024 US financial public datasets."
+   "id": "DATA_MAPPING",
+   "why": "Programmatic long-tail requires specific geographic/demographic targeting logic.",
+   "ask": "Define the mapping between ACS/BLS metrics and specific affiliate offer triggers."
   }
  ],
  "tasks": [
   {
    "rank": 1,
-   "title": "Activate Affiliate Offer Injection",
-   "how": "Hardcode the 22 live offers into sidebar/CTA components across all 116 pages.",
+   "title": "Inject Affiliate CTAs into Calculators",
+   "how": "Hardcode high-intent affiliate links into the result views of all 80 calculators.",
    "risk": "low"
   },
   {
    "rank": 2,
    "title": "Deploy FinancialProduct Schema",
-   "how": "Inject JSON-LD schema into the 80 calculators to capture rich snippets and AEO visibility.",
+   "how": "Inject JSON-LD schema for all 24 offers into existing indexable pages.",
    "risk": "low"
   },
   {
    "rank": 3,
-   "title": "IRS SOI Long-Tail Generation",
-   "how": "Script 5,000 pages mapping 'Average Tax Refund by Zip Code' using IRS SOI data.",
+   "title": "Generate Programmatic Geo-Pages",
+   "how": "Use HMDA/BLS data to build 500+ 'Cost of Living in [City]' pages with answer-first blocks.",
    "risk": "medium"
   },
   {
    "rank": 4,
-   "title": "Answer-First Block Implementation",
-   "how": "Prepend 200-character direct answer summaries to all indexable pages for GEO optimization.",
+   "title": "Configure Ad Unit Placeholders",
+   "how": "Insert the 3 configured ad units into global header/sidebar templates via Git.",
    "risk": "low"
   },
   {
    "rank": 5,
-   "title": "HMDA Mortgage Lead Gen Pages",
-   "how": "Build programmatic landing pages for 'Mortgage Approval Rates in [City]' using HMDA datasets.",
-   "risk": "medium"
+   "title": "Optimize llms.txt for AEO",
+   "how": "Populate llms.txt with markdown summaries of calculators and current financial rates.",
+   "risk": "low"
   }
  ]
 }

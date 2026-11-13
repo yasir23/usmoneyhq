@@ -780,12 +780,11 @@ export const TOOLS: ToolDef[] = [
     slug: "child-support-calculator",
     title: "Child Support Calculator 2026 — Estimate Monthly Support | US Money HQ",
     shortTitle: "Child Support Calculator",
-    description: "Free US child support estimator: rough monthly support range based on income and number of children. Check your state's official guideline.",
+    description: "Free US child support estimator using the percentage-of-income model: 20% of the paying parent's monthly income for one child, 25% for two, 30% for three or more. Not a state guideline figure.",
     h1: "Child Support Calculator",
-    sub: "Rough monthly support estimate based on income and number of children.",
+    sub: "Percentage-of-income estimate from the paying parent's monthly income and the number of children.",
     fields: [
-      { key: "ncpIncome", label: "Non-custodial monthly income (USD)", type: "number", default: 5000, min: 0, step: 100, inputMode: "numeric" },
-      { key: "custodialIncome", label: "Custodial monthly income (USD)", type: "number", default: 3000, min: 0, step: 100, inputMode: "numeric" },
+      { key: "ncpIncome", label: "Paying parent's monthly income (USD)", type: "number", default: 5000, min: 0, step: 100, inputMode: "numeric" },
       {
         key: "kids",
         label: "Number of children",
@@ -801,18 +800,18 @@ export const TOOLS: ToolDef[] = [
     ],
     compute: (v) => {
       const ncp = Number(v.ncpIncome) || 0;
-      const cust = Number(v.custodialIncome) || 0;
       const kids = Number(v.kids) || 1;
-      const r = childSupportEstimate(ncp, cust, kids);
+      const r = childSupportEstimate(ncp, 0, kids);
       return [
         moneyRow("Estimated monthly support", r.monthly, true),
         { label: "Share of income", value: `${r.pct}%` },
         { label: "Note", value: r.note },
       ];
     },
-    note: "Each state uses its own guideline formula — this is a planning estimate only.",
+    note: "This applies a percentage band to one income. Most states instead use an income-shares schedule based on both parents' combined income, which gives a different figure — check your state's official calculator.",
     faq: [
-      { q: "How is child support calculated?", a: "Most states use income-shares or percentage-of-income models considering both parents' income, number of children, and custody time. Official state calculators give exact numbers." },
+      { q: "How does this calculator estimate child support?", a: "It applies a percentage-of-income band to the paying parent's monthly income: 20% for one child, 25% for two and 30% for three or more. On the $5,000 default with two children that is $1,250.00 a month, and the result moves only when the payer's income or the number of children changes. The other parent's earnings are deliberately not an input, because a percentage band is applied to one income rather than to a combined total." },
+      { q: "Why is this different from my state's child support calculator?", a: "Because most states use income shares rather than a percentage band. Under income shares the two incomes are added together, a basic obligation is read from a state schedule for that combined total and the number of children, and the obligation is split in proportion to each parent's share. That makes the result depend on what the other parent earns, on which deductions the state allows, and on the schedule itself — none of which this estimate models. Use it as a planning figure and your state's guideline or agency calculator for the number that governs." },
       { q: "Can support be modified?", a: "Yes — a significant income change or custody change can justify a modification, typically filed through your state's child support agency or court." },
     ],
     related: ["paycheck-calculator", "salary-after-tax-calculator", "dti-calculator"],

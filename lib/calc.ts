@@ -472,10 +472,18 @@ export function creditCardMinPayment(balance: number, apr: number, minPct = 0.02
   };
 }
 
-/** Child support rough estimate (income-share style % of non-custodial income). State-specific. */
+/**
+ * Child support rough estimate — PERCENTAGE-OF-INCOME model, NOT income shares.
+ * A band is applied to the paying parent's income alone (20% / 25% / 30% for one /
+ * two / three or more children) and the other parent's income is deliberately not
+ * an input. States that use an income-shares guideline read a dollar obligation
+ * from a schedule based on BOTH parents' combined income, so they will produce a
+ * different figure — which is why the result is labelled an estimate, and why the
+ * page copy must not describe this as income shares.
+ */
 export function childSupportEstimate(ncpIncome: number, _custodialIncome: number, numKids: number) {
   const pct = numKids <= 0 ? 0 : numKids === 1 ? 0.2 : numKids === 2 ? 0.25 : 0.3;
-  return { monthly: round2(ncpIncome * pct), pct: Math.round(pct * 100), note: "Rough guideline — check your state's official calculator" };
+  return { monthly: round2(ncpIncome * pct), pct: Math.round(pct * 100), note: "Percentage-of-income estimate — most states use a different guideline" };
 }
 
 /** Concrete slab: cubic yards + 60/80lb bag counts + material cost estimate ($/yd). */

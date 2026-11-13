@@ -3267,47 +3267,55 @@ export const TOOL_CONTENT: Record<string, ToolContent> = {
 
   "child-support-calculator": {
     intro:
-      "Child support is calculated from a formula, and the formula is set by the state hearing the case. Most follow a version of the income-shares model, which means two numbers matter far more than any others: combined income, and the share each parent contributes to it.",
+      "A child support figure depends less on what the paying parent earns than on which formula the state applies to it. Two models dominate US guidelines and they do not agree: income shares reads a basic obligation from a schedule and splits it between both parents, while percentage-of-income applies a band to the paying parent's income alone. This calculator uses the second, so the same salary can produce a materially different number from the one a court in an income-shares state would order.",
     mechanics: [
       {
-        title: "The income-shares model",
-        body: "The parents' incomes are combined, a basic obligation is read from a schedule for that combined income and the number of children, and that obligation is then split in proportion to each parent's share of the combined income. If one parent earns 60% of the combined total, they carry 60% of the obligation.",
+        title: "Two models that answer the same question differently",
+        body: "Under income shares the parents' incomes are added together, a basic obligation is read from a schedule for that combined total and the number of children, and the obligation is then divided in proportion to each parent's share of the combined income. Under percentage-of-income there is no schedule and no combined total: a fixed percentage is applied to the paying parent's income, and the other parent's earnings do not enter the arithmetic at all. Both approaches are in use in the United States, so which one governs is a question about jurisdiction before it is a question about money.",
       },
       {
-        title: "It is not a fixed percentage of one parent's pay",
-        body: "A common misconception is that support is a flat share of the payer's income. Under income shares it depends on both incomes: the same paying parent with the same salary owes different amounts depending on what the other parent earns, because the split changes.",
+        title: "The bands this calculator applies",
+        body: "The percentage is 20% for one child, 25% for two, and 30% for three or more, applied to the monthly income entered for the paying parent. At $5,000 a month that is $1,000.00, $1,250.00 and $1,500.00. The band steps up with each child because the cost of the household rises with it, but not in proportion: a second child adds five percentage points, not another twenty. Note that several states using a percentage model continue increasing the percentage beyond three children, so the 30% top band here is a floor for a large family rather than a settled rate.",
       },
       {
-        title: "Add-ons and adjustments sit on top",
-        body: "Childcare, health insurance premiums and extraordinary medical costs are usually allocated on the same income-share basis, while parenting time can adjust the result. That is why a calculation from income alone commonly differs from the final order.",
+        title: "Which income figure goes in",
+        body: "Guidelines work from income after specified deductions, not from gross pay. The deductions themselves vary by state — federal and state tax, mandatory retirement contributions, union dues, sometimes an existing support order — so two states can apply the same percentage to the same salary and reach different numbers. Enter the figure your state's guideline would start from. Entering gross pay overstates the result every time, and the overstatement grows with the size of the deductions that were left in.",
+      },
+      {
+        title: "What sits outside the band",
+        body: "The band covers the basic obligation only. Childcare, the children's share of health insurance premiums, and extraordinary medical or education costs are usually added on top and allocated between the parents separately. Parenting time is a further adjustment in many states, and in some it is the largest single one. That is why a figure derived from income alone commonly differs from the final order, and why the difference is not in itself evidence that the arithmetic was wrong.",
       },
     ],
     example: {
-      title: "Worked example: a hypothetical income-shares calculation",
+      title: "Worked example: one income, three family sizes",
       setup:
-        "Combined monthly income $8,000, split 60/40 between the parents. The basic obligation is taken as a hypothetical $1,200 a month from an illustrative schedule. These figures demonstrate the mechanism and are not a real support schedule — actual amounts come from the state schedule and the court.",
+        "Paying parent's monthly income: $5,000. The percentage bands above are applied to that figure. The other parent's income, the custody split and any add-ons are deliberately outside this arithmetic — which is precisely the point the rows are there to show.",
       rows: [
-        { label: "Combined monthly income", value: "$8,000.00", note: "assumed" },
-        { label: "Basic obligation", value: "$1,200.00", note: "hypothetical schedule figure" },
-        { label: "Higher earner's share at 60%", value: "$720.00", note: "1200 x 0.60" },
-        { label: "Other parent's share at 40%", value: "$480.00", note: "1200 x 0.40" },
-        { label: "If the other parent earned more, the split would reverse", value: "$480.00", note: "the higher earner would owe this instead" },
+        { label: "One child at 20%", value: "$1,000.00", note: "5000 x 0.20" },
+        { label: "Two children at 25%", value: "$1,250.00", note: "5000 x 0.25" },
+        { label: "Three children at 30%", value: "$1,500.00", note: "5000 x 0.30" },
+        { label: "Two children if the other parent earns $9,000", value: "$1,250.00", note: "unchanged — the other parent's income is not an input here" },
+        { label: "Two children at $4,000 instead", value: "$1,000.00", note: "4000 x 0.25 — the result moves only when the payer's income does" },
       ],
       conclusion:
-        "The obligation is $1,200 and the split follows the incomes, so $720 falls to the higher earner. Note the last row: changing which parent earns more changes who pays, without changing the total obligation at all. That dependence on both incomes is the part of this calculation most often misunderstood.",
+        "The first three rows show the band stepping five points at a time. The fourth row is the one that matters most: under income shares that same family would land somewhere else once the other parent's earnings are known, because the obligation would be split rather than banded. If the state hearing your case uses a schedule, read this figure as a reference point and not as the obligation.",
     },
     mistakes: [
       {
-        title: "Assuming a fixed percentage of the payer's income",
-        body: "That describes a different model. Under income shares the obligation depends on the combined income and the split, so the other parent's earnings change the answer.",
+        title: "Reading a percentage-model figure as a state guideline number",
+        body: "The band is applied to one income; an income-shares guideline applies a schedule to two. Presenting this result to a court or to the other parent as the amount the state requires is the error that matters most here, because the two models can differ by hundreds of dollars a month on identical facts.",
       },
       {
-        title: "Using gross income as the basis",
-        body: "Schedules generally work from income after specified deductions, and the deductions vary by state. Using gross overstates the obligation.",
+        title: "Using gross pay where the guideline uses net",
+        body: "The percentage is applied to whatever figure is typed in. Gross salary includes tax and other deductions that most guidelines strip out first, so a gross-based entry systematically overstates the obligation.",
       },
       {
-        title: "Treating this as an estimate of a court order",
-        body: "Add-ons for childcare, health cover and medical costs, plus any parenting-time adjustment, sit outside the basic calculation. A real order includes them and is issued by a court, not a calculator.",
+        title: "Forgetting the add-ons and the parenting-time adjustment",
+        body: "Childcare, health premiums and medical costs are allocated separately from the basic band, and parenting time can move the result further. A calculation from income alone is a starting point, not a total.",
+      },
+      {
+        title: "Treating four or more children as a settled rate",
+        body: "The top band here is 30% and does not step up further, while percentage-model states commonly keep raising the percentage beyond three children. For a large family the figure behaves as a floor.",
       },
     ],
   },
