@@ -26,6 +26,7 @@ const GUIDES = [
   { href: "/guides/home-improvement-guide", title: "Home Improvement Budgeting", desc: "Remodel costs by room, the 10% materials rule, DIY vs pro.", group: "Borrowing & housing" },
 
   { href: "/guides/salary-after-tax-guide", title: "How Much of Your Salary You Actually Keep", desc: "Federal brackets, FICA, and why your state matters most.", group: "Pay & tax" },
+  { href: "/guides/irs-2026-brackets", title: "2026 Tax Brackets and the Standard Deduction", desc: "Every 2026 bracket and deduction figure, transcribed from IRS Rev. Proc. 2025-32.", group: "Pay & tax" },
   { href: "/guides/tax-refund-guide", title: "Tax Refunds Decoded", desc: "Why a big refund means you overpaid — and the fix.", group: "Pay & tax" },
   { href: "/guides/take-home-pay-by-metro-2026", title: "Take-Home Pay in 50 Metros (2026)", desc: "Our own dataset: the same $100k nets $8,500 more in one metro than another.", group: "Pay & tax" },
 

@@ -666,6 +666,16 @@ export default function ToolPageShell({ slug, stateSlug, amountSlug, metroSlug, 
 
         <RelatedTools current={slug} stateSlug={state?.slug} />
 
+        {/* Editorial guide link — base page only, one per tool, and never a
+            second copy of a link the page already carries. See RELATED_GUIDES. */}
+        {!isVariant && RELATED_GUIDES[slug] && (
+          <aside className="next-step" aria-label="Related guide">
+            <h2>Related guide</h2>
+            <Link href={RELATED_GUIDES[slug].href}>{RELATED_GUIDES[slug].label} &rarr;</Link>
+            <p className="note">{RELATED_GUIDES[slug].why}</p>
+          </aside>
+        )}
+
         {/* A page-level review date and a route to correct it. The audit's E-E-A-T
             recommendation also asked for a NAMED reviewer; that is deliberately not
             done here. This site has no finance professional on staff, and inventing a
@@ -995,6 +1005,45 @@ const NEXT_STEPS: Record<string, { to: string; label: string; why: string }> = {
     to: "mortgage-calculator",
     label: "Add the loan it belongs to",
     why: "Closing costs are cash at signing, separate from the payment — both have to fit in the same budget.",
+  },
+};
+
+/**
+ * RELATED_GUIDES — the inbound-link seam from a tool page to an editorial guide.
+ *
+ * Added 2026-11-13. /guides/irs-2026-brackets was the site's only orphan: live,
+ * in the sitemap, sourced from IRS Rev. Proc. 2025-32, and reachable from
+ * nothing (orphan_page_audit.py: 104 linked, 1 orphan). A page nothing links to
+ * inherits no internal authority, so a well-sourced page ranks like a new one.
+ *
+ * The four tax tools below are where the intent actually lives: someone on
+ * /tax-bracket-calculator is asking the exact question the guide answers, and
+ * the calculator's own copy says it deliberately prints no bracket table (a
+ * stale table is worse than none). The guide IS that table, dated and sourced.
+ *
+ * Keep this map tiny and intentional. It is not a second RelatedTools grid — one
+ * guide per tool, only where the guide answers the page's next question.
+ */
+const RELATED_GUIDES: Record<string, { href: string; label: string; why: string }> = {
+  "tax-bracket-calculator": {
+    href: "/guides/irs-2026-brackets",
+    label: "The verified 2026 bracket table",
+    why: "Every 2026 bracket boundary and standard deduction, transcribed from IRS Rev. Proc. 2025-32 and checked against each bracket's cumulative tax figure.",
+  },
+  "tax-calculator": {
+    href: "/guides/irs-2026-brackets",
+    label: "The verified 2026 bracket table",
+    why: "The rates this calculator applies, read from the IRS revenue procedure rather than a rate table on some other site.",
+  },
+  "salary-after-tax-calculator": {
+    href: "/guides/irs-2026-brackets",
+    label: "Where your marginal rate comes from",
+    why: "Your marginal rate is the band your last dollar lands in. The table shows every band and what the bands below it already took.",
+  },
+  "take-home-pay-calculator": {
+    href: "/guides/irs-2026-brackets",
+    label: "Check the federal piece against the source",
+    why: "Take-home is gross minus federal tax, FICA and state tax. The guide is the federal component, with the 2026 deductions that set where it starts.",
   },
 };
 

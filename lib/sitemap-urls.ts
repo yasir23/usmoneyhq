@@ -36,6 +36,18 @@ import { contentDate } from "./content-dates";
  */
 const PATH_DATES: Record<string, string> = {
   "/about": "2026-11-11",
+  /**
+   * 2026-11-13 — the Related-guide block. /guides gained a card for
+   * /guides/irs-2026-brackets (it was the site's only orphan), and the four tax
+   * tools below gained an editorial link to that guide. These are real content
+   * changes on those five URLs and on no others, so they get a per-path date
+   * rather than moving the "tools" group for 99 pages that did not change.
+   */
+  "/guides": "2026-11-13",
+  "/tax-bracket-calculator": "2026-11-13",
+  "/tax-calculator": "2026-11-13",
+  "/salary-after-tax-calculator": "2026-11-13",
+  "/take-home-pay-calculator": "2026-11-13",
 };
 
 export function buildSitemap() {
@@ -74,7 +86,7 @@ export function buildSitemap() {
     { url: `${SITE_URL}/quiz/debt-relief-check`, lastModified: legalDate, changeFrequency: "monthly", priority: 0.8 },
     { url: `${SITE_URL}/widgets`, lastModified: siteDate, changeFrequency: "monthly", priority: 0.6 },
     { url: `${SITE_URL}/premium`, lastModified: siteDate, changeFrequency: "monthly", priority: 0.5 },
-    { url: `${SITE_URL}/guides`, lastModified: guideDate, changeFrequency: "monthly", priority: 0.6 },
+    { url: `${SITE_URL}/guides`, lastModified: pathDate("/guides", guideDate), changeFrequency: "monthly", priority: 0.6 },
     { url: `${SITE_URL}/guides/mortgage-calculator-guide`, lastModified: guideDate, changeFrequency: "monthly", priority: 0.7 },
     ...(isGuideOutOfScope("health-fitness-guide")
       ? []
@@ -119,7 +131,7 @@ export function buildSitemap() {
   for (const t of IN_SCOPE_TOOLS) {
     pages.push({
       url: `${SITE_URL}/${t.slug}`,
-      lastModified: toolDate,
+      lastModified: pathDate(`/${t.slug}`, toolDate),
       changeFrequency: "monthly",
       priority: 0.9,
     });
