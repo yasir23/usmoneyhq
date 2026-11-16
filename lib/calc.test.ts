@@ -20,6 +20,7 @@ import {
   dti,
   pmiCalculator,
   helocPayment,
+  helocAvailable,
   refinanceAnalysis,
   retirementProjection,
   creditCardMinPayment,
@@ -236,6 +237,18 @@ const hl = helocPayment(50000, 7, 120, true);
 assert.ok(Math.abs(hl.monthly - 291.67) < 0.5, `heloc ${hl.monthly}`);
 const hla = helocPayment(50000, 7, 120, false);
 assert.ok(hla.monthly > hl.monthly, `amortized ${hla.monthly}`);
+
+// heloc capacity: CLTV caps TOTAL debt against the property, so available room is
+// value x CLTV - mortgage. Applying the cap to equity instead overstates it by
+// mortgage x CLTV / 100 ($37,500 on the calculator defaults).
+const cap85 = helocAvailable(500000, 250000, 85);
+assert.strictEqual(cap85.cltvCap, 425000);
+assert.strictEqual(cap85.available, 175000);
+assert.ok(cap85.available < (500000 - 250000) * 0.85, "cap on property, not on equity");
+assert.strictEqual(helocAvailable(500000, 250000, 90).available, 200000);
+assert.strictEqual(helocAvailable(500000, 250000, 80).available, 150000);
+assert.strictEqual(helocAvailable(500000, 450000, 85).available, 0, "no negative room above the cap");
+assert.strictEqual(helocAvailable(500000, 500000, 85).equity, 0);
 
 // refinance: $300k, 7% -> 5.5%, 25yr, $6k closing -> savings > 0, break-even finite
 const rf = refinanceAnalysis(300000, 7.0, 5.5, 300, 6000);

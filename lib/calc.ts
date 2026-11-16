@@ -398,6 +398,30 @@ export function helocPayment(drawn: number, rate: number, termMonths = 120, inte
   return { monthly: round2(monthly), totalInterest: round2(totalInterest), mode: "amortized" };
 }
 
+/**
+ * HELOC borrowing capacity at a maximum combined loan-to-value.
+ *
+ * CLTV is a cap on the TOTAL debt secured by the house (first mortgage + the
+ * new line), so the room available is `value x maxCltv - mortgage`, NOT
+ * `(value - mortgage) x maxCltv`. The second form is the intuitive one and it
+ * is wrong: it applies the cap to equity instead of to the property, and so
+ * overstates the line by `mortgage x maxCltv / 100` — on a $500,000 home with a
+ * $250,000 mortgage at 85% CLTV that is $37,500 of credit no lender would give.
+ */
+export function helocAvailable(homeValue: number, mortgage: number, maxCltvPct = 85) {
+  const value = Math.max(0, homeValue);
+  const balance = Math.max(0, mortgage);
+  const cap = (value * maxCltvPct) / 100;
+  return {
+    equity: round2(Math.max(0, value - balance)),
+    maxCltvPct,
+    /** Total debt allowed against the property at this CLTV. */
+    cltvCap: round2(cap),
+    /** Headroom under that cap after the existing mortgage. */
+    available: round2(Math.max(0, cap - balance)),
+  };
+}
+
 /** Refinance analysis. closingCosts = lender fees in USD. Returns payment + savings + break-even. */
 export function refinanceAnalysis(balance: number, currentRate: number, newRate: number, remainingMonths: number, closingCosts: number) {
   const curPayment = monthlyPayment(balance, currentRate, remainingMonths);

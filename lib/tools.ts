@@ -14,6 +14,7 @@ import {
   dti,
   pmiCalculator,
   helocPayment,
+  helocAvailable,
   refinanceAnalysis,
   retirementProjection,
   creditCardMinPayment,
@@ -560,19 +561,19 @@ export const TOOLS: ToolDef[] = [
       const drawn = Number(v.drawn) || 0;
       const rate = Number(v.rate) || 0;
       const interestOnly = v.mode !== "am";
-      const equity = Math.max(0, homeValue - mortgage);
+      const capacity = helocAvailable(homeValue, mortgage, 85);
       const r = helocPayment(drawn, rate, 120, interestOnly);
       return [
-        moneyRow("Home equity", equity),
-        moneyRow("Approx. available (85%)", Math.max(0, equity * 0.85)),
+        moneyRow("Home equity", capacity.equity),
+        moneyRow("Available at 85% CLTV", capacity.available),
         moneyRow("Monthly payment", r.monthly, true),
         { label: "Mode", value: r.mode === "interest-only" ? "Interest-only" : "Amortized" },
       ];
     },
-    note: "Estimate only. Rates are variable; actual limits depend on lender CLTV policy.",
+    note: "Estimate only. Available credit = home value x 85% combined loan-to-value, minus the outstanding mortgage — the cap applies to the property, not to your equity. Rates are variable; actual limits depend on lender CLTV policy.",
     faq: [
       { q: "Interest-only vs amortized HELOC payments", a: "Most HELOCs let you pay interest only during the draw period (typically 10 years), then payments rise in the repayment phase. Amortizing from the start avoids a payment shock later." },
-      { q: "How much can I borrow?", a: "Lenders typically cap combined loan-to-value at 80-90%. This calculator uses 85% as a common default — your lender may differ." },
+      { q: "How much can I borrow?", a: "A lender sets a maximum combined loan-to-value, and that cap covers the total debt secured by the house — the first mortgage plus the new line. At an 85% cap a $500,000 home supports $425,000 of total debt, so with a $250,000 mortgage the line is $175,000. The cap is applied to the property, not to your equity: 85% of the $250,000 equity would be $212,500, and that overstates what a lender approves. Two lenders an equal distance apart on policy move real money — a 90% cap supports $200,000 on the same house and an 80% cap supports $150,000. If the mortgage already sits above the cap there is no room at all, which is common after a large cash-out refinance or a price fall." },
       { q: "Does paying extra pay off a HELOC faster?", a: "On a $50,000 draw at 7.5% amortised over the 10-year repayment term the scheduled payment is $593.51 and total interest is $21,221.06. Adding $100 a month clears the line in 97 months instead of 120 and cuts interest to $16,667.10, a saving of $4,553.96. At $200 extra it is repaid in 81 months with $13,753.18 of interest, a saving of $7,467.88. During the interest-only phase only the dollars above the interest charge touch principal; once repayment begins every extra dollar is principal." },
       { q: "How much is a HELOC payoff?", a: "A payoff figure is the balance plus interest accrued since the last statement, so it is always slightly above the statement number. On $50,000 at 7.5% interest accrues at $10.27 a day (50000 x 0.075 / 365), so a quote taken 20 days into the cycle is about $50,205.48. Lenders quote the exact per-diem and usually hold it for a set number of days. Most HELOCs are revolving lines with no prepayment penalty, but a closed-end second mortgage can carry one, so check the agreement before sending the money." },
     ],
