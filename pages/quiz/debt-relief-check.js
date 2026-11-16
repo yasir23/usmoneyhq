@@ -2,6 +2,32 @@ import Head from "next/head";
 import Link from "next/link";
 import { useState } from "react";
 import { AFFILIATE_OFFERS, SITE_URL } from "../../lib/affiliates";
+import { debtPayoff, monthlyPayment } from "../../lib/calc";
+
+/**
+ * The two rates and the term this page's cost table runs on. These are INPUTS, stated
+ * on the page, not published findings — the table's outputs are computed from them by
+ * lib/calc at build time, so no figure in the table is hand-typed.
+ *
+ * They are deliberately generic rather than quoting a provider: this page does not
+ * know a reader's actual rates, and inventing a "typical" offer would be a claim the
+ * site cannot support. The prose tells the reader both numbers are assumptions.
+ */
+const CARD_APR = 24;
+const LOAN_APR = 11;
+const LOAN_TERM = 60;
+
+/** Balance used to illustrate each band in the quiz's own decision table. */
+const COST_BANDS = [
+  { label: "Under $10,000", exemplar: 6000 },
+  { label: "$10,000 – $25,000", exemplar: 18000 },
+  { label: "$25,000 – $50,000", exemplar: 40000 },
+];
+
+const usd = (n) =>
+  "$" +
+  Math.round(n).toLocaleString("en-US");
+
 
 /**
  * /quiz/debt-relief-check — 4-step qualification quiz, routes on the answer.
@@ -16,7 +42,7 @@ import { AFFILIATE_OFFERS, SITE_URL } from "../../lib/affiliates";
  * link, so the quiz falls back to the payoff calculator rather than sending a visitor to
  * a 404 — the same rule the /go/ handler enforces.
  */
-export default function DebtReliefQuiz({ highUrl, lowUrl, highLive, lowLive }) {
+export default function DebtReliefQuiz({ highUrl, lowUrl, highLive, lowLive, costRows }) {
   const [step, setStep] = useState(0);
   const [debt, setDebt] = useState(null);
   const [type, setType] = useState(null);
@@ -72,6 +98,12 @@ export default function DebtReliefQuiz({ highUrl, lowUrl, highLive, lowLive }) {
   const high = debt === "high";
   const target = high ? highUrl : lowUrl;
   const live = high ? highLive : lowLive;
+
+  // Derived, never typed: the interest multiple the table's own rows produce.
+  const cardLoanRatio =
+    costRows && costRows.length && costRows[0].loanInterest > 0
+      ? (costRows[0].cardInterest / costRows[0].loanInterest).toFixed(1)
+      : "several";
 
   return (
     <>
@@ -291,6 +323,164 @@ export default function DebtReliefQuiz({ highUrl, lowUrl, highLive, lowLive }) {
             available program terms on 3 November 2026.
           </p>
         </section>
+
+        <section className="mt-10 border-t border-slate-200 pt-6 text-sm text-slate-600">
+          <h2 className="text-base font-semibold text-slate-800">
+            What each route costs at the same monthly payment
+          </h2>
+          <p className="mt-2">
+            The useful comparison is not which rate is lower. It is what the same monthly
+            outlay buys you on each route. Every row below holds the payment constant and
+            changes only the interest rate, so the final column is the price of the rate
+            itself, not a difference in how hard you are paying.
+          </p>
+          <table className="mt-3 w-full border-collapse text-sm">
+            <thead>
+              <tr className="border-b border-slate-200 text-left text-xs uppercase text-slate-500">
+                <th className="py-2">Balance</th>
+                <th className="py-2">Same payment</th>
+                <th className="py-2">On a {CARD_APR}% card</th>
+                <th className="py-2">On a {LOAN_APR}% loan</th>
+                <th className="py-2">Extra cost of the card</th>
+              </tr>
+            </thead>
+            <tbody>
+              {costRows.map((r) => (
+                <tr key={r.label} className="border-b border-slate-100">
+                  <td className="py-2">{r.label}</td>
+                  <td className="py-2">{usd(r.payment)}/mo</td>
+                  <td className="py-2">
+                    {usd(r.cardInterest)} interest · {r.cardMonths} mo
+                  </td>
+                  <td className="py-2">
+                    {usd(r.loanInterest)} interest · {LOAN_TERM} mo
+                  </td>
+                  <td className="py-2 font-medium text-slate-800">{usd(r.delta)}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          <p className="mt-3">
+            Read the term column before the interest column. Because the payment is scaled to
+            the balance, the term is the same at every size — {costRows[0].cardMonths} months on
+            the card against {LOAN_TERM} on the loan — and the interest runs{" "}
+            {cardLoanRatio} times higher. That is the whole case for a lower rate: not a
+            discount on today&apos;s payment, but a different number of years.
+          </p>
+          <p className="mt-2 text-xs text-slate-500">
+            Both rates above are assumptions, not quotes — a real card or loan rate depends on
+            your credit file and the lender. What the table shows is the shape of the problem:
+            at a fixed payment, a higher rate does not just cost more interest, it stretches
+            the term, so you pay the higher rate on the balance for longer. Run the same
+            arithmetic on your own numbers with the{" "}
+            <Link href="/debt-payoff-calculator" className="underline">
+              debt payoff calculator
+            </Link>{" "}
+            or the{" "}
+            <Link href="/credit-card-payoff-calculator" className="underline">
+              credit card payoff calculator
+            </Link>
+            .
+          </p>
+        </section>
+
+        <section className="mt-10 border-t border-slate-200 pt-6 text-sm text-slate-600">
+          <h2 className="text-base font-semibold text-slate-800">
+            What the $10,000 line is really about
+          </h2>
+          <p className="mt-2">
+            The threshold in this quiz is not a legal one and no programme publishes it as a
+            cut-off. It is the point at which the arithmetic of a negotiated settlement starts
+            to work, for two reasons a smaller balance usually fails.
+          </p>
+          <p className="mt-2">
+            First, a settlement enrols you in a programme with a fee that is charged against
+            the balance being negotiated. On a small balance that fee is a large share of the
+            amount supposedly being saved, so the discount has to be unusually deep before the
+            reader is ahead. Second, a smaller balance is one a reader can usually retire on
+            their own by paying more each month — the row above shows what a fixed payment
+            does to the term. A programme is a tool for a balance that will not move, not for
+            one that will.
+          </p>
+          <p className="mt-2">
+            Above roughly $50,000 the trade-off changes again: the amount at stake is large
+            enough that a lawyer&apos;s opinion on bankruptcy is often cheaper than the fees on
+            a negotiation. That is a conversation with a licensed attorney in your state, not a
+            quiz result.
+          </p>
+        </section>
+
+        <section className="mt-10 border-t border-slate-200 pt-6 text-sm text-slate-600">
+          <h2 className="text-base font-semibold text-slate-800">
+            What to have ready before you apply
+          </h2>
+          <p className="mt-2">
+            Any legitimate debt route — consolidation, counselling or settlement — asks for the
+            same underlying picture, and having it in front of you is what separates a real
+            quote from a sales call:
+          </p>
+          <ul className="mt-2 list-disc space-y-1 pl-5">
+            <li>A current statement for every unsecured account, with the balance and the APR.</li>
+            <li>Your total minimum payments, summed — not just the largest one.</li>
+            <li>Your monthly take-home pay, which is what a payment has to fit inside.</li>
+            <li>Whether any account is already past due, and by how many days.</li>
+          </ul>
+          <p className="mt-3">
+            If an offer cannot tell you the total cost, the term, and what happens to your
+            credit file before you sign, you do not have enough information to compare it with
+            the alternative of simply paying more.
+          </p>
+        </section>
+
+        <section className="mt-10 border-t border-slate-200 pt-6 text-sm text-slate-600">
+          <h2 className="text-base font-semibold text-slate-800">
+            Red flags that mean walk away
+          </h2>
+          <p className="mt-2">
+            The clearest one is a fee charged before any debt has actually been renegotiated.
+            Under the FTC Telemarketing Sales Rule (16 CFR 310.4(a)(5)), a debt relief service
+            may not collect an advance fee before it has a documented settlement or a
+            renegotiated payment for at least one of your debts. A request for money up front to
+            &quot;get started&quot; is therefore not a negotiating position — it is the pattern the
+            rule exists to stop.
+          </p>
+          <p className="mt-2">
+            Two others are worth naming. A provider that tells you to stop paying your creditors
+            and to stop talking to them directly is asking you to absorb the credit damage while
+            it collects fees. And a provider that cannot say in writing which of your accounts
+            it will negotiate, and on what timeline, is not describing a programme — it is
+            describing a call.
+          </p>
+          <p className="mt-2">
+            Free or low-cost help exists and is not a sales channel: a nonprofit credit
+            counselling agency, or your state&apos;s attorney general consumer office. If you are
+            behind on a payment, that is the order the quiz recommends — before anything with a
+            fee attached.
+          </p>
+        </section>
+
+        <section className="mt-10 border-t border-slate-200 pt-6 text-sm text-slate-600">
+          <h2 className="text-base font-semibold text-slate-800">How this page is built</h2>
+          <p className="mt-2">
+            The routing rule is the balance band in the decision table above; the cost table is
+            produced by the same payoff engine that runs this site&apos;s{" "}
+            <Link href="/debt-payoff-calculator" className="underline">
+              debt payoff
+            </Link>{" "}
+            and{" "}
+            <Link href="/credit-card-payoff-calculator" className="underline">
+              credit card payoff
+            </Link>{" "}
+            calculators — a month-by-month amortisation at the stated rate, with interest
+            accrued on the declining balance. No figure on this page is entered by hand: the
+            rates are published inputs and every dollar amount in the table is computed from
+            them at build time. Change a rate and the table changes with it.
+          </p>
+          <p className="mt-2">
+            The quiz does not collect your balance, your accounts or your credit file, and it
+            does not send any answer anywhere unless you ask for the summary by email.
+          </p>
+        </section>
       </main>
     </>
   );
@@ -300,12 +490,31 @@ export async function getStaticProps() {
   const find = (id) => AFFILIATE_OFFERS.find((o) => o.id === id);
   const hi = find("national-debt-relief");
   const lo = find("lendingclub-loan");
+
+  // The cost table is computed here, at build time, by lib/calc — the same engine the
+  // debt-payoff and credit-card-payoff calculators run. Rates are the page's stated
+  // inputs; every dollar and every month below is derived from them. Nothing typed.
+  const costRows = COST_BANDS.map((b) => {
+    const payment = monthlyPayment(b.exemplar, LOAN_APR, LOAN_TERM);
+    const card = debtPayoff(b.exemplar, CARD_APR, payment);
+    const loanInterest = payment * LOAN_TERM - b.exemplar;
+    return {
+      label: b.label,
+      payment: Math.round(payment * 100) / 100,
+      cardInterest: Math.round(card.totalInterest * 100) / 100,
+      cardMonths: card.months,
+      loanInterest: Math.round(loanInterest * 100) / 100,
+      delta: Math.round((card.totalInterest - loanInterest) * 100) / 100,
+    };
+  });
+
   return {
     props: {
       highLive: Boolean(hi && hi.live),
       lowLive: Boolean(lo && lo.live),
       highUrl: hi && hi.live ? `/go/${hi.id}?src=quiz-debt-relief` : null,
       lowUrl: lo && lo.live ? `/go/${lo.id}?src=quiz-debt-relief` : null,
+      costRows,
     },
   };
 }
