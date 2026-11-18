@@ -2281,17 +2281,18 @@ export const TOOLS: ToolDef[] = [
     h1: "Tax Bracket Calculator",
     sub: "Which bracket you're in — and your real effective rate.",
     fields: [
-      { key: "income", label: "Taxable income (USD)", type: "number", default: 85000, min: 0, step: 1000, inputMode: "numeric" },
+      { key: "income", label: "Annual gross income (USD)", type: "number", default: 85000, min: 0, step: 1000, inputMode: "numeric" },
       { key: "filing", label: "Filing status", type: "select", default: "single", options: [{ value: "single", label: "Single" }, { value: "married", label: "Married filing jointly" }] },
     ],
     compute: (v) => {
       const r = taxBracketCalc(Number(v.income) || 0, String(v.filing) === "married" ? "married" : "single");
       return [moneyRow("Total federal tax", r.tax, true), { label: "Marginal bracket", value: r.marginal + "%" }, { label: "Effective rate", value: r.effective.toFixed(2) + "%" }, moneyRow("Taxable after std. deduction", r.taxable)];
     },
-    note: "2026 federal brackets, single and married, with standard deduction. Marginal ≠ effective — only income above each threshold is taxed at the higher rate.",
+    note: "2026 federal brackets, single and married. Enter gross income — the standard deduction ($16,100 single / $32,200 joint) is subtracted before the brackets apply, so entering an already-taxable figure subtracts it twice. Marginal ≠ effective — only income above each threshold is taxed at the higher rate.",
     faq: [
       { q: "What's the difference between marginal and effective rate?", a: "Marginal is the rate on your LAST dollar (e.g., 22%). Effective is total tax divided by total income — usually much lower, because lower brackets are taxed at lower rates." },
       { q: "Will a raise push me into a higher bracket and cost me money?", a: "No — brackets are marginal. Only the portion above the threshold is taxed higher. A raise always increases take-home, never decreases it." },
+      { q: "Does the standard deduction change which bracket I'm in?", a: "Yes, and it is where most people misread their bracket. The bands apply to income after the standard deduction, so taxable income sets the bracket, not salary. At $110,000 of gross income a single filer's taxable income is $93,900, which sits inside the 22% band, and the federal tax is $15,370 — 13.97% of gross. Reading the bracket straight off the $110,000 salary would put the same person in the 24% band and overstate what they owe. That is also why this calculator asks for gross income: enter your taxable income instead and the deduction is subtracted a second time, which understates the tax." },
     ],
     related: ["tax-calculator", "salary-after-tax-calculator", "capital-gains-calculator"],
   },

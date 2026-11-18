@@ -2416,30 +2416,32 @@ export const TOOL_CONTENT: Record<string, ToolContent> = {
         body: "It is a persistent myth that earning slightly more can push you into a higher bracket and leave you worse off. It cannot happen under a band system, because only the income above the threshold is taxed at the higher rate. Earning more always leaves you with more, though the increase is smaller than the gross raise.",
       },
       {
-        title: "Why the illustration below is hypothetical",
-        body: "Tax rates and band boundaries change, vary by filing status, and interact with deductions, credits and other income. This page deliberately does not print a current bracket table, because a table that is quietly out of date is worse than none. The example below uses invented bands to show the mechanism; the calculator applies the figures you give it.",
+        title: "Which table the bands come from",
+        body: "The bands applied on this page are the 2026 ordinary-income schedule, and they are applied to taxable income — gross income minus the standard deduction, $16,100 for a single filer and $32,200 for a married couple filing jointly. The thresholds live in one table in the site's engine, shared with the salary, paycheck and tax pages, so a bracket change updates every page at once rather than six descriptions of it. The worked example below is that engine's own output at this calculator's default income: enter $85,000, single, above and you get the same rows.",
       },
     ],
     example: {
-      title: "Worked example: a hypothetical three-band system",
+      title: "Worked example: $85,000 gross, single filer",
       setup:
-        "Invented bands for illustration only: 10% on the first $20,000, 20% on the next $30,000, 30% above $50,000. Income $70,000. These figures are not a real tax schedule and are not presented as one.",
+        "Gross income $85,000, single filer, standard deduction. Taxable income is $85,000 minus $16,100 = $68,900, which falls inside the 22% band that runs from $50,400 to $105,700.",
       rows: [
-        { label: "Tax on the first $20,000", value: "$2,000.00", note: "20000 x 0.10" },
-        { label: "Tax on the next $30,000", value: "$6,000.00", note: "30000 x 0.20" },
-        { label: "Tax on the remaining $20,000", value: "$6,000.00", note: "20000 x 0.30" },
-        { label: "Total tax", value: "$14,000.00", note: "2000 + 6000 + 6000" },
-        { label: "Marginal rate", value: "30%", note: "the rate on the last dollar" },
-        { label: "Effective rate", value: "20.0%", note: "14000 / 70000" },
-        { label: "Tax on a further $1,000 of income", value: "$300.00", note: "1000 x 0.30 — and you keep $700" },
+        { label: "Standard deduction", value: "$16,100.00", note: "2026, single filer" },
+        { label: "Taxable income", value: "$68,900.00", note: "85000 - 16100" },
+        { label: "First $12,400 at 10%", value: "$1,240.00", note: "12400 x 0.10" },
+        { label: "Next $38,000 at 12%", value: "$4,560.00", note: "38000 x 0.12" },
+        { label: "Remaining $18,500 at 22%", value: "$4,070.00", note: "18500 x 0.22" },
+        { label: "Total federal tax", value: "$9,870.00", note: "1240 + 4560 + 4070" },
+        { label: "Marginal rate", value: "22%", note: "the rate on the last dollar" },
+        { label: "Effective rate on gross", value: "11.61%", note: "9870 / 85000" },
+        { label: "Tax on a further $1,000 of income", value: "$220.00", note: "1000 x 0.22 — and you keep $780" },
       ],
       conclusion:
-        "The income sits in the 30% band and pays an effective 20%. The second number is the one that describes the year; the first is the one that describes the next dollar. A further $1,000 is taxed at $300 and $700 is kept — the bracket raises the rate on the margin and never confiscates the whole increase.",
+        "The income reaches the 22% band and pays 11.61% of gross in federal tax, because $12,400 of it is taxed at 10% and $38,000 at 12%. The marginal rate describes the next dollar; the effective rate describes the year. A further $1,000 costs $220 and keeps $780, so crossing a threshold never reduces take-home — but the deduction does move the answer, because $16,100 of income sits outside the bands before the first one even starts.",
     },
     mistakes: [
       {
         title: "Applying the marginal rate to all income",
-        body: "That would give $21,000 here instead of $14,000. The lower bands are taxed at their own lower rates, and ignoring that overstates the bill by 50%.",
+        body: "That gives $15,158 here instead of $9,870 — 22% applied to the whole $68,900 of taxable income. The lower bands are taxed at their own lower rates, and ignoring that overstates the bill by more than half.",
       },
       {
         title: "Believing a raise can reduce take-home",

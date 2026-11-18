@@ -2,50 +2,50 @@
  "blockers": [
   {
    "id": "ADSENSE_REENTRY",
-   "why": "AdSense rejection blocks the primary revenue stream for high-volume calculator traffic.",
-   "ask": "Fix policy violations identified in the rejection notice and resubmit for manual review."
+   "why": "AdSense rejection blocks primary revenue stream and programmatic scaling.",
+   "ask": "Fix site policy violations and resubmit for AdSense approval."
   },
   {
    "id": "AFFILIATE_MAPPING",
-   "why": "21 available offers are inactive, resulting in zero conversion potential on existing pages.",
-   "ask": "Map the 21 pending affiliate IDs to specific high-intent calculator and article URLs."
+   "why": "21 offers are inactive despite being available in the system.",
+   "ask": "Map offer IDs to specific calculator results and high-traffic pages."
   },
   {
-   "id": "DATA_ACCESS_KEYS",
-   "why": "Programmatic scaling requires authenticated access to BLS and IRS API endpoints.",
-   "ask": "Provide API keys for BLS, IRS SOI, and Census Bureau (ACS) data portals."
+   "id": "GIT_STABILITY",
+   "why": "Dirty files in production prevent automated deployment of programmatic templates.",
+   "ask": "Commit or stash local changes to the main branch."
   }
  ],
  "tasks": [
   {
    "rank": 1,
-   "title": "Activate Affiliate Offer Switch",
-   "how": "Hardcode the 3 live offers into the global sidebar and top-performing calculator templates.",
+   "title": "Activate Affiliate Offer Display",
+   "how": "Hardcode the 3 live offers into the top 5 traffic-driving calculators.",
    "risk": "low"
   },
   {
    "rank": 2,
    "title": "Deploy FinancialProduct Schema",
-   "how": "Inject JSON-LD FinancialProduct and FAQPage schema into all 116 indexable pages via the head template.",
+   "how": "Inject JSON-LD schema across all 80 calculators to capture SERP snippets.",
    "risk": "low"
   },
   {
    "rank": 3,
-   "title": "Answer-First Block Injection",
-   "how": "Prepend a 2-sentence 'Direct Answer' div with a CTA button to the top of all 80 calculator pages.",
+   "title": "Programmatic IRS/BLS Page Generation",
+   "how": "Map IRS SOI data to 3,000+ 'Average Income in [City, State]' long-tail pages.",
    "risk": "medium"
   },
   {
    "rank": 4,
-   "title": "HMDA/ACS Long-Tail Generation",
-   "how": "Script 1,000+ pages using HMDA/ACS data to create 'Average Mortgage in [City, State]' programmatic pages.",
-   "risk": "high"
+   "title": "AEO Answer-First Blocks",
+   "how": "Prepend 200-character direct answers to all 116 indexable pages.",
+   "risk": "low"
   },
   {
    "rank": 5,
-   "title": "llms.txt Optimization",
-   "how": "Update llms.txt to include a markdown directory of all calculator inputs/outputs for LLM crawler discovery.",
-   "risk": "low"
+   "title": "HMDA Mortgage Lead Gen Pages",
+   "how": "Build local mortgage rate comparison pages using HMDA public datasets.",
+   "risk": "high"
   }
  ]
 }
