@@ -70,6 +70,55 @@ function post(hostname, path, key, payload, timeoutMs = 5000) {
   });
 }
 
+// Form-encoded POST, same transport as post() above: no fetch/undici, forced
+// IPv4, hard timeout. This is the relay into Cloudflare KV on sealofaudit.com,
+// which is what kv_lead_watch.py polls every 20 minutes. Kept separate from
+// post() because that helper sends JSON and an api-key header, and the lead
+// endpoint expects a urlencoded body.
+function postForm(hostname, path, formBody, timeoutMs = 5000) {
+  return new Promise((resolve) => {
+    let settled = false;
+    const done = (v) => {
+      if (!settled) {
+        settled = true;
+        resolve(v);
+      }
+    };
+    const body = formBody;
+    let req;
+    try {
+      req = https.request(
+        {
+          hostname,
+          path,
+          method: "POST",
+          family: 4,
+          timeout: timeoutMs,
+          headers: {
+            "content-type": "application/x-www-form-urlencoded",
+            "content-length": Buffer.byteLength(body),
+            accept: "text/html,application/json",
+          },
+        },
+        (res) => {
+          let data = "";
+          res.on("data", (c) => (data += c));
+          res.on("end", () => done({ status: res.statusCode, body: data.slice(0, 300) }));
+        }
+      );
+    } catch (e) {
+      return done({ status: 0, error: "request: " + e.message });
+    }
+    req.on("timeout", () => {
+      req.destroy();
+      done({ status: 0, error: "timeout after " + timeoutMs + "ms" });
+    });
+    req.on("error", (e) => done({ status: 0, error: e.code || e.message }));
+    req.write(body);
+    req.end();
+  });
+}
+
 function cleanKey() {
   return String(process.env.BREVO_API_KEY || "")
     .trim()
@@ -105,6 +154,30 @@ export default async function handler(req, res) {
       savedLocal = true;
     } catch (e) {
       // /tmp unwritable: continue, the Brevo attempt below is still worth making.
+    }
+
+    // ---- 1b. Cloudflare KV relay (sealofaudit.com) ----
+    // Best effort, after the local ledger write so nothing is lost if it fails.
+    // The lead lands in KV namespace LEADS, which kv_lead_watch.py polls and
+    // forwards to WhatsApp; it also proves capture end-to-end from usmoneyhq.
+    let kvStatus = 0;
+    let kvNote = "";
+    try {
+      const form = [
+        "email=" + encodeURIComponent(lead.email || ""),
+        "name=" + encodeURIComponent(lead.name || ""),
+        "company=" + encodeURIComponent("usmoneyhq.com"),
+        "mrf_url=" + encodeURIComponent("https://usmoneyhq.com/quiz/debt-relief-check"),
+        "source=" + encodeURIComponent("usmoneyhq.com"),
+        "debt=" + encodeURIComponent(lead.debt || ""),
+        "state=" + encodeURIComponent(lead.state || ""),
+        "hardship=" + encodeURIComponent(lead.hardship || ""),
+      ].join("&");
+      const kv = await postForm("sealofaudit.com", "/api/lead", form);
+      kvStatus = kv.status || 0;
+      if (!kvStatus) kvNote = kv.error || "no_response";
+    } catch (e) {
+      kvNote = "relay_exception: " + String((e && e.message) || e).slice(0, 120);
     }
 
     // ---- 2. Brevo upsert, best effort ----
@@ -152,6 +225,8 @@ export default async function handler(req, res) {
     return res.status(200).json({
       ok: true,
       savedLocal,
+      kvStatus,
+      ...(kvNote ? { kvNote } : {}),
       brevoStatus,
       ...(brevoNote ? { brevoNote } : {}),
     });
