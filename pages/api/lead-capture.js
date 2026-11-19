@@ -226,6 +226,7 @@ export default async function handler(req, res) {
       ok: true,
       savedLocal,
       kvStatus,
+      kvDelivered: kvStatus >= 200 && kvStatus < 400,
       ...(kvNote ? { kvNote } : {}),
       brevoStatus,
       ...(brevoNote ? { brevoNote } : {}),
