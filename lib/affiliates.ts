@@ -49,6 +49,12 @@ export type AffiliateOffer = {
 
 const SHOPIFY = "https://shopify.pxf.io/c/6480733/1101159/13624?subId1=usmoneyhq-web";
 
+/** Canonical origin for this site. Blog pages import this for canonical URLs
+ *  and structured-data @id values; it was referenced before it existed, which
+ *  produced an "Attempted import error: 'SITE_URL' is not exported" warning on
+ *  two blog routes. */
+export const SITE_URL = "https://usmoneyhq.com";
+
 export const AFFILIATE_OFFERS: AffiliateOffer[] = [
   // ─── LIVE ────────────────────────────────────────────────────────────────
   {
