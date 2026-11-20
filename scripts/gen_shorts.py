@@ -250,6 +250,36 @@ TOPICS = [
         "title": "The 36% DTI rule on $7,000 a month",
         "script": "Seven thousand dollars a month of income. Fifteen hundred of it goes to housing, and seven hundred more to car payments and cards. That is two thousand two hundred dollars of debt service, which is thirty one point four three percent of your income. Lenders look at two numbers, not one. The back end ratio counts everything and thirty one point four three percent sits under the thirty six percent line. The front end ratio counts housing alone, and at twenty one point four three percent it is comfortably inside the twenty eight percent guideline. This is why a household can feel broke at a payment a lender calls affordable, and why paying off a small card can move an approval. The debt to income calculator at US Money HQ checks both ratios against your actual numbers, free.",
     },
+    {
+        # Added 2026-11-19. Every figure read from the rendered page's
+        # VariantTLDR (server-side, engine-derived): $300k / 20% down / ~6.5% /
+        # 30yr P&I $1,516.96 and $306,106.77 total interest are tool-wide; only
+        # the property-tax line is state-specific. PA avg 1.49% -> $372.50/mo,
+        # FL avg 0.83% -> $207.50/mo. Gap $165.00/mo = $1,980/yr.
+        "id": "property-tax-phl-vs-jax",
+        "title": "Same $300,000 house: $372 in Philadelphia, $207 in Jacksonville",
+        "script": "Two identical houses. Three hundred thousand dollars, twenty percent down, six and a half percent for thirty years. Principal and interest is the same in both, fifteen hundred sixteen dollars ninety six a month. The difference is property tax. Philadelphia, Pennsylvania sits in a state averaging one point four nine percent, so that is three hundred seventy two dollars fifty a month on top. Jacksonville, Florida averages zero point eight three percent, and that is two hundred seven dollars fifty. Same house, one hundred sixty five dollars a month apart, almost two thousand dollars a year. The mortgage calculator at US Money HQ shows property tax for every state and metro, free.",
+    },
+    {
+        # Added 2026-11-19. Figures from the rendered
+        # /mortgage-calculator/detroit-michigan VariantTLDR: P&I $1,516.96/mo,
+        # Michigan avg property tax 1.31% -> $327.50/mo on a $300k home
+        # ($327.50 x 12 x 30 = $117,900 over the full term).
+        "id": "detroit-property-tax-300k",
+        "title": "Detroit adds $327 a month to a $300,000 home",
+        "script": "A three hundred thousand dollar home in Detroit. Twenty percent down, six and a half percent, thirty years. Principal and interest lands at fifteen hundred sixteen dollars ninety six a month. Michigan averages one point three one percent in property tax, and that adds three hundred twenty seven dollars fifty every month. Before insurance. Before HOA. Over the thirty year term that tax line alone comes to about one hundred eighteen thousand dollars, on a house that cost three hundred. The mortgage calculator at US Money HQ breaks out principal, interest, and property tax for every state and metro, free.",
+    },
+    {
+        # Added 2026-11-19. Figures read from POST /api/calc/salary-after-tax-calculator
+        # {salary:85000, state:"PA"} and {..., state:"MI"}:
+        #   PA take-home $66,512.27 (state tax $2,115.23, $5,542.69/mo)
+        #   MI take-home $65,699.25 (state tax $2,928.25, $5,474.94/mo)
+        #   gap $813.02/yr. Federal $9,870.00 and FICA $6,502.50 are identical
+        #   in both because only the state line changes.
+        "id": "salary-85k-pa-vs-mi",
+        "title": "Same $85,000 salary: $813 more a year in Pennsylvania",
+        "script": "Eighty five thousand dollars a year in Pennsylvania. Federal income tax is nine thousand eight hundred seventy. Social security and medicare, six thousand five hundred two dollars fifty. Pennsylvania state tax comes to two thousand one hundred fifteen dollars twenty three. Take home is sixty six thousand five hundred twelve dollars twenty seven, about five thousand five hundred forty two dollars sixty nine a month. Move the exact same salary to Michigan and state tax is two thousand nine hundred twenty eight dollars twenty five. That is eight hundred thirteen dollars less a year, for an identical job. The salary after tax calculator at US Money HQ runs all fifty states side by side, free.",
+    },
 ]
 
 
