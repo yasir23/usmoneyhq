@@ -88,6 +88,7 @@ import {
   calorieDeficit,
   loanCompare,
   savingsRate,
+  savingsRateTimeline,
   taxRefundEstimate,
   stockProfit,
   investmentProperty,
@@ -788,6 +789,37 @@ console.log("ALL KEYWORD-IMPL TESTS PASS");
 {
   const r = savingsRate(5000, 1000);
   assert.strictEqual(r.rate, 20);
+}
+{
+  // --- Savings rate timeline: the figures quoted in the note and the FAQ ---
+  // $5,000 take-home, $1,000 saved => 20%, $48,000 spend, $1,200,000 at a 4% rule.
+  const d = savingsRateTimeline(5000, 1000);
+  assert.strictEqual(d.rate, 20, "defaults are a 20% rate");
+  assert.strictEqual(d.annualSaved, 12000, "$1,000/mo is $12,000/yr");
+  assert.strictEqual(d.target, 1200000, "48,000 / 0.04 = 1,200,000");
+  assert.strictEqual(d.months, 436, "436 months to the target at 5% real");
+  assert.strictEqual(d.years, 36.34, "436 months = 36.34 years");
+  // The three rates the note cites: 10% ~51 years, 25% ~32, 50% ~16.
+  assert.strictEqual(savingsRateTimeline(5000, 500).months, 611, "10% -> 611 months (50.9 yrs)");
+  assert.strictEqual(savingsRateTimeline(5000, 1250).months, 379, "25% -> 379 months (31.6 yrs)");
+  assert.strictEqual(savingsRateTimeline(5000, 2500).months, 196, "50% -> 196 months (16.4 yrs)");
+  // The FAQ's "10% to 15% saves 8.5 years" claim, computed rather than asserted.
+  const ten = savingsRateTimeline(5000, 500).years!;
+  const fifteen = savingsRateTimeline(5000, 750).years!;
+  assert.ok(Math.abs(ten - fifteen - 8.5) < 0.06, `10%->15% gap ${(ten - fifteen).toFixed(2)} yrs`);
+  // A higher withdrawal rate needs a smaller nest egg and therefore less time.
+  assert.ok(
+    savingsRateTimeline(5000, 1000, 5, 5).months! < savingsRateTimeline(5000, 1000, 5, 4).months!,
+    "5% withdrawal reaches independence sooner than 4%"
+  );
+  // Zero contributions have no finite annuity solution -- must be null, never Infinity.
+  const z = savingsRateTimeline(5000, 0);
+  assert.strictEqual(z.rate, 0);
+  assert.strictEqual(z.months, null, "no contributions => no timeline");
+  // Saving everything leaves nothing to fund: target 0, timeline 0.
+  const all = savingsRateTimeline(5000, 5000);
+  assert.strictEqual(all.target, 0, "spending 0 needs no nest egg");
+  assert.strictEqual(all.months, 0);
 }
 {
   const r = taxRefundEstimate(75000, 9000, "single");

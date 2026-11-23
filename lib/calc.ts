@@ -1211,6 +1211,32 @@ export function savingsRate(income: number, saved: number) {
   return { rate: round2((saved / Math.max(1, income)) * 100) };
 }
 
+/**
+ * Savings rate plus the timeline it implies.
+ *
+ * The nest egg target is annual spending divided by a withdrawal rate, and the
+ * time to reach it compounds the monthly contribution at a REAL (after-inflation)
+ * return, so inflation is not layered on twice. At the defaults — 5% real, 4%
+ * withdrawal — this reproduces the savings-rate retirement table that is usually
+ * quoted from secondary sources: 10% saved is about 51 years, 25% about 32, and
+ * 50% about 16. The point of deriving it here is that the number on the page then
+ * moves when the inputs move, instead of being a fixed figure copied from a blog.
+ *
+ * Returns months = null when nothing is being saved, because the annuity formula
+ * has no finite solution at zero contribution.
+ */
+export function savingsRateTimeline(income: number, saved: number, realReturnPct = 5, withdrawalPct = 4) {
+  const annualSaved = round2(Math.max(0, saved) * 12);
+  const rate = round2((saved / Math.max(1, income)) * 100);
+  const annualSpend = Math.max(0, (income - saved) * 12);
+  const target = round2(annualSpend / (withdrawalPct / 100));
+  if (saved <= 0) return { rate, annualSaved, target, months: null, years: null };
+  if (target <= 0) return { rate, annualSaved, target: 0, months: 0, years: 0 };
+  const rm = Math.pow(1 + realReturnPct / 100, 1 / 12) - 1;
+  const months = Math.log(1 + (target * rm) / saved) / Math.log(1 + rm);
+  return { rate, annualSaved, target, months: Math.round(months), years: round2(months / 12) };
+}
+
 /** Tax refund rough estimate: withheld vs actual federal tax. */
 export function taxRefundEstimate(income: number, withheld: number, filing: "single" | "married" = "single") {
   const t = federalTax(income, filing);

@@ -83,7 +83,7 @@ import {
   constructionCost,
   calorieDeficit,
   loanCompare,
-  savingsRate,
+  savingsRateTimeline,
   taxRefundEstimate,
   stockProfit,
   investmentProperty,
@@ -2589,21 +2589,36 @@ export const TOOLS: ToolDef[] = [
     slug: "savings-rate-calculator",
     title: "Savings Rate Calculator 2026 — % of Income | US Money HQ",
     shortTitle: "Savings Rate Calculator",
-    description: "Free savings rate calculator: your savings rate as a percentage of income, and what it means for your timeline.",
+    description: "Free savings rate calculator: the share of income you save, the nest egg it implies at a 4% withdrawal rate, and your years to financial independence.",
     h1: "Savings Rate Calculator",
-    sub: "What percent of your income you're keeping.",
+    sub: "What percent of your income you're keeping — and how long it buys you.",
     fields: [
       { key: "income", label: "Monthly take-home income (USD)", type: "number", default: 5000, min: 0, step: 100, inputMode: "numeric" },
       { key: "saved", label: "Monthly savings (USD)", type: "number", default: 1000, min: 0, step: 50, inputMode: "numeric" },
     ],
     compute: (v) => {
-      const r = savingsRate(Number(v.income) || 0, Number(v.saved) || 0);
-      return [{ label: "Savings rate", value: r.rate.toFixed(1) + "%", highlight: true }];
+      const saved = Number(v.saved) || 0;
+      const r = savingsRateTimeline(Number(v.income) || 0, saved, 5, 4);
+      const rows: ResultRow[] = [
+        { label: "Savings rate", value: r.rate.toFixed(1) + "%", highlight: true },
+        moneyRow("Saved per year", r.annualSaved),
+        moneyRow("Nest egg target (spending / 4%)", r.target),
+      ];
+      if (r.months == null) {
+        rows.push({ label: "Time to financial independence", value: "No timeline — nothing is being saved" });
+      } else {
+        const yrs = Math.floor(r.months / 12);
+        const mo = r.months % 12;
+        rows.push({ label: "Time to financial independence", value: yrs + " yrs " + mo + " mo" });
+      }
+      return rows;
     },
-    note: "The Mr. Money Mustache table: 10% rate = ~51 years to retirement; 25% = ~32 years; 50% = ~17 years.",
+    note: "The timeline assumes a 5% real (after-inflation) return and a 4% withdrawal rate, and it ignores fees and taxes. On those terms 10% saved takes about 51 years, 25% about 32, and 50% about 16 — the rate moves the date far more than the dollar amount does.",
     faq: [
-      { q: "What is a good savings rate?", a: "The average American saves ~5-10%. FIRE enthusiasts target 50%+. Even moving from 10% to 15% shaves roughly a decade off the road to financial independence." },
-      { q: "Does savings rate include retirement contributions?", a: "Yes — 401k, IRA, and employer match all count. The point is the percentage of income you're not spending." },
+      { q: "How long until I can retire at my savings rate?", a: "At this calculator's defaults — $5,000 of take-home pay, $1,000 saved a month — the rate is 20.0%, annual spending is $48,000, and a 4% withdrawal rate needs a $1,200,000 nest egg. Compounding $1,000 a month at a 5% real return reaches it in 436 months, or 36 yrs 4 mo. Change the savings rate and the date moves sharply: 10% takes 51 years, 15% takes 42, and 50% takes 16. The model assumes a constant return, so a bad decade early hurts more than the same decade late." },
+      { q: "What is a good savings rate?", a: "The US personal saving rate has run in the mid-single digits for years, so anything in the teens is well above average, and the FIRE community treats 50%+ as the target. What matters more than the label is the direction of travel: at constant income, moving from 10% to 15% cuts the years to financial independence from 50.9 to 42.4 — 8.5 years, for five points of income redirected." },
+      { q: "Is 20% saved measured before or after tax?", a: "This calculator uses take-home pay because that is what you actually divide up each month. A rate quoted against gross income is lower for the same dollar amount, since the denominator carries the tax and deduction wedge — often 25% or more. Published savings rates are usually gross-based, so compare like with like before deciding your rate is behind." },
+      { q: "Does savings rate include retirement contributions?", a: "Yes — 401k deferrals, IRA contributions and any employer match all count as money you kept rather than spent. Employer match belongs in the numerator because it is compensation you chose to save, even though it never appears in your take-home pay. Note the asymmetry: the match raises your savings without raising your income, so add it to the saved figure and leave income at take-home." },
     ],
     related: ["budget-calculator", "net-worth-calculator", "investment-calculator"],
   },

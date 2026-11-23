@@ -270,7 +270,7 @@ TOPICS = [
         "script": "A three hundred thousand dollar home in Detroit. Twenty percent down, six and a half percent, thirty years. Principal and interest lands at fifteen hundred sixteen dollars ninety six a month. Michigan averages one point three one percent in property tax, and that adds three hundred twenty seven dollars fifty every month. Before insurance. Before HOA. Over the thirty year term that tax line alone comes to about one hundred eighteen thousand dollars, on a house that cost three hundred. The mortgage calculator at US Money HQ breaks out principal, interest, and property tax for every state and metro, free.",
     },
     {
-        # Added 2026-11-19. Figures read from POST /api/calc/salary-after-tax-calculator
+        # Added 2026-11-20. Figures read from POST /api/calc/salary-after-tax-calculator
         # {salary:85000, state:"PA"} and {..., state:"MI"}:
         #   PA take-home $66,512.27 (state tax $2,115.23, $5,542.69/mo)
         #   MI take-home $65,699.25 (state tax $2,928.25, $5,474.94/mo)
@@ -280,7 +280,42 @@ TOPICS = [
         "title": "Same $85,000 salary: $813 more a year in Pennsylvania",
         "script": "Eighty five thousand dollars a year in Pennsylvania. Federal income tax is nine thousand eight hundred seventy. Social security and medicare, six thousand five hundred two dollars fifty. Pennsylvania state tax comes to two thousand one hundred fifteen dollars twenty three. Take home is sixty six thousand five hundred twelve dollars twenty seven, about five thousand five hundred forty two dollars sixty nine a month. Move the exact same salary to Michigan and state tax is two thousand nine hundred twenty eight dollars twenty five. That is eight hundred thirteen dollars less a year, for an identical job. The salary after tax calculator at US Money HQ runs all fifty states side by side, free.",
     },
+    {
+        # Added 2026-11-20. tax-refund-calculator had ZERO Pinterest/Shorts
+        # coverage despite being the highest-intent seasonal tool (Nov-Dec W-4
+        # check). Figures read from POST /api/calc/tax-refund-calculator:
+        #   {income:65000, withheld:7500, filing:"single"} ->
+        #        Estimated refund $1,880.00, Actual federal tax $5,620.00
+        #   {income:65000, withheld:4000, filing:"single"} ->
+        #        Amount owed $1,620.00, Actual federal tax $5,620.00 (unchanged)
+        #   withholding swing $3,500.00 flips the outcome; tax is identical.
+        "id": "tax-refund-65k",
+        "title": "Same $65,000 salary: $1,880 back or $1,620 owed",
+        "script": "Sixty five thousand dollars of income, filing single. Federal tax actually comes to five thousand six hundred twenty dollars. Withhold seven thousand five hundred across the year and you have overpaid by one thousand eight hundred eighty dollars. That is your refund. Withhold four thousand instead, and you owe one thousand six hundred twenty. Same salary, same tax bill, a three thousand five hundred dollar swing, decided entirely by the number on your W four. A refund is not a bonus. It is your own money handed back without interest, and a big one usually means you gave the government a free loan all year. The tax refund calculator at US Money HQ checks your withholding against your real bill, free.",
+    },
+    {
+        # Added 2026-11-20. salary-raise-calculator had zero coverage.
+        # Figures read from POST /api/calc/salary-raise-calculator:
+        #   {salary:60000, raise:3} -> New salary $61,800.00 (+$1,800/yr),
+        #        More per month $150.00, More per week $34.62
+        #   5% is $3,000/yr = $250/mo; 3% vs 5% gap $1,200/yr (arithmetic on
+        #   the same engine output, not a separate API reading).
+        "id": "salary-raise-3pct-60k",
+        "title": "A 3% raise on $60,000 is $150 a month",
+        "script": "A three percent raise on sixty thousand dollars sounds like progress. In dollars it is one thousand eight hundred a year. That is one hundred fifty dollars a month, thirty four dollars sixty two a week. Roughly a coffee a day. Five percent instead is three thousand a year, two hundred fifty a month. The gap between asking for three and asking for five is one thousand two hundred dollars, every year, and it compounds, because next year's percentage gets calculated on the larger number. This is why the raise conversation matters more than the raise. The salary raise calculator at US Money HQ shows your new salary, the monthly difference and the weekly difference, free.",
+    },
+    {
+        # Added 2026-11-20. rmd-calculator had zero coverage; high-intent
+        # retiree audience. Figures read from POST /api/calc/rmd-calculator:
+        #   {balance:500000, age:73} -> Required distribution $18,867.92,
+        #        life expectancy factor 26.5
+        #   {balance:1000000, age:75} -> factor 24.6 (lower factor = larger %)
+        "id": "rmd-500k-73",
+        "title": "First RMD on $500,000: $18,867 comes out at 73",
+        "script": "You turn seventy three this year and hold five hundred thousand dollars in a traditional retirement account. The IRS does not ask whether you need the money. At seventy three the life expectancy factor is twenty six point five, so the required minimum distribution is eighteen thousand eight hundred sixty seven dollars ninety two. It comes out whether you want it to or not, and it is taxed as ordinary income on top of everything else you earn. Delay to seventy five and the factor drops to twenty four point six, which quietly raises the share you must withdraw in every year after that. The RMD calculator at US Money HQ applies the current IRS life expectancy factors to your own balance and age, free.",
+    },
 ]
+
 
 
 def font(size):
