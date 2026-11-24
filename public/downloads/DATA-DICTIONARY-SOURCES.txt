@@ -1,0 +1,34 @@
+US MONEY HQ — 50-STATE + DC DATA PACK
+DATA DICTIONARY AND SOURCES
+Generated: 2026-11-24
+
+COLUMNS
+  name ................ state name
+  slug ................ lowercase identifier used in calculator URLs
+  abbr ................ two-letter USPS abbreviation
+  income_tax_type ..... none | flat | progressive
+  income_tax_note ..... statutory note as published on the calculator pages
+  income_tax_low_pct .. lowest marginal rate in the state schedule
+  income_tax_high_pct . highest marginal rate in the state schedule
+  sales_tax_pct ....... statewide base sales tax rate
+  property_tax_pct .... effective property tax rate
+  notes ............... additional statutory notes carried in the source file
+
+SOURCES
+  Every figure is copied programmatically from two files in the public
+  repository:
+    lib/states.ts ....... statutory notes and per-state descriptive fields
+    lib/stateRates.ts .. numeric income-tax margins, itself generated from
+                         lib/states.ts by scripts/gen_state_rates.py
+  Update dates for each calculator page are in lib/content-dates.ts.
+
+WHAT THIS PACK IS NOT
+  Marginal rates, not effective rates. State income tax is computed on
+  taxable income after that state's deductions and credits, which this pack
+  does not model. Local and municipal taxes are excluded. Figures are
+  provided for research and tooling; verify against the state revenue
+  department before relying on them for filing.
+
+LICENCE
+  Single-user commercial licence. You may use the data in your own products
+  and analyses. Redistribution as a standalone dataset is not permitted.

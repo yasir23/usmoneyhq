@@ -2,50 +2,50 @@
  "blockers": [
   {
    "id": "ADSENSE_REENTRY",
-   "why": "AdSense rejection blocks the primary revenue stream for high-traffic calculator pages.",
-   "ask": "Fix policy violations and resubmit the site for AdSense or Ezoic approval."
+   "why": "AdSense rejection blocks primary display revenue and programmatic scaling.",
+   "ask": "Fix policy violations and resubmit for manual site review."
   },
   {
-   "id": "AFFILIATE_MAPPING",
-   "why": "21 offers are inactive despite being in the system, resulting in zero conversion potential.",
-   "ask": "Map the 21 inactive offers to specific high-intent calculator results pages."
+   "id": "OFFER_MAPPING",
+   "why": "Only 3 of 24 offers are live, leaving 87% of affiliate inventory unmonetized.",
+   "ask": "Map remaining 21 affiliate links to relevant calculator result pages."
   },
   {
-   "id": "DATA_SOURCE_AUTH",
-   "why": "Programmatic scaling requires API keys for BLS/IRS datasets to avoid rate limiting.",
-   "ask": "Provide API keys for BLS, Census (ACS), and IRS SOI data portals."
+   "id": "GIT_STABILITY",
+   "why": "Dirty files in production prevent automated deployment of new data structures.",
+   "ask": "Commit or stash local changes to enable clean CI/CD pipeline."
   }
  ],
  "tasks": [
   {
    "rank": 1,
-   "title": "Hardcode Affiliate CTAs",
-   "how": "Inject the 3 live offers into the top 10 most visited calculator result templates.",
+   "title": "Inject Affiliate CTAs into Calculators",
+   "how": "Hardcode high-intent affiliate links into the result views of all 80 calculators.",
    "risk": "low"
   },
   {
    "rank": 2,
    "title": "Deploy FinancialProduct Schema",
-   "how": "Inject JSON-LD FinancialProduct and FAQPage schema into all 116 indexable pages.",
+   "how": "Inject JSON-LD schema across all indexable pages to boost rich snippet CTR.",
    "risk": "low"
   },
   {
    "rank": 3,
-   "title": "Programmatic Long-Tail Generation",
-   "how": "Map HMDA and ACS data to create 5,000+ 'Cost of Living in [City]' pages via template.",
+   "title": "Programmatic ACS/BLS Page Generation",
+   "how": "Map ACS median income data to 'Cost of Living in [City]' templates for long-tail traffic.",
    "risk": "medium"
   },
   {
    "rank": 4,
-   "title": "AEO Answer-First Blocks",
-   "how": "Prepend 200-character direct answers and markdown tables to all calculator landing pages.",
+   "title": "Answer-First Block Implementation",
+   "how": "Prepend 2-sentence direct answers to all 116 pages for AEO/GEO optimization.",
    "risk": "low"
   },
   {
    "rank": 5,
-   "title": "Git Clean & IndexNow Ping",
-   "how": "Commit the 3 dirty files and trigger a full site crawl via IndexNow API.",
-   "risk": "low"
+   "title": "HMDA Data Visualization",
+   "how": "Generate 50 state-level mortgage trend pages using HMDA public datasets.",
+   "risk": "medium"
   }
  ]
 }
