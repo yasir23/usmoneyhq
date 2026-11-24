@@ -3,7 +3,743 @@
   "version": "1.0.0",
   "publisher": "https://usmoneyhq.com",
   "embed_mode": "iframe",
-  "calculators": [],
+  "calculators": [
+    {
+      "id": "mortgage",
+      "path": "/mortgage-calculator",
+      "title": "Mortgage Calculator",
+      "embed_url": "https://usmoneyhq.com/mortgage-calculator?embed=1",
+      "snippet": "<iframe src=\"https://usmoneyhq.com/mortgage-calculator?embed=1\" width=\"100%\" height=\"720\" style=\"border:0;border-radius:8px\" loading=\"lazy\"></iframe>"
+    },
+    {
+      "id": "auto-loan",
+      "path": "/auto-loan-calculator",
+      "title": "Auto Loan Calculator",
+      "embed_url": "https://usmoneyhq.com/auto-loan-calculator?embed=1",
+      "snippet": "<iframe src=\"https://usmoneyhq.com/auto-loan-calculator?embed=1\" width=\"100%\" height=\"720\" style=\"border:0;border-radius:8px\" loading=\"lazy\"></iframe>"
+    },
+    {
+      "id": "salary-after-tax",
+      "path": "/salary-after-tax-calculator",
+      "title": "Salary After Tax Calculator",
+      "embed_url": "https://usmoneyhq.com/salary-after-tax-calculator?embed=1",
+      "snippet": "<iframe src=\"https://usmoneyhq.com/salary-after-tax-calculator?embed=1\" width=\"100%\" height=\"720\" style=\"border:0;border-radius:8px\" loading=\"lazy\"></iframe>"
+    },
+    {
+      "id": "paycheck",
+      "path": "/paycheck-calculator",
+      "title": "Paycheck Calculator",
+      "embed_url": "https://usmoneyhq.com/paycheck-calculator?embed=1",
+      "snippet": "<iframe src=\"https://usmoneyhq.com/paycheck-calculator?embed=1\" width=\"100%\" height=\"720\" style=\"border:0;border-radius:8px\" loading=\"lazy\"></iframe>"
+    },
+    {
+      "id": "debt-payoff",
+      "path": "/debt-payoff-calculator",
+      "title": "Debt Payoff Calculator",
+      "embed_url": "https://usmoneyhq.com/debt-payoff-calculator?embed=1",
+      "snippet": "<iframe src=\"https://usmoneyhq.com/debt-payoff-calculator?embed=1\" width=\"100%\" height=\"720\" style=\"border:0;border-radius:8px\" loading=\"lazy\"></iframe>"
+    },
+    {
+      "id": "dti",
+      "path": "/dti-calculator",
+      "title": "Dti Calculator",
+      "embed_url": "https://usmoneyhq.com/dti-calculator?embed=1",
+      "snippet": "<iframe src=\"https://usmoneyhq.com/dti-calculator?embed=1\" width=\"100%\" height=\"720\" style=\"border:0;border-radius:8px\" loading=\"lazy\"></iframe>"
+    },
+    {
+      "id": "pmi",
+      "path": "/pmi-calculator",
+      "title": "Pmi Calculator",
+      "embed_url": "https://usmoneyhq.com/pmi-calculator?embed=1",
+      "snippet": "<iframe src=\"https://usmoneyhq.com/pmi-calculator?embed=1\" width=\"100%\" height=\"720\" style=\"border:0;border-radius:8px\" loading=\"lazy\"></iframe>"
+    },
+    {
+      "id": "heloc",
+      "path": "/heloc-calculator",
+      "title": "Heloc Calculator",
+      "embed_url": "https://usmoneyhq.com/heloc-calculator?embed=1",
+      "snippet": "<iframe src=\"https://usmoneyhq.com/heloc-calculator?embed=1\" width=\"100%\" height=\"720\" style=\"border:0;border-radius:8px\" loading=\"lazy\"></iframe>"
+    },
+    {
+      "id": "refinance",
+      "path": "/refinance-calculator",
+      "title": "Refinance Calculator",
+      "embed_url": "https://usmoneyhq.com/refinance-calculator?embed=1",
+      "snippet": "<iframe src=\"https://usmoneyhq.com/refinance-calculator?embed=1\" width=\"100%\" height=\"720\" style=\"border:0;border-radius:8px\" loading=\"lazy\"></iframe>"
+    },
+    {
+      "id": "retirement",
+      "path": "/retirement-calculator",
+      "title": "Retirement Calculator",
+      "embed_url": "https://usmoneyhq.com/retirement-calculator?embed=1",
+      "snippet": "<iframe src=\"https://usmoneyhq.com/retirement-calculator?embed=1\" width=\"100%\" height=\"720\" style=\"border:0;border-radius:8px\" loading=\"lazy\"></iframe>"
+    },
+    {
+      "id": "tax",
+      "path": "/tax-calculator",
+      "title": "Tax Calculator",
+      "embed_url": "https://usmoneyhq.com/tax-calculator?embed=1",
+      "snippet": "<iframe src=\"https://usmoneyhq.com/tax-calculator?embed=1\" width=\"100%\" height=\"720\" style=\"border:0;border-radius:8px\" loading=\"lazy\"></iframe>"
+    },
+    {
+      "id": "credit-card-payoff",
+      "path": "/credit-card-payoff-calculator",
+      "title": "Credit Card Payoff Calculator",
+      "embed_url": "https://usmoneyhq.com/credit-card-payoff-calculator?embed=1",
+      "snippet": "<iframe src=\"https://usmoneyhq.com/credit-card-payoff-calculator?embed=1\" width=\"100%\" height=\"720\" style=\"border:0;border-radius:8px\" loading=\"lazy\"></iframe>"
+    },
+    {
+      "id": "child-support",
+      "path": "/child-support-calculator",
+      "title": "Child Support Calculator",
+      "embed_url": "https://usmoneyhq.com/child-support-calculator?embed=1",
+      "snippet": "<iframe src=\"https://usmoneyhq.com/child-support-calculator?embed=1\" width=\"100%\" height=\"720\" style=\"border:0;border-radius:8px\" loading=\"lazy\"></iframe>"
+    },
+    {
+      "id": "concrete",
+      "path": "/concrete-calculator",
+      "title": "Concrete Calculator",
+      "embed_url": "https://usmoneyhq.com/concrete-calculator?embed=1",
+      "snippet": "<iframe src=\"https://usmoneyhq.com/concrete-calculator?embed=1\" width=\"100%\" height=\"720\" style=\"border:0;border-radius:8px\" loading=\"lazy\"></iframe>"
+    },
+    {
+      "id": "tdee",
+      "path": "/tdee-calculator",
+      "title": "Tdee Calculator",
+      "embed_url": "https://usmoneyhq.com/tdee-calculator?embed=1",
+      "snippet": "<iframe src=\"https://usmoneyhq.com/tdee-calculator?embed=1\" width=\"100%\" height=\"720\" style=\"border:0;border-radius:8px\" loading=\"lazy\"></iframe>"
+    },
+    {
+      "id": "water-intake",
+      "path": "/water-intake-calculator",
+      "title": "Water Intake Calculator",
+      "embed_url": "https://usmoneyhq.com/water-intake-calculator?embed=1",
+      "snippet": "<iframe src=\"https://usmoneyhq.com/water-intake-calculator?embed=1\" width=\"100%\" height=\"720\" style=\"border:0;border-radius:8px\" loading=\"lazy\"></iframe>"
+    },
+    {
+      "id": "sleep",
+      "path": "/sleep-calculator",
+      "title": "Sleep Calculator",
+      "embed_url": "https://usmoneyhq.com/sleep-calculator?embed=1",
+      "snippet": "<iframe src=\"https://usmoneyhq.com/sleep-calculator?embed=1\" width=\"100%\" height=\"720\" style=\"border:0;border-radius:8px\" loading=\"lazy\"></iframe>"
+    },
+    {
+      "id": "body-fat",
+      "path": "/body-fat-calculator",
+      "title": "Body Fat Calculator",
+      "embed_url": "https://usmoneyhq.com/body-fat-calculator?embed=1",
+      "snippet": "<iframe src=\"https://usmoneyhq.com/body-fat-calculator?embed=1\" width=\"100%\" height=\"720\" style=\"border:0;border-radius:8px\" loading=\"lazy\"></iframe>"
+    },
+    {
+      "id": "paint",
+      "path": "/paint-calculator",
+      "title": "Paint Calculator",
+      "embed_url": "https://usmoneyhq.com/paint-calculator?embed=1",
+      "snippet": "<iframe src=\"https://usmoneyhq.com/paint-calculator?embed=1\" width=\"100%\" height=\"720\" style=\"border:0;border-radius:8px\" loading=\"lazy\"></iframe>"
+    },
+    {
+      "id": "mulch",
+      "path": "/mulch-calculator",
+      "title": "Mulch Calculator",
+      "embed_url": "https://usmoneyhq.com/mulch-calculator?embed=1",
+      "snippet": "<iframe src=\"https://usmoneyhq.com/mulch-calculator?embed=1\" width=\"100%\" height=\"720\" style=\"border:0;border-radius:8px\" loading=\"lazy\"></iframe>"
+    },
+    {
+      "id": "salary-percentile",
+      "path": "/salary-percentile-calculator",
+      "title": "Salary Percentile Calculator",
+      "embed_url": "https://usmoneyhq.com/salary-percentile-calculator?embed=1",
+      "snippet": "<iframe src=\"https://usmoneyhq.com/salary-percentile-calculator?embed=1\" width=\"100%\" height=\"720\" style=\"border:0;border-radius:8px\" loading=\"lazy\"></iframe>"
+    },
+    {
+      "id": "home-affordability",
+      "path": "/home-affordability-calculator",
+      "title": "Home Affordability Calculator",
+      "embed_url": "https://usmoneyhq.com/home-affordability-calculator?embed=1",
+      "snippet": "<iframe src=\"https://usmoneyhq.com/home-affordability-calculator?embed=1\" width=\"100%\" height=\"720\" style=\"border:0;border-radius:8px\" loading=\"lazy\"></iframe>"
+    },
+    {
+      "id": "gpa",
+      "path": "/gpa-calculator",
+      "title": "Gpa Calculator",
+      "embed_url": "https://usmoneyhq.com/gpa-calculator?embed=1",
+      "snippet": "<iframe src=\"https://usmoneyhq.com/gpa-calculator?embed=1\" width=\"100%\" height=\"720\" style=\"border:0;border-radius:8px\" loading=\"lazy\"></iframe>"
+    },
+    {
+      "id": "due-date",
+      "path": "/due-date-calculator",
+      "title": "Due Date Calculator",
+      "embed_url": "https://usmoneyhq.com/due-date-calculator?embed=1",
+      "snippet": "<iframe src=\"https://usmoneyhq.com/due-date-calculator?embed=1\" width=\"100%\" height=\"720\" style=\"border:0;border-radius:8px\" loading=\"lazy\"></iframe>"
+    },
+    {
+      "id": "grade",
+      "path": "/grade-calculator",
+      "title": "Grade Calculator",
+      "embed_url": "https://usmoneyhq.com/grade-calculator?embed=1",
+      "snippet": "<iframe src=\"https://usmoneyhq.com/grade-calculator?embed=1\" width=\"100%\" height=\"720\" style=\"border:0;border-radius:8px\" loading=\"lazy\"></iframe>"
+    },
+    {
+      "id": "percentage",
+      "path": "/percentage-calculator",
+      "title": "Percentage Calculator",
+      "embed_url": "https://usmoneyhq.com/percentage-calculator?embed=1",
+      "snippet": "<iframe src=\"https://usmoneyhq.com/percentage-calculator?embed=1\" width=\"100%\" height=\"720\" style=\"border:0;border-radius:8px\" loading=\"lazy\"></iframe>"
+    },
+    {
+      "id": "compound-interest",
+      "path": "/compound-interest-calculator",
+      "title": "Compound Interest Calculator",
+      "embed_url": "https://usmoneyhq.com/compound-interest-calculator?embed=1",
+      "snippet": "<iframe src=\"https://usmoneyhq.com/compound-interest-calculator?embed=1\" width=\"100%\" height=\"720\" style=\"border:0;border-radius:8px\" loading=\"lazy\"></iframe>"
+    },
+    {
+      "id": "cd",
+      "path": "/cd-calculator",
+      "title": "Cd Calculator",
+      "embed_url": "https://usmoneyhq.com/cd-calculator?embed=1",
+      "snippet": "<iframe src=\"https://usmoneyhq.com/cd-calculator?embed=1\" width=\"100%\" height=\"720\" style=\"border:0;border-radius:8px\" loading=\"lazy\"></iframe>"
+    },
+    {
+      "id": "overtime",
+      "path": "/overtime-calculator",
+      "title": "Overtime Calculator",
+      "embed_url": "https://usmoneyhq.com/overtime-calculator?embed=1",
+      "snippet": "<iframe src=\"https://usmoneyhq.com/overtime-calculator?embed=1\" width=\"100%\" height=\"720\" style=\"border:0;border-radius:8px\" loading=\"lazy\"></iframe>"
+    },
+    {
+      "id": "tip",
+      "path": "/tip-calculator",
+      "title": "Tip Calculator",
+      "embed_url": "https://usmoneyhq.com/tip-calculator?embed=1",
+      "snippet": "<iframe src=\"https://usmoneyhq.com/tip-calculator?embed=1\" width=\"100%\" height=\"720\" style=\"border:0;border-radius:8px\" loading=\"lazy\"></iframe>"
+    },
+    {
+      "id": "student-loan",
+      "path": "/student-loan-calculator",
+      "title": "Student Loan Calculator",
+      "embed_url": "https://usmoneyhq.com/student-loan-calculator?embed=1",
+      "snippet": "<iframe src=\"https://usmoneyhq.com/student-loan-calculator?embed=1\" width=\"100%\" height=\"720\" style=\"border:0;border-radius:8px\" loading=\"lazy\"></iframe>"
+    },
+    {
+      "id": "loan",
+      "path": "/loan-calculator",
+      "title": "Loan Calculator",
+      "embed_url": "https://usmoneyhq.com/loan-calculator?embed=1",
+      "snippet": "<iframe src=\"https://usmoneyhq.com/loan-calculator?embed=1\" width=\"100%\" height=\"720\" style=\"border:0;border-radius:8px\" loading=\"lazy\"></iframe>"
+    },
+    {
+      "id": "savings-goal",
+      "path": "/savings-goal-calculator",
+      "title": "Savings Goal Calculator",
+      "embed_url": "https://usmoneyhq.com/savings-goal-calculator?embed=1",
+      "snippet": "<iframe src=\"https://usmoneyhq.com/savings-goal-calculator?embed=1\" width=\"100%\" height=\"720\" style=\"border:0;border-radius:8px\" loading=\"lazy\"></iframe>"
+    },
+    {
+      "id": "net-worth",
+      "path": "/net-worth-calculator",
+      "title": "Net Worth Calculator",
+      "embed_url": "https://usmoneyhq.com/net-worth-calculator?embed=1",
+      "snippet": "<iframe src=\"https://usmoneyhq.com/net-worth-calculator?embed=1\" width=\"100%\" height=\"720\" style=\"border:0;border-radius:8px\" loading=\"lazy\"></iframe>"
+    },
+    {
+      "id": "hourly-to-salary",
+      "path": "/hourly-to-salary-calculator",
+      "title": "Hourly To Salary Calculator",
+      "embed_url": "https://usmoneyhq.com/hourly-to-salary-calculator?embed=1",
+      "snippet": "<iframe src=\"https://usmoneyhq.com/hourly-to-salary-calculator?embed=1\" width=\"100%\" height=\"720\" style=\"border:0;border-radius:8px\" loading=\"lazy\"></iframe>"
+    },
+    {
+      "id": "gas-cost",
+      "path": "/gas-cost-calculator",
+      "title": "Gas Cost Calculator",
+      "embed_url": "https://usmoneyhq.com/gas-cost-calculator?embed=1",
+      "snippet": "<iframe src=\"https://usmoneyhq.com/gas-cost-calculator?embed=1\" width=\"100%\" height=\"720\" style=\"border:0;border-radius:8px\" loading=\"lazy\"></iframe>"
+    },
+    {
+      "id": "square-footage",
+      "path": "/square-footage-calculator",
+      "title": "Square Footage Calculator",
+      "embed_url": "https://usmoneyhq.com/square-footage-calculator?embed=1",
+      "snippet": "<iframe src=\"https://usmoneyhq.com/square-footage-calculator?embed=1\" width=\"100%\" height=\"720\" style=\"border:0;border-radius:8px\" loading=\"lazy\"></iframe>"
+    },
+    {
+      "id": "electricity-cost",
+      "path": "/electricity-cost-calculator",
+      "title": "Electricity Cost Calculator",
+      "embed_url": "https://usmoneyhq.com/electricity-cost-calculator?embed=1",
+      "snippet": "<iframe src=\"https://usmoneyhq.com/electricity-cost-calculator?embed=1\" width=\"100%\" height=\"720\" style=\"border:0;border-radius:8px\" loading=\"lazy\"></iframe>"
+    },
+    {
+      "id": "bmi",
+      "path": "/bmi-calculator",
+      "title": "Bmi Calculator",
+      "embed_url": "https://usmoneyhq.com/bmi-calculator?embed=1",
+      "snippet": "<iframe src=\"https://usmoneyhq.com/bmi-calculator?embed=1\" width=\"100%\" height=\"720\" style=\"border:0;border-radius:8px\" loading=\"lazy\"></iframe>"
+    },
+    {
+      "id": "simple-interest",
+      "path": "/simple-interest-calculator",
+      "title": "Simple Interest Calculator",
+      "embed_url": "https://usmoneyhq.com/simple-interest-calculator?embed=1",
+      "snippet": "<iframe src=\"https://usmoneyhq.com/simple-interest-calculator?embed=1\" width=\"100%\" height=\"720\" style=\"border:0;border-radius:8px\" loading=\"lazy\"></iframe>"
+    },
+    {
+      "id": "budget",
+      "path": "/budget-calculator",
+      "title": "Budget Calculator",
+      "embed_url": "https://usmoneyhq.com/budget-calculator?embed=1",
+      "snippet": "<iframe src=\"https://usmoneyhq.com/budget-calculator?embed=1\" width=\"100%\" height=\"720\" style=\"border:0;border-radius:8px\" loading=\"lazy\"></iframe>"
+    },
+    {
+      "id": "discount",
+      "path": "/discount-calculator",
+      "title": "Discount Calculator",
+      "embed_url": "https://usmoneyhq.com/discount-calculator?embed=1",
+      "snippet": "<iframe src=\"https://usmoneyhq.com/discount-calculator?embed=1\" width=\"100%\" height=\"720\" style=\"border:0;border-radius:8px\" loading=\"lazy\"></iframe>"
+    },
+    {
+      "id": "sales-tax",
+      "path": "/sales-tax-calculator",
+      "title": "Sales Tax Calculator",
+      "embed_url": "https://usmoneyhq.com/sales-tax-calculator?embed=1",
+      "snippet": "<iframe src=\"https://usmoneyhq.com/sales-tax-calculator?embed=1\" width=\"100%\" height=\"720\" style=\"border:0;border-radius:8px\" loading=\"lazy\"></iframe>"
+    },
+    {
+      "id": "inflation",
+      "path": "/inflation-calculator",
+      "title": "Inflation Calculator",
+      "embed_url": "https://usmoneyhq.com/inflation-calculator?embed=1",
+      "snippet": "<iframe src=\"https://usmoneyhq.com/inflation-calculator?embed=1\" width=\"100%\" height=\"720\" style=\"border:0;border-radius:8px\" loading=\"lazy\"></iframe>"
+    },
+    {
+      "id": "miles-per-gallon",
+      "path": "/miles-per-gallon-calculator",
+      "title": "Miles Per Gallon Calculator",
+      "embed_url": "https://usmoneyhq.com/miles-per-gallon-calculator?embed=1",
+      "snippet": "<iframe src=\"https://usmoneyhq.com/miles-per-gallon-calculator?embed=1\" width=\"100%\" height=\"720\" style=\"border:0;border-radius:8px\" loading=\"lazy\"></iframe>"
+    },
+    {
+      "id": "rent-vs-buy",
+      "path": "/rent-vs-buy-calculator",
+      "title": "Rent Vs Buy Calculator",
+      "embed_url": "https://usmoneyhq.com/rent-vs-buy-calculator?embed=1",
+      "snippet": "<iframe src=\"https://usmoneyhq.com/rent-vs-buy-calculator?embed=1\" width=\"100%\" height=\"720\" style=\"border:0;border-radius:8px\" loading=\"lazy\"></iframe>"
+    },
+    {
+      "id": "401k",
+      "path": "/401k-calculator",
+      "title": "401k Calculator",
+      "embed_url": "https://usmoneyhq.com/401k-calculator?embed=1",
+      "snippet": "<iframe src=\"https://usmoneyhq.com/401k-calculator?embed=1\" width=\"100%\" height=\"720\" style=\"border:0;border-radius:8px\" loading=\"lazy\"></iframe>"
+    },
+    {
+      "id": "emergency-fund",
+      "path": "/emergency-fund-calculator",
+      "title": "Emergency Fund Calculator",
+      "embed_url": "https://usmoneyhq.com/emergency-fund-calculator?embed=1",
+      "snippet": "<iframe src=\"https://usmoneyhq.com/emergency-fund-calculator?embed=1\" width=\"100%\" height=\"720\" style=\"border:0;border-radius:8px\" loading=\"lazy\"></iframe>"
+    },
+    {
+      "id": "closing-costs",
+      "path": "/closing-costs-calculator",
+      "title": "Closing Costs Calculator",
+      "embed_url": "https://usmoneyhq.com/closing-costs-calculator?embed=1",
+      "snippet": "<iframe src=\"https://usmoneyhq.com/closing-costs-calculator?embed=1\" width=\"100%\" height=\"720\" style=\"border:0;border-radius:8px\" loading=\"lazy\"></iframe>"
+    },
+    {
+      "id": "car-affordability",
+      "path": "/car-affordability-calculator",
+      "title": "Car Affordability Calculator",
+      "embed_url": "https://usmoneyhq.com/car-affordability-calculator?embed=1",
+      "snippet": "<iframe src=\"https://usmoneyhq.com/car-affordability-calculator?embed=1\" width=\"100%\" height=\"720\" style=\"border:0;border-radius:8px\" loading=\"lazy\"></iframe>"
+    },
+    {
+      "id": "dividend",
+      "path": "/dividend-calculator",
+      "title": "Dividend Calculator",
+      "embed_url": "https://usmoneyhq.com/dividend-calculator?embed=1",
+      "snippet": "<iframe src=\"https://usmoneyhq.com/dividend-calculator?embed=1\" width=\"100%\" height=\"720\" style=\"border:0;border-radius:8px\" loading=\"lazy\"></iframe>"
+    },
+    {
+      "id": "property-tax",
+      "path": "/property-tax-calculator",
+      "title": "Property Tax Calculator",
+      "embed_url": "https://usmoneyhq.com/property-tax-calculator?embed=1",
+      "snippet": "<iframe src=\"https://usmoneyhq.com/property-tax-calculator?embed=1\" width=\"100%\" height=\"720\" style=\"border:0;border-radius:8px\" loading=\"lazy\"></iframe>"
+    },
+    {
+      "id": "capital-gains",
+      "path": "/capital-gains-calculator",
+      "title": "Capital Gains Calculator",
+      "embed_url": "https://usmoneyhq.com/capital-gains-calculator?embed=1",
+      "snippet": "<iframe src=\"https://usmoneyhq.com/capital-gains-calculator?embed=1\" width=\"100%\" height=\"720\" style=\"border:0;border-radius:8px\" loading=\"lazy\"></iframe>"
+    },
+    {
+      "id": "salary-to-hourly",
+      "path": "/salary-to-hourly-calculator",
+      "title": "Salary To Hourly Calculator",
+      "embed_url": "https://usmoneyhq.com/salary-to-hourly-calculator?embed=1",
+      "snippet": "<iframe src=\"https://usmoneyhq.com/salary-to-hourly-calculator?embed=1\" width=\"100%\" height=\"720\" style=\"border:0;border-radius:8px\" loading=\"lazy\"></iframe>"
+    },
+    {
+      "id": "amortization-schedule",
+      "path": "/amortization-schedule-calculator",
+      "title": "Amortization Schedule Calculator",
+      "embed_url": "https://usmoneyhq.com/amortization-schedule-calculator?embed=1",
+      "snippet": "<iframe src=\"https://usmoneyhq.com/amortization-schedule-calculator?embed=1\" width=\"100%\" height=\"720\" style=\"border:0;border-radius:8px\" loading=\"lazy\"></iframe>"
+    },
+    {
+      "id": "roi",
+      "path": "/roi-calculator",
+      "title": "Roi Calculator",
+      "embed_url": "https://usmoneyhq.com/roi-calculator?embed=1",
+      "snippet": "<iframe src=\"https://usmoneyhq.com/roi-calculator?embed=1\" width=\"100%\" height=\"720\" style=\"border:0;border-radius:8px\" loading=\"lazy\"></iframe>"
+    },
+    {
+      "id": "markup",
+      "path": "/markup-calculator",
+      "title": "Markup Calculator",
+      "embed_url": "https://usmoneyhq.com/markup-calculator?embed=1",
+      "snippet": "<iframe src=\"https://usmoneyhq.com/markup-calculator?embed=1\" width=\"100%\" height=\"720\" style=\"border:0;border-radius:8px\" loading=\"lazy\"></iframe>"
+    },
+    {
+      "id": "margin",
+      "path": "/margin-calculator",
+      "title": "Margin Calculator",
+      "embed_url": "https://usmoneyhq.com/margin-calculator?embed=1",
+      "snippet": "<iframe src=\"https://usmoneyhq.com/margin-calculator?embed=1\" width=\"100%\" height=\"720\" style=\"border:0;border-radius:8px\" loading=\"lazy\"></iframe>"
+    },
+    {
+      "id": "529",
+      "path": "/529-calculator",
+      "title": "529 Calculator",
+      "embed_url": "https://usmoneyhq.com/529-calculator?embed=1",
+      "snippet": "<iframe src=\"https://usmoneyhq.com/529-calculator?embed=1\" width=\"100%\" height=\"720\" style=\"border:0;border-radius:8px\" loading=\"lazy\"></iframe>"
+    },
+    {
+      "id": "home-equity",
+      "path": "/home-equity-calculator",
+      "title": "Home Equity Calculator",
+      "embed_url": "https://usmoneyhq.com/home-equity-calculator?embed=1",
+      "snippet": "<iframe src=\"https://usmoneyhq.com/home-equity-calculator?embed=1\" width=\"100%\" height=\"720\" style=\"border:0;border-radius:8px\" loading=\"lazy\"></iframe>"
+    },
+    {
+      "id": "tax-bracket",
+      "path": "/tax-bracket-calculator",
+      "title": "Tax Bracket Calculator",
+      "embed_url": "https://usmoneyhq.com/tax-bracket-calculator?embed=1",
+      "snippet": "<iframe src=\"https://usmoneyhq.com/tax-bracket-calculator?embed=1\" width=\"100%\" height=\"720\" style=\"border:0;border-radius:8px\" loading=\"lazy\"></iframe>"
+    },
+    {
+      "id": "investment",
+      "path": "/investment-calculator",
+      "title": "Investment Calculator",
+      "embed_url": "https://usmoneyhq.com/investment-calculator?embed=1",
+      "snippet": "<iframe src=\"https://usmoneyhq.com/investment-calculator?embed=1\" width=\"100%\" height=\"720\" style=\"border:0;border-radius:8px\" loading=\"lazy\"></iframe>"
+    },
+    {
+      "id": "rule-of-72",
+      "path": "/rule-of-72-calculator",
+      "title": "Rule Of 72 Calculator",
+      "embed_url": "https://usmoneyhq.com/rule-of-72-calculator?embed=1",
+      "snippet": "<iframe src=\"https://usmoneyhq.com/rule-of-72-calculator?embed=1\" width=\"100%\" height=\"720\" style=\"border:0;border-radius:8px\" loading=\"lazy\"></iframe>"
+    },
+    {
+      "id": "salary-raise",
+      "path": "/salary-raise-calculator",
+      "title": "Salary Raise Calculator",
+      "embed_url": "https://usmoneyhq.com/salary-raise-calculator?embed=1",
+      "snippet": "<iframe src=\"https://usmoneyhq.com/salary-raise-calculator?embed=1\" width=\"100%\" height=\"720\" style=\"border:0;border-radius:8px\" loading=\"lazy\"></iframe>"
+    },
+    {
+      "id": "social-security",
+      "path": "/social-security-calculator",
+      "title": "Social Security Calculator",
+      "embed_url": "https://usmoneyhq.com/social-security-calculator?embed=1",
+      "snippet": "<iframe src=\"https://usmoneyhq.com/social-security-calculator?embed=1\" width=\"100%\" height=\"720\" style=\"border:0;border-radius:8px\" loading=\"lazy\"></iframe>"
+    },
+    {
+      "id": "debt-snowball",
+      "path": "/debt-snowball-calculator",
+      "title": "Debt Snowball Calculator",
+      "embed_url": "https://usmoneyhq.com/debt-snowball-calculator?embed=1",
+      "snippet": "<iframe src=\"https://usmoneyhq.com/debt-snowball-calculator?embed=1\" width=\"100%\" height=\"720\" style=\"border:0;border-radius:8px\" loading=\"lazy\"></iframe>"
+    },
+    {
+      "id": "lease-vs-buy",
+      "path": "/lease-vs-buy-calculator",
+      "title": "Lease Vs Buy Calculator",
+      "embed_url": "https://usmoneyhq.com/lease-vs-buy-calculator?embed=1",
+      "snippet": "<iframe src=\"https://usmoneyhq.com/lease-vs-buy-calculator?embed=1\" width=\"100%\" height=\"720\" style=\"border:0;border-radius:8px\" loading=\"lazy\"></iframe>"
+    },
+    {
+      "id": "mortgage-points",
+      "path": "/mortgage-points-calculator",
+      "title": "Mortgage Points Calculator",
+      "embed_url": "https://usmoneyhq.com/mortgage-points-calculator?embed=1",
+      "snippet": "<iframe src=\"https://usmoneyhq.com/mortgage-points-calculator?embed=1\" width=\"100%\" height=\"720\" style=\"border:0;border-radius:8px\" loading=\"lazy\"></iframe>"
+    },
+    {
+      "id": "price-per-square-foot",
+      "path": "/price-per-square-foot-calculator",
+      "title": "Price Per Square Foot Calculator",
+      "embed_url": "https://usmoneyhq.com/price-per-square-foot-calculator?embed=1",
+      "snippet": "<iframe src=\"https://usmoneyhq.com/price-per-square-foot-calculator?embed=1\" width=\"100%\" height=\"720\" style=\"border:0;border-radius:8px\" loading=\"lazy\"></iframe>"
+    },
+    {
+      "id": "construction-cost",
+      "path": "/construction-cost-calculator",
+      "title": "Construction Cost Calculator",
+      "embed_url": "https://usmoneyhq.com/construction-cost-calculator?embed=1",
+      "snippet": "<iframe src=\"https://usmoneyhq.com/construction-cost-calculator?embed=1\" width=\"100%\" height=\"720\" style=\"border:0;border-radius:8px\" loading=\"lazy\"></iframe>"
+    },
+    {
+      "id": "calorie-deficit",
+      "path": "/calorie-deficit-calculator",
+      "title": "Calorie Deficit Calculator",
+      "embed_url": "https://usmoneyhq.com/calorie-deficit-calculator?embed=1",
+      "snippet": "<iframe src=\"https://usmoneyhq.com/calorie-deficit-calculator?embed=1\" width=\"100%\" height=\"720\" style=\"border:0;border-radius:8px\" loading=\"lazy\"></iframe>"
+    },
+    {
+      "id": "loan-comparison",
+      "path": "/loan-comparison-calculator",
+      "title": "Loan Comparison Calculator",
+      "embed_url": "https://usmoneyhq.com/loan-comparison-calculator?embed=1",
+      "snippet": "<iframe src=\"https://usmoneyhq.com/loan-comparison-calculator?embed=1\" width=\"100%\" height=\"720\" style=\"border:0;border-radius:8px\" loading=\"lazy\"></iframe>"
+    },
+    {
+      "id": "savings-rate",
+      "path": "/savings-rate-calculator",
+      "title": "Savings Rate Calculator",
+      "embed_url": "https://usmoneyhq.com/savings-rate-calculator?embed=1",
+      "snippet": "<iframe src=\"https://usmoneyhq.com/savings-rate-calculator?embed=1\" width=\"100%\" height=\"720\" style=\"border:0;border-radius:8px\" loading=\"lazy\"></iframe>"
+    },
+    {
+      "id": "tax-refund",
+      "path": "/tax-refund-calculator",
+      "title": "Tax Refund Calculator",
+      "embed_url": "https://usmoneyhq.com/tax-refund-calculator?embed=1",
+      "snippet": "<iframe src=\"https://usmoneyhq.com/tax-refund-calculator?embed=1\" width=\"100%\" height=\"720\" style=\"border:0;border-radius:8px\" loading=\"lazy\"></iframe>"
+    },
+    {
+      "id": "stock-profit",
+      "path": "/stock-profit-calculator",
+      "title": "Stock Profit Calculator",
+      "embed_url": "https://usmoneyhq.com/stock-profit-calculator?embed=1",
+      "snippet": "<iframe src=\"https://usmoneyhq.com/stock-profit-calculator?embed=1\" width=\"100%\" height=\"720\" style=\"border:0;border-radius:8px\" loading=\"lazy\"></iframe>"
+    },
+    {
+      "id": "investment-property",
+      "path": "/investment-property-calculator",
+      "title": "Investment Property Calculator",
+      "embed_url": "https://usmoneyhq.com/investment-property-calculator?embed=1",
+      "snippet": "<iframe src=\"https://usmoneyhq.com/investment-property-calculator?embed=1\" width=\"100%\" height=\"720\" style=\"border:0;border-radius:8px\" loading=\"lazy\"></iframe>"
+    },
+    {
+      "id": "escrow",
+      "path": "/escrow-calculator",
+      "title": "Escrow Calculator",
+      "embed_url": "https://usmoneyhq.com/escrow-calculator?embed=1",
+      "snippet": "<iframe src=\"https://usmoneyhq.com/escrow-calculator?embed=1\" width=\"100%\" height=\"720\" style=\"border:0;border-radius:8px\" loading=\"lazy\"></iframe>"
+    },
+    {
+      "id": "commission",
+      "path": "/commission-calculator",
+      "title": "Commission Calculator",
+      "embed_url": "https://usmoneyhq.com/commission-calculator?embed=1",
+      "snippet": "<iframe src=\"https://usmoneyhq.com/commission-calculator?embed=1\" width=\"100%\" height=\"720\" style=\"border:0;border-radius:8px\" loading=\"lazy\"></iframe>"
+    },
+    {
+      "id": "rmd",
+      "path": "/rmd-calculator",
+      "title": "Rmd Calculator",
+      "embed_url": "https://usmoneyhq.com/rmd-calculator?embed=1",
+      "snippet": "<iframe src=\"https://usmoneyhq.com/rmd-calculator?embed=1\" width=\"100%\" height=\"720\" style=\"border:0;border-radius:8px\" loading=\"lazy\"></iframe>"
+    },
+    {
+      "id": "savings-bonds",
+      "path": "/savings-bonds-calculator",
+      "title": "Savings Bonds Calculator",
+      "embed_url": "https://usmoneyhq.com/savings-bonds-calculator?embed=1",
+      "snippet": "<iframe src=\"https://usmoneyhq.com/savings-bonds-calculator?embed=1\" width=\"100%\" height=\"720\" style=\"border:0;border-radius:8px\" loading=\"lazy\"></iframe>"
+    },
+    {
+      "id": "tile",
+      "path": "/tile-calculator",
+      "title": "Tile Calculator",
+      "embed_url": "https://usmoneyhq.com/tile-calculator?embed=1",
+      "snippet": "<iframe src=\"https://usmoneyhq.com/tile-calculator?embed=1\" width=\"100%\" height=\"720\" style=\"border:0;border-radius:8px\" loading=\"lazy\"></iframe>"
+    },
+    {
+      "id": "fence",
+      "path": "/fence-calculator",
+      "title": "Fence Calculator",
+      "embed_url": "https://usmoneyhq.com/fence-calculator?embed=1",
+      "snippet": "<iframe src=\"https://usmoneyhq.com/fence-calculator?embed=1\" width=\"100%\" height=\"720\" style=\"border:0;border-radius:8px\" loading=\"lazy\"></iframe>"
+    },
+    {
+      "id": "gravel",
+      "path": "/gravel-calculator",
+      "title": "Gravel Calculator",
+      "embed_url": "https://usmoneyhq.com/gravel-calculator?embed=1",
+      "snippet": "<iframe src=\"https://usmoneyhq.com/gravel-calculator?embed=1\" width=\"100%\" height=\"720\" style=\"border:0;border-radius:8px\" loading=\"lazy\"></iframe>"
+    },
+    {
+      "id": "topsoil",
+      "path": "/topsoil-calculator",
+      "title": "Topsoil Calculator",
+      "embed_url": "https://usmoneyhq.com/topsoil-calculator?embed=1",
+      "snippet": "<iframe src=\"https://usmoneyhq.com/topsoil-calculator?embed=1\" width=\"100%\" height=\"720\" style=\"border:0;border-radius:8px\" loading=\"lazy\"></iframe>"
+    },
+    {
+      "id": "carpet",
+      "path": "/carpet-calculator",
+      "title": "Carpet Calculator",
+      "embed_url": "https://usmoneyhq.com/carpet-calculator?embed=1",
+      "snippet": "<iframe src=\"https://usmoneyhq.com/carpet-calculator?embed=1\" width=\"100%\" height=\"720\" style=\"border:0;border-radius:8px\" loading=\"lazy\"></iframe>"
+    },
+    {
+      "id": "wallpaper",
+      "path": "/wallpaper-calculator",
+      "title": "Wallpaper Calculator",
+      "embed_url": "https://usmoneyhq.com/wallpaper-calculator?embed=1",
+      "snippet": "<iframe src=\"https://usmoneyhq.com/wallpaper-calculator?embed=1\" width=\"100%\" height=\"720\" style=\"border:0;border-radius:8px\" loading=\"lazy\"></iframe>"
+    },
+    {
+      "id": "sod",
+      "path": "/sod-calculator",
+      "title": "Sod Calculator",
+      "embed_url": "https://usmoneyhq.com/sod-calculator?embed=1",
+      "snippet": "<iframe src=\"https://usmoneyhq.com/sod-calculator?embed=1\" width=\"100%\" height=\"720\" style=\"border:0;border-radius:8px\" loading=\"lazy\"></iframe>"
+    },
+    {
+      "id": "drywall",
+      "path": "/drywall-calculator",
+      "title": "Drywall Calculator",
+      "embed_url": "https://usmoneyhq.com/drywall-calculator?embed=1",
+      "snippet": "<iframe src=\"https://usmoneyhq.com/drywall-calculator?embed=1\" width=\"100%\" height=\"720\" style=\"border:0;border-radius:8px\" loading=\"lazy\"></iframe>"
+    },
+    {
+      "id": "heart-rate",
+      "path": "/heart-rate-calculator",
+      "title": "Heart Rate Calculator",
+      "embed_url": "https://usmoneyhq.com/heart-rate-calculator?embed=1",
+      "snippet": "<iframe src=\"https://usmoneyhq.com/heart-rate-calculator?embed=1\" width=\"100%\" height=\"720\" style=\"border:0;border-radius:8px\" loading=\"lazy\"></iframe>"
+    },
+    {
+      "id": "percentage-change",
+      "path": "/percentage-change-calculator",
+      "title": "Percentage Change Calculator",
+      "embed_url": "https://usmoneyhq.com/percentage-change-calculator?embed=1",
+      "snippet": "<iframe src=\"https://usmoneyhq.com/percentage-change-calculator?embed=1\" width=\"100%\" height=\"720\" style=\"border:0;border-radius:8px\" loading=\"lazy\"></iframe>"
+    },
+    {
+      "id": "how-long-will-my-money-last",
+      "path": "/how-long-will-my-money-last-calculator",
+      "title": "How Long Will My Money Last Calculator",
+      "embed_url": "https://usmoneyhq.com/how-long-will-my-money-last-calculator?embed=1",
+      "snippet": "<iframe src=\"https://usmoneyhq.com/how-long-will-my-money-last-calculator?embed=1\" width=\"100%\" height=\"720\" style=\"border:0;border-radius:8px\" loading=\"lazy\"></iframe>"
+    },
+    {
+      "id": "moving-cost",
+      "path": "/moving-cost-calculator",
+      "title": "Moving Cost Calculator",
+      "embed_url": "https://usmoneyhq.com/moving-cost-calculator?embed=1",
+      "snippet": "<iframe src=\"https://usmoneyhq.com/moving-cost-calculator?embed=1\" width=\"100%\" height=\"720\" style=\"border:0;border-radius:8px\" loading=\"lazy\"></iframe>"
+    },
+    {
+      "id": "life-insurance-needs",
+      "path": "/life-insurance-needs-calculator",
+      "title": "Life Insurance Needs Calculator",
+      "embed_url": "https://usmoneyhq.com/life-insurance-needs-calculator?embed=1",
+      "snippet": "<iframe src=\"https://usmoneyhq.com/life-insurance-needs-calculator?embed=1\" width=\"100%\" height=\"720\" style=\"border:0;border-radius:8px\" loading=\"lazy\"></iframe>"
+    },
+    {
+      "id": "home-remodel-cost",
+      "path": "/home-remodel-cost-calculator",
+      "title": "Home Remodel Cost Calculator",
+      "embed_url": "https://usmoneyhq.com/home-remodel-cost-calculator?embed=1",
+      "snippet": "<iframe src=\"https://usmoneyhq.com/home-remodel-cost-calculator?embed=1\" width=\"100%\" height=\"720\" style=\"border:0;border-radius:8px\" loading=\"lazy\"></iframe>"
+    },
+    {
+      "id": "date",
+      "path": "/date-calculator",
+      "title": "Date Calculator",
+      "embed_url": "https://usmoneyhq.com/date-calculator?embed=1",
+      "snippet": "<iframe src=\"https://usmoneyhq.com/date-calculator?embed=1\" width=\"100%\" height=\"720\" style=\"border:0;border-radius:8px\" loading=\"lazy\"></iframe>"
+    },
+    {
+      "id": "time-duration",
+      "path": "/time-duration-calculator",
+      "title": "Time Duration Calculator",
+      "embed_url": "https://usmoneyhq.com/time-duration-calculator?embed=1",
+      "snippet": "<iframe src=\"https://usmoneyhq.com/time-duration-calculator?embed=1\" width=\"100%\" height=\"720\" style=\"border:0;border-radius:8px\" loading=\"lazy\"></iframe>"
+    },
+    {
+      "id": "mileage-reimbursement",
+      "path": "/mileage-reimbursement-calculator",
+      "title": "Mileage Reimbursement Calculator",
+      "embed_url": "https://usmoneyhq.com/mileage-reimbursement-calculator?embed=1",
+      "snippet": "<iframe src=\"https://usmoneyhq.com/mileage-reimbursement-calculator?embed=1\" width=\"100%\" height=\"720\" style=\"border:0;border-radius:8px\" loading=\"lazy\"></iframe>"
+    },
+    {
+      "id": "retirement-age",
+      "path": "/retirement-age-calculator",
+      "title": "Retirement Age Calculator",
+      "embed_url": "https://usmoneyhq.com/retirement-age-calculator?embed=1",
+      "snippet": "<iframe src=\"https://usmoneyhq.com/retirement-age-calculator?embed=1\" width=\"100%\" height=\"720\" style=\"border:0;border-radius:8px\" loading=\"lazy\"></iframe>"
+    },
+    {
+      "id": "break-even",
+      "path": "/break-even-calculator",
+      "title": "Break Even Calculator",
+      "embed_url": "https://usmoneyhq.com/break-even-calculator?embed=1",
+      "snippet": "<iframe src=\"https://usmoneyhq.com/break-even-calculator?embed=1\" width=\"100%\" height=\"720\" style=\"border:0;border-radius:8px\" loading=\"lazy\"></iframe>"
+    },
+    {
+      "id": "take-home-pay",
+      "path": "/take-home-pay-calculator",
+      "title": "Take Home Pay Calculator",
+      "embed_url": "https://usmoneyhq.com/take-home-pay-calculator?embed=1",
+      "snippet": "<iframe src=\"https://usmoneyhq.com/take-home-pay-calculator?embed=1\" width=\"100%\" height=\"720\" style=\"border:0;border-radius:8px\" loading=\"lazy\"></iframe>"
+    },
+    {
+      "id": "personal-loan",
+      "path": "/personal-loan-calculator",
+      "title": "Personal Loan Calculator",
+      "embed_url": "https://usmoneyhq.com/personal-loan-calculator?embed=1",
+      "snippet": "<iframe src=\"https://usmoneyhq.com/personal-loan-calculator?embed=1\" width=\"100%\" height=\"720\" style=\"border:0;border-radius:8px\" loading=\"lazy\"></iframe>"
+    },
+    {
+      "id": "self-employment-tax",
+      "path": "/self-employment-tax-calculator",
+      "title": "Self Employment Tax Calculator",
+      "embed_url": "https://usmoneyhq.com/self-employment-tax-calculator?embed=1",
+      "snippet": "<iframe src=\"https://usmoneyhq.com/self-employment-tax-calculator?embed=1\" width=\"100%\" height=\"720\" style=\"border:0;border-radius:8px\" loading=\"lazy\"></iframe>"
+    },
+    {
+      "id": "fha-mortgage",
+      "path": "/fha-mortgage-calculator",
+      "title": "Fha Mortgage Calculator",
+      "embed_url": "https://usmoneyhq.com/fha-mortgage-calculator?embed=1",
+      "snippet": "<iframe src=\"https://usmoneyhq.com/fha-mortgage-calculator?embed=1\" width=\"100%\" height=\"720\" style=\"border:0;border-radius:8px\" loading=\"lazy\"></iframe>"
+    },
+    {
+      "id": "va-mortgage",
+      "path": "/va-mortgage-calculator",
+      "title": "Va Mortgage Calculator",
+      "embed_url": "https://usmoneyhq.com/va-mortgage-calculator?embed=1",
+      "snippet": "<iframe src=\"https://usmoneyhq.com/va-mortgage-calculator?embed=1\" width=\"100%\" height=\"720\" style=\"border:0;border-radius:8px\" loading=\"lazy\"></iframe>"
+    },
+    {
+      "id": "401k-contribution",
+      "path": "/401k-contribution-calculator",
+      "title": "401k Contribution Calculator",
+      "embed_url": "https://usmoneyhq.com/401k-contribution-calculator?embed=1",
+      "snippet": "<iframe src=\"https://usmoneyhq.com/401k-contribution-calculator?embed=1\" width=\"100%\" height=\"720\" style=\"border:0;border-radius:8px\" loading=\"lazy\"></iframe>"
+    }
+  ],
   "snippet": "<iframe src=\"https://usmoneyhq.com/mortgage-calculator?embed=1\" width=\"100%\" height=\"720\" style=\"border:0;border-radius:8px\" loading=\"lazy\" title=\"Mortgage Calculator\"></iframe>",
   "licence": "Single-domain commercial licence. Remove this bundle from any domain you stop operating."
 }

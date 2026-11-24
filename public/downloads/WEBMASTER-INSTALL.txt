@@ -6,6 +6,110 @@ WEBMASTER CALCULATOR BUNDLE — INSTALLATION
 <iframe src="https://usmoneyhq.com/mortgage-calculator?embed=1" width="100%" height="720" style="border:0;border-radius:8px" loading="lazy" title="Mortgage Calculator"></iframe>
 
 Available calculators:
-
+  Mortgage Calculator          https://usmoneyhq.com/mortgage-calculator
+  Auto Loan Calculator         https://usmoneyhq.com/auto-loan-calculator
+  Salary After Tax Calculator  https://usmoneyhq.com/salary-after-tax-calculator
+  Paycheck Calculator          https://usmoneyhq.com/paycheck-calculator
+  Debt Payoff Calculator       https://usmoneyhq.com/debt-payoff-calculator
+  Dti Calculator               https://usmoneyhq.com/dti-calculator
+  Pmi Calculator               https://usmoneyhq.com/pmi-calculator
+  Heloc Calculator             https://usmoneyhq.com/heloc-calculator
+  Refinance Calculator         https://usmoneyhq.com/refinance-calculator
+  Retirement Calculator        https://usmoneyhq.com/retirement-calculator
+  Tax Calculator               https://usmoneyhq.com/tax-calculator
+  Credit Card Payoff Calculator https://usmoneyhq.com/credit-card-payoff-calculator
+  Child Support Calculator     https://usmoneyhq.com/child-support-calculator
+  Concrete Calculator          https://usmoneyhq.com/concrete-calculator
+  Tdee Calculator              https://usmoneyhq.com/tdee-calculator
+  Water Intake Calculator      https://usmoneyhq.com/water-intake-calculator
+  Sleep Calculator             https://usmoneyhq.com/sleep-calculator
+  Body Fat Calculator          https://usmoneyhq.com/body-fat-calculator
+  Paint Calculator             https://usmoneyhq.com/paint-calculator
+  Mulch Calculator             https://usmoneyhq.com/mulch-calculator
+  Salary Percentile Calculator https://usmoneyhq.com/salary-percentile-calculator
+  Home Affordability Calculator https://usmoneyhq.com/home-affordability-calculator
+  Gpa Calculator               https://usmoneyhq.com/gpa-calculator
+  Due Date Calculator          https://usmoneyhq.com/due-date-calculator
+  Grade Calculator             https://usmoneyhq.com/grade-calculator
+  Percentage Calculator        https://usmoneyhq.com/percentage-calculator
+  Compound Interest Calculator https://usmoneyhq.com/compound-interest-calculator
+  Cd Calculator                https://usmoneyhq.com/cd-calculator
+  Overtime Calculator          https://usmoneyhq.com/overtime-calculator
+  Tip Calculator               https://usmoneyhq.com/tip-calculator
+  Student Loan Calculator      https://usmoneyhq.com/student-loan-calculator
+  Loan Calculator              https://usmoneyhq.com/loan-calculator
+  Savings Goal Calculator      https://usmoneyhq.com/savings-goal-calculator
+  Net Worth Calculator         https://usmoneyhq.com/net-worth-calculator
+  Hourly To Salary Calculator  https://usmoneyhq.com/hourly-to-salary-calculator
+  Gas Cost Calculator          https://usmoneyhq.com/gas-cost-calculator
+  Square Footage Calculator    https://usmoneyhq.com/square-footage-calculator
+  Electricity Cost Calculator  https://usmoneyhq.com/electricity-cost-calculator
+  Bmi Calculator               https://usmoneyhq.com/bmi-calculator
+  Simple Interest Calculator   https://usmoneyhq.com/simple-interest-calculator
+  Budget Calculator            https://usmoneyhq.com/budget-calculator
+  Discount Calculator          https://usmoneyhq.com/discount-calculator
+  Sales Tax Calculator         https://usmoneyhq.com/sales-tax-calculator
+  Inflation Calculator         https://usmoneyhq.com/inflation-calculator
+  Miles Per Gallon Calculator  https://usmoneyhq.com/miles-per-gallon-calculator
+  Rent Vs Buy Calculator       https://usmoneyhq.com/rent-vs-buy-calculator
+  401k Calculator              https://usmoneyhq.com/401k-calculator
+  Emergency Fund Calculator    https://usmoneyhq.com/emergency-fund-calculator
+  Closing Costs Calculator     https://usmoneyhq.com/closing-costs-calculator
+  Car Affordability Calculator https://usmoneyhq.com/car-affordability-calculator
+  Dividend Calculator          https://usmoneyhq.com/dividend-calculator
+  Property Tax Calculator      https://usmoneyhq.com/property-tax-calculator
+  Capital Gains Calculator     https://usmoneyhq.com/capital-gains-calculator
+  Salary To Hourly Calculator  https://usmoneyhq.com/salary-to-hourly-calculator
+  Amortization Schedule Calculator https://usmoneyhq.com/amortization-schedule-calculator
+  Roi Calculator               https://usmoneyhq.com/roi-calculator
+  Markup Calculator            https://usmoneyhq.com/markup-calculator
+  Margin Calculator            https://usmoneyhq.com/margin-calculator
+  529 Calculator               https://usmoneyhq.com/529-calculator
+  Home Equity Calculator       https://usmoneyhq.com/home-equity-calculator
+  Tax Bracket Calculator       https://usmoneyhq.com/tax-bracket-calculator
+  Investment Calculator        https://usmoneyhq.com/investment-calculator
+  Rule Of 72 Calculator        https://usmoneyhq.com/rule-of-72-calculator
+  Salary Raise Calculator      https://usmoneyhq.com/salary-raise-calculator
+  Social Security Calculator   https://usmoneyhq.com/social-security-calculator
+  Debt Snowball Calculator     https://usmoneyhq.com/debt-snowball-calculator
+  Lease Vs Buy Calculator      https://usmoneyhq.com/lease-vs-buy-calculator
+  Mortgage Points Calculator   https://usmoneyhq.com/mortgage-points-calculator
+  Price Per Square Foot Calculator https://usmoneyhq.com/price-per-square-foot-calculator
+  Construction Cost Calculator https://usmoneyhq.com/construction-cost-calculator
+  Calorie Deficit Calculator   https://usmoneyhq.com/calorie-deficit-calculator
+  Loan Comparison Calculator   https://usmoneyhq.com/loan-comparison-calculator
+  Savings Rate Calculator      https://usmoneyhq.com/savings-rate-calculator
+  Tax Refund Calculator        https://usmoneyhq.com/tax-refund-calculator
+  Stock Profit Calculator      https://usmoneyhq.com/stock-profit-calculator
+  Investment Property Calculator https://usmoneyhq.com/investment-property-calculator
+  Escrow Calculator            https://usmoneyhq.com/escrow-calculator
+  Commission Calculator        https://usmoneyhq.com/commission-calculator
+  Rmd Calculator               https://usmoneyhq.com/rmd-calculator
+  Savings Bonds Calculator     https://usmoneyhq.com/savings-bonds-calculator
+  Tile Calculator              https://usmoneyhq.com/tile-calculator
+  Fence Calculator             https://usmoneyhq.com/fence-calculator
+  Gravel Calculator            https://usmoneyhq.com/gravel-calculator
+  Topsoil Calculator           https://usmoneyhq.com/topsoil-calculator
+  Carpet Calculator            https://usmoneyhq.com/carpet-calculator
+  Wallpaper Calculator         https://usmoneyhq.com/wallpaper-calculator
+  Sod Calculator               https://usmoneyhq.com/sod-calculator
+  Drywall Calculator           https://usmoneyhq.com/drywall-calculator
+  Heart Rate Calculator        https://usmoneyhq.com/heart-rate-calculator
+  Percentage Change Calculator https://usmoneyhq.com/percentage-change-calculator
+  How Long Will My Money Last Calculator https://usmoneyhq.com/how-long-will-my-money-last-calculator
+  Moving Cost Calculator       https://usmoneyhq.com/moving-cost-calculator
+  Life Insurance Needs Calculator https://usmoneyhq.com/life-insurance-needs-calculator
+  Home Remodel Cost Calculator https://usmoneyhq.com/home-remodel-cost-calculator
+  Date Calculator              https://usmoneyhq.com/date-calculator
+  Time Duration Calculator     https://usmoneyhq.com/time-duration-calculator
+  Mileage Reimbursement Calculator https://usmoneyhq.com/mileage-reimbursement-calculator
+  Retirement Age Calculator    https://usmoneyhq.com/retirement-age-calculator
+  Break Even Calculator        https://usmoneyhq.com/break-even-calculator
+  Take Home Pay Calculator     https://usmoneyhq.com/take-home-pay-calculator
+  Personal Loan Calculator     https://usmoneyhq.com/personal-loan-calculator
+  Self Employment Tax Calculator https://usmoneyhq.com/self-employment-tax-calculator
+  Fha Mortgage Calculator      https://usmoneyhq.com/fha-mortgage-calculator
+  Va Mortgage Calculator       https://usmoneyhq.com/va-mortgage-calculator
+  401k Contribution Calculator https://usmoneyhq.com/401k-contribution-calculator
 
 Support: hello@usmoneyhq.com

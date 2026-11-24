@@ -139,7 +139,7 @@ fs.writeFileSync(path.join(outDir, "DATA-DICTIONARY-SOURCES.txt"), dict);
 
 const toolsSrc = read("lib/tools.ts");
 const toolPaths = [];
-for (const m2 of toolsSrc.matchAll(/slug:\\s*"([a-z0-9-]+-calculator)"/g)) {
+for (const m2 of toolsSrc.matchAll(/slug:\s*"([a-z0-9-]+-calculator)"/g)) {
   const p = "/" + m2[1];
   if (!toolPaths.includes(p)) toolPaths.push(p);
 }

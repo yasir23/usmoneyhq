@@ -1,50 +1,45 @@
 {
  "blockers": [
   {
-   "id": "ADSENSE_REENTRY",
-   "why": "AdSense rejection blocks primary display revenue and programmatic scaling.",
-   "ask": "Fix policy violations and resubmit for manual site review."
+   "id": "AD_NETWORK_APPROVAL",
+   "why": "AdSense rejection and zero filled units prevent display revenue scaling.",
+   "ask": "Apply for Ezoic or Mediavine using current traffic data to bypass AdSense rejection."
   },
   {
-   "id": "OFFER_MAPPING",
-   "why": "Only 3 of 24 offers are live, leaving 87% of affiliate inventory unmonetized.",
-   "ask": "Map remaining 21 affiliate links to relevant calculator result pages."
-  },
-  {
-   "id": "GIT_STABILITY",
-   "why": "Dirty files in production prevent automated deployment of new data structures.",
-   "ask": "Commit or stash local changes to enable clean CI/CD pipeline."
+   "id": "AFFILIATE_LINK_INJECTION",
+   "why": "21 available offers are not integrated into the 116 indexable pages.",
+   "ask": "Provide a mapping CSV of Offer IDs to specific Page URLs/Calculator IDs."
   }
  ],
  "tasks": [
   {
    "rank": 1,
-   "title": "Inject Affiliate CTAs into Calculators",
-   "how": "Hardcode high-intent affiliate links into the result views of all 80 calculators.",
+   "title": "Activate Affiliate Offer Switches",
+   "how": "Hardcode the 3 live offers into high-traffic calculator result sidebars.",
    "risk": "low"
   },
   {
    "rank": 2,
    "title": "Deploy FinancialProduct Schema",
-   "how": "Inject JSON-LD schema across all indexable pages to boost rich snippet CTR.",
+   "how": "Inject JSON-LD schema across all 80 calculators using existing metadata.",
    "risk": "low"
   },
   {
    "rank": 3,
-   "title": "Programmatic ACS/BLS Page Generation",
-   "how": "Map ACS median income data to 'Cost of Living in [City]' templates for long-tail traffic.",
+   "title": "Programmatic IRS/BLS Page Generation",
+   "how": "Map IRS SOI data to 'Salary after Tax in [City, State]' template for 5,000+ URLs.",
    "risk": "medium"
   },
   {
    "rank": 4,
-   "title": "Answer-First Block Implementation",
-   "how": "Prepend 2-sentence direct answers to all 116 pages for AEO/GEO optimization.",
+   "title": "AEO Answer-First Block Injection",
+   "how": "Prepend 200-character summary blocks and FAQPage schema to top 100 pages.",
    "risk": "low"
   },
   {
    "rank": 5,
-   "title": "HMDA Data Visualization",
-   "how": "Generate 50 state-level mortgage trend pages using HMDA public datasets.",
+   "title": "HMDA Mortgage Lead-Gen Funnel",
+   "how": "Build programmatic 'Mortgage Rates in [County]' pages using HMDA datasets.",
    "risk": "medium"
   }
  ]
