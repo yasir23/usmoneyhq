@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { ADSENSE_PUB_ID, ADSENSE_ACTIVE, resolveAdUnit } from "../lib/ads";
 
 /**
@@ -20,6 +20,17 @@ import { ADSENSE_PUB_ID, ADSENSE_ACTIVE, resolveAdUnit } from "../lib/ads";
 export default function AdSlot({ id, format = "auto", style }) {
   const unit = ADSENSE_ACTIVE ? resolveAdUnit(id) : "";
 
+  // Pro subscribers ($9/mo) get a genuinely ad-free site. The flag is set on the
+  // fulfillment page and read here, so every slot on all 99 calculators goes quiet.
+  const [pro, setPro] = useState(false);
+  useEffect(() => {
+    try {
+      setPro(window.localStorage.getItem("usmoneyhq_pro") === "1");
+    } catch (e) {
+      setPro(false);
+    }
+  }, []);
+
   useEffect(() => {
     if (!unit) return;
     try {
@@ -29,7 +40,7 @@ export default function AdSlot({ id, format = "auto", style }) {
     }
   }, [unit]);
 
-  if (!unit) return null;
+  if (!unit || pro) return null;
 
   return (
     <div className="ad-slot" style={style}>

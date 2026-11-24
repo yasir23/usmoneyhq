@@ -137,18 +137,24 @@ LICENCE
 
 fs.writeFileSync(path.join(outDir, "DATA-DICTIONARY-SOURCES.txt"), dict);
 
+const toolsSrc = read("lib/tools.ts");
+const toolPaths = [];
+for (const m2 of toolsSrc.matchAll(/path:\s*"(\/[a-z0-9-]+)"/g)) {
+  if (!toolPaths.includes(m2[1])) toolPaths.push(m2[1]);
+}
+
 const bundle = {
   name: "US Money HQ Webmaster Calculator Bundle",
   version: "1.0.0",
   publisher: "https://usmoneyhq.com",
   embed_mode: "iframe",
-  calculators: [
-    { id: "mortgage", path: "/mortgage-calculator", title: "Mortgage Calculator" },
-    { id: "loan", path: "/loan-calculator", title: "Loan Calculator" },
-    { id: "auto-loan", path: "/auto-loan-calculator", title: "Auto Loan Calculator" },
-    { id: "debt-payoff", path: "/debt-payoff-calculator", title: "Debt Payoff Calculator" },
-    { id: "savings", path: "/savings-calculator", title: "Savings Calculator" },
-  ],
+  calculators: toolPaths.map((p) => ({
+    id: p.replace(/^\//, "").replace(/-calculator$/, ""),
+    path: p,
+    title: p.replace(/^\//, "").replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase()),
+    embed_url: "https://usmoneyhq.com" + p + "?embed=1",
+    snippet: '<iframe src="https://usmoneyhq.com' + p + '?embed=1" width="100%" height="720" style="border:0;border-radius:8px" loading="lazy"></iframe>',
+  })),
   snippet: '<iframe src="https://usmoneyhq.com/mortgage-calculator?embed=1" width="100%" height="720" style="border:0;border-radius:8px" loading="lazy" title="Mortgage Calculator"></iframe>',
   licence: "Single-domain commercial licence. Remove this bundle from any domain you stop operating.",
 };

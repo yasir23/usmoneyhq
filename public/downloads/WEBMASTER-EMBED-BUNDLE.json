@@ -3,33 +3,7 @@
   "version": "1.0.0",
   "publisher": "https://usmoneyhq.com",
   "embed_mode": "iframe",
-  "calculators": [
-    {
-      "id": "mortgage",
-      "path": "/mortgage-calculator",
-      "title": "Mortgage Calculator"
-    },
-    {
-      "id": "loan",
-      "path": "/loan-calculator",
-      "title": "Loan Calculator"
-    },
-    {
-      "id": "auto-loan",
-      "path": "/auto-loan-calculator",
-      "title": "Auto Loan Calculator"
-    },
-    {
-      "id": "debt-payoff",
-      "path": "/debt-payoff-calculator",
-      "title": "Debt Payoff Calculator"
-    },
-    {
-      "id": "savings",
-      "path": "/savings-calculator",
-      "title": "Savings Calculator"
-    }
-  ],
+  "calculators": [],
   "snippet": "<iframe src=\"https://usmoneyhq.com/mortgage-calculator?embed=1\" width=\"100%\" height=\"720\" style=\"border:0;border-radius:8px\" loading=\"lazy\" title=\"Mortgage Calculator\"></iframe>",
   "licence": "Single-domain commercial licence. Remove this bundle from any domain you stop operating."
 }
