@@ -139,8 +139,9 @@ fs.writeFileSync(path.join(outDir, "DATA-DICTIONARY-SOURCES.txt"), dict);
 
 const toolsSrc = read("lib/tools.ts");
 const toolPaths = [];
-for (const m2 of toolsSrc.matchAll(/path:\s*"(\/[a-z0-9-]+)"/g)) {
-  if (!toolPaths.includes(m2[1])) toolPaths.push(m2[1]);
+for (const m2 of toolsSrc.matchAll(/slug:\\s*"([a-z0-9-]+-calculator)"/g)) {
+  const p = "/" + m2[1];
+  if (!toolPaths.includes(p)) toolPaths.push(p);
 }
 
 const bundle = {
@@ -174,7 +175,7 @@ Support: hello@usmoneyhq.com
 `;
 fs.writeFileSync(path.join(outDir, "WEBMASTER-INSTALL.txt"), install);
 
-console.log(`wrote ${rows.length} jurisdictions`);
+console.log(`wrote ${rows.length} jurisdictions, ${toolPaths.length} calculators`);
 for (const f of fs.readdirSync(outDir)) {
   console.log("  public/downloads/" + f + "  " + fs.statSync(path.join(outDir, f)).size + " bytes");
 }

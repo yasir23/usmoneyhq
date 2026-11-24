@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import Head from "next/head";
 import Link from "next/link";
 import AdSlot from "./AdSlot";
@@ -145,6 +146,17 @@ export function serpDesc(text: string): string {
 
 export default function ToolPageShell({ slug, stateSlug, amountSlug, metroSlug, ageSlug, country }: { slug: string; stateSlug?: string; amountSlug?: string; metroSlug?: string; ageSlug?: string; country?: string }) {
   const isUS = (country || "").toUpperCase() === "US";
+
+  // ?embed=1 renders this page as a bare widget for the $99 webmaster bundle:
+  // chrome, ads and long prose are hidden, the calculator stays interactive.
+  const [isEmbed, setIsEmbed] = useState(false);
+  useEffect(() => {
+    try {
+      setIsEmbed(new URLSearchParams(window.location.search).get("embed") === "1");
+    } catch (e) {
+      setIsEmbed(false);
+    }
+  }, []);
 
   // Is this page a variant of a base tool, rather than a tool in its own right?
   //
@@ -333,6 +345,13 @@ export default function ToolPageShell({ slug, stateSlug, amountSlug, metroSlug, 
 
   return (
     <>
+      {isEmbed && (
+        <style>{`
+          header, footer, nav, .ad-slot, .breadcrumbs, .site-header,
+          .tool-prose, .faq, .related-tools { display: none !important; }
+          body { background: #fff; }
+        `}</style>
+      )}
       <Head>
         <title>{pageTitle}</title>
         <meta name="description" content={pageDesc} />
