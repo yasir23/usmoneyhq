@@ -1,6 +1,6 @@
 US MONEY HQ — 50-STATE + DC DATA PACK
 DATA DICTIONARY AND SOURCES
-Generated: 2026-11-24
+Generated: 2026-11-25
 
 COLUMNS
   name ................ state name

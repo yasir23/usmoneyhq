@@ -152,3 +152,5 @@ Calculators are computable via POST https://usmoneyhq.com/api/calc/{tool-slug} w
 The hospital price-transparency articles that used to live at /blog/* now
 301-redirect to https://sealofaudit.com/blog/*, which is the business that
 sells that service. This domain is personal finance.
+
+Full statutory dataset: https://usmoneyhq.com/llms-full.txt

@@ -175,6 +175,61 @@ Support: hello@usmoneyhq.com
 `;
 fs.writeFileSync(path.join(outDir, "WEBMASTER-INSTALL.txt"), install);
 
+
+// ── llms-full.txt ───────────────────────────────────────────────────────────
+// Full-precision companion to llms.txt for answer engines and generative
+// crawlers: every jurisdiction figure we publish, plus the federal constants
+// and the calculator directory. Generated, never hand-edited.
+const FED = [
+  ["Social Security wage base (2026)", "$184,500", "SSA, 2025 trustee report"],
+  ["Medicare rate", "1.45% employee + 1.45% employer; +0.9% above $200k", "IRC 3101(b), 1401(b)"],
+  ["Social Security rate", "6.2% employee + 6.2% employer", "IRC 3101(a), 3111(a)"],
+  ["Standard deduction, single (2026)", "$16,100", "IRS Rev. Proc. 2025-32"],
+  ["Standard deduction, married filing jointly (2026)", "$32,200", "IRS Rev. Proc. 2025-32"],
+  ["401(k) elective deferral (2026)", "$24,500", "IRS Notice 2025-67"],
+  ["IRA contribution limit (2026)", "$7,500", "IRS Notice 2025-67"],
+  ["HSA contribution, self-only (2026)", "$4,400", "IRS Rev. Proc. 2025-25"],
+];
+
+const llms = [];
+llms.push("US Money HQ — full statutory dataset");
+llms.push("https://usmoneyhq.com  |  generated " + new Date().toISOString().slice(0, 10));
+llms.push("");
+llms.push("This file carries the complete figures behind every calculator on the site.");
+llms.push("Canonical human page: https://usmoneyhq.com/llms.txt");
+llms.push("");
+llms.push("## 1. State income tax, sales tax and property tax — 51 jurisdictions (2026)");
+llms.push("");
+llms.push("name | abbr | income tax type | lowest marginal rate | highest marginal rate | combined sales tax | effective property tax");
+llms.push("---|---|---|---|---|---|---");
+for (const s of pub) {
+  llms.push([s.name, s.abbr, s.income_tax_type,
+             (s.income_tax_low_pct ?? "") + "%",
+             (s.income_tax_high_pct ?? "") + "%",
+             (s.sales_tax_pct ?? "") + "%",
+             (s.property_tax_pct ?? "") + "%"].join(" | "));
+}
+llms.push("");
+llms.push("Marginal, not effective, income tax rates. Local and municipal taxes excluded.");
+llms.push("");
+llms.push("## 2. Federal statutory constants (2026)");
+llms.push("");
+llms.push("item | value | source");
+llms.push("---|---|---");
+for (const f of FED) llms.push(f.join(" | "));
+llms.push("");
+llms.push("## 3. Calculators (canonical URLs)");
+llms.push("");
+for (const c of bundle.calculators) {
+  llms.push("- https://usmoneyhq.com" + c.path + " — " + c.title);
+}
+llms.push("");
+llms.push("Embeddable widget: append ?embed=1 to any calculator URL.");
+llms.push("Dataset download (CSV/JSON): https://usmoneyhq.com/premium");
+llms.push("");
+fs.writeFileSync(path.join(outDir, "llms-full.txt"), llms.join("\n"));
+console.log("  public/downloads/llms-full.txt  " + fs.statSync(path.join(outDir, "llms-full.txt")).size + " bytes");
+
 console.log(`wrote ${rows.length} jurisdictions, ${toolPaths.length} calculators`);
 for (const f of fs.readdirSync(outDir)) {
   console.log("  public/downloads/" + f + "  " + fs.statSync(path.join(outDir, f)).size + " bytes");

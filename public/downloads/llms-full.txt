@@ -1,0 +1,187 @@
+US Money HQ — full statutory dataset
+https://usmoneyhq.com  |  generated 2026-11-25
+
+This file carries the complete figures behind every calculator on the site.
+Canonical human page: https://usmoneyhq.com/llms.txt
+
+## 1. State income tax, sales tax and property tax — 51 jurisdictions (2026)
+
+name | abbr | income tax type | lowest marginal rate | highest marginal rate | combined sales tax | effective property tax
+---|---|---|---|---|---|---
+Alabama | AL | progressive | 2% | 5% | 9.22% | 0.41%
+Alaska | AK | none | 0% | 0% | 1.76% | 1.06%
+Arizona | AZ | progressive | 2.5% | 4.5% | 8.4% | 0.56%
+Arkansas | AR | progressive | 2% | 4.9% | 9.48% | 0.56%
+California | CA | progressive | 1% | 13.3% | 8.82% | 0.72%
+Colorado | CO | flat | 4.4% | 4.4% | 7.77% | 0.52%
+Connecticut | CT | progressive | 3% | 6.99% | 6.35% | 2.14%
+Delaware | DE | progressive | 2.2% | 6.6% | 0% | 0.55%
+Florida | FL | none | 0% | 0% | 7.01% | 0.83%
+Georgia | GA | progressive | 1% | 5.75% | 7.35% | 0.87%
+Hawaii | HI | progressive | 1.4% | 11% | 4.44% | 0.29%
+Idaho | ID | flat | 5.8% | 5.8% | 6.02% | 0.7%
+Illinois | IL | flat | 4.95% | 4.95% | 8.82% | 2.08%
+Indiana | IN | flat | 3.05% | 3.05% | 7% | 0.81%
+Iowa | IA | progressive | 4.4% | 5.7% | 6.94% | 1.14%
+Kansas | KS | progressive | 3.1% | 5.7% | 8.7% | 1.27%
+Kentucky | KY | flat | 4.5% | 4.5% | 6% | 0.83%
+Louisiana | LA | progressive | 1.85% | 4.25% | 9.55% | 0.52%
+Maine | ME | progressive | 5.8% | 7.15% | 5.5% | 1.19%
+Maryland | MD | progressive | 2% | 5.75% | 6% | 1.02%
+Massachusetts | MA | flat | 5% | 5% | 6.25% | 1.09%
+Michigan | MI | flat | 4.25% | 4.25% | 6% | 1.31%
+Minnesota | MN | progressive | 5.35% | 9.85% | 7.49% | 1%
+Mississippi | MS | progressive | 4% | 5% | 7.07% | 0.66%
+Missouri | MO | progressive | 2% | 5.3% | 8.1% | 0.93%
+Montana | MT | progressive | 4.7% | 5.9% | 0% | 0.74%
+Nebraska | NE | progressive | 2.46% | 6.64% | 6.94% | 1.53%
+Nevada | NV | none | 0% | 0% | 8.23% | 0.54%
+New Hampshire | NH | none | 0% | 0% | 0% | 1.86%
+New Jersey | NJ | progressive | 1.4% | 10.75% | 6.6% | 2.23%
+New Mexico | NM | progressive | 1.7% | 5.9% | 7.6% | 0.65%
+New York | NY | progressive | 4% | 10.9% | 8.52% | 1.4%
+North Carolina | NC | flat | 4.25% | 4.25% | 6.98% | 0.75%
+North Dakota | ND | progressive | 1.95% | 2.5% | 6.96% | 0.95%
+Ohio | OH | progressive | 2.75% | 3.5% | 7.18% | 1.48%
+Oklahoma | OK | progressive | 0.25% | 4.75% | 8.97% | 0.82%
+Oregon | OR | progressive | 4.75% | 9.9% | 0% | 0.93%
+Pennsylvania | PA | flat | 3.07% | 3.07% | 6.34% | 1.49%
+Rhode Island | RI | progressive | 3.75% | 5.99% | 7% | 1.43%
+South Carolina | SC | progressive | 0% | 6.4% | 7.44% | 0.55%
+South Dakota | SD | none | 0% | 0% | 6.4% | 1.21%
+Tennessee | TN | none | 0% | 0% | 9.55% | 0.58%
+Texas | TX | none | 0% | 0% | 8.19% | 1.6%
+Utah | UT | flat | 4.55% | 4.55% | 6.77% | 0.55%
+Vermont | VT | progressive | 3.35% | 8.75% | 6.24% | 1.76%
+Virginia | VA | progressive | 2% | 5.75% | 5.65% | 0.79%
+Washington | WA | none | 0% | 0% | 9.29% | 0.87%
+Washington D.C. | DC | progressive | 4% | 10.75% | 6% | 0.55%
+West Virginia | WV | progressive | 2.36% | 6.5% | 6.49% | 0.54%
+Wisconsin | WI | progressive | 3.54% | 7.65% | 5.43% | 1.64%
+Wyoming | WY | none | 0% | 0% | 5.34% | 0.57%
+
+Marginal, not effective, income tax rates. Local and municipal taxes excluded.
+
+## 2. Federal statutory constants (2026)
+
+item | value | source
+---|---|---
+Social Security wage base (2026) | $184,500 | SSA, 2025 trustee report
+Medicare rate | 1.45% employee + 1.45% employer; +0.9% above $200k | IRC 3101(b), 1401(b)
+Social Security rate | 6.2% employee + 6.2% employer | IRC 3101(a), 3111(a)
+Standard deduction, single (2026) | $16,100 | IRS Rev. Proc. 2025-32
+Standard deduction, married filing jointly (2026) | $32,200 | IRS Rev. Proc. 2025-32
+401(k) elective deferral (2026) | $24,500 | IRS Notice 2025-67
+IRA contribution limit (2026) | $7,500 | IRS Notice 2025-67
+HSA contribution, self-only (2026) | $4,400 | IRS Rev. Proc. 2025-25
+
+## 3. Calculators (canonical URLs)
+
+- https://usmoneyhq.com/mortgage-calculator — Mortgage Calculator
+- https://usmoneyhq.com/auto-loan-calculator — Auto Loan Calculator
+- https://usmoneyhq.com/salary-after-tax-calculator — Salary After Tax Calculator
+- https://usmoneyhq.com/paycheck-calculator — Paycheck Calculator
+- https://usmoneyhq.com/debt-payoff-calculator — Debt Payoff Calculator
+- https://usmoneyhq.com/dti-calculator — Dti Calculator
+- https://usmoneyhq.com/pmi-calculator — Pmi Calculator
+- https://usmoneyhq.com/heloc-calculator — Heloc Calculator
+- https://usmoneyhq.com/refinance-calculator — Refinance Calculator
+- https://usmoneyhq.com/retirement-calculator — Retirement Calculator
+- https://usmoneyhq.com/tax-calculator — Tax Calculator
+- https://usmoneyhq.com/credit-card-payoff-calculator — Credit Card Payoff Calculator
+- https://usmoneyhq.com/child-support-calculator — Child Support Calculator
+- https://usmoneyhq.com/concrete-calculator — Concrete Calculator
+- https://usmoneyhq.com/tdee-calculator — Tdee Calculator
+- https://usmoneyhq.com/water-intake-calculator — Water Intake Calculator
+- https://usmoneyhq.com/sleep-calculator — Sleep Calculator
+- https://usmoneyhq.com/body-fat-calculator — Body Fat Calculator
+- https://usmoneyhq.com/paint-calculator — Paint Calculator
+- https://usmoneyhq.com/mulch-calculator — Mulch Calculator
+- https://usmoneyhq.com/salary-percentile-calculator — Salary Percentile Calculator
+- https://usmoneyhq.com/home-affordability-calculator — Home Affordability Calculator
+- https://usmoneyhq.com/gpa-calculator — Gpa Calculator
+- https://usmoneyhq.com/due-date-calculator — Due Date Calculator
+- https://usmoneyhq.com/grade-calculator — Grade Calculator
+- https://usmoneyhq.com/percentage-calculator — Percentage Calculator
+- https://usmoneyhq.com/compound-interest-calculator — Compound Interest Calculator
+- https://usmoneyhq.com/cd-calculator — Cd Calculator
+- https://usmoneyhq.com/overtime-calculator — Overtime Calculator
+- https://usmoneyhq.com/tip-calculator — Tip Calculator
+- https://usmoneyhq.com/student-loan-calculator — Student Loan Calculator
+- https://usmoneyhq.com/loan-calculator — Loan Calculator
+- https://usmoneyhq.com/savings-goal-calculator — Savings Goal Calculator
+- https://usmoneyhq.com/net-worth-calculator — Net Worth Calculator
+- https://usmoneyhq.com/hourly-to-salary-calculator — Hourly To Salary Calculator
+- https://usmoneyhq.com/gas-cost-calculator — Gas Cost Calculator
+- https://usmoneyhq.com/square-footage-calculator — Square Footage Calculator
+- https://usmoneyhq.com/electricity-cost-calculator — Electricity Cost Calculator
+- https://usmoneyhq.com/bmi-calculator — Bmi Calculator
+- https://usmoneyhq.com/simple-interest-calculator — Simple Interest Calculator
+- https://usmoneyhq.com/budget-calculator — Budget Calculator
+- https://usmoneyhq.com/discount-calculator — Discount Calculator
+- https://usmoneyhq.com/sales-tax-calculator — Sales Tax Calculator
+- https://usmoneyhq.com/inflation-calculator — Inflation Calculator
+- https://usmoneyhq.com/miles-per-gallon-calculator — Miles Per Gallon Calculator
+- https://usmoneyhq.com/rent-vs-buy-calculator — Rent Vs Buy Calculator
+- https://usmoneyhq.com/401k-calculator — 401k Calculator
+- https://usmoneyhq.com/emergency-fund-calculator — Emergency Fund Calculator
+- https://usmoneyhq.com/closing-costs-calculator — Closing Costs Calculator
+- https://usmoneyhq.com/car-affordability-calculator — Car Affordability Calculator
+- https://usmoneyhq.com/dividend-calculator — Dividend Calculator
+- https://usmoneyhq.com/property-tax-calculator — Property Tax Calculator
+- https://usmoneyhq.com/capital-gains-calculator — Capital Gains Calculator
+- https://usmoneyhq.com/salary-to-hourly-calculator — Salary To Hourly Calculator
+- https://usmoneyhq.com/amortization-schedule-calculator — Amortization Schedule Calculator
+- https://usmoneyhq.com/roi-calculator — Roi Calculator
+- https://usmoneyhq.com/markup-calculator — Markup Calculator
+- https://usmoneyhq.com/margin-calculator — Margin Calculator
+- https://usmoneyhq.com/529-calculator — 529 Calculator
+- https://usmoneyhq.com/home-equity-calculator — Home Equity Calculator
+- https://usmoneyhq.com/tax-bracket-calculator — Tax Bracket Calculator
+- https://usmoneyhq.com/investment-calculator — Investment Calculator
+- https://usmoneyhq.com/rule-of-72-calculator — Rule Of 72 Calculator
+- https://usmoneyhq.com/salary-raise-calculator — Salary Raise Calculator
+- https://usmoneyhq.com/social-security-calculator — Social Security Calculator
+- https://usmoneyhq.com/debt-snowball-calculator — Debt Snowball Calculator
+- https://usmoneyhq.com/lease-vs-buy-calculator — Lease Vs Buy Calculator
+- https://usmoneyhq.com/mortgage-points-calculator — Mortgage Points Calculator
+- https://usmoneyhq.com/price-per-square-foot-calculator — Price Per Square Foot Calculator
+- https://usmoneyhq.com/construction-cost-calculator — Construction Cost Calculator
+- https://usmoneyhq.com/calorie-deficit-calculator — Calorie Deficit Calculator
+- https://usmoneyhq.com/loan-comparison-calculator — Loan Comparison Calculator
+- https://usmoneyhq.com/savings-rate-calculator — Savings Rate Calculator
+- https://usmoneyhq.com/tax-refund-calculator — Tax Refund Calculator
+- https://usmoneyhq.com/stock-profit-calculator — Stock Profit Calculator
+- https://usmoneyhq.com/investment-property-calculator — Investment Property Calculator
+- https://usmoneyhq.com/escrow-calculator — Escrow Calculator
+- https://usmoneyhq.com/commission-calculator — Commission Calculator
+- https://usmoneyhq.com/rmd-calculator — Rmd Calculator
+- https://usmoneyhq.com/savings-bonds-calculator — Savings Bonds Calculator
+- https://usmoneyhq.com/tile-calculator — Tile Calculator
+- https://usmoneyhq.com/fence-calculator — Fence Calculator
+- https://usmoneyhq.com/gravel-calculator — Gravel Calculator
+- https://usmoneyhq.com/topsoil-calculator — Topsoil Calculator
+- https://usmoneyhq.com/carpet-calculator — Carpet Calculator
+- https://usmoneyhq.com/wallpaper-calculator — Wallpaper Calculator
+- https://usmoneyhq.com/sod-calculator — Sod Calculator
+- https://usmoneyhq.com/drywall-calculator — Drywall Calculator
+- https://usmoneyhq.com/heart-rate-calculator — Heart Rate Calculator
+- https://usmoneyhq.com/percentage-change-calculator — Percentage Change Calculator
+- https://usmoneyhq.com/how-long-will-my-money-last-calculator — How Long Will My Money Last Calculator
+- https://usmoneyhq.com/moving-cost-calculator — Moving Cost Calculator
+- https://usmoneyhq.com/life-insurance-needs-calculator — Life Insurance Needs Calculator
+- https://usmoneyhq.com/home-remodel-cost-calculator — Home Remodel Cost Calculator
+- https://usmoneyhq.com/date-calculator — Date Calculator
+- https://usmoneyhq.com/time-duration-calculator — Time Duration Calculator
+- https://usmoneyhq.com/mileage-reimbursement-calculator — Mileage Reimbursement Calculator
+- https://usmoneyhq.com/retirement-age-calculator — Retirement Age Calculator
+- https://usmoneyhq.com/break-even-calculator — Break Even Calculator
+- https://usmoneyhq.com/take-home-pay-calculator — Take Home Pay Calculator
+- https://usmoneyhq.com/personal-loan-calculator — Personal Loan Calculator
+- https://usmoneyhq.com/self-employment-tax-calculator — Self Employment Tax Calculator
+- https://usmoneyhq.com/fha-mortgage-calculator — Fha Mortgage Calculator
+- https://usmoneyhq.com/va-mortgage-calculator — Va Mortgage Calculator
+- https://usmoneyhq.com/401k-contribution-calculator — 401k Contribution Calculator
+
+Embeddable widget: append ?embed=1 to any calculator URL.
+Dataset download (CSV/JSON): https://usmoneyhq.com/premium

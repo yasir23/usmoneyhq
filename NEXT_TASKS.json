@@ -1,50 +1,50 @@
 {
  "blockers": [
   {
-   "id": "AD_NETWORK_APPROVAL",
-   "why": "AdSense rejection and zero filled units prevent display revenue scaling.",
-   "ask": "Manual application to Ezoic or Mediavine using current traffic data."
+   "id": "ADSENSE_REAPPLY",
+   "why": "AdSense rejection blocks primary revenue stream and ad unit fill.",
+   "ask": "Review rejection reason in AdSense console and fix policy violations."
   },
   {
-   "id": "AFFILIATE_LINK_INJECTION",
-   "why": "21 available offers are not integrated into the 116 indexable pages.",
-   "ask": "Mapping of offer IDs to specific high-intent calculator result pages."
+   "id": "AFFILIATE_ACTIVATION",
+   "why": "21 offers are inactive, resulting in zero conversion potential.",
+   "ask": "Provide API keys or tracking IDs for the 21 pending affiliate offers."
   },
   {
    "id": "DATASET_MAPPING",
-   "why": "Programmatic scaling requires specific local-level join keys for ACS/BLS data.",
-   "ask": "Selection of 5 primary target niches (e.g., 'Cost of Living by Zip') for template generation."
+   "why": "Programmatic scaling requires specific local/niche targets from public data.",
+   "ask": "Select top 3 priority datasets (e.g., HMDA for mortgages, BLS for salaries)."
   }
  ],
  "tasks": [
   {
    "rank": 1,
-   "title": "Hardcode Affiliate CTA Blocks",
-   "how": "Inject the 3 live offers into top 10 traffic-performing calculator sidebars.",
+   "title": "Hardcode Affiliate CTAs",
+   "how": "Inject the 3 live offers into the top 10 high-traffic calculator sidebars.",
    "risk": "low"
   },
   {
    "rank": 2,
    "title": "Deploy FinancialProduct Schema",
-   "how": "Automate JSON-LD generation for all 80 calculators using existing metadata.",
+   "how": "Map calculator outputs to FinancialProduct and FAQPage JSON-LD templates.",
    "risk": "low"
   },
   {
    "rank": 3,
-   "title": "Generate Long-Tail ACS Pages",
-   "how": "Script 1,000+ pages using ACS median income data by US County.",
+   "title": "Generate ACS/BLS Long-Tail Pages",
+   "how": "Script 5,000 pages using 'Cost of Living in [City]' via ACS/BLS data.",
    "risk": "medium"
   },
   {
    "rank": 4,
-   "title": "Answer-First Block Injection",
-   "how": "Prepend 2-sentence 'Direct Answer' divs to all 116 indexable articles.",
+   "title": "Implement Answer-First Blocks",
+   "how": "Prepend 200-character direct answers to all 116 indexable pages.",
    "risk": "low"
   },
   {
    "rank": 5,
-   "title": "Sync IndexNow API",
-   "how": "Trigger POST requests for all new programmatic URLs to Bing/Yandex.",
+   "title": "Configure llms.txt for AEO",
+   "how": "Populate /llms.txt with markdown summaries of all calculators and data tools.",
    "risk": "low"
   }
  ]
