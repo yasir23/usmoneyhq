@@ -345,6 +345,16 @@ export default function ToolPageShell({ slug, stateSlug, amountSlug, metroSlug, 
 
   return (
     <>
+
+      {!isEmbed && (
+        <p style={{ margin: "18px 0 0", fontSize: 13, lineHeight: 1.55 }}>
+          <a href="/premium" style={{ fontWeight: 600 }}>
+            &#128202; Research &amp; Webmasters: Download the 2026 51-jurisdiction statutory tax
+            dataset (CSV/JSON) or embed this calculator on your site &rarr; Data Pack &amp;
+            Webmaster Embeds (/premium)
+          </a>
+        </p>
+      )}
       {isEmbed && (
         <style>{`
           header, footer, nav, .ad-slot, .breadcrumbs, .site-header,

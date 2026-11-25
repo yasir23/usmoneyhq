@@ -1,3 +1,5 @@
+import { getState } from "../lib/states";
+import { STATE_INCOME_TAX } from "../lib/stateRates";
 import { useState, useEffect } from "react";
 import Head from "next/head";
 import Link from "next/link";
@@ -67,6 +69,95 @@ function WelcomeBox() {
   );
 }
 
+
+// Server-rendered statutory reference table. Every figure is read from the same
+// files the calculators use (lib/states.ts + lib/stateRates.ts), so this page
+// cannot drift from the dataset it advertises. Five sample jurisdictions, with
+// the remaining 46 available in the paid pack.
+const SAMPLE_STATES = ["california", "texas", "new-york", "florida", "washington"];
+
+function DatasetTable() {
+  const rows = SAMPLE_STATES.map((slug) => {
+    const st = getState(slug);
+    if (!st) return null;
+    const rate = STATE_INCOME_TAX[st.abbr] || { low: 0, high: 0 };
+    return {
+      name: st.name,
+      abbr: st.abbr,
+      type: st.incomeTax,
+      band: st.incomeTax === "none"
+        ? "no state income tax"
+        : rate.low === rate.high
+          ? rate.low + "% flat"
+          : rate.low + "% \u2013 " + rate.high + "%",
+      sales: st.salesTax + "%",
+      prop: st.propTaxPct + "%",
+      note: st.incomeTaxNote,
+    };
+  }).filter(Boolean);
+
+  const schema = {
+    "@context": "https://schema.org",
+    "@type": "Dataset",
+    name: "2026 US State Statutory Tax Dataset (51 jurisdictions)",
+    description: "State income tax structure and marginal rate bands, combined state and local sales tax rates, and effective property tax rates for all 50 US states and the District of Columbia, 2026.",
+    url: "https://usmoneyhq.com/premium",
+    creator: { "@type": "Organization", name: "US Money HQ", url: "https://usmoneyhq.com" },
+    temporalCoverage: "2026",
+    spatialCoverage: "United States",
+    isAccessibleForFree: false,
+    variableMeasured: [
+      "State income tax type",
+      "Marginal income tax rate band",
+      "Combined state and local sales tax rate",
+      "Effective property tax rate",
+    ],
+  };
+
+  return (
+    <section style={{ margin: "0 0 34px" }}>
+      <script type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }} />
+      <h2 style={{ fontSize: 20, margin: "0 0 6px" }}>2026 statutory tax &amp; rate reference</h2>
+      <p style={{ margin: "0 0 12px", fontSize: 14, lineHeight: 1.55 }}>
+        The exact figures our calculators compute with, published as primary data rather than
+        prose. Five jurisdictions shown; the full set of 51 is in the downloadable dataset.
+      </p>
+      <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 14 }}>
+        <thead>
+          <tr>
+            <th style={{ textAlign: "left", border: "1px solid #d8e0db", background: "#f2f7f4", padding: "8px" }}>State</th>
+            <th style={{ textAlign: "left", border: "1px solid #d8e0db", background: "#f2f7f4", padding: "8px" }}>Income tax structure</th>
+            <th style={{ textAlign: "left", border: "1px solid #d8e0db", background: "#f2f7f4", padding: "8px" }}>Marginal band</th>
+            <th style={{ textAlign: "left", border: "1px solid #d8e0db", background: "#f2f7f4", padding: "8px" }}>Combined sales tax</th>
+            <th style={{ textAlign: "left", border: "1px solid #d8e0db", background: "#f2f7f4", padding: "8px" }}>Effective property tax</th>
+          </tr>
+        </thead>
+        <tbody>
+          {rows.map((r) => (
+            <tr key={r.abbr}>
+              <td style={{ border: "1px solid #d8e0db", padding: "8px" }}>{r.name} ({r.abbr})</td>
+              <td style={{ border: "1px solid #d8e0db", padding: "8px" }}>{r.type}</td>
+              <td style={{ border: "1px solid #d8e0db", padding: "8px" }}>{r.band}</td>
+              <td style={{ border: "1px solid #d8e0db", padding: "8px" }}>{r.sales}</td>
+              <td style={{ border: "1px solid #d8e0db", padding: "8px" }}>{r.prop}</td>
+            </tr>
+          ))}
+          <tr>
+            <td colSpan={5} style={{ border: "1px solid #d8e0db", padding: "10px", background: "#f7faf8", fontWeight: 600 }}>
+              + 46 More States &amp; DC in Full 2026 Statutory CSV + JSON Dataset ($29)
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <p style={{ margin: "8px 0 0", fontSize: 12, color: "#4a5852" }}>
+        Marginal rates, not effective rates. Local and municipal taxes excluded. Sources and
+        update dates are in the dataset&apos;s data dictionary.
+      </p>
+    </section>
+  );
+}
+
 export default function PremiumPage() {
   const shopReady = !!WHOP_SHOP_URL;
   const counts = siteCounts();
@@ -125,6 +216,7 @@ export default function PremiumPage() {
 
       <main className="container">
         <WelcomeBox />
+        <DatasetTable />
         <nav className="breadcrumbs"><Link href="/">Home</Link> <span aria-hidden="true">›</span> <span>Premium</span></nav>
         <h1>Go Premium — Support {SITE_NAME}</h1>
         <p className="sub">The calculators stay free forever. Premium unlocks the power features — and keeps the lights on.</p>
