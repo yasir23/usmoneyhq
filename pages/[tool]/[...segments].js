@@ -3,6 +3,7 @@ import { getTool } from "../../lib/tools";
 import { getState, getComparisonPair, STATE_AWARE_TOOLS } from "../../lib/states";
 import { allowedAmounts, allowedAges, ageFromSlug, amountFromSlug } from "../../lib/amounts";
 import { getMetro } from "../../lib/metros";
+import { VARIANT_PAGES_INDEXED } from "../../lib/indexing";
 
 /**
  * Variant route: /[tool]/[...segments] — handles every variant shape:
@@ -14,6 +15,14 @@ import { getMetro } from "../../lib/metros";
  * Server-side validation: invalid combos return a REAL 404 (not 200).
  */
 export async function getServerSideProps({ params, req }) {
+  // Variant pages are switched off: they are 83.7-99.6% identical to their base
+  // tool and were the cause of the "low value content" rejection. Returning 404
+  // (not 200 + noindex) is deliberate — Googlebot lost the internal links to
+  // these paths, so a noindex tag would wait for a crawl that never comes,
+  // while a 404 is dropped as soon as the URL is next fetched.
+  if (!VARIANT_PAGES_INDEXED) {
+    return { notFound: true };
+  }
   const slug = String(params.tool || "");
   const segs = (params.segments || []).map(String);
   const tool = getTool(slug);
