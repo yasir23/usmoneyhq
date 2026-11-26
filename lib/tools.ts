@@ -1066,7 +1066,7 @@ export const TOOLS: ToolDef[] = [
     faq: [
       { q: "How much area does a gallon cover?", a: "A gallon of interior paint covers roughly 350-400 sq ft per coat on smooth, primed walls." },
       { q: "Why two coats?", a: "Two coats give even color and better durability. Dark colors and dramatic color changes often need three." },
-      { q: "Does this include the ceiling?", a: "No — it measures walls only, minus 20 sq ft per door and 15 sq ft per window, which is the 366 sq ft shown above on the defaults of a 14 by 12 ft room with an 8 ft ceiling. The ceiling is the room's length times its width, so those defaults add 168 sq ft. Ceilings normally take the same two coats in the same product, so add the area before dividing: 366 + 168 = 534 sq ft, and 534 x 2 / 350 = 3.05, which rounds up to 4 gallons instead of the 3 the walls alone need. Buy ceiling paint in its own can only if it is a different colour or sheen from the walls; otherwise it is one quantity." },
+      { q: "Does this include the ceiling?", a: "No — it measures walls only, minus 20 sq ft per door and 15 sq ft per window, which is the 366 sq ft shown above on the defaults of a 14 by 12 ft room with an 8 ft ceiling. The ceiling is the room's length times its width, so those defaults add 168 sq ft. Ceilings normally take the same two coats in the same product, so add the area before dividing: 366 + 168 = 534 sq ft, and 534 x 2 / 350 = 3.05, which rounds up to 4 gallons instead of the 3 the walls alone need. Buy ceiling paint in its own can only if it is a different color or sheen from the walls; otherwise it is one quantity." },
     ],
     related: ["concrete-calculator", "mulch-calculator", "mortgage-calculator"],
   },

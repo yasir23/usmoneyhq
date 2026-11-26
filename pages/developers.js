@@ -217,7 +217,7 @@ POST ${SITE_URL}/api/calc/mortgage-calculator
             Use is free for personal and internal business purposes. Quoting a result with
             attribution and a link back is welcome. Republishing the calculator content in bulk,
             or embedding the calculators on a commercial or client site, needs the commercial
-            licence included with the <Link href="/premium">Webmaster Bundle</Link> — see the{" "}
+            license included with the <Link href="/premium">Webmaster Bundle</Link> — see the{" "}
             <Link href="/terms">Terms of Use</Link>.
           </p>
           <p>

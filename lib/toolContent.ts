@@ -42,7 +42,7 @@ export type ToolContent = {
   mechanics: { title: string; body: string }[];
   /** A worked example whose arithmetic the reader can check. */
   example: { title: string; setup: string; rows: WorkedRow[]; conclusion: string };
-  /** Errors that produce a wrong answer, not errors of judgement. */
+  /** Errors that produce a wrong answer, not errors of judgment. */
   mistakes: { title: string; body: string }[];
 };
 
@@ -284,7 +284,7 @@ export const TOOL_CONTENT: Record<string, ToolContent> = {
 
   "cd-calculator": {
     intro:
-      "A CD quote is a yield, not an interest rate, and the two are not interchangeable. Enter an APY into a formula that expects a nominal rate and you compound the compounding — the answer comes out slightly too high, in your favour, which is the kind of error that never gets double-checked.",
+      "A CD quote is a yield, not an interest rate, and the two are not interchangeable. Enter an APY into a formula that expects a nominal rate and you compound the compounding — the answer comes out slightly too high, in your favor, which is the kind of error that never gets double-checked.",
     mechanics: [
       {
         title: "APY already includes the compounding",
@@ -387,7 +387,7 @@ export const TOOL_CONTENT: Record<string, ToolContent> = {
       },
       {
         title: "Why the months multiplier varies so much",
-        body: "A household with one income and specialised skills needs more months than one with two incomes in transferable work. The range typically cited runs from three months to twelve. It is a judgement about how long a search would take, not a figure that a calculator can derive for you.",
+        body: "A household with one income and specialised skills needs more months than one with two incomes in transferable work. The range typically cited runs from three months to twelve. It is a judgment about how long a search would take, not a figure that a calculator can derive for you.",
       },
     ],
     example: {
@@ -1254,7 +1254,7 @@ export const TOOL_CONTENT: Record<string, ToolContent> = {
         { label: "In cubic yards at 2 inches", value: "2.469 cu yd", note: "66.67 / 27" },
       ],
       conclusion:
-        "Dropping from 3 inches to 2 cuts the order from 3.70 cubic yards to 2.47, a third less material for a depth still within the range usually recommended. Since the correct depth is a judgement about the planting rather than a fixed rule, deciding it deliberately rather than defaulting to the deepest option is what makes the quantity right.",
+        "Dropping from 3 inches to 2 cuts the order from 3.70 cubic yards to 2.47, a third less material for a depth still within the range usually recommended. Since the correct depth is a judgment about the planting rather than a fixed rule, deciding it deliberately rather than defaulting to the deepest option is what makes the quantity right.",
     },
     mistakes: [
       {
@@ -2554,7 +2554,7 @@ export const TOOL_CONTENT: Record<string, ToolContent> = {
 
   "rent-vs-buy-calculator": {
     intro:
-      "The comparison is not rent against a mortgage payment. It is the total cost of each path over the years you intend to stay, which for a short stay can favour renting by a wide margin.",
+      "The comparison is not rent against a mortgage payment. It is the total cost of each path over the years you intend to stay, which for a short stay can favor renting by a wide margin.",
     mechanics: [
       {
         title: "Buying costs more than the payment",
@@ -3941,11 +3941,11 @@ export const TOOL_CONTENT: Record<string, ToolContent> = {
       },
       {
         title: "The quoted coverage is optimistic",
-        body: "Manufacturer coverage assumes a smooth, sealed, non-porous surface. Bare drywall, rough masonry or a strong colour change all absorb considerably more. At 250 square feet a gallon the same 1,200 square feet needs 9.6 gallons for two coats — nearly three more than the can's own figure suggests.",
+        body: "Manufacturer coverage assumes a smooth, sealed, non-porous surface. Bare drywall, rough masonry or a strong color change all absorb considerably more. At 250 square feet a gallon the same 1,200 square feet needs 9.6 gallons for two coats — nearly three more than the can's own figure suggests.",
       },
       {
         title: "Colour change is the real variable",
-        body: "Going from a dark colour to a light one over a tinted primer, or covering a strong red with a pale neutral, can require three coats rather than two. The arithmetic is unchanged; the multiplier is not. Approximate the number of coats before buying, because the shortfall is always discovered halfway up a wall.",
+        body: "Going from a dark color to a light one over a tinted primer, or covering a strong red with a pale neutral, can require three coats rather than two. The arithmetic is unchanged; the multiplier is not. Approximate the number of coats before buying, because the shortfall is always discovered halfway up a wall.",
       },
     ],
     example: {
@@ -3965,7 +3965,7 @@ export const TOOL_CONTENT: Record<string, ToolContent> = {
     mistakes: [
       {
         title: "Buying for one coat",
-        body: "Almost every surface needs two, and a colour change may need three. The can's coverage figure is per coat and is the most common source of a mid-job shortage.",
+        body: "Almost every surface needs two, and a color change may need three. The can's coverage figure is per coat and is the most common source of a mid-job shortage.",
       },
       {
         title: "Trusting the quoted coverage on a porous wall",
@@ -3973,7 +3973,7 @@ export const TOOL_CONTENT: Record<string, ToolContent> = {
       },
       {
         title: "Forgetting primer",
-        body: "Primer is a separate product with its own coverage, and it is required for bare surfaces and for significant colour changes. It is not part of the paint quantity.",
+        body: "Primer is a separate product with its own coverage, and it is required for bare surfaces and for significant color changes. It is not part of the paint quantity.",
       },
     ],
   },
@@ -4416,7 +4416,7 @@ export const TOOL_CONTENT: Record<string, ToolContent> = {
       },
       {
         title: "Food and other drinks count",
-        body: "A significant share of typical fluid intake comes from food, and all beverages count toward the total including coffee and tea. Guidance expressed as total fluid is therefore not a target for plain water alone. The practical indicators of adequacy are thirst and urine colour rather than a number.",
+        body: "A significant share of typical fluid intake comes from food, and all beverages count toward the total including coffee and tea. Guidance expressed as total fluid is therefore not a target for plain water alone. The practical indicators of adequacy are thirst and urine color rather than a number.",
       },
     ],
     example: {

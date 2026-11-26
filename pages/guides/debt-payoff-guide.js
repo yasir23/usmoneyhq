@@ -84,7 +84,7 @@ export default function DebtPayoffGuide() {
           </table>
           <p>
             Avalanche is cheaper by $1,225 and faster by 1 months. Snowball is not irrational —
-            it clears an account sooner, and the behaviour change from closing one card is real — but
+            it clears an account sooner, and the behavior change from closing one card is real — but
             anyone claiming it is the cheaper method is wrong by the figure above.
           </p>
 

@@ -75,7 +75,7 @@ export default function Contact() {
           <p>If something stops you using a calculator — an input that will not accept a value with a screen reader, a control that needs a mouse, contrast that makes a field unreadable — tell us the page and the browser or assistive technology you were using. We treat that as a bug, not a preference.</p>
 
           <h2>What we cannot help with</h2>
-          <p>We cannot give personal financial, tax, or legal advice, review your individual circumstances, or recommend a specific product, lender, or adviser. The calculators are educational tools; see the <Link href="/terms">Terms of Use</Link>.</p>
+          <p>We cannot give personal financial, tax, or legal advice, review your individual circumstances, or recommend a specific product, lender, or advisor. The calculators are educational tools; see the <Link href="/terms">Terms of Use</Link>.</p>
         </div>
       </main>
     </>

@@ -22,7 +22,7 @@ import { siteCounts } from "../lib/site-counts";
  * cannot fail loudly when the inventory changes underneath it.
  *
  * DEEPENED 2026-10-06 with the questions a buyer actually asks before paying —
- * what the commercial licence covers, what stays free, how billing and
+ * what the commercial license covers, what stays free, how billing and
  * cancellation work. Deliberately did NOT add new feature promises: checkout is
  * not live yet, and a tier that advertises more than it delivers is the same
  * defect class as the stale counts above.
@@ -175,7 +175,7 @@ export default function PremiumPage() {
       a: `Yes. All ${counts.calculators} calculators stay free and need no account, with or without a subscription. Premium adds power features and removes advertising — it does not move anything behind a paywall after the fact.`,
     },
     {
-      q: "What does the commercial licence in the Webmaster Bundle actually cover?",
+      q: "What does the commercial license in the Webmaster Bundle actually cover?",
       a: "It lets you embed the widgets on sites you own and on sites you build for clients, with your own branding, for as long as you like. It does not let you resell or redistribute the widgets themselves as a product, or republish the calculator content in bulk.",
     },
     {
@@ -268,7 +268,7 @@ export default function PremiumPage() {
           <h2>Which one is for you</h2>
           <p><strong>Pro</strong> is for an individual who uses the calculators regularly and wants to compare scenarios side by side without advertising in the way — a household working out a mortgage refi, a retirement date, or a rent-versus-buy decision.</p>
           <p><strong>The State Tax Data Pack</strong> is for someone who needs the underlying numbers, not a calculator: a realtor comparing take-home pay across two states for a relocating client, a tax preparer, or an analyst who wants the table in a spreadsheet.</p>
-          <p><strong>The Webmaster Bundle</strong> is for someone who runs websites — a broker, an accountant, an agency — and wants the calculators on their own pages under their own branding, with a licence that covers client work.</p>
+          <p><strong>The Webmaster Bundle</strong> is for someone who runs websites — a broker, an accountant, an agency — and wants the calculators on their own pages under their own branding, with a license that covers client work.</p>
 
           <h2>What stays free, permanently</h2>
           <p>Every calculator, every state page, every guide, and the full developer API stay free and require no account. There is no trial, no card on file, and no feature that works today and moves behind a paywall later. If a calculator is free when you find it, it stays free.</p>

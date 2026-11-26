@@ -36,7 +36,7 @@ import { CATEGORIES, categorize } from "./categories";
  * electricity-cost, construction-cost, home-remodel-cost, moving-cost,
  * square-footage (used to price work), price-per-square-foot, mileage-
  * reimbursement, miles-per-gallon. Excluding those would be a topicality
- * judgement made by pattern-matching rather than by whether the answer is about
+ * judgment made by pattern-matching rather than by whether the answer is about
  * dollars.
  *
  * ── WHAT BEING OUT OF SCOPE DOES ────────────────────────────────────────────

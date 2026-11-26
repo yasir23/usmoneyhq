@@ -131,7 +131,7 @@ WHAT THIS PACK IS NOT
   department before relying on them for filing.
 
 LICENCE
-  Single-user commercial licence. You may use the data in your own products
+  Single-user commercial license. You may use the data in your own products
   and analyses. Redistribution as a standalone dataset is not permitted.
 `;
 
@@ -157,14 +157,14 @@ const bundle = {
     snippet: '<iframe src="https://usmoneyhq.com' + p + '?embed=1" width="100%" height="720" style="border:0;border-radius:8px" loading="lazy"></iframe>',
   })),
   snippet: '<iframe src="https://usmoneyhq.com/mortgage-calculator?embed=1" width="100%" height="720" style="border:0;border-radius:8px" loading="lazy" title="Mortgage Calculator"></iframe>',
-  licence: "Single-domain commercial licence. Remove this bundle from any domain you stop operating.",
+  license: "Single-domain commercial license. Remove this bundle from any domain you stop operating.",
 };
 fs.writeFileSync(path.join(outDir, "WEBMASTER-EMBED-BUNDLE.json"), JSON.stringify(bundle, null, 2));
 
 const install = `WEBMASTER CALCULATOR BUNDLE — INSTALLATION
 1. Copy the snippet below into any page where the calculator should appear.
 2. Adjust width/height; the frame is responsive.
-3. The licence covers one domain. For additional domains, buy the bundle again.
+3. The license covers one domain. For additional domains, buy the bundle again.
 
 ${bundle.snippet}
 

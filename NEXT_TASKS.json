@@ -1,50 +1,50 @@
 {
  "blockers": [
   {
-   "id": "ADSENSE_REAPPLY",
-   "why": "AdSense rejection blocks primary revenue stream and ad unit fill.",
-   "ask": "Review rejection reason in AdSense console and fix policy violations."
+   "id": "ADSENSE_REENTRY",
+   "why": "AdSense rejection blocks primary revenue stream and programmatic scaling.",
+   "ask": "Fix policy violations and resubmit site for AdSense/Ezoic approval."
   },
   {
-   "id": "AFFILIATE_ACTIVATION",
-   "why": "21 offers are inactive, resulting in zero conversion potential.",
-   "ask": "Provide API keys or tracking IDs for the 21 pending affiliate offers."
+   "id": "AFFILIATE_MAPPING",
+   "why": "21 offers are inactive despite being in the system.",
+   "ask": "Map offer IDs to specific calculator results and high-intent pages."
   },
   {
-   "id": "DATASET_MAPPING",
-   "why": "Programmatic scaling requires specific local/niche targets from public data.",
-   "ask": "Select top 3 priority datasets (e.g., HMDA for mortgages, BLS for salaries)."
+   "id": "GIT_STABILITY",
+   "why": "Dirty files in production prevent automated deployment of new data structures.",
+   "ask": "Commit or stash local changes to allow clean CI/CD deployment."
   }
  ],
  "tasks": [
   {
    "rank": 1,
-   "title": "Hardcode Affiliate CTAs",
-   "how": "Inject the 3 live offers into the top 10 high-traffic calculator sidebars.",
+   "title": "Activate Ad Unit Injection",
+   "how": "Hardcode 3 placeholder ad units into global template wrappers.",
    "risk": "low"
   },
   {
    "rank": 2,
-   "title": "Deploy FinancialProduct Schema",
-   "how": "Map calculator outputs to FinancialProduct and FAQPage JSON-LD templates.",
+   "title": "Schema & Answer-First Injection",
+   "how": "Inject FinancialProduct schema and 200-character summary blocks above all calculators.",
    "risk": "low"
   },
   {
    "rank": 3,
-   "title": "Generate ACS/BLS Long-Tail Pages",
-   "how": "Script 5,000 pages using 'Cost of Living in [City]' via ACS/BLS data.",
+   "title": "HMDA/ACS Programmatic Expansion",
+   "how": "Generate 5,000+ localized mortgage/income pages using HMDA and ACS datasets.",
    "risk": "medium"
   },
   {
    "rank": 4,
-   "title": "Implement Answer-First Blocks",
-   "how": "Prepend 200-character direct answers to all 116 indexable pages.",
+   "title": "LLM Optimization (llms.txt)",
+   "how": "Populate /llms.txt with structured markdown summaries of all 80 calculators.",
    "risk": "low"
   },
   {
    "rank": 5,
-   "title": "Configure llms.txt for AEO",
-   "how": "Populate /llms.txt with markdown summaries of all calculators and data tools.",
+   "title": "IndexNow Batch Ping",
+   "how": "Trigger IndexNow API for all new programmatic and schema-updated URLs.",
    "risk": "low"
   }
  ]

@@ -40,7 +40,7 @@ export const CONTENT_DATES = {
    * page says, so the date moves — the rule is content, not code.
    * 2026-10-06: /contact gained the correction workflow and per-enquiry guidance;
    * /developers was rewritten around the live API capture; /premium gained tier,
-   * licence and billing detail; and all five /calculators/<category> hubs gained
+   * license and billing detail; and all five /calculators/<category> hubs gained
    * the editorial sections in lib/categories.ts.
    * 2026-10-07: re-seeded from `git log -1 --format=%cs` — that editorial work
    * SHIPPED on 10-07 (commit 719f734), and scripts/check_content_dates.py had

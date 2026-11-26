@@ -23,7 +23,7 @@ const SCHEMA = staticPageSchema({
  * informational use, accuracy, liability, advertising, changes. It did not say
  * who owns the content, what you may and may not do with it, what happens with
  * third-party links, or which law governs. For a site that also sells a
- * commercial widget licence, the intellectual-property section was the most
+ * commercial widget license, the intellectual-property section was the most
  * conspicuous omission of all.
  *
  * The "Last updated" line was hardcoded to "August 2026" while the sitemap
@@ -58,9 +58,9 @@ export default function Terms() {
 
           <h2>Intellectual Property and Permitted Use</h2>
           <p>The text, calculators, code, design, and compilation of this site are owned by US Money HQ and protected by copyright and other intellectual property laws.</p>
-          <p><strong>You may:</strong> use the calculators for personal or internal business purposes; link to any page; quote a short excerpt with attribution and a link back to the page it came from; and share results with your own adviser.</p>
+          <p><strong>You may:</strong> use the calculators for personal or internal business purposes; link to any page; quote a short excerpt with attribution and a link back to the page it came from; and share results with your own advisor.</p>
           <p><strong>You may not:</strong> republish or redistribute calculator content in bulk; copy the site or a substantial part of it; frame the site to pass it off as your own; resell access to the calculators; or use automated means to scrape the site in a way that imposes unreasonable load on our infrastructure.</p>
-          <p>Embedding the calculators in your own website — including on a client site — requires the commercial licence included with our Webmaster Bundle. Nothing on this page grants that licence.</p>
+          <p>Embedding the calculators in your own website — including on a client site — requires the commercial license included with our Webmaster Bundle. Nothing on this page grants that license.</p>
 
           <h2>Third-Party Links and Content</h2>
           <p>This site contains links to external websites and displays advertisements. Those destinations are not under our control. We are not responsible for their content, accuracy, products, or privacy practices, and a link is not an endorsement. If you follow an external link, that site&rsquo;s own terms and policies apply.</p>

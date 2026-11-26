@@ -288,7 +288,7 @@ export default function ToolPageShell({ slug, stateSlug, amountSlug, metroSlug, 
         applicationCategory: "FinanceApplication",
         operatingSystem: "Any",
         /* Publisher + review date in structured data, so an answer engine
-           reading the page can attribute it without guessing. Organisation,
+           reading the page can attribute it without guessing. Organization,
            not Person: the site is published by US Money HQ and the operator is
            named on /about — a Person node here would assert an author the page
            does not name. REVIEWED_ISO shares its source with the visible date. */
@@ -438,7 +438,7 @@ export default function ToolPageShell({ slug, stateSlug, amountSlug, metroSlug, 
           By <Link href="/about">US Money HQ</Link> · Reviewed {REVIEWED_ON} ·{" "}
           <Link href="/methodology">Methodology &amp; sources</Link>
           {" — "}free educational tools, not financial, tax or legal advice; we are not a licensed
-          financial adviser and no adviser-client relationship is created.
+          financial advisor and no advisor-client relationship is created.
         </p>
 
         <VariantTLDR slug={slug} state={state} amount={amount} amountKind={amountKind} age={age} ageTool={ageTool} metroLabel={metro ? metroLabel : undefined} />

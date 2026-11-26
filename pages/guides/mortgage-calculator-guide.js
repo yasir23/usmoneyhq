@@ -149,7 +149,7 @@ export default function MortgageGuide() {
           <p>
             That single number decides the question. If you expect to sell or refinance before
             61 months, the point is a loss; after it, a gain. Lenders rarely volunteer it,
-            and it is not a judgement call — it is division.
+            and it is not a judgment call — it is division.
           </p>
           <p>
             The same arithmetic governs whether a buydown is worth taking from a seller: a temporary

@@ -42,7 +42,7 @@ export default function DebtConsolidation() {
         <div className="seo">
           <h2>The contenders</h2>
           <p><strong>Avalanche:</strong> pay minimums everywhere, throw extra at the highest-interest debt. Lowest total interest — mathematically optimal.</p>
-          <p><strong>Snowball:</strong> clear the smallest balance first. Slightly more interest, but the early completions are real and they change behaviour.</p>
+          <p><strong>Snowball:</strong> clear the smallest balance first. Slightly more interest, but the early completions are real and they change behavior.</p>
           <p><strong>Consolidation:</strong> move balances into one loan or a promotional-rate card. One payment and possibly a lower rate — but only if you stop using the old accounts.</p>
 
           <h2>Snowball and avalanche move the same money</h2>

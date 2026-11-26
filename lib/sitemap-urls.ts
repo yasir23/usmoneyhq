@@ -28,7 +28,7 @@ import { contentDate } from "./content-dates";
  * group changed and its siblings did not.
  *
  * 2026-11-11 — /about gained the "Who Publishes This Site" section (named
- * operator, explicit not-an-adviser statement, how-to-check-our-work pointer).
+ * operator, explicit not-an-advisor statement, how-to-check-our-work pointer).
  * Bumping the whole `site` group would have told crawlers that /contact,
  * /methodology, /developers, /premium, /widgets and the category hubs all
  * changed that day too, which is the same false-date failure this file exists to

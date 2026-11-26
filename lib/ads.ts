@@ -17,7 +17,7 @@
 // Its publisher id is deliberately NOT written here. scripts/adsense_verify.mjs
 // scans the tree and refuses to build when any publisher id disagrees with
 // ADSENSE_PUB_ID — including one cited in a comment. It caught this very note
-// when the id was spelled out, which is the behaviour we want, so the comment
+// when the id was spelled out, which is the behavior we want, so the comment
 // yields rather than the rule. The id is recorded in the operating notes.
 //
 // Why this note exists: a persistent "Not found" in the ads.txt column looked
