@@ -37,7 +37,7 @@ export default function DevelopersPage() {
     },
     {
       q: "Why did my POST return 200 but the wrong numbers?",
-      a: "A missing or unparseable JSON body is treated as empty, and each field falls back to its default. Check the field keys against the GET schema first — an unrecognised key is ignored rather than rejected.",
+      a: "A missing or unparseable JSON body is treated as empty, and each field falls back to its default. Check the field keys against the GET schema first — an unrecognized key is ignored rather than rejected.",
     },
     {
       q: "Are the result values numbers?",
@@ -180,8 +180,8 @@ POST ${SITE_URL}/api/calc/mortgage-calculator
               arithmetic. They are display values, not raw floats.
             </li>
             <li>
-              <strong>Unknown keys are ignored, unknown tools are not.</strong> An unrecognised
-              field is dropped silently; an unrecognised tool slug returns{" "}
+              <strong>Unknown keys are ignored, unknown tools are not.</strong> An unrecognized
+              field is dropped silently; an unrecognized tool slug returns{" "}
               <code>404 {"{ \"error\": \"unknown tool\" }"}</code>.
             </li>
             <li>
